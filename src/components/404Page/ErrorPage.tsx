@@ -1,6 +1,6 @@
 export default function ErrorPage() {
   return (
-    <body className="h-screen w-screen">
+    <>
       <main className=" h-screen">
         <section className="flex w-full h-screen justify-center items-center flex-col">
           <div className="flex">
@@ -25,6 +25,6 @@ export default function ErrorPage() {
           </div>
         </section>
       </main>
-    </body>
+    </>
   );
 }
