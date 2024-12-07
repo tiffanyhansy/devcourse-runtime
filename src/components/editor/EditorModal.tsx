@@ -9,7 +9,7 @@ export default function EditorModal({ isOpen, onClose, children }: ModalProps) {
     <>
       {/* 모달 뒷 배경 */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-30 ${
+        className={`fixed inset-0 bg-black bg-opacity-70 ${
           isOpen ? "block" : "hidden"
         } z-40`}
         onClick={onClose}
