@@ -1,4 +1,3 @@
-import React from "react";
 import Pin from "./Pin";
 
 export default function ToDo() {
@@ -12,9 +11,9 @@ export default function ToDo() {
       </article>
       <article className="w-full h-[500px] bg-white overflow-y-scroll"></article>
       <article className="w-full h-[30px] bg-white rounded-b-2xl"></article>
-      <article className="w-[95%] h-[100px] bg-black absolute translate-x-[-50%] left-[50%] bottom-[-8px] z-[-1] rounded-b-xl ToDo-shadow"></article>
-      <article className="w-[90%] h-[100px] bg-black absolute translate-x-[-50%] left-[50%] bottom-[-16px] z-[-2] rounded-b-xl ToDo-shadow"></article>
-      <article className="w-[85%] h-[100px] bg-black absolute translate-x-[-50%] left-[50%] bottom-[-24px] z-[-3] rounded-b-xl ToDo-shadow"></article>
+      <article className="w-[95%] h-[100px] bg-white absolute translate-x-[-50%] left-[50%] bottom-[-6px] z-[-1] rounded-b-xl ToDo-shadow"></article>
+      <article className="w-[90%] h-[100px] bg-white absolute translate-x-[-50%] left-[50%] bottom-[-12px] z-[-2] rounded-b-xl ToDo-shadow"></article>
+      <article className="w-[85%] h-[100px] bg-white absolute translate-x-[-50%] left-[50%] bottom-[-18px] z-[-3] rounded-b-xl ToDo-shadow"></article>
     </article>
   );
 }

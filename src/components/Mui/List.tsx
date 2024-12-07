@@ -7,6 +7,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Checkbox from "@mui/material/Checkbox";
 import Avatar from "@mui/material/Avatar";
 
+// 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
   const [checked, setChecked] = React.useState([1]);
 
@@ -31,10 +32,10 @@ export default function CheckboxListSecondary() {
         maxWidth: 360,
         bgcolor: "background.paper",
         height: 205,
-        overflow: "scroll",
+        overflowY: "scroll",
       }}
     >
-      {[0, 1, 2, 3].map((value) => {
+      {[0, 1, 2, 3, 4, 5].map((value) => {
         const labelId = `checkbox-list-secondary-label-${value}`;
         return (
           <ListItem
