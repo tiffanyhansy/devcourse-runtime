@@ -1,7 +1,7 @@
 export default function ErrorPage() {
   return (
     <>
-      <main className=" h-screen">
+      <main className=" h-screen w-screen">
         <section className="flex w-full h-screen justify-center items-center flex-col">
           <div className="flex">
             <span className="text-9xl text-[#C96868] font-bold">4</span>
