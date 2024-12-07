@@ -1,4 +1,4 @@
-export default function LayOut() {
+export default function Header() {
   return (
     <header className="w-full h-[80px] fixed justify-between flex top-0 left-0 items-center px-[50px] bg-white">
       <article className="flex items-center gap-[30px]">
