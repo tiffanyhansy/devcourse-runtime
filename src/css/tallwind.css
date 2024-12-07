@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 타이머 섀도우 컴포넌트 */
+.timer-shadow {
+  filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.25))
+    drop-shadow(-10px -10px 20px #fff);
+}
+
+/* ToDo 섀도우 컴포넌트 */
+.ToDo-shadow {
+  box-shadow: -10px -10px 20px 0px rgba(0, 0, 0, 0.25),
+    4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
