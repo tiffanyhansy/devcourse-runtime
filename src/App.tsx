@@ -1,11 +1,21 @@
-import Header from "./routes/LayOut/Header";
-import Main from "./routes/Main/Main";
+import EditorModal from "./components/editor/EditorModal";
+import BlogEditor from "./components/editor/BlogEditor";
+import useEditorStore from "./store/editorStore";
 
 export default function App() {
+  const { isEditorOpen, toggleEditor, saveContent } = useEditorStore();
+
   return (
-    <main className="px-[50px] roboto-medium">
-      <Header />
-      <Main />
-    </main>
+    <div>
+      <button
+        onClick={toggleEditor}
+        className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+      >
+        test
+      </button>
+      <EditorModal isOpen={isEditorOpen} onClose={toggleEditor}>
+        <BlogEditor onSave={saveContent} onClose={toggleEditor} />
+      </EditorModal>
+    </div>
   );
 }
