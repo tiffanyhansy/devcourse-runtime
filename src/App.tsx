@@ -1,6 +1,6 @@
 import EditorModal from "./components/editor/EditorModal";
 import BlogEditor from "./components/editor/BlogEditor";
-import useEditorStore from "./store/editorSTore";
+import useEditorStore from "./store/editorStore";
 
 export default function App() {
   const { isEditorOpen, toggleEditor, saveContent } = useEditorStore();
