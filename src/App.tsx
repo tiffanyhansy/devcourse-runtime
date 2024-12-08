@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import { useEffect } from "react";
 import Header from "./routes/LayOut/Header";
 import Main from "./routes/Main/Main";
 import Mypage from "./routes/Mypage/Mypage";
@@ -8,6 +8,11 @@ import Join from "./routes/Join/Join";
 import Noti from "./components/notifications/Noti";
 
 export default function App() {
+  useEffect(() => {
+    if (!localStorage.getItem("ToDoList")) {
+      localStorage.setItem("ToDoList", "[]");
+    }
+  }, []);
   return (
     <Router>
       <main className="px-[50px] mx-auto roboto-medium max-w-[1440px]">

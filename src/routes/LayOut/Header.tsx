@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Modal from "../../components/headerModal/Modal";
-import { useHeaderModalStore } from "../../store/headerModalStore";
 import { useState } from "react";
+import { useHeaderModalStore } from "../../store/store";
 
 export default function Header() {
   const open = useHeaderModalStore((s) => s.open);
@@ -9,7 +9,7 @@ export default function Header() {
   const [imgState, setImgState] = useState("/public/bell.svg");
 
   return (
-    <header className="w-full h-[80px] fixed justify-between flex top-0 left-0 items-center px-[50px] bg-white z-50">
+    <header className="w-full h-[80px] fixed justify-between flex top-0 left-0 items-center px-[50px] bg-white z-40">
       <article className="flex items-center gap-[30px]">
         <Link to="#">
           <img
