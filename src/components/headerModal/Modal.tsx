@@ -84,9 +84,12 @@ export default function Modal() {
                     src="/public/signout.svg"
                   />
                 </div>
-                <div className="text-black text-lg font-medium font-['Inter']">
+                <Link
+                  to="./login"
+                  className="text-black text-lg font-medium font-['Inter']"
+                >
                   로그아웃
-                </div>
+                </Link>
               </div>
             </div>
           </div>
