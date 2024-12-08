@@ -2,8 +2,8 @@ import LeftContents from "./LeftContents/LeftContents";
 import RightContents from "./RightComponent/RightContents";
 import CenterContents from "./CenterContents/CenterContents";
 import { useHowTimeStore } from "../../store/store";
-import HowTimeModal from "../../components/howTime/howTimeModal";
 import Button from "../../components/common/Button";
+import HowTimeModal from "../../components/howTime/HowTimeModal";
 
 export default function Main() {
   const isHowTimeOpen = useHowTimeStore((state) => state.isHowTimeOpen);

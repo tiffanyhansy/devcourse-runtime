@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useHeaderModalStore } from "../../store/headerModalStore";
 import { Link } from "react-router-dom";
+import { useHeaderModalStore } from "../../store/store";
 
 export default function Modal() {
   const modalState = useHeaderModalStore((s) => s.modal);
@@ -87,6 +87,7 @@ export default function Modal() {
                 <Link
                   to="./login"
                   className="text-black text-lg font-medium font-['Inter']"
+                  onClick={close}
                 >
                   로그아웃
                 </Link>
