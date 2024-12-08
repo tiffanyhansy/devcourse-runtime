@@ -1,10 +1,11 @@
+import Button from "../../../../components/common/Button";
 import Pin from "./Pin";
 import ToDoListItem from "./ToDoListItem";
 
 export default function ToDo() {
   const length = new Array(10).fill(0);
   return (
-    <article className="inline-block ToDo-shadow rounded-2xl relative">
+    <article className="relative inline-block ToDo-shadow rounded-2xl">
       <article className="flex gap-[16px] px-[12px] pt-[10px] pb-[14px] bg-white rounded-t-2xl">
         {length.map((_, i) => (
           <Pin key={i} />
@@ -12,27 +13,58 @@ export default function ToDo() {
       </article>
       <article className="w-full h-[500px] bg-white overflow-y-scroll">
         <ul>
-          <ToDoListItem lineThrough={"line-through"} color={"#666666"} />
-          <ToDoListItem />
           <li className="w-full h-[50px] border-b border-[#D0E5F9]">
-            <button className="flex items-center gap-[20px] w-full h-full px-[12px]">
+            <Button
+              size="lg" // 버튼 크기
+              variant="todo" // 커스텀 스타일
+              textSize="sm" // 텍스트 크기
+              className="flex items-center gap-[20px] w-full h-full pr-[12px]"
+            >
               <input type="checkbox" />
               <span className="font-medium w-[300px] flex overflow-ellipsis overflow-hidden text-nowrap">
                 할 일 추가
               </span>
-            </button>
+            </Button>
           </li>
+
           <li className="w-full h-[50px] border-b border-[#D0E5F9]">
-            <button className="flex items-center gap-[20px] w-full h-full px-[12px]">
+            <Button
+              size="lg" // 버튼 크기
+              variant="todo" // 커스텀 스타일
+              textSize="sm" // 텍스트 크기
+              className="flex items-center gap-[20px] w-full h-full pr-[12px]"
+            >
               <input type="checkbox" />
-              <span className="font-medium text-[#666666]">할 일 추가</span>
-            </button>
+              <span className="font-medium w-[300px] flex overflow-ellipsis overflow-hidden text-nowrap">
+                할 일 추가
+              </span>
+            </Button>
           </li>
+
           <li className="w-full h-[50px] border-b border-[#D0E5F9]">
-            <button className="flex items-center gap-[20px] w-full h-full px-[12px]">
-              <img src={"/public/small_icon.svg"} alt={"추가 아이콘"} />
+            <Button
+              size="lg" // 버튼 크기
+              variant="todo" // 커스텀 스타일
+              textSize="sm" // 텍스트 크기
+              className="flex items-center gap-[20px] w-full h-full pr-[12px]"
+            >
+              <input type="checkbox" />
+              <span className="font-medium w-[300px] flex overflow-ellipsis overflow-hidden text-nowrap">
+                할 일 추가
+              </span>
+            </Button>
+          </li>
+
+          <li className="w-full h-[50px] border-b border-[#D0E5F9]">
+            <Button
+              size="lg" // 버튼 크기
+              variant="todo" // 사용자 정의 스타일
+              textSize="sm" // 텍스트 크기
+              className="flex items-center gap-[20px] w-full h-full pr-[12px] justify-start pl-6"
+            >
+              <img src={"/small_icon.svg"} alt={"추가 아이콘"} />
               <span className="text-[#666666] font-medium">할 일 추가</span>
-            </button>
+            </Button>
           </li>
         </ul>
       </article>
