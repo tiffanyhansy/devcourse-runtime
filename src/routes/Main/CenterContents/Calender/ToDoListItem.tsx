@@ -17,7 +17,7 @@ export default function ToDoListItem({
   const deleteToDoList = useToDoStore((state) => state.deleteToDoList);
   const ToDoList = useToDoStore((state) => state.ToDoList);
   return (
-    <li className="w-full h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9] px-[10px] flex items-center justify-between">
+    <li className="w-full h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9] px-[10px] flex items-center justify-between relative">
       <article className="items-center flex gap-[20px]">
         <input
           type="checkbox"
