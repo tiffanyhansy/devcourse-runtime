@@ -2,12 +2,10 @@ import { useRef, useState } from "react";
 import { useToDoStore } from "../../../../store/store";
 
 export default function ToDoListItem({
-  lineThrough,
   color,
   text,
   index,
 }: {
-  lineThrough?: string;
   color?: string;
   text: string;
   index: number;
@@ -48,9 +46,7 @@ export default function ToDoListItem({
             JSON.stringify(ToDoList.filter((_, i) => i !== index))
           );
         }}
-      >
-        <img src={""} alt={""} />
-      </button>
+      ></button>
     </li>
   );
 }
