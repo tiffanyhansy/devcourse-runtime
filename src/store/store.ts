@@ -98,3 +98,5 @@ export const useHeaderModalStore = create<headerModalStore>((set) => ({
   open: () => set((state) => ({ modal: !state.modal })),
   close: () => set(() => ({ modal: false })),
 }));
+
+// 수정완료
