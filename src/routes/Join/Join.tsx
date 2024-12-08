@@ -1,42 +1,163 @@
-import React from "react";
+import { useState } from "react";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import LoginButton from "../../components/Form/LoginButton";
 
 export default function Join() {
-  const email = "이메일";
-  const password = "비밀번호";
-  const Join = "회원가입";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkPassword, setCheckPassword] = useState("");
+  const [userName, setUserName] = useState("");
+
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [checkPasswordError, setCheckPasswordError] = useState(false);
+  const [userNameError, setUserNameError] = useState(false);
+
+  const [emailHelperText, setEmailHelperText] = useState("");
+  const [passwordHelperText, setPasswordHelperText] = useState("");
+  const [checkPasswordHelperText, setCheckPasswordHelperText] = useState("");
+  const [userNameHelperText, setUserNameHelperText] = useState("");
+
+  // 유효성 검사 함수
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const validatePassword = (password: string) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,16}$/.test(password);
+
+  const validateName = (name: string) => /^[가-힣a-zA-Z\s]+$/.test(name);
+
+  // 입력값 변경 핸들러
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    if (!validateEmail(value)) {
+      setEmailError(true);
+      setEmailHelperText("유효한 이메일을 입력해주세요.");
+    } else {
+      setEmailError(false);
+      setEmailHelperText("");
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPassword(value);
+
+    if (!validatePassword(value)) {
+      setPasswordError(true);
+      setPasswordHelperText(
+        "비밀번호는 8~16자의 영문 대/소문자와 숫자를 포함해야 합니다."
+      );
+    } else {
+      setPasswordError(false);
+      setPasswordHelperText("");
+    }
+  };
+
+  const handleCheckPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value;
+    setCheckPassword(value);
+
+    if (value !== password) {
+      setCheckPasswordError(true);
+      setCheckPasswordHelperText("비밀번호가 일치하지 않습니다.");
+    } else {
+      setCheckPasswordError(false);
+      setCheckPasswordHelperText("");
+    }
+  };
+
+  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setUserName(value);
+
+    if (!validateName(value)) {
+      setUserNameError(true);
+      setUserNameHelperText("이름은 한글 또는 영문만 입력 가능합니다.");
+    } else {
+      setUserNameError(false);
+      setUserNameHelperText("");
+    }
+  };
+
+  // 폼 제출 처리
+  const handleSubmit = () => {
+    if (
+      !emailError &&
+      !passwordError &&
+      !checkPasswordError &&
+      !userNameError &&
+      email &&
+      password &&
+      checkPassword &&
+      userName
+    ) {
+      alert("회원가입 성공!");
+    } else {
+      alert("입력값을 확인해주세요.");
+    }
+  };
 
   return (
-    <>
-      <div className="flex justify-center items-center h-screen w-screen">
-        <FormContainer>
-          <div className="flex justify-center items-center mt-14 mb-4">
-            <img
-              src="./runtime_logo.svg"
-              alt="Runtime Logo"
-              className="w-24 h-[109px]"
-            />
-          </div>
-          <p className="text-[32px] font-bold  text-center">{Join}</p>
-          <div className="mt-14">
-            <Input value={email} type="text" />
-          </div>
-          <div className="mt-6">
-            <Input value={password} type="password" />
-          </div>
-          <div className="mt-6">
-            <Input value="비밀번호 확인" type="password" />
-          </div>
-          <div className="mt-6">
-            <Input value="이름" type="text" />
-          </div>
-          <div className="mt-12 mb-[72px] ">
-            <LoginButton value={Join} />
-          </div>
-        </FormContainer>
-      </div>
-    </>
+    <main className="flex justify-center items-center px-[50px] w-[1440px] h-[1024px]">
+      <FormContainer>
+        <header className="flex justify-center items-center mt-14 mb-4">
+          <img
+            src="./runtime_logo.svg"
+            alt="Runtime Logo"
+            className="w-24 h-24"
+          />
+        </header>
+        <h1 className="text-3xl font-bold text-center mt-5">회원가입</h1>
+        <section className="mt-14">
+          <Input
+            label="이메일"
+            value={email}
+            type="text"
+            onChange={handleEmailChange}
+            error={emailError}
+            helperText={emailHelperText}
+          />
+        </section>
+        <section className="mt-6">
+          <Input
+          label="비밀번호"
+            value={password}
+            type="password"
+            onChange={handlePasswordChange}
+            error={passwordError}
+            helperText={passwordHelperText}
+          />
+        </section>
+        <section className="mt-6">
+          <Input
+          label="비밀번호 확인"
+            value={checkPassword}
+            type="password"
+            onChange={handleCheckPasswordChange}
+            error={checkPasswordError}
+            helperText={checkPasswordHelperText}
+          />
+        </section>
+        <section className="mt-6">
+          <Input
+            label="이름"
+            value={userName}
+            type="text"
+            onChange={handleUserNameChange}
+            error={userNameError}
+            helperText={userNameHelperText}
+          />
+        </section>
+        <footer className="mt-12 mb-20">
+          <LoginButton value="회원가입" onClick={handleSubmit} />
+        </footer>
+      </FormContainer>
+    </main>
   );
 }
