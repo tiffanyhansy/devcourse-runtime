@@ -5,6 +5,7 @@ import Main from "./routes/Main/Main";
 import Mypage from "./routes/Mypage/Mypage";
 import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
+import Noti from "./components/notifications/Noti";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/join" element={<Join />} />
           <Route path="/" element={<Main />} />
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/notifications" element={<Noti />} />
         </Routes>
       </main>
     </Router>

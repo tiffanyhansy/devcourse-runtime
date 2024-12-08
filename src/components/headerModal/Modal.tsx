@@ -87,6 +87,7 @@ export default function Modal() {
                 <Link
                   to="./login"
                   className="text-black text-lg font-medium font-['Inter']"
+                  onClick={close}
                 >
                   로그아웃
                 </Link>
