@@ -66,7 +66,7 @@ const Mypage = () => {
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
       {/* 제목 */}
-      <article className="flex ml-10 mt-14">
+      <article className="flex mt-14">
         <h1 className="text-4xl font-bold">내 프로필</h1>
       </article>
 
@@ -77,13 +77,12 @@ const Mypage = () => {
           className="items-center"
           sx={{
             width: "fit",
-            marginLeft: "5rem",
           }}
         >
           <Box
             position="relative"
-            width={"22.5rem"}
-            height={"22.5rem"}
+            width="22.5rem"
+            height="22.5rem"
             mx="auto"
             mb={3}
             borderRadius="50%"
@@ -100,7 +99,7 @@ const Mypage = () => {
               src={isEditable ? tempProfilePic : profilePic}
               alt="Profile"
               style={{
-                width: '"100%"',
+                width: "100%",
                 height: "100%",
                 objectFit: "cover",
                 cursor: isEditable ? "pointer" : "not-allowed",
