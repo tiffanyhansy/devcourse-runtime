@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Modal from "../../components/headerModal/Modal";
 import { useHeaderModalStore } from "../../store/headerModalStore";
 
