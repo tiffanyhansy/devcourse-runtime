@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useHeaderModalStore } from "../../store/headerModalStore";
+import { Link } from "react-router-dom";
+import { useHeaderModalStore } from "../../store/store";
 
 export default function Modal() {
   const modalState = useHeaderModalStore((s) => s.modal);
@@ -27,7 +28,7 @@ export default function Modal() {
 
   return (
     <div ref={contentRef} className="absolute top-[4.5rem] right-[50px]">
-      <div className="h-52 drop-shadow-xl flex-col justify-center items-center inline-flex rounded-2xl bg-white">
+      <div className="inline-flex flex-col items-center justify-center bg-white h-52 drop-shadow-xl rounded-2xl">
         <div className="w-[305px] px-4 pt-[18px]  rounded-tl-2xl rounded-tr-2xl justify-start items-center gap-[89px] inline-flex">
           <div className="h-[60px] pr-[68px] pb-[18px] justify-start items-center gap-3 flex">
             <div className="w-[42px] h-[42px] relative">
@@ -54,16 +55,21 @@ export default function Modal() {
         <a className="cursor-pointer">
           <div className="w-[305px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-center gap-3.5 inline-flex">
-              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-start items-center gap-3 flex">
-                <div className="w-5 h-5 relative">
+              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
+                <div className="relative w-5 h-5">
                   <img
                     className="w-5 h-5 left-[2px] top-[2px] absolute"
                     src="/public/settings.svg"
                   />
                 </div>
-                <div className="text-black text-lg font-medium font-['Inter']">
-                  내 프로필{" "}
-                </div>
+
+                <Link
+                  to="./mypage"
+                  className="text-black text-lg font-medium font-['Inter']"
+                  onClick={close}
+                >
+                  내 프로필
+                </Link>
               </div>
             </div>
           </div>
@@ -71,16 +77,19 @@ export default function Modal() {
         <a className="cursor-pointer">
           <div className="w-[305px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-center gap-3.5 inline-flex">
-              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-start items-center gap-3 flex">
-                <div className="w-5 h-5 relative">
+              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
+                <div className="relative w-5 h-5">
                   <img
                     className="w-5 h-5 left-[2px] top-[2px] absolute"
                     src="/public/signout.svg"
                   />
                 </div>
-                <div className="text-black text-lg font-medium font-['Inter']">
+                <Link
+                  to="./login"
+                  className="text-black text-lg font-medium font-['Inter']"
+                >
                   로그아웃
-                </div>
+                </Link>
               </div>
             </div>
           </div>

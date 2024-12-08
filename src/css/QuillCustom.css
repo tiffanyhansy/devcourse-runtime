@@ -1,0 +1,42 @@
+/* Quill 텍스트 영역 처리 */
+.ql-container {
+  margin-top: 20px;
+  margin-right: 20px;
+  border: none !important; /* 테두리 제거 */
+  box-shadow: none !important; /* 그림자 제거 */
+}
+.ql-editor {
+  border: none;
+  padding: 12px;
+  font-size: 20px;
+  line-height: 1.6;
+  color: black;
+}
+
+/* 툴바 테두리 및 그림자 여기 바꿀거면 상의*/
+.ql-toolbar {
+  border: 1px solid rgba(255, 255, 255, 0.2) !important; /* 흰색 테두리 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important; /* 그림자 효과 */
+  border-radius: 8px; /* 모서리 둥글게 */
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 기본 글자 크기 옵션 스타일 */
+.ql-size .ql-picker-item[data-value="small"]::before {
+  content: "Small";
+}
+.ql-size .ql-picker-item[data-value="large"]::before {
+  content: "Large";
+}
+.ql-size .ql-picker-item[data-value="huge"]::before {
+  content: "Huge";
+}
+
+/* Placeholder 텍스트 스타일 */
+.ql-editor.ql-blank::before {
+  color: black;
+  font-size: 20px;
+  font-style: italic;
+  opacity: 0.8;
+  content: attr(data-placeholder);
+}

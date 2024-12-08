@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
 
+//에디터 모달창
 interface EditorState {
   isEditorOpen: boolean;
   toggleEditor: () => void;
@@ -84,4 +85,15 @@ export const useToDoStore = create<ToDoType>((set) => ({
       ToDoList: state.ToDoList.filter((_, i) => i !== index),
     }));
   },
+  
+//headerModalStore
+type headerModalStore = {
+  modal: boolean;
+  open: () => void;
+  close: () => void;
+};
+export const useHeaderModalStore = create<headerModalStore>((set) => ({
+  modal: false,
+  open: () => set((state) => ({ modal: !state.modal })),
+  close: () => set(() => ({ modal: false })),
 }));

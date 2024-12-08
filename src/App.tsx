@@ -1,21 +1,28 @@
-import EditorModal from "./components/editor/EditorModal";
-import BlogEditor from "./components/editor/BlogEditor";
-import useEditorStore from "./store/store";
-import Main from "./routes/Main/Main";
-import Header from "./routes/LayOut/Header";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
+import Header from "./routes/LayOut/Header";
+import Main from "./routes/Main/Main";
+import Mypage from "./routes/Mypage/Mypage";
+import Login from "./routes/Login/Login";
+import Join from "./routes/Join/Join";
 
 export default function App() {
-  const { isEditorOpen, toggleEditor, saveContent } = useEditorStore();
   useEffect(() => {
     if (!localStorage.getItem("ToDoList")) {
       localStorage.setItem("ToDoList", "[]");
     }
   }, []);
   return (
-    <main className="px-[50px] mx-auto roboto-medium max-w-[1440px]">
-      <Header />
-      <Main />
-    </main>
+    <Router>
+      <main className="px-[50px] mx-auto roboto-medium max-w-[1440px]">
+        <Header />
+        <Routes>
+          <Route path="/login" element={<Login />} />{" "}
+          <Route path="/join" element={<Join />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/mypage" element={<Mypage />} />
+        </Routes>
+      </main>
+    </Router>
   );
 }
