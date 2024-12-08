@@ -66,8 +66,9 @@ export default function Modal() {
                 <Link
                   to="./mypage"
                   className="text-black text-lg font-medium font-['Inter']"
+                  onClick={close}
                 >
-                  내 프로필{" "}
+                  내 프로필
                 </Link>
               </div>
             </div>
