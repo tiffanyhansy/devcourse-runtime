@@ -5,22 +5,29 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import NavigationIcon from "@mui/icons-material/Navigation";
-import { styled } from "@mui/material";
+import { createTheme, styled } from "@mui/material";
+import { useTimerPlayStore } from "../../store/store";
 
 export default function FloatingActionButtons() {
+  const { isPlayBtnClicked, togglePlayBtn } = useTimerPlayStore();
   return (
     <Box
       sx={{
         "& > :not(style)": {
-          color: "#F0F5F8",
-        },
-        "& .MuiFab-root": {
-          // Fab 버튼에 대한 추가 스타일
+          backgroundColor: "#F0F5F8",
+          zIndex: 0,
         },
       }}
     >
-      <Fab color="primary" aria-label="add">
-        <AddIcon />
+      <Fab aria-label="play" onClick={togglePlayBtn}>
+        <img
+          src={
+            isPlayBtnClicked
+              ? "/public/pause_icon.svg"
+              : "/public/play_icon.svg"
+          }
+          alt={isPlayBtnClicked ? "재생하기 버튼" : "일시정지 버튼"}
+        />
       </Fab>
     </Box>
   );
