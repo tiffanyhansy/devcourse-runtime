@@ -85,7 +85,8 @@ export const useToDoStore = create<ToDoType>((set) => ({
       ToDoList: state.ToDoList.filter((_, i) => i !== index),
     }));
   },
-  
+}));
+
 //headerModalStore
 type headerModalStore = {
   modal: boolean;
