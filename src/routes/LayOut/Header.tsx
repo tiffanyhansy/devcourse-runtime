@@ -6,7 +6,7 @@ export default function Header() {
   const modalState = useHeaderModalStore((s) => s.modal);
 
   return (
-    <header className="w-full h-[80px] fixed justify-between flex top-0 left-0 items-center px-[50px] bg-white z-50">
+    <header className="w-full h-[80px] fixed justify-between flex top-0 left-0 items-center px-[50px] bg-white z-40">
       <article className="flex items-center gap-[30px]">
         <a href="#">
           <img

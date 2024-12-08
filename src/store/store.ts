@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { v4 as uuidv4 } from "uuid";
 
 interface EditorState {
   isEditorOpen: boolean;
@@ -44,4 +45,43 @@ export const useTimerPlayStore = create<TimerPlayStoreState>((set) => ({
     set((state) => ({
       isPlayBtnClicked: !state.isPlayBtnClicked,
     })),
+}));
+
+// 메인페이지 Todo 리스트 저장소
+interface ToDoType {
+  ToDoList: { text: string; id: string }[];
+  isShowEditor: boolean;
+  EditorText: string;
+  Checked: boolean;
+  toggleShowEditor: () => void;
+  updateEditorText: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  updateToDoList: () => void;
+  deleteToDoList: (index: number) => void;
+}
+export const useToDoStore = create<ToDoType>((set) => ({
+  ToDoList: JSON.parse(localStorage.getItem("ToDoList")!) || [],
+  isShowEditor: false,
+  EditorText: "",
+  Checked: false,
+  toggleShowEditor: () =>
+    set((state) => ({
+      isShowEditor: !state.isShowEditor,
+      EditorText: "",
+    })),
+  updateEditorText: (event) => {
+    set(() => ({
+      EditorText: event.target.value,
+    }));
+  },
+  updateToDoList: () => {
+    set((state) => ({
+      ToDoList: [...state.ToDoList, { text: state.EditorText, id: uuidv4() }],
+      EditorText: "",
+    }));
+  },
+  deleteToDoList: (index) => {
+    set((state) => ({
+      ToDoList: state.ToDoList.filter((_, i) => i !== index),
+    }));
+  },
 }));
