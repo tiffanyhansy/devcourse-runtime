@@ -24,6 +24,7 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.28.0",
     "tailwind-merge": "^2.5.5",
+    "uuid": "^11.0.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
