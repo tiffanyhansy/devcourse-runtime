@@ -23,8 +23,8 @@ export default function FloatingActionButtons() {
         <img
           src={
             isPlayBtnClicked
-              ? "/public/play_icon.svg"
-              : "/public/pause_icon.svg"
+              ? "/public/pause_icon.svg"
+              : "/public/play_icon.svg"
           }
           alt={isPlayBtnClicked ? "재생하기 버튼" : "일시정지 버튼"}
         />

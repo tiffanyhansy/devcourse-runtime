@@ -2,9 +2,11 @@ import LeftContents from "./LeftContents/LeftContents";
 import RightContents from "./RightComponent/RightContents";
 import CenterContents from "./CenterContents/CenterContents";
 import { useHowTimeStore } from "../../store/store";
+import HowTimeModal from "../../components/howTime/howTimeModal";
 
 export default function Main() {
-  const { isHowTimeOpen, toggleHowTime } = useHowTimeStore();
+  const isHowTimeOpen = useHowTimeStore((state) => state.isHowTimeOpen);
+
   return (
     <section>
       <article className="flex mt-32">
@@ -24,15 +26,7 @@ export default function Main() {
         {/* 우측 컨텐츠 */}
         <RightContents />
       </section>
-      {isHowTimeOpen ? (
-        <section className="w-screen h-screen block absolute left-0 top-0 z-40">
-          <div
-            className="w-full h-full block bg-black bg-opacity-70"
-            onClick={toggleHowTime}
-          ></div>
-          <article className="w-[80%] h-[80%] bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"></article>
-        </section>
-      ) : null}
+      {isHowTimeOpen ? <HowTimeModal /> : null}
     </section>
   );
 }
