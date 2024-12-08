@@ -1,5 +1,6 @@
 type LoginButtonProps = {
   value: string;
+  onClick?: () => void;
 };
 
 export default function LoginButton({ value }: LoginButtonProps) {
