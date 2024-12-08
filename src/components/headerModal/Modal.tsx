@@ -55,7 +55,7 @@ export default function Modal() {
         <a className="cursor-pointer">
           <div className="w-[305px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-center gap-3.5 inline-flex">
-              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-start items-center gap-3 flex">
+              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
                 <div className="relative w-5 h-5">
                   <img
                     className="w-5 h-5 left-[2px] top-[2px] absolute"
@@ -77,7 +77,7 @@ export default function Modal() {
         <a className="cursor-pointer">
           <div className="w-[305px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-center gap-3.5 inline-flex">
-              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-start items-center gap-3 flex">
+              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
                 <div className="relative w-5 h-5">
                   <img
                     className="w-5 h-5 left-[2px] top-[2px] absolute"
