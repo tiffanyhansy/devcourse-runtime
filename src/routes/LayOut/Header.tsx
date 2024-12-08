@@ -27,10 +27,7 @@ export default function Header() {
         <Link to="#">
           <img src={"/public/alarm_icon.svg"} alt={"알람 아이콘"} />
         </Link>
-        <Link
-          to="/mypage"
-          className={`w-[40px] h-[40px] rounded-full bg-[url(/public/profile.svg)] bg-center`}
-        ></Link>
+
         <button
           onClick={(e) => {
             e.stopPropagation();
