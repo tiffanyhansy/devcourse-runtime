@@ -4,7 +4,7 @@ import LoginButton from "../../components/Form/LoginButton";
 export default function JoinSuccess() {
   return (
     <>
-      <main className="flex justify-center items-center px-[50px] w-[1440px] h-[1024px]">
+      <main className="flex justify-center items-center h-screen w-screen">
         <FormContainer>
           <header className="flex justify-center items-center mt-20 mb-14">
             <img

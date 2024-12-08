@@ -104,7 +104,7 @@ export default function Join() {
   };
 
   return (
-    <main className="flex justify-center items-center px-[50px] w-[1440px] h-[1024px]">
+    <main className="flex justify-center items-center h-screen w-screen">
       <FormContainer>
         <header className="flex justify-center items-center mt-14 mb-4">
           <img
