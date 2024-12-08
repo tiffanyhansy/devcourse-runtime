@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+//에디터 모달창
 interface EditorState {
   isEditorOpen: boolean;
   toggleEditor: () => void;
@@ -44,4 +45,17 @@ export const useTimerPlayStore = create<TimerPlayStoreState>((set) => ({
     set((state) => ({
       isPlayBtnClicked: !state.isPlayBtnClicked,
     })),
+}));
+
+//headerModalStore
+
+type headerModalStore = {
+  modal: boolean;
+  open: () => void;
+  close: () => void;
+};
+export const useHeaderModalStore = create<headerModalStore>((set) => ({
+  modal: false,
+  open: () => set((state) => ({ modal: !state.modal })),
+  close: () => set(() => ({ modal: false })),
 }));

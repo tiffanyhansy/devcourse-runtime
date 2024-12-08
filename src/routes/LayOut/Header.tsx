@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Modal from "../../components/headerModal/Modal";
-import { useHeaderModalStore } from "../../store/headerModalStore";
+import { useHeaderModalStore } from "../../store/store";
 
 export default function Header() {
   const open = useHeaderModalStore((s) => s.open);
