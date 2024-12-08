@@ -48,9 +48,7 @@ export default function ToDoListItem({
             JSON.stringify(ToDoList.filter((_, i) => i !== index))
           );
         }}
-      >
-        <img src={""} alt={""} />
-      </button>
+      ></button>
     </li>
   );
 }
