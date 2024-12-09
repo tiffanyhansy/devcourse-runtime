@@ -6,10 +6,46 @@ import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import { createTheme, styled } from "@mui/material";
-import { useTimerPlayStore } from "../../store/store";
+import { useTimerPlayStore, useTimerStore } from "../../store/store";
 
 export default function FloatingActionButtons() {
-  const { isPlayBtnClicked, togglePlayBtn } = useTimerPlayStore();
+  const isPlayBtnClicked = useTimerPlayStore((state) => state.isPlayBtnClicked);
+  const togglePlayBtn = useTimerPlayStore((state) => state.togglePlayBtn);
+  const activeTimer = useTimerStore((state) => state.activeTimer);
+  const toggleTimer = useTimerStore((state) => state.toggleTimer);
+  const isTimerActive = useTimerStore((state) => state.isTimerActive);
+  const hours = useTimerStore((state) => state.hours);
+  const minutes = useTimerStore((state) => state.minutes);
+  const seconds = useTimerStore((state) => state.seconds);
+
+  React.useEffect(() => {
+    if (!localStorage.getItem("TimerTime")) {
+      localStorage.setItem("TimerTime", JSON.stringify([0, 0, 0]));
+    }
+    // 시계 동작
+    let Active: number;
+    if (isTimerActive) {
+      Active = setInterval(() => {
+        activeTimer();
+      }, 1000);
+      localStorage.setItem(
+        "TimerTime",
+        JSON.stringify([hours, minutes, seconds])
+      );
+    }
+    localStorage.setItem(
+      "TimerTime",
+      JSON.stringify([hours, minutes, seconds])
+    );
+    return () => {
+      localStorage.setItem(
+        "TimerTime",
+        JSON.stringify([hours, minutes, seconds])
+      );
+      clearInterval(Active);
+    };
+  }, [isTimerActive, activeTimer]);
+
   return (
     <Box
       sx={{
@@ -19,7 +55,13 @@ export default function FloatingActionButtons() {
         },
       }}
     >
-      <Fab aria-label="play" onClick={togglePlayBtn}>
+      <Fab
+        aria-label="play"
+        onClick={() => {
+          togglePlayBtn();
+          toggleTimer();
+        }}
+      >
         <img
           src={
             isPlayBtnClicked

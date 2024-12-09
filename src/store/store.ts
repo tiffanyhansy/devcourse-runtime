@@ -98,3 +98,34 @@ export const useHeaderModalStore = create<headerModalStore>((set) => ({
   open: () => set((state) => ({ modal: !state.modal })),
   close: () => set(() => ({ modal: false })),
 }));
+
+// 메인페이지 Timer 저장소
+interface TimerStorage {
+  hours: number;
+  minutes: number;
+  seconds: number;
+  isTimerActive: boolean;
+  toggleTimer: () => void;
+  activeTimer: () => void;
+}
+export const useTimerStore = create<TimerStorage>((set) => ({
+  hours: JSON.parse(localStorage.getItem("TimerTime")!)[0],
+  minutes: JSON.parse(localStorage.getItem("TimerTime")!)[1],
+  seconds: JSON.parse(localStorage.getItem("TimerTime")!)[2],
+  isTimerActive: false,
+  toggleTimer: () => set((state) => ({ isTimerActive: !state.isTimerActive })),
+  activeTimer: () => {
+    set((state) => {
+      const { seconds, minutes, hours } = state;
+      const newSeconds = seconds + 1;
+      const newMinutes = minutes + Math.floor(newSeconds / 60);
+      const newHours = hours + Math.floor(newMinutes / 60);
+
+      return {
+        seconds: newSeconds % 60,
+        minutes: newMinutes % 60,
+        hours: newHours,
+      };
+    });
+  },
+}));
