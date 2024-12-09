@@ -3,15 +3,17 @@ import HowTimeTop from "./HowTimeTop";
 import HowTimeUnder from "./HowTimeUnder";
 
 export default function HowTimeContents({
-  howTimeHoursSet,
+  changingHours,
+  setRestart,
 }: {
-  howTimeHoursSet: string;
+  changingHours: string;
+  setRestart: (e: React.SetStateAction<number>) => void;
 }) {
   return (
-    <article className="px-[50px] py-[30px]">
-      <HowTimeTop howTimeHoursSet={howTimeHoursSet} />
-      <HowTimeTimer howTimeHoursSet={howTimeHoursSet} />
-      <HowTimeUnder />
-    </article>
+    <>
+      <HowTimeTop changingHours={changingHours} />
+      <HowTimeTimer changingHours={changingHours} />
+      {/* <HowTimeUnder setRestart={setRestart} /> */}
+    </>
   );
 }

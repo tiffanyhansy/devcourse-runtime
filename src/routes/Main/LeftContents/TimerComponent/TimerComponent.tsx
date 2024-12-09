@@ -11,6 +11,7 @@ export default function TimerComponent() {
           backgroundColor: `${isPlayBtnClicked ? "#778899" : ""}`,
           color: `${isPlayBtnClicked ? "#ffffff" : ""}`,
         }}
+        isFlowTime={true}
       />
       <FloatingActionButtons />
     </>

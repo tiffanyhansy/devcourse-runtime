@@ -15,6 +15,12 @@ export default function App() {
     if (!localStorage.getItem("TimerTime")) {
       localStorage.setItem("TimerTime", JSON.stringify([0, 0, 0]));
     }
+    if (!localStorage.getItem("StaticTimerTime")) {
+      localStorage.setItem(
+        "StaticTimerTime",
+        JSON.stringify(["00", "00", "00"])
+      );
+    }
   }, []);
   return (
     <Router>
