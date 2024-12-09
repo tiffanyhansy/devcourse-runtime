@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useHeaderModalStore } from "../../store/store";
 
 export default function Header() {
-  const open = useHeaderModalStore((s) => s.open);
-  const modalState = useHeaderModalStore((s) => s.modal);
+  const { modal, type, open, close } = useHeaderModalStore();
+  const handleOpen = () => open("header");
   const [imgState, setImgState] = useState("/public/bell.svg");
 
   return (
@@ -38,11 +38,11 @@ export default function Header() {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            open();
+            handleOpen();
           }}
           className={`w-[40px] h-[40px] rounded-full bg-[url(/public/profile.svg)] bg-center`}
         ></button>
-        {modalState && <Modal />}
+        {modal && type === "header" && <Modal />}
       </article>
     </header>
   );
