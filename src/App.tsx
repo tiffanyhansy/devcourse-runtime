@@ -12,6 +12,9 @@ export default function App() {
     if (!localStorage.getItem("ToDoList")) {
       localStorage.setItem("ToDoList", "[]");
     }
+    if (!localStorage.getItem("TimerTime")) {
+      localStorage.setItem("TimerTime", JSON.stringify([0, 0, 0]));
+    }
   }, []);
   return (
     <Router>

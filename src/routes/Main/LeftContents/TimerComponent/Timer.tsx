@@ -1,14 +1,24 @@
+import { useTimerStore } from "../../../../store/store";
+
 interface TimerType {
   style: {
     backgroundColor?: string;
     color?: string;
   };
-  hours: string;
-  minuites: string;
-  seconds: string;
+  staticHours?: string;
+  staticMinuites?: string;
+  staticSeconds?: string;
 }
 
-export default function Timer({ style, hours, minuites, seconds }: TimerType) {
+export default function Timer({
+  style,
+  staticHours,
+  staticMinuites,
+  staticSeconds,
+}: TimerType) {
+  const hours = useTimerStore((state) => state.hours);
+  const minutes = useTimerStore((state) => state.minutes);
+  const seconds = useTimerStore((state) => state.seconds);
   return (
     <>
       <article
@@ -16,11 +26,23 @@ export default function Timer({ style, hours, minuites, seconds }: TimerType) {
         style={style}
       >
         <article className="flex gap-1 text-5xl">
-          <span>{hours}</span>
+          {staticHours ? (
+            <span>{staticHours}</span>
+          ) : (
+            <span>{hours < 10 ? `0${hours}` : hours}</span>
+          )}
           <span>:</span>
-          <span>{minuites}</span>
+          {staticMinuites ? (
+            <span>{staticMinuites}</span>
+          ) : (
+            <span>{minutes < 10 ? `0${minutes}` : minutes}</span>
+          )}
           <span>:</span>
-          <span>{seconds}</span>
+          {staticSeconds ? (
+            <span>{staticSeconds}</span>
+          ) : (
+            <span>{seconds < 10 ? `0${seconds}` : seconds}</span>
+          )}
         </article>
       </article>
     </>

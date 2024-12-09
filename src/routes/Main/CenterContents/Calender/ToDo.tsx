@@ -1,9 +1,9 @@
+import Button from "../../../../components/common/Button";
 import { useEffect, useRef } from "react";
 import { useToDoStore } from "../../../../store/store";
 import Pin from "./Pin";
 import ToDoListItem from "./ToDoListItem";
 import ToDoEditor from "./ToDoEditor";
-import { v4 as uuidv4 } from "uuid";
 
 export default function ToDo() {
   // 메모장 핀 길이
@@ -14,7 +14,7 @@ export default function ToDo() {
   const ToDoList = useToDoStore((store) => store.ToDoList);
   return (
     <>
-      <article className="inline-block ToDo-shadow rounded-2xl relative">
+      <article className="relative inline-block ToDo-shadow rounded-2xl">
         <article className="flex gap-[16px] px-[12px] pt-[10px] pb-[14px] bg-white rounded-t-2xl">
           {PinLength.map((_, i) => (
             <Pin key={i} />
@@ -28,22 +28,24 @@ export default function ToDo() {
                     key={ToDo.id}
                     text={ToDo.text}
                     color={"#666666"}
-                    lineThrough={"lineThrough"}
                     index={i}
                   />
                 ))
               : null}
             {isShowEditor ? <ToDoEditor /> : null}
             <li className="w-full h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9]">
-              <button
-                className="flex items-center gap-[20px] w-full h-full px-[12px]"
+              <Button
+                size="lg" // 버튼 크기
+                variant="todo" // 사용자 정의 스타일
+                textSize="sm" // 텍스트 크기
+                className="flex items-center gap-[20px] w-full h-full pr-[12px] justify-start pl-6 hover:bg-[#e9e9e9]"
                 onClick={() => {
                   toggleShowEditor();
                 }}
               >
                 <img src={"/public/small_icon.svg"} alt={"추가 아이콘"} />
-                <span className="text-[#666666] font-medium">할 일 추가</span>
-              </button>
+                <span className="text-[#666666] font-medium ">할 일 추가</span>
+              </Button>
             </li>
           </ul>
         </article>

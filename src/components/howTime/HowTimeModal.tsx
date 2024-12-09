@@ -11,8 +11,13 @@ export default function HowTimeModal() {
   const toggleHowTime = useHowTimeStore((state) => state.toggleHowTime);
   // 랜덤 시간 생성기
   const randomTime = Math.floor(Math.random() * 24 + 1).toString();
+  // 난수 몇 번 반복하는지
   const [count, setCount] = useState(10);
-  const [howTimeHoursSet, setHowTimeHoursSet] = useState("0");
+  const setHowTimeHoursSet = useHowTimeStore(
+    (state) => state.setHowTimeHoursSet
+  );
+  const howTimeHoursSet = useHowTimeStore((state) => state.howTimeHoursSet);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (count > 0) {
@@ -23,7 +28,8 @@ export default function HowTimeModal() {
       }
     }, 50);
     return () => clearInterval(intervalId);
-  }, [howTimeHoursSet, count]);
+  }, [howTimeHoursSet, count, setHowTimeHoursSet]);
+
   return (
     <section className="w-full h-full block absolute left-0 top-0 z-40">
       <div
