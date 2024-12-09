@@ -90,11 +90,13 @@ export const useToDoStore = create<ToDoType>((set) => ({
 //headerModalStore
 type headerModalStore = {
   modal: boolean;
-  open: () => void;
+  type: string | null;
+  open: (type: string) => void;
   close: () => void;
 };
 export const useHeaderModalStore = create<headerModalStore>((set) => ({
   modal: false,
-  open: () => set((state) => ({ modal: !state.modal })),
-  close: () => set(() => ({ modal: false })),
+  type: null,
+  open: (type: string) => set({ modal: true, type }),
+  close: () => set(() => ({ modal: false, type: null })),
 }));
