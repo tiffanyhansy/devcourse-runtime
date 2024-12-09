@@ -25,14 +25,14 @@ export default useEditorStore;
 // 메인페이지 몇 시간? 클릭시 상호작용 기능
 interface HowTimeState {
   isHowTimeOpen: boolean;
-  howTimeHoursSet: string;
-  setHowTimeHoursSet: (random: string) => void;
+  changingHours: string;
+  setChangingHours: (random: string) => void;
   toggleHowTime: () => void;
 }
 export const useHowTimeStore = create<HowTimeState>((set) => ({
   isHowTimeOpen: false,
-  howTimeHoursSet: "0",
-  setHowTimeHoursSet: (random) => set(() => ({ howTimeHoursSet: random })),
+  changingHours: "0",
+  setChangingHours: (random) => set(() => ({ changingHours: random })),
   toggleHowTime: () =>
     set((state) => ({
       isHowTimeOpen: !state.isHowTimeOpen,
@@ -118,6 +118,12 @@ interface TimerStorage {
   hours: number;
   minutes: number;
   seconds: number;
+  staticHours: string;
+  staticMinuites: string;
+  staticSeconds: string;
+  setStaticHours: (change: string) => void;
+  setStaticMinuites: (change: string) => void;
+  setStaticSeconds: (change: string) => void;
   isTimerActive: boolean;
   toggleTimer: () => void;
   activeTimer: () => void;
@@ -132,6 +138,18 @@ export const useTimerStore = create<TimerStorage>((set) => ({
   seconds: localStorage.getItem("TimerTime")
     ? JSON.parse(localStorage.getItem("TimerTime")!)[2]
     : 0,
+  staticHours: localStorage.getItem("StaticTimerTime")
+    ? JSON.parse(localStorage.getItem("StaticTimerTime")!)[0]
+    : "00",
+  staticMinuites: localStorage.getItem("StaticTimerTime")
+    ? JSON.parse(localStorage.getItem("StaticTimerTime")!)[1]
+    : "00",
+  staticSeconds: localStorage.getItem("StaticTimerTime")
+    ? JSON.parse(localStorage.getItem("StaticTimerTime")!)[2]
+    : "00",
+  setStaticHours: (change) => set(() => ({ staticHours: change })),
+  setStaticMinuites: (change) => set(() => ({ staticMinuites: change })),
+  setStaticSeconds: (change) => set(() => ({ staticSeconds: change })),
   isTimerActive: false,
   toggleTimer: () => set((state) => ({ isTimerActive: !state.isTimerActive })),
   activeTimer: () => {

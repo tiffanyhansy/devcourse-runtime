@@ -8,6 +8,9 @@ import NavigationIcon from "@mui/icons-material/Navigation";
 import { createTheme, styled } from "@mui/material";
 import { useTimerPlayStore, useTimerStore } from "../../store/store";
 
+// active에 값이 있으면 실행을 정지
+let Active: number = 0;
+
 export default function FloatingActionButtons() {
   const isPlayBtnClicked = useTimerPlayStore((state) => state.isPlayBtnClicked);
   const togglePlayBtn = useTimerPlayStore((state) => state.togglePlayBtn);
@@ -20,11 +23,12 @@ export default function FloatingActionButtons() {
 
   React.useEffect(() => {
     // 시계 동작
-    let Active: number;
     if (isTimerActive) {
-      Active = setInterval(() => {
-        activeTimer();
-      }, 1000);
+      if (Active === 0) {
+        Active = setInterval(() => {
+          activeTimer();
+        }, 1000);
+      }
       localStorage.setItem(
         "TimerTime",
         JSON.stringify([hours, minutes, seconds])
@@ -34,12 +38,16 @@ export default function FloatingActionButtons() {
       "TimerTime",
       JSON.stringify([hours, minutes, seconds])
     );
+    if (!isTimerActive) {
+      clearTimeout(Active);
+      Active = 0;
+      console.log(Active);
+    }
     return () => {
       localStorage.setItem(
         "TimerTime",
         JSON.stringify([hours, minutes, seconds])
       );
-      clearInterval(Active);
     };
   }, [isTimerActive, activeTimer]);
 

@@ -1,12 +1,12 @@
 export default function HowTimeTop({
-  howTimeHoursSet,
+  changingHours,
 }: {
-  howTimeHoursSet: string;
+  changingHours: string;
 }) {
   return (
     <article className="flex gap-[10px] text-[2.5rem] font-bold">
       <span>총</span>
-      <span>{howTimeHoursSet}</span>
+      <span>{changingHours}</span>
       <span>시간!!</span>
     </article>
   );
