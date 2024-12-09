@@ -1,3 +1,4 @@
+import { useHowTimeStore } from "../../../store/store";
 import Button from "../../common/Button";
 
 export default function HowTimeUnder() {
@@ -11,7 +12,7 @@ export default function HowTimeUnder() {
       <Button size="sm" variant="custom" textSize="md" className="">
         좋아요 🔥
       </Button>
-      <Button size="md" variant="custom" textSize="md" className="">
+      <Button size="md" variant="custom" textSize="md">
         다시 할래요 🤔
       </Button>
     </article>
