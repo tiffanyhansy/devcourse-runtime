@@ -52,7 +52,7 @@ export default function Modal() {
             </div>
           </div>
         </div>
-        <a className="cursor-pointer">
+        <div className="cursor-pointer">
           <div className="w-[305px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-center gap-3.5 inline-flex">
               <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
@@ -73,8 +73,8 @@ export default function Modal() {
               </div>
             </div>
           </div>
-        </a>
-        <a className="cursor-pointer">
+        </div>
+        <div className="cursor-pointer">
           <div className="w-[305px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-center gap-3.5 inline-flex">
               <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
@@ -94,7 +94,7 @@ export default function Modal() {
               </div>
             </div>
           </div>
-        </a>
+        </div>
       </div>
     </div>
   );
