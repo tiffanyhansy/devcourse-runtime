@@ -3,12 +3,10 @@ import { useRef, useState } from "react";
 import { useToDoStore } from "../../../../store/store";
 
 export default function ToDoListItem({
-  lineThrough,
   color,
   text,
   index,
 }: {
-  lineThrough?: string;
   color?: string;
   text: string;
   index: number;

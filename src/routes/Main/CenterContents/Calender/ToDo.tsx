@@ -4,7 +4,6 @@ import { useToDoStore } from "../../../../store/store";
 import Pin from "./Pin";
 import ToDoListItem from "./ToDoListItem";
 import ToDoEditor from "./ToDoEditor";
-import { v4 as uuidv4 } from "uuid";
 
 export default function ToDo() {
   // 메모장 핀 길이
@@ -29,7 +28,6 @@ export default function ToDo() {
                     key={ToDo.id}
                     text={ToDo.text}
                     color={"#666666"}
-                    lineThrough={"lineThrough"}
                     index={i}
                   />
                 ))
