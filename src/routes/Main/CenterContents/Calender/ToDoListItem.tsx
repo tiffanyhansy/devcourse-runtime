@@ -36,7 +36,7 @@ export default function ToDoListItem({
           {text}
         </span>
         {btnChecked ? (
-          <article className="w-[80%] absolute left-[30px] self-center">
+          <article className="w-[80%] absolute left-[40px] self-center">
             <img src="/public/line_through.svg" alt="빨간줄" />
           </article>
         ) : null}
