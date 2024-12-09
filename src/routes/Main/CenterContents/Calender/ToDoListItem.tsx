@@ -1,9 +1,8 @@
-import Button from "../../../../components/common/Button";
 import { useRef, useState } from "react";
 import { useToDoStore } from "../../../../store/store";
+import { DeleteOutline, DeleteRounded } from "@mui/icons-material";
 
 export default function ToDoListItem({
-  lineThrough,
   color,
   text,
   index,
@@ -17,9 +16,12 @@ export default function ToDoListItem({
   const [btnChecked, setBtnChecked] = useState<boolean>(false);
   const deleteToDoList = useToDoStore((state) => state.deleteToDoList);
   const ToDoList = useToDoStore((state) => state.ToDoList);
+  const clickedIndex = useToDoStore((state) => state.clickedIndex);
+  const [isDeleteIconHovered, setIsDeleteIconHovered] = useState(false);
+
   return (
-    <li className="w-full h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9] px-[10px] flex items-center justify-between relative">
-      <article className="items-center flex gap-[20px]">
+    <li className="w-100% h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9] pl-[20px] px-[10px] flex items-center justify-between relative">
+      <article className="self-center flex gap-[18px]">
         <input
           type="checkbox"
           ref={buttonRef}
@@ -35,15 +37,13 @@ export default function ToDoListItem({
           {text}
         </span>
         {btnChecked ? (
-          <article className="w-[80%] absolute left-[30px]">
+          <article className="w-[80%] absolute left-[30px] self-center">
             <img src="/public/line_through.svg" alt="빨간줄" />
           </article>
         ) : null}
       </article>
 
-      {/* TODO: merge 후에 다시 컴포넌트 사용하겠습니다 */}
       <button
-        className="w-[20px] h-[20px] block bg-black"
         onClick={() => {
           deleteToDoList(index);
           localStorage.setItem(
@@ -51,7 +51,15 @@ export default function ToDoListItem({
             JSON.stringify(ToDoList.filter((_, i) => i !== index))
           );
         }}
-      ></button>
+        onMouseEnter={() => setIsDeleteIconHovered(true)}
+        onMouseLeave={() => setIsDeleteIconHovered(false)}
+      >
+        {clickedIndex === index || isDeleteIconHovered ? (
+          <DeleteRounded />
+        ) : (
+          <DeleteOutline />
+        )}
+      </button>
     </li>
   );
 }
