@@ -4,7 +4,6 @@ import HowTimeUnder from "./HowTimeUnder";
 
 export default function HowTimeContents({
   changingHours,
-  setRestart,
 }: {
   changingHours: string;
   setRestart: (e: React.SetStateAction<number>) => void;
