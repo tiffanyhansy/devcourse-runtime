@@ -1,9 +1,8 @@
-import Button from "../../../../components/common/Button";
 import { useRef, useState } from "react";
 import { useToDoStore } from "../../../../store/store";
+import { DeleteOutline, DeleteRounded } from "@mui/icons-material";
 
 export default function ToDoListItem({
-  lineThrough,
   color,
   text,
   index,
@@ -17,6 +16,9 @@ export default function ToDoListItem({
   const [btnChecked, setBtnChecked] = useState<boolean>(false);
   const deleteToDoList = useToDoStore((state) => state.deleteToDoList);
   const ToDoList = useToDoStore((state) => state.ToDoList);
+  const clickedIndex = useToDoStore((state) => state.clickedIndex);
+  const [isDeleteIconHovered, setIsDeleteIconHovered] = useState(false);
+
   return (
     <li className="w-100% h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9] pl-[20px] px-[10px] flex items-center justify-between relative">
       <article className="self-center flex gap-[18px]">
@@ -42,7 +44,6 @@ export default function ToDoListItem({
       </article>
 
       <button
-        className="w-[20px] h-[20px] block bg-black "
         onClick={() => {
           deleteToDoList(index);
           localStorage.setItem(
@@ -50,7 +51,15 @@ export default function ToDoListItem({
             JSON.stringify(ToDoList.filter((_, i) => i !== index))
           );
         }}
-      ></button>
+        onMouseEnter={() => setIsDeleteIconHovered(true)}
+        onMouseLeave={() => setIsDeleteIconHovered(false)}
+      >
+        {clickedIndex === index || isDeleteIconHovered ? (
+          <DeleteRounded />
+        ) : (
+          <DeleteOutline />
+        )}
+      </button>
     </li>
   );
 }

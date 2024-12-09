@@ -54,16 +54,19 @@ interface ToDoType {
   isShowEditor: boolean;
   EditorText: string;
   Checked: boolean;
+  clickedIndex: number;
   toggleShowEditor: () => void;
   updateEditorText: (event: React.ChangeEvent<HTMLInputElement>) => void;
   updateToDoList: () => void;
   deleteToDoList: (index: number) => void;
+  setClickedIndex: (index: number) => void;
 }
 export const useToDoStore = create<ToDoType>((set) => ({
   ToDoList: JSON.parse(localStorage.getItem("ToDoList")!) || [],
   isShowEditor: false,
   EditorText: "",
   Checked: false,
+  clickedIndex: -1,
   toggleShowEditor: () =>
     set((state) => ({
       isShowEditor: !state.isShowEditor,
@@ -83,6 +86,11 @@ export const useToDoStore = create<ToDoType>((set) => ({
   deleteToDoList: (index) => {
     set((state) => ({
       ToDoList: state.ToDoList.filter((_, i) => i !== index),
+    }));
+  },
+  setClickedIndex: (index) => {
+    set(() => ({
+      clickedIndex: index,
     }));
   },
 }));
