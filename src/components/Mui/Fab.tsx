@@ -19,9 +19,6 @@ export default function FloatingActionButtons() {
   const seconds = useTimerStore((state) => state.seconds);
 
   React.useEffect(() => {
-    if (!localStorage.getItem("TimerTime")) {
-      localStorage.setItem("TimerTime", JSON.stringify([0, 0, 0]));
-    }
     // 시계 동작
     let Active: number;
     if (isTimerActive) {

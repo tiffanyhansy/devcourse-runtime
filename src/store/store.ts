@@ -25,10 +25,14 @@ export default useEditorStore;
 // 메인페이지 몇 시간? 클릭시 상호작용 기능
 interface HowTimeState {
   isHowTimeOpen: boolean;
+  howTimeHoursSet: string;
+  setHowTimeHoursSet: (random: string) => void;
   toggleHowTime: () => void;
 }
 export const useHowTimeStore = create<HowTimeState>((set) => ({
   isHowTimeOpen: false,
+  howTimeHoursSet: "0",
+  setHowTimeHoursSet: (random) => set(() => ({ howTimeHoursSet: random })),
   toggleHowTime: () =>
     set((state) => ({
       isHowTimeOpen: !state.isHowTimeOpen,
@@ -117,9 +121,15 @@ interface TimerStorage {
   activeTimer: () => void;
 }
 export const useTimerStore = create<TimerStorage>((set) => ({
-  hours: JSON.parse(localStorage.getItem("TimerTime")!)[0],
-  minutes: JSON.parse(localStorage.getItem("TimerTime")!)[1],
-  seconds: JSON.parse(localStorage.getItem("TimerTime")!)[2],
+  hours: localStorage.getItem("TimerTime")
+    ? JSON.parse(localStorage.getItem("TimerTime")!)[0]
+    : 0,
+  minutes: localStorage.getItem("TimerTime")
+    ? JSON.parse(localStorage.getItem("TimerTime")!)[1]
+    : 0,
+  seconds: localStorage.getItem("TimerTime")
+    ? JSON.parse(localStorage.getItem("TimerTime")!)[2]
+    : 0,
   isTimerActive: false,
   toggleTimer: () => set((state) => ({ isTimerActive: !state.isTimerActive })),
   activeTimer: () => {
