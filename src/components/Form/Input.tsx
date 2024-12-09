@@ -1,17 +1,32 @@
 import { TextField } from "@mui/material";
 
 type InputProps = {
+  label: string
   type: string;
   value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: boolean;
+  helperText: string;
 };
 
-export default function Input({ type, value}: InputProps) {
+export default function Input({
+  label,
+  type,
+  value,
+  onChange,
+  error,
+  helperText,
+}: InputProps) {
   return (
     <>
       <TextField
         id="outlined-basic"
-        label={value}
+        label={label}
         type={type}
+        value = {value}
+        onChange={onChange}
+        error={error}
+        helperText={helperText}
         variant="outlined"
         sx={{
           width: 384,
