@@ -40,13 +40,13 @@ export default function ToDo() {
                 size="lg" // 버튼 크기
                 variant="todo" // 사용자 정의 스타일
                 textSize="sm" // 텍스트 크기
-                className="flex items-center gap-[20px] w-full h-full pr-[12px] justify-start pl-6"
+                className="flex items-center gap-[20px] w-full h-full pr-[12px] justify-start pl-6 hover:bg-[#e9e9e9]"
                 onClick={() => {
                   toggleShowEditor();
                 }}
               >
                 <img src={"/public/small_icon.svg"} alt={"추가 아이콘"} />
-                <span className="text-[#666666] font-medium">할 일 추가</span>
+                <span className="text-[#666666] font-medium ">할 일 추가</span>
               </Button>
             </li>
           </ul>
