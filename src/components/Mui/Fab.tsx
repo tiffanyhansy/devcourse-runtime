@@ -1,7 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
+import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import EditIcon from "@mui/icons-material/Edit";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import NavigationIcon from "@mui/icons-material/Navigation";
@@ -58,15 +59,18 @@ export default function FloatingActionButtons() {
           togglePlayBtn();
           toggleTimer();
         }}
+        style={{
+          width: "3.5rem",
+          height: "3.5rem",
+          backgroundColor: isPlayBtnClicked ? "#778899" : "",
+          color: isPlayBtnClicked ? "#ffffff" : "",
+        }}
       >
-        <img
-          src={
-            isPlayBtnClicked
-              ? "/public/pause_icon.svg"
-              : "/public/play_icon.svg"
-          }
-          alt={isPlayBtnClicked ? "재생하기 버튼" : "일시정지 버튼"}
-        />
+        {isPlayBtnClicked ? (
+          <PauseRoundedIcon style={{ width: "2em", height: "2rem" }} />
+        ) : (
+          <PlayArrowRoundedIcon style={{ width: "2rem", height: "2rem" }} />
+        )}
       </Fab>
     </Box>
   );
