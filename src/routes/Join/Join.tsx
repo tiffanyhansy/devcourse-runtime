@@ -2,6 +2,7 @@ import { useState } from "react";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import LoginButton from "../../components/Form/LoginButton";
+import { useNavigate } from "react-router-dom";
 
 export default function Join() {
   const [email, setEmail] = useState("");
@@ -19,12 +20,14 @@ export default function Join() {
   const [checkPasswordHelperText, setCheckPasswordHelperText] = useState("");
   const [userNameHelperText, setUserNameHelperText] = useState("");
 
+  const navigate = useNavigate()
+
   // 유효성 검사 함수
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const validatePassword = (password: string) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,16}$/.test(password);
+    /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,16}$/.test(password);
 
   const validateName = (name: string) => /^[가-힣a-zA-Z\s]+$/.test(name);
 
@@ -34,11 +37,11 @@ export default function Join() {
     setEmail(value);
 
     if (!validateEmail(value)) {
-      setEmailError(true);
       setEmailHelperText("유효한 이메일을 입력해주세요.");
+      setEmailError(true);
     } else {
-      setEmailError(false);
       setEmailHelperText("");
+      setEmailError(false);
     }
   };
 
@@ -49,7 +52,7 @@ export default function Join() {
     if (!validatePassword(value)) {
       setPasswordError(true);
       setPasswordHelperText(
-        "비밀번호는 8~16자의 영문 대/소문자와 숫자를 포함해야 합니다."
+        "비밀번호는 8~16자의 영문 대소문자와 숫자를 포함해야 합니다."
       );
     } else {
       setPasswordError(false);
@@ -97,14 +100,12 @@ export default function Join() {
       checkPassword &&
       userName
     ) {
-      alert("회원가입 성공!");
-    } else {
-      alert("입력값을 확인해주세요.");
+      navigate('/join-success')
     }
   };
 
   return (
-    <main className="flex justify-center items-center h-screen w-screen">
+    <main className="flex justify-center items-center h-[100vh] mt-11 ">
       <FormContainer>
         <header className="flex justify-center items-center mt-14 mb-4">
           <img

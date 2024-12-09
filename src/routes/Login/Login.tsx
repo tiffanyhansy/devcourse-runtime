@@ -2,6 +2,7 @@ import { useState } from "react";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import LoginButton from "../../components/Form/LoginButton";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const login = "로그인";
@@ -33,8 +34,21 @@ export default function Login() {
     setPasswordError(!validatePassword(value));
   };
 
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    if (
+      !emailError &&
+      !passwordError &&
+      email &&
+      password
+    ) {
+      navigate('/')
+    }
+  };
+
   return (
-    <main className="flex justify-center items-center h-screen w-screen">
+    <main className="flex justify-center items-center h-screen mt-20">
       <FormContainer>
         <header className="flex justify-center items-center mt-14 mb-4">
           <img
@@ -46,7 +60,7 @@ export default function Login() {
         <h1 className="text-3xl  font-bold  text-center">로그인</h1>
         <section className="mt-14">
           <Input
-          label="이메일"
+            label="이메일"
             value={email}
             type="text"
             onChange={handleEmailChange}
@@ -56,24 +70,24 @@ export default function Login() {
         </section>
         <section className="mt-8">
           <Input
-          label="비밀번호"
+            label="비밀번호"
             value={password}
             type="password"
             onChange={handlePasswordChange}
             error={passwordError}
             helperText={
               passwordError
-                ? "비밀번호는 8~16자의 영문 대/소문자와 숫자를 포함해야 합니다."
+                ? "비밀번호는 8~16자의 영문 대소문자와 숫자를 포함해야 합니다."
                 : ""
             }
           />
         </section>
         <footer className="mt-12">
-          <LoginButton value={login} />
+          <LoginButton value={login} onClick={handleSubmit} />
         </footer>
 
         <div className="flex justify-center items-center text-[#7EACB5] mt-5 mb-16 ">
-          <button>회원가입</button>
+          <button onClick={() => navigate("/join")}>회원가입</button>
         </div>
       </FormContainer>
     </main>

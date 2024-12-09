@@ -6,6 +6,7 @@ import Mypage from "./routes/Mypage/Mypage";
 import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
 import Noti from "./components/notifications/Noti";
+import JoinSuccess from "./routes/Join/JoinSuccess";
 
 export default function App() {
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />{" "}
           <Route path="/join" element={<Join />} />
           <Route path="/" element={<Main />} />
+          <Route path="/join-success" element={<JoinSuccess />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/notifications" element={<Noti />} />
         </Routes>
