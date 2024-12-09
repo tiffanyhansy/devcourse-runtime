@@ -36,7 +36,7 @@ export default function ToDoEditor() {
           }
         }}
         value={EditorText}
-        className="w-full h-full"
+        className="w-full h-full p-5 outline-none"
       />
     </li>
   );
