@@ -113,7 +113,7 @@ export const useHeaderModalStore = create<headerModalStore>((set) => ({
   close: () => set(() => ({ modal: false, type: null })),
 }));
 
-// 메인페이지 Timer 저장소
+// 메인페이지 Timer 기능 저장소
 interface TimerStorage {
   hours: number;
   minutes: number;
@@ -127,6 +127,8 @@ interface TimerStorage {
   isTimerActive: boolean;
   toggleTimer: () => void;
   activeTimer: () => void;
+  isAchieve: boolean;
+  setIsAchieve: () => void;
 }
 export const useTimerStore = create<TimerStorage>((set) => ({
   hours: localStorage.getItem("TimerTime")
@@ -166,4 +168,6 @@ export const useTimerStore = create<TimerStorage>((set) => ({
       };
     });
   },
+  isAchieve: false,
+  setIsAchieve: () => set((state) => ({ isAchieve: !state.isAchieve })),
 }));
