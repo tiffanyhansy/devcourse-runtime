@@ -4,7 +4,7 @@ import { useState } from "react";
 import Input from "../../components/Mypage/Input";
 
 const Mypage = () => {
-  const initialProfilePic = "/src/asset/capybara_image.jpg"; // 초기 프로필 사진
+  const initialProfilePic = "/src/asset/default_profile.png"; // 초기 프로필 사진
   const [clickedField, setClickedField] = useState<Set<number>>(new Set());
   const [isEditable, setIsEditable] = useState(false); // 프로필 편집 가능 여부
   const [profilePic, setProfilePic] = useState<string>(initialProfilePic); // 프로필 사진
