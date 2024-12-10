@@ -4,9 +4,11 @@ import CenterContents from "./CenterContents/CenterContents";
 import { useHowTimeStore } from "../../store/store";
 import HowTimeModal from "../../components/howTime/HowTimeModal";
 import TopContents from "./TopContents/TopContents";
+import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import { Favorite } from "@mui/icons-material";
 import { styled } from "@mui/material";
 import { useState } from "react";
+import Button from "../../components/common/Button";
 
 interface Heart {
   id: number;
