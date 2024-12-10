@@ -4,52 +4,41 @@ import { useState } from "react";
 import Input from "../../components/Mypage/Input";
 
 const Mypage = () => {
-  const initialProfilePic = "/src/asset/default_profile.png"; // 초기 프로필 사진
+  const initialProfilePic = "/src/asset/default_profile.png";
   const [clickedField, setClickedField] = useState<Set<number>>(new Set());
-  const [isEditable, setIsEditable] = useState(false); // 프로필 편집 가능 여부
-  const [profilePic, setProfilePic] = useState<string>(initialProfilePic); // 프로필 사진
+  const [isEditable, setIsEditable] = useState(false);
+  const [profilePic, setProfilePic] = useState<string>(initialProfilePic);
   const [tempProfilePic, setTempProfilePic] =
-    useState<string>(initialProfilePic); // 편집 중 임시 프로필 사진
+    useState<string>(initialProfilePic);
   const [tempClickedField, setTempClickedField] = useState<Set<number>>(
     new Set(clickedField)
-  ); // 편집 중 임시 필드 선택 상태
+  );
+  const [name, setName] = useState<string>(""); // 이름
+  const [nickname, setNickname] = useState<string>(""); // 별명
+  const [website, setWebsite] = useState<string>(""); // 웹사이트
+  const isAnyFieldEmpty = !name.trim() || !nickname.trim();
 
-  // Field labels
-  const fieldLabels = ["SW", "SI", "DA", "GE"];
-
-  const handleFieldClick = (index: number) => {
-    const updatedField = new Set(tempClickedField);
-    if (updatedField.has(index)) {
-      updatedField.delete(index);
-    } else {
-      updatedField.add(index);
-    }
-    setTempClickedField(updatedField);
-  };
-
-  // 프로필 편집 버튼
   const handleEditButtonClick = () => {
     if (isEditable) {
-      // 변경사항 저장
+      if (isAnyFieldEmpty) {
+        alert("필수 항목을 모두 입력해주세요.");
+        return;
+      }
       setProfilePic(tempProfilePic);
       setClickedField(tempClickedField);
     } else {
-      // 편집 시작
       setTempProfilePic(profilePic);
       setTempClickedField(new Set(clickedField));
     }
-    setIsEditable(!isEditable); // 편집 모드 토글
+    setIsEditable(!isEditable);
   };
 
-  // 취소 버튼
   const handleCancelButtonClick = () => {
-    // 변경사항 무효화
     setTempProfilePic(profilePic);
     setTempClickedField(new Set(clickedField));
-    setIsEditable(false); // 편집 모드 종료
+    setIsEditable(false);
   };
 
-  // 파일 선택
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditable) {
       const file = event.target.files?.[0];
@@ -63,6 +52,17 @@ const Mypage = () => {
     }
   };
 
+  const fieldLabels = ["SW", "SI", "DA", "GE"];
+  const handleFieldClick = (index: number) => {
+    const updatedField = new Set(tempClickedField);
+    if (updatedField.has(index)) {
+      updatedField.delete(index);
+    } else {
+      updatedField.add(index);
+    }
+    setTempClickedField(updatedField);
+  };
+
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
       {/* 제목 */}
@@ -70,15 +70,10 @@ const Mypage = () => {
         <h1 className="text-4xl font-bold">내 프로필</h1>
       </article>
 
-      <div className="flex p-[5rem] justify-between ">
+      <div className="flex p-[5rem] justify-between">
         {/* 프로필 */}
-        <Stack
-          direction="column"
-          className="items-center"
-          sx={{
-            width: "fit",
-          }}
-        >
+        <Stack direction="column" className="items-center">
+          {/* 프로필 사진 */}
           <Box
             position="relative"
             width="22.5rem"
@@ -88,9 +83,7 @@ const Mypage = () => {
             borderRadius="50%"
             overflow="hidden"
             boxShadow={3}
-            sx={{
-              cursor: isEditable ? "pointer" : "default",
-            }}
+            sx={{ cursor: isEditable ? "pointer" : "default" }}
             onClick={() =>
               isEditable && document.getElementById("fileInput")?.click()
             }
@@ -151,11 +144,26 @@ const Mypage = () => {
           </div>
         </Stack>
 
-        <div className="">
-          {/* Name, Nickname, Website */}
-          <Input isEditable={isEditable} label="Name" />
-          <Input isEditable={isEditable} label="Nickname" />
-          <Input isEditable={isEditable} label="Website" />
+        {/* 필드 입력 */}
+        <div>
+          <Input
+            isEditable={isEditable}
+            label="이름"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            isEditable={isEditable}
+            label="별명"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
+          <Input
+            isEditable={isEditable}
+            label="웹사이트"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
           {/* field */}
           <Stack direction="column" spacing={1}>
             <label
@@ -194,8 +202,7 @@ const Mypage = () => {
               ))}
             </Stack>
           </Stack>
-
-          {/* 버튼들 */}
+          {/* 버튼 */}
           <Stack
             direction="row"
             spacing={2}
@@ -206,11 +213,7 @@ const Mypage = () => {
               <Button
                 onClick={handleCancelButtonClick}
                 variant="contained"
-                sx={{
-                  color: "#000000",
-                  backgroundColor: "#D6D6D6",
-                  fontWeight: "bold",
-                }}
+                sx={{ backgroundColor: "#D6D6D6", fontWeight: "bold" }}
               >
                 취소
               </Button>
@@ -222,13 +225,16 @@ const Mypage = () => {
             >
               {isEditable ? "변경사항 저장" : "프로필 편집"}
             </Button>
-          </Stack>
-          <Alert
-            severity="error"
-            sx={{ width: "500px", marginTop: "1.5rem", justifySelf: "end" }}
-          >
-            이후에 로직 추가할 예정입니다.
-          </Alert>
+          </Stack>{" "}
+          {/* 경고 알림 */}
+          {isEditable && isAnyFieldEmpty && (
+            <Alert
+              severity="error"
+              sx={{ mt: 3, width: "500px", justifySelf: "end" }}
+            >
+              이름과 별명 모두 채워주세요!
+            </Alert>
+          )}
         </div>
       </div>
     </section>
