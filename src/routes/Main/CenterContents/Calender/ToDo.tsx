@@ -43,7 +43,10 @@ export default function ToDo() {
                   toggleShowEditor();
                 }}
               >
-                <img src={"/public/small_icon.svg"} alt={"추가 아이콘"} />
+                <img
+                  src={"/src/asset/images/small_icon.svg"}
+                  alt={"추가 아이콘"}
+                />
                 <span className="text-[#666666] font-medium ">할 일 추가</span>
               </Button>
             </li>
