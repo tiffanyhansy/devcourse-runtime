@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
+import dayjs, { Dayjs } from "dayjs";
 
 //에디터 모달창
 interface EditorState {
@@ -170,4 +171,42 @@ export const useTimerStore = create<TimerStorage>((set) => ({
   },
   isAchieve: false,
   setIsAchieve: () => set((state) => ({ isAchieve: !state.isAchieve })),
+}));
+
+// 메인페이지 TimeSetter 저장소
+interface TimeSetterStorage {
+  isTimeSetterOpen: boolean;
+  setIsTimeSetterOpen: () => void;
+  selectDate: Dayjs | null;
+  selectHours: string;
+  selectMinuites: string;
+  selectSeconds: string;
+  DateSet: (day: dayjs.Dayjs | null, date: Date | null) => void; // Mui timePicker 결과값은 Dayjs라는 MUI에서 만든 커스텀 타입을 가지고 있음
+}
+export const useTimeSetterStore = create<TimeSetterStorage>((set) => ({
+  isTimeSetterOpen: false,
+  setIsTimeSetterOpen: () =>
+    set((state) => ({
+      isTimeSetterOpen: !state.isTimeSetterOpen,
+    })),
+  selectDate: null, // TimePicker로 가져온 모든 데이터가 담김, Date 객체만 담기는게 아님{$s, $d 등등...}
+  selectHours: "",
+  selectMinuites: "",
+  selectSeconds: "",
+  DateSet: (day, date) =>
+    set(() => ({
+      selectDate: day,
+      selectHours:
+        date?.getHours()! >= 10
+          ? `${date?.getHours()}`
+          : `0${date?.getHours()}`,
+      selectMinuites:
+        date?.getMinutes()! >= 10
+          ? `${date?.getMinutes()}`
+          : `0${date?.getMinutes()}`,
+      selectSeconds:
+        date?.getSeconds()! >= 10
+          ? `${date?.getSeconds()}`
+          : `0${date?.getSeconds()}`,
+    })),
 }));
