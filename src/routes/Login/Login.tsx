@@ -48,17 +48,17 @@ export default function Login() {
   };
 
   return (
-    <main className="flex justify-center items-center h-screen mt-20">
+    <main className="flex justify-center items-center">
       <FormContainer>
-        <header className="flex justify-center items-center mt-14 mb-4">
+        <header className="flex justify-center items-center mt-10 mb-4">
           <img
-            src="./runtime_logo.svg"
+            src="/src/asset/images/runtime_logo.svg"
             alt="Runtime Logo"
-            className="w-24 h-24"
+            className="w-16 h-16"
           />
         </header>
-        <h1 className="text-3xl  font-bold  text-center">로그인</h1>
-        <section className="mt-14">
+        <h1 className="text-3xl  font-bold  text-center mt-7">로그인</h1>
+        <section className="mt-10">
           <Input
             label="이메일"
             value={email}
@@ -68,7 +68,7 @@ export default function Login() {
             helperText={emailError ? "유효한 이메일을 입력해주세요." : ""}
           />
         </section>
-        <section className="mt-8">
+        <section className="mt-5">
           <Input
             label="비밀번호"
             value={password}
@@ -82,11 +82,11 @@ export default function Login() {
             }
           />
         </section>
-        <footer className="mt-12">
-          <LoginButton value={login} onClick={handleSubmit} />
+        <footer className="mt-10">
+          <LoginButton value={login} onClick={handleSubmit} size="xl"/>
         </footer>
 
-        <div className="flex justify-center items-center text-[#7EACB5] mt-5 mb-16 ">
+        <div className="flex justify-center items-center text-[#7EACB5] mt-5 mb-10 ">
           <button onClick={() => navigate("/join")}>회원가입</button>
         </div>
       </FormContainer>

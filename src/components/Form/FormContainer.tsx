@@ -5,7 +5,7 @@ export default function FormContainer({
 }) {
   return (
     <div className="flex justify-center items-center h-screen">
-      <form className="w-[520px] px-[68px] border border-neutral-100 shadow-md rounded-[10px]">
+      <form className=" px-[52px] border border-neutral-100 shadow-md rounded-[10px]">
         {children}
       </form>
     </div>
