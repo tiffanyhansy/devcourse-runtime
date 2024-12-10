@@ -42,7 +42,7 @@ export default function Main() {
       style: {
         position: "absolute",
         left: `${Math.random() * 100}%`, // 랜덤한 위치
-        top: `${Math.random() * 90}%`, // 랜덤한 위치
+        top: `${Math.random() * 90}%`, // 100%일 경우 화면이 밀리게 됨
         fontSize: "30px",
         color: "red",
         animation: "float 2s ease-in-out", // 애니메이션 적용
@@ -59,10 +59,9 @@ export default function Main() {
 
   return (
     <section style={{ position: "relative" }}>
-      {" "}
       {/* 부모 요소에 relative 추가 */}
       <article className="flex items-end mt-32">
-        <h1 className="text-[50px] text-[#3E435D] mr-5">
+        <h1 className="text-[50px] text-[#3E435D] mr-5 select-none">
           <span className="font-bold" onClick={handleNameClick}>
             조명
           </span>
