@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useTimerStore } from "../../../../store/store";
-import { blue } from "@mui/material/colors";
 
 interface TimerType {
   style: {
