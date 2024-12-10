@@ -105,17 +105,17 @@ export default function Join() {
   };
 
   return (
-    <main className="flex justify-center items-center h-[100vh] mt-11 ">
+    <main className="flex justify-center items-center ">
       <FormContainer>
-        <header className="flex justify-center items-center mt-14 mb-4">
+        <header className="flex justify-center items-center mt-8 mb-4">
           <img
-            src="./runtime_logo.svg"
+            src="/src/asset/images/runtime_logo.svg"
             alt="Runtime Logo"
-            className="w-24 h-24"
+            className="w-14 h-14"
           />
         </header>
         <h1 className="text-3xl font-bold text-center mt-5">회원가입</h1>
-        <section className="mt-14">
+        <section className="mt-8">
           <Input
             label="이메일"
             value={email}
@@ -125,7 +125,7 @@ export default function Join() {
             helperText={emailHelperText}
           />
         </section>
-        <section className="mt-6">
+        <section className="mt-4">
           <Input
           label="비밀번호"
             value={password}
@@ -135,7 +135,7 @@ export default function Join() {
             helperText={passwordHelperText}
           />
         </section>
-        <section className="mt-6">
+        <section className="mt-4">
           <Input
           label="비밀번호 확인"
             value={checkPassword}
@@ -145,7 +145,7 @@ export default function Join() {
             helperText={checkPasswordHelperText}
           />
         </section>
-        <section className="mt-6">
+        <section className="mt-4">
           <Input
             label="이름"
             value={userName}
@@ -155,8 +155,8 @@ export default function Join() {
             helperText={userNameHelperText}
           />
         </section>
-        <footer className="mt-12 mb-20">
-          <LoginButton value="회원가입" onClick={handleSubmit} />
+        <footer className="mt-8 mb-12">
+          <LoginButton value="회원가입" onClick={handleSubmit} size="xl" />
         </footer>
       </FormContainer>
     </main>
