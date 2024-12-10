@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useTimerStore } from "../../../../store/store";
+import { blue } from "@mui/material/colors";
 
 interface TimerType {
   style: {
@@ -22,6 +24,30 @@ export default function Timer({
   const staticHours = useTimerStore((state) => state.staticHours);
   const staticMinuites = useTimerStore((state) => state.staticMinuites);
   const staticSeconds = useTimerStore((state) => state.staticSeconds);
+  const isAchieve = useTimerStore((state) => state.isAchieve);
+  const setIsAchieve = useTimerStore((state) => state.setIsAchieve);
+
+  useEffect(() => {
+    if (Number(staticHours) < hours) {
+      !isAchieve && setIsAchieve();
+      return;
+    } else if (
+      Number(staticHours) === hours &&
+      Number(staticMinuites) < minutes
+    ) {
+      !isAchieve && setIsAchieve();
+      return;
+    } else if (
+      Number(staticHours) === hours &&
+      Number(staticMinuites) === minutes &&
+      Number(staticSeconds) <= seconds
+    ) {
+      !isAchieve && setIsAchieve();
+      return;
+    } else {
+      isAchieve && setIsAchieve();
+    }
+  }, [seconds]);
   return (
     <>
       <article
