@@ -60,11 +60,11 @@ export default function Timer({
 
               <span>:</span>
 
-              <span>{staticMinuites}</span>
+              <span>{"00"}</span>
 
               <span>:</span>
 
-              <span>{staticSeconds}</span>
+              <span>{"00"}</span>
             </article>
           </>
         ) : null}
