@@ -46,7 +46,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                 <div className="w-[42px] h-[42px] left-0 top-0 absolute bg-gradient-to-b from-[#fcd7b4] to-[#ffc2af] rounded-full" />
                 <img
                   className="w-11 h-11 left-0 top-[-2px] absolute"
-                  src="/public/profile.svg"
+                  src="/src/asset/images/profile.svg"
                 />
               </div>
             </div>
@@ -68,7 +68,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                 <div className="relative w-5 h-5">
                   <img
                     className="w-5 h-5 left-[2px] top-[2px] absolute"
-                    src="/public/settings.svg"
+                    src="/src/asset/images/settings.svg"
                   />
                 </div>
                 <Link
@@ -90,7 +90,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                   <div className="relative w-5 h-5">
                     <img
                       className="w-5 h-5 left-[2px] top-[2px] absolute"
-                      src="/public/signout.svg"
+                      src="/src/asset/images/signout.svg"
                     />
                   </div>
                   <Link
