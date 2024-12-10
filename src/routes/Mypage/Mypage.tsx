@@ -1,4 +1,12 @@
-import { Stack, Chip, Button, Box, Typography, Alert } from "@mui/material";
+import {
+  Stack,
+  Chip,
+  Button,
+  Box,
+  Typography,
+  Alert,
+  Tooltip,
+} from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import { useState } from "react";
 import Input from "../../components/Mypage/Input";
@@ -53,6 +61,13 @@ const Mypage = () => {
   };
 
   const fieldLabels = ["SW", "SI", "DA", "GE"];
+  const fieldDescriptions = [
+    "소프트웨어 개발",
+    "시스템/인프라",
+    "데이터/AI 개발",
+    "게임/QA",
+  ];
+
   const handleFieldClick = (index: number) => {
     const updatedField = new Set(tempClickedField);
     if (updatedField.has(index)) {
@@ -176,29 +191,31 @@ const Mypage = () => {
 
             <Stack direction="row" spacing={1} mt={1}>
               {fieldLabels.map((label, index) => (
-                <Chip
-                  key={index}
-                  label={label}
-                  variant="filled"
-                  onClick={
-                    isEditable ? () => handleFieldClick(index) : undefined
-                  }
-                  style={{
-                    width: "3rem",
-                    backgroundColor: tempClickedField.has(index)
-                      ? isEditable
-                        ? "#7EACB5"
-                        : "#B0B0B0"
-                      : "",
-                    color: tempClickedField.has(index)
-                      ? "white"
-                      : isEditable
-                      ? "#000"
-                      : "",
-                    cursor: isEditable ? "pointer" : "not-allowed",
-                    opacity: isEditable ? 1 : 0.6,
-                  }}
-                />
+                <Tooltip key={index} title={fieldDescriptions[index]} arrow>
+                  <Chip
+                    key={index}
+                    label={label}
+                    variant="filled"
+                    onClick={
+                      isEditable ? () => handleFieldClick(index) : undefined
+                    }
+                    style={{
+                      width: "3rem",
+                      backgroundColor: tempClickedField.has(index)
+                        ? isEditable
+                          ? "#7EACB5"
+                          : "#B0B0B0"
+                        : "",
+                      color: tempClickedField.has(index)
+                        ? "white"
+                        : isEditable
+                        ? "#000"
+                        : "",
+                      cursor: isEditable ? "pointer" : "not-allowed",
+                      opacity: isEditable ? 1 : 0.6,
+                    }}
+                  />
+                </Tooltip>
               ))}
             </Stack>
           </Stack>
