@@ -9,6 +9,7 @@ import Noti from "./components/notifications/Noti";
 import JoinSuccess from "./routes/Join/JoinSuccess";
 
 export default function App() {
+  //
   useEffect(() => {
     if (!localStorage.getItem("ToDoList")) {
       localStorage.setItem("ToDoList", "[]");
