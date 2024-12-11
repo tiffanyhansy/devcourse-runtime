@@ -29,7 +29,7 @@ export default function Input({
         helperText={helperText}
         variant="outlined"
         sx={{
-          width: 300,
+          width: 384,
           "& .MuiInputLabel-root.Mui-focused": {
             color: error ? "#d32f2f" : "#7EACB5", // 포커스 시 라벨 색상
           },
