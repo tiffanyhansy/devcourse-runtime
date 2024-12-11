@@ -10,6 +10,7 @@ import JoinSuccess from "./routes/Join/JoinSuccess";
 import FriendManage from "./components/FriendManage/FriendManage";
 
 export default function App() {
+  //
   useEffect(() => {
     if (!localStorage.getItem("ToDoList")) {
       localStorage.setItem("ToDoList", "[]");
@@ -26,7 +27,7 @@ export default function App() {
   }, []);
   return (
     <Router>
-      <main className="px-[50px] mx-auto roboto-medium max-w-[1440px]">
+      <main className="px-[50px] mx-auto roboto-medium max-w-[1440px] select-none overflow-hidden">
         <Header />
         <Routes>
           <Route path="/login" element={<Login />} />{" "}

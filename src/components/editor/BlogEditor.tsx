@@ -1,45 +1,54 @@
-import { useState, useEffect } from "react";
+import { useEditorStore } from "../../store/store";
 import ReactQuill from "react-quill";
-import "quill/dist/quill.snow.css"; // Quill 기본 테마
-import "../css/QuillCustom.css"; // 커스텀 스타일
-
-interface BlogEditorProps {
-  onSave: (content: string) => void;
-  onClose: () => void;
-  resetEditor: boolean;
-}
+import ConfirmDialog from "./ConfirmDialog";
+import "quill/dist/quill.snow.css";
+import "../../css/QuillCustom.css";
 
 export default function BlogEditor({
   onSave,
-  onClose,
-  resetEditor,
-}: BlogEditorProps) {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
+}: {
+  onSave: (content: string) => void;
+}) {
+  const {
+    content,
+    title,
+    setContent,
+    setTitle,
+    resetEditor,
+    isDialogOpen,
+    toggleDialog,
+    toggleEditor,
+  } = useEditorStore();
 
-  useEffect(() => {
-    if (resetEditor) {
-      resetContent();
+  const handleCancel = () => {
+    if (content.trim() || title.trim()) {
+      toggleDialog(true);
+    } else {
+      resetEditor();
+      toggleEditor();
     }
-  }, [resetEditor]);
-
-  // 텍스트 초기화
-  const resetContent = () => {
-    setContent("");
-    setTitle("");
   };
-  //react-quill
+
+  const confirmClose = () => {
+    toggleDialog(false);
+    resetEditor();
+    toggleEditor();
+  };
+
+  const cancelClose = () => {
+    toggleDialog(false);
+  };
+
   const modules = {
     toolbar: [
-      [{ header: [1, 2, 3, false] }], // 헤더
-      ["bold", "italic", "underline"], // 텍스트 스타일
-      [{ color: [] }], // 글자 색상
-      [{ list: "ordered" }, { list: "bullet" }], // 리스트
-      ["link", "image"], // 링크와 이미지 삽입
-      ["clean"], // 초기화 버튼
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline"],
+      [{ color: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+      ["clean"],
     ],
   };
-  //react-quill
 
   const formats = [
     "header",
@@ -54,32 +63,25 @@ export default function BlogEditor({
   ];
 
   return (
-    <div className="relative flex flex-col h-full text-white">
-      {/* 상단 툴바 */}
+    <div className="relative flex flex-col text-white">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-black">(optional)</h1>
         <button
-          onClick={() => {
-            resetContent();
-            onClose();
-          }}
+          onClick={handleCancel}
           className="text-black hover:text-red-400 transition"
         >
           ✕ 닫기
         </button>
       </div>
 
-      {/* 제목과 텍스트 영역 */}
-      <div className="flex flex-col flex-grow space-y-6">
+      <div className="flex flex-col flex-grow space-y-6 pb-20">
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="제목을 입력하세요..."
-          className="w-full bg-transparent text-3xl font-semibold text-black placeholder-gray-600 border-b border-white/30 focus:outline-none pb-2"
+          className="pl-3 w-full bg-transparent text-3xl font-semibold text-black placeholder-gray-600 border-b border-white/30 focus:outline-none pb-2"
         />
-
-        {/* Quill 에디터 */}
         <div className="flex-grow">
           <ReactQuill
             value={content}
@@ -92,13 +94,9 @@ export default function BlogEditor({
         </div>
       </div>
 
-      {/* 하단 버튼 */}
-      <div className="fixed bottom-10 right-4 flex space-x-4">
+      <div className="absolute flex bottom-0 right-3 gap-5 w-[60%] max-w-md justify-end px-4">
         <button
-          onClick={() => {
-            resetContent();
-            onClose(); // 모달 닫기
-          }}
+          onClick={handleCancel}
           className="px-6 py-2 bg-[#D6D6D6] rounded-lg text-black hover:bg-red-500/60 transition"
         >
           취소
@@ -106,13 +104,21 @@ export default function BlogEditor({
         <button
           onClick={() => {
             onSave(content);
-            resetContent(); // 저장 후 내용 초기화
+            resetEditor();
           }}
           className="px-6 py-2 bg-[#7EACB5] rounded-lg text-white hover:bg-green-500/60 transition"
         >
           저장하기
         </button>
       </div>
+
+      <ConfirmDialog
+        open={isDialogOpen}
+        title="에디터 닫기"
+        description="작성 중인 내용이 있습니다. 정말로 닫으시겠습니까?"
+        onConfirm={confirmClose}
+        onCancel={cancelClose}
+      />
     </div>
   );
 }

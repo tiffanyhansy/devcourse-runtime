@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
-import LoginButton from "../../components/Form/LoginButton";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
+import SubmitButton from "../../components/Form/SubmitButton";
 
 export default function Join() {
   const [email, setEmail] = useState("");
@@ -20,7 +21,9 @@ export default function Join() {
   const [checkPasswordHelperText, setCheckPasswordHelperText] = useState("");
   const [userNameHelperText, setUserNameHelperText] = useState("");
 
-  const navigate = useNavigate()
+  const [joinError, setJoinError] = useState(false);
+
+  const navigate = useNavigate();
 
   // 유효성 검사 함수
   const validateEmail = (email: string) =>
@@ -89,33 +92,46 @@ export default function Join() {
   };
 
   // 폼 제출 처리
-  const handleSubmit = () => {
-    if (
-      !emailError &&
-      !passwordError &&
-      !checkPasswordError &&
-      !userNameError &&
-      email &&
-      password &&
-      checkPassword &&
-      userName
-    ) {
-      navigate('/join-success')
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!email || !password || !checkPassword || !userName) {
+      setJoinError(true);
+      return;
     }
+    if (emailError || passwordError || checkPasswordError || userNameError) {
+      setJoinError(true);
+      return;
+    }
+    navigate("/join-success");
   };
 
+  useEffect(() => {
+    if (!joinError) return;
+    const timer = setTimeout(() => {
+      setJoinError(false); // 에러 메시지 숨기기
+    }, 2000);
+
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+  }, [joinError]);
+
   return (
-    <main className="flex justify-center items-center h-[100vh] mt-11 ">
+    <main className="flex justify-center items-center mt-14">
       <FormContainer>
-        <header className="flex justify-center items-center mt-14 mb-4">
+        <header className="flex justify-center items-center mt-8 mb-4">
           <img
-            src="./runtime_logo.svg"
+            src="/src/asset/images/runtime_logo.svg"
             alt="Runtime Logo"
-            className="w-24 h-24"
+            className="w-14 h-14"
           />
         </header>
         <h1 className="text-3xl font-bold text-center mt-5">회원가입</h1>
-        <section className="mt-14">
+        {joinError && (
+          <Alert severity="error" className="mt-4">
+            입력한 정보를 다시 확인해주세요.
+          </Alert>
+        )}
+
+        <section className="mt-8">
           <Input
             label="이메일"
             value={email}
@@ -125,9 +141,9 @@ export default function Join() {
             helperText={emailHelperText}
           />
         </section>
-        <section className="mt-6">
+        <section className="mt-4">
           <Input
-          label="비밀번호"
+            label="비밀번호"
             value={password}
             type="password"
             onChange={handlePasswordChange}
@@ -135,9 +151,9 @@ export default function Join() {
             helperText={passwordHelperText}
           />
         </section>
-        <section className="mt-6">
+        <section className="mt-4">
           <Input
-          label="비밀번호 확인"
+            label="비밀번호 확인"
             value={checkPassword}
             type="password"
             onChange={handleCheckPasswordChange}
@@ -145,7 +161,7 @@ export default function Join() {
             helperText={checkPasswordHelperText}
           />
         </section>
-        <section className="mt-6">
+        <section className="mt-4">
           <Input
             label="이름"
             value={userName}
@@ -155,8 +171,8 @@ export default function Join() {
             helperText={userNameHelperText}
           />
         </section>
-        <footer className="mt-12 mb-20">
-          <LoginButton value="회원가입" onClick={handleSubmit} />
+        <footer className="mt-8 mb-12">
+          <SubmitButton value="회원가입" onClick={handleSubmit} size="xl" />
         </footer>
       </FormContainer>
     </main>

@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import FormContainer from "../../components/Form/FormContainer";
-import LoginButton from "../../components/Form/LoginButton";
+import SubmitButton from "../../components/Form/SubmitButton";
 
 export default function JoinSuccess() {
   const navigate = useNavigate();
 
   return (
     <>
-      <main className="flex justify-center items-center h-screen">
+      <main className="flex justify-center items-center">
         <FormContainer>
-          <header className="flex justify-center items-center mt-20 mb-14">
+          <header className="flex justify-center items-center mt-16 mb-10">
             <img
-              src="./runtime_logo.svg"
+              src="/src/asset/images/runtime_logo.svg"
               alt="Runtime Logo"
-              className="w-36 h-40"
+              className="w-36 h-36"
             />
           </header>
           <section>
@@ -24,10 +24,11 @@ export default function JoinSuccess() {
               여러분의 개발 여정을 기록하고, 함께 나누어 보세요
             </p>
           </section>
-          <footer className="mt-16 mb-20">
-            <LoginButton
+          <footer className="mt-16 mb-16">
+            <SubmitButton
               value="로그인 하기"
               onClick={() => navigate("/login")}
+              size="xxl"
             />
           </footer>
         </FormContainer>

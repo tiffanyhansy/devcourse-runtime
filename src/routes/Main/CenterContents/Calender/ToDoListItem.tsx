@@ -37,7 +37,7 @@ export default function ToDoListItem({
         </span>
         {btnChecked ? (
           <article className="w-[80%] absolute left-[40px] self-center">
-            <img src="/public/line_through.svg" alt="빨간줄" />
+            <img src="/src/asset/images/line_through.svg" alt="빨간줄" />
           </article>
         ) : null}
       </article>
@@ -54,9 +54,9 @@ export default function ToDoListItem({
         onMouseLeave={() => setIsDeleteIconHovered(false)}
       >
         {clickedIndex === index || isDeleteIconHovered ? (
-          <DeleteRounded />
+          <DeleteRounded sx={{ color: "#C96868" }} />
         ) : (
-          <DeleteOutline />
+          <DeleteOutline sx={{ color: "#C96868" }} />
         )}
       </button>
     </li>
