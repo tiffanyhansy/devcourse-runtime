@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import SubmitButton from "../../components/Form/SubmitButton";
+import { axiosInstance } from "../../api/axios";
 
 export default function Login() {
   const login = "로그인";
@@ -38,7 +39,7 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!email || !password) {
       setLoginError(true); // 이메일 또는 비밀번호가 비어 있을 경우 에러 표시
@@ -50,8 +51,16 @@ export default function Login() {
       return;
     }
 
-    // 유효성 검사가 통과되었을 경우 페이지 이동
-    navigate("/");
+    try {
+      const response = await axiosInstance.post("/login", {
+        email,
+        password,
+      });
+      console.log(response.data); // 성공 응답 확인
+      navigate("/"); // 성공 시 이동
+    } catch (error) {
+      setLoginError(true); // 에러 상태 설정
+    }
   };
 
   // loginError 상태가 true일 때 일정 시간 후 false로 변경
