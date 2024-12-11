@@ -27,8 +27,8 @@ export default function Button({
     sm: "w-[130px] h-[48px]",
     md: "w-[160px] h-[48px]",
     lg: "w-[250px] h-[70px]",
-    xl: "w-[300px] h-[52px]",
-    xxl: "w-[384px] h-[64px]"
+    xl: "w-[384px] h-[52px]",
+    xxl: "w-[384px] h-[64px]",
   };
   const buttonTextSize = {
     sm: "text-[16px]",
