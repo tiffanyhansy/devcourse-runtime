@@ -31,7 +31,7 @@ export default function Header() {
           <img
             src={imgState}
             alt={"알람 아이콘"}
-            onClick={() => setImgState("/src/asset/images/bellalarm_icon.svg")}
+            onClick={() => setImgState("/src/asset/images/alarm_icon.svg")}
           />
         </Link>
 

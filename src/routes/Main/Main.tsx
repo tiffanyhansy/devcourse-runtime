@@ -32,7 +32,7 @@ export default function Main() {
     <section>
       <TopContents />
       {/* 컨텐츠 */}
-      <section className="mt-[60px] flex justify-between">
+      <section className="mt-[60px] flex justify-between pb-[100px]">
         {/* 좌측 컨텐츠 */}
         <LeftContents />
         {/* 중앙 컨텐츠 */}
