@@ -4,7 +4,10 @@ import { useState } from "react";
 import { useHeaderModalStore } from "../../store/store";
 
 export default function Header() {
-  const { modal, type, open, close } = useHeaderModalStore();
+  const modal = useHeaderModalStore((s) => s.modal);
+  const type = useHeaderModalStore((s) => s.type);
+  const open = useHeaderModalStore((s) => s.open);
+
   const handleOpen = () => open("header");
   const [imgState, setImgState] = useState("/public/bell.svg");
 
