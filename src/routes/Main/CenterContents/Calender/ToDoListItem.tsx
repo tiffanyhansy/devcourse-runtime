@@ -33,11 +33,13 @@ export default function ToDoListItem({
           onChange={() => {
             // 체크시 로컬저장소랑 전역변수 체크상태 업데이트
             const newToDoList = ToDoList.map((e) => {
+              // 리스트의 uuid와 일치하는 요소를 찾아 checked상태를 변경
               if (e.id === findid) {
                 return { text: e.text, id: e.id, checked: !e.checked };
               }
               return e;
             });
+            // 전역변수, 로컬저장소에 변경내용 저장
             updateToDoListCheck(newToDoList);
             localStorage.setItem("ToDoList", JSON.stringify(newToDoList));
           }}
