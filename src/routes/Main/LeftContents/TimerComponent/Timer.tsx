@@ -9,6 +9,7 @@ interface TimerType {
   changingHours?: string;
   isStaticTime?: boolean;
   isFlowTime?: boolean;
+  polygonForm?: "square" | "circle";
 }
 
 export default function Timer({
@@ -16,6 +17,7 @@ export default function Timer({
   changingHours,
   isStaticTime = false,
   isFlowTime = false,
+  polygonForm = "square",
 }: TimerType) {
   const hours = useTimerStore((state) => state.hours);
   const minutes = useTimerStore((state) => state.minutes);
@@ -50,7 +52,7 @@ export default function Timer({
   return (
     <>
       <article
-        className={`timer-shadow flex flex-col gap-[10px] items-center justify-center w-[25rem] h-[25rem] rounded-full bg-[#F0F5F8] mb-5 transition-colors duration-200`}
+        className={`LAB-digital timer-shadow flex flex-col gap-[10px] items-center justify-center w-[25rem] h-[25rem] rounded-full bg-[#F0F5F8] mb-5 transition-colors duration-200`}
         style={style}
       >
         {isStaticTime ? (

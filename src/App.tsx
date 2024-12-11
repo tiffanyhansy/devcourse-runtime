@@ -26,7 +26,7 @@ export default function App() {
   }, []);
   return (
     <Router>
-      <main className="px-[50px] mx-auto roboto-medium max-w-[1440px] select-none overflow-hidden">
+      <main className="px-[50px] mx-auto roboto-medium max-w-[1440px] h-screen select-none overflow-hidden">
         <Header />
         <Routes>
           <Route path="/login" element={<Login />} />{" "}
