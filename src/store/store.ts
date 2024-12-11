@@ -1,26 +1,33 @@
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
 
-//에디터 모달창
+//editor 타입 & 상태관리 총 정리
 interface EditorState {
-  isEditorOpen: boolean;
+  isOpen: boolean;
+  content: string;
+  title: string;
+  isDialogOpen: boolean;
   toggleEditor: () => void;
-  saveContent: () => void;
+  setContent: (content: string) => void;
+  setTitle: (title: string) => void;
+  toggleDialog: (open: boolean) => void;
+  resetEditor: () => void;
 }
 
-const useEditorStore = create<EditorState>((set) => ({
-  isEditorOpen: false,
+export const useEditorStore = create<EditorState>((set) => ({
+  isOpen: false,
+  content: "",
+  title: "",
+  isDialogOpen: false,
   toggleEditor: () =>
-    set((state) => ({
-      isEditorOpen: !state.isEditorOpen,
+    set((state: EditorState) => ({
+      isOpen: !state.isOpen, // `state`의 타입이 EditorState임을 명시
     })),
-  saveContent: () => {
-    alert("테스트용 // 출간 완료!");
-    set({ isEditorOpen: false });
-  },
+  setContent: (content) => set({ content }),
+  setTitle: (title) => set({ title }),
+  toggleDialog: (open) => set({ isDialogOpen: open }),
+  resetEditor: () => set({ content: "", title: "" }),
 }));
-
-export default useEditorStore;
 
 // 메인페이지 몇 시간? 클릭시 상호작용 기능
 interface HowTimeState {

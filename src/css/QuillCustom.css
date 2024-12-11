@@ -4,6 +4,7 @@
   margin-right: 20px;
   border: none !important; /* 테두리 제거 */
   box-shadow: none !important; /* 그림자 제거 */
+  overflow-y: auto;
 }
 .ql-editor {
   border: none;
@@ -39,4 +40,9 @@
   font-style: italic;
   opacity: 0.8;
   content: attr(data-placeholder);
+}
+/* write section 용도. 스크롤 바로 동작! */
+.ql-container.ql-snow {
+  border-style: none !important;
+  height: 400px;
 }
