@@ -256,9 +256,9 @@ export const useEasterEgg = create<useEasterEgg>((set) => ({
       }));
     }, 2000); // 하트가 2초 후에 사라짐
   },
+}));
 
 //마이페이지 저장소
-
 interface ProfileState {
   clickedField: Set<number>;
   isEditable: boolean;
