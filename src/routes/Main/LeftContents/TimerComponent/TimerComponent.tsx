@@ -1,4 +1,5 @@
 import FloatingActionButtons from "../../../../components/Mui/Fab";
+import ResetFab from "../../../../components/Mui/ResetFab";
 import { useTimerPlayStore, useTimerStore } from "../../../../store/store";
 import Timer from "./Timer";
 
@@ -16,7 +17,10 @@ export default function TimerComponent() {
         }}
         isFlowTime={true}
       />
-      <FloatingActionButtons />
+      <article className="flex gap-[10px]">
+        <FloatingActionButtons />
+        <ResetFab />
+      </article>
     </>
   );
 }

@@ -135,6 +135,9 @@ interface TimerStorage {
   isTimerActive: boolean;
   toggleTimer: () => void;
   activeTimer: () => void;
+  resetTimer: () => void;
+  isResetAlertModalOn: boolean;
+  setResetAlertModal: () => void;
   isAchieve: boolean;
   setIsAchieve: () => void;
 }
@@ -176,11 +179,22 @@ export const useTimerStore = create<TimerStorage>((set) => ({
       };
     });
   },
+  resetTimer: () => {
+    set(() => ({
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    }));
+  },
+  isResetAlertModalOn: false,
+  setResetAlertModal: () => {
+    set((state) => ({ isResetAlertModalOn: !state.isResetAlertModalOn }));
+  },
   isAchieve: false,
   setIsAchieve: () => set((state) => ({ isAchieve: !state.isAchieve })),
 }));
 
-// 메인페이지 TimeSetter 저장소
+// 메인페이지 TimeSetter 저장소(static 시간 관리)
 interface TimeSetterStorage {
   isTimeSetterOpen: boolean;
   setIsTimeSetterOpen: () => void;
