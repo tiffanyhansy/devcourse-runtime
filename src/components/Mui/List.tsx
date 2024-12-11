@@ -24,16 +24,14 @@ export default function CheckboxListSecondary() {
 
     setChecked(newChecked);
   };
+
   // 모달 창 store
-  const { modal, type, open, close } = useHeaderModalStore();
+  const open = useHeaderModalStore((s) => s.open);
+  const type = useHeaderModalStore((s) => s.type);
   const [x, setX] = React.useState(0);
-  console.log(useHeaderModalStore.getState());
   const handleItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     open("list");
-    console.log({
-      top: rect.top + window.scrollY,
-    });
     setX(Math.floor(rect.top + window.scrollY) - 295);
   };
 
@@ -66,10 +64,6 @@ export default function CheckboxListSecondary() {
               disablePadding
             >
               <ListItemButton
-                // onClick={(e) => {
-                //   e.stopPropagation();
-                //   handleOpen();
-                // }}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleItemClick(e);

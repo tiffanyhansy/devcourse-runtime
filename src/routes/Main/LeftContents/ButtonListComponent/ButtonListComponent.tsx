@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useEditorStore } from "../../../../store/store";
 import { useHowTimeStore } from "../../../../store/store";
 import LinkButton from "./LinkButton";
@@ -5,9 +6,11 @@ import EditorModal from "../../../../components/editor/EditorModal";
 import BlogEditor from "../../../../components/editor/BlogEditor";
 
 export default function ButtonListComponent() {
+  const navigate = useNavigate();
+  const { toggleHowTime } = useHowTimeStore();
+  const moveFriendManage = () => navigate("/friendManage");
   const { toggleEditor } = useEditorStore();
   const { toggleHowTime } = useHowTimeStore();
-
   const saveContent = (content: string) => {
     console.log("출간된 내용:", content);
     toggleEditor();
@@ -21,9 +24,10 @@ export default function ButtonListComponent() {
         onClick={toggleEditor}
       />
       <LinkButton icon={"/src/asset/images/Chat.svg"} title={"게시판"} />
-      <LinkButton
-        icon={"/src/asset/images/Group-person.svg"}
+       <LinkButton
+        icon={"./Group-person.svg"}
         title={"친구관리"}
+        onClick={moveFriendManage}
       />
       <LinkButton
         icon={"/src/asset/images/Clock.svg"}

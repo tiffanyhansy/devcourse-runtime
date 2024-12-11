@@ -7,6 +7,7 @@ import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
 import Noti from "./components/notifications/Noti";
 import JoinSuccess from "./routes/Join/JoinSuccess";
+import FriendManage from "./components/FriendManage/FriendManage";
 
 export default function App() {
   //
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/join-success" element={<JoinSuccess />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/notifications" element={<Noti />} />
+          <Route path="/friendManage" element={<FriendManage />} />
         </Routes>
       </main>
     </Router>
