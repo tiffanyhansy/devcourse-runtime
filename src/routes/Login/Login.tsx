@@ -75,11 +75,6 @@ export default function Login() {
           />
         </header>
         <h1 className="text-3xl  font-bold  text-center mt-7">로그인</h1>
-        {loginError && (
-          <Alert severity="error" className="mt-4">
-            이메일과 비밀번호를 확인해주세요.
-          </Alert>
-        )}
 
         <section className="mt-10">
           <Input
@@ -105,7 +100,13 @@ export default function Login() {
             }
           />
         </section>
-        <footer className="mt-10">
+
+        {loginError && (
+          <Alert severity="error" className="mt-4">
+            이메일과 비밀번호를 확인해주세요.
+          </Alert>
+        )}
+        <footer className={`${loginError ? "mt-6" : "mt-10"}`}>
           <SubmitButton value={login} size="xl" onClick={handleSubmit} />
         </footer>
 

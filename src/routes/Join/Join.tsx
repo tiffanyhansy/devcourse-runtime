@@ -115,7 +115,7 @@ export default function Join() {
   }, [joinError]);
 
   return (
-    <main className="flex justify-center items-center mt-14">
+    <main className="flex justify-center items-center">
       <FormContainer>
         <header className="flex justify-center items-center mt-8 mb-4">
           <img
@@ -125,11 +125,6 @@ export default function Join() {
           />
         </header>
         <h1 className="text-3xl font-bold text-center mt-5">회원가입</h1>
-        {joinError && (
-          <Alert severity="error" className="mt-4">
-            입력한 정보를 다시 확인해주세요.
-          </Alert>
-        )}
 
         <section className="mt-8">
           <Input
@@ -171,7 +166,12 @@ export default function Join() {
             helperText={userNameHelperText}
           />
         </section>
-        <footer className="mt-8 mb-12">
+        {joinError && (
+          <Alert severity="error" className="mt-4">
+            입력한 정보를 다시 확인해주세요.
+          </Alert>
+        )}
+        <footer className={`${joinError ? "mt-5" : "mt-8"} mb-12`}>
           <SubmitButton value="회원가입" onClick={handleSubmit} size="xl" />
         </footer>
       </FormContainer>
