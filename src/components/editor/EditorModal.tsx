@@ -18,7 +18,7 @@ export default function EditorModal({ children }: ModalProps) {
   } = useEditorStore();
 
   const handleCancel = () => {
-    if (content.trim() || title.trim()) {
+    if ((content.trim() && content.trim() !== "<p><br></p>") || title.trim()) {
       toggleDialog(true); // ConfirmDialog 열기
     } else {
       resetEditor();
