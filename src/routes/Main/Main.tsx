@@ -5,10 +5,12 @@ import { useHowTimeStore } from "../../store/store";
 import Button from "../../components/common/Button";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import HowTimeModal from "../../components/howTime/HowTimeModal";
+import { useFriendModalStore } from "../../store/store";
+import FriendManageModal from "../../components/Modal/FriendManageModal";
 
 export default function Main() {
   const isHowTimeOpen = useHowTimeStore((state) => state.isHowTimeOpen);
-
+  const modal = useFriendModalStore((s) => s.modal);
   return (
     <section>
       <article className="flex items-end mt-32">
@@ -38,6 +40,7 @@ export default function Main() {
         <RightContents />
       </section>
       {isHowTimeOpen ? <HowTimeModal /> : null}
+      {modal ? <FriendManageModal /> : null}
     </section>
   );
 }

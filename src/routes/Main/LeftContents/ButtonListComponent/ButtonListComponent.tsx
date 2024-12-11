@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { useHowTimeStore } from "../../../../store/store";
+import { useFriendModalStore, useHowTimeStore } from "../../../../store/store";
 import LinkButton from "./LinkButton";
 
 export default function ButtonListComponent() {
-  const navigate = useNavigate();
   const { toggleHowTime } = useHowTimeStore();
-  const moveFriendManage = () => navigate("/friendManage");
+  const { open } = useFriendModalStore();
 
   return (
     <section className="flex gap-[20px]">
@@ -14,7 +12,7 @@ export default function ButtonListComponent() {
       <LinkButton
         icon={"./Group-person.svg"}
         title={"친구관리"}
-        onClick={moveFriendManage}
+        onClick={open}
       />
       <LinkButton
         icon={"./Clock.svg"}
