@@ -22,13 +22,17 @@ export default function ToDoListItem({
   );
   const clickedIndex = useToDoStore((state) => state.clickedIndex);
   const [isDeleteIconHovered, setIsDeleteIconHovered] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <li className="w-100% h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9] pl-[20px] px-[10px] flex items-center justify-between relative">
       <article className="self-center flex gap-[18px]">
         <input
+          ref={inputRef}
           type="checkbox"
-          className={"w-[20px] h-[20px]"}
+          className={
+            "appearance-none w-[20px] h-[20px] border border-[#d9d9d9] rounded-[5px]]"
+          }
           checked={ckeck}
           onChange={() => {
             // 체크시 로컬저장소랑 전역변수 체크상태 업데이트
@@ -44,6 +48,16 @@ export default function ToDoListItem({
             localStorage.setItem("ToDoList", JSON.stringify(newToDoList));
           }}
         />
+        {ckeck ? (
+          <article
+            className="absolute top-[10px] left-[23px]"
+            onClick={() => {
+              inputRef.current?.click();
+            }}
+          >
+            <img src="/src/asset/images/check_icon.svg" alt="체크 아이콘" />
+          </article>
+        ) : null}
         <span
           className={`font-medium`}
           style={{ color: `${ckeck ? color : ""}` }}
