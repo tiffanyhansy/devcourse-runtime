@@ -58,9 +58,8 @@ export default function Main() {
   };
 
   return (
-    <section style={{ position: "relative" }}>
-      {/* 부모 요소에 relative 추가 */}
-      <article className="flex items-end mt-32">
+    <section className="">
+      <article className="flex items-end mt-20">
         <h1 className="text-[50px] text-[#3E435D] mr-5 select-none">
           <span className="font-bold" onClick={handleNameClick}>
             조명
