@@ -7,7 +7,7 @@ import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
 import Noti from "./components/notifications/Noti";
 import JoinSuccess from "./routes/Join/JoinSuccess";
-import FriendManage from "./components/FriendManage/FriendManage";
+import ErrorPage from "./components/404Page/ErrorPage";
 
 export default function App() {
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function App() {
           <Route path="/join-success" element={<JoinSuccess />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/notifications" element={<Noti />} />
-          <Route path="/friendManage" element={<FriendManage />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </main>
     </Router>

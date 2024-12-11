@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import Modal from "../../components/headerModal/Modal";
+import Modal from "../../components/Modal/ProfileModal";
 import { useState } from "react";
-import { useHeaderModalStore } from "../../store/store";
+import { useprofileModalStore } from "../../store/store";
 
 export default function Header() {
-  const modal = useHeaderModalStore((s) => s.modal);
-  const type = useHeaderModalStore((s) => s.type);
-  const open = useHeaderModalStore((s) => s.open);
+  const modal = useprofileModalStore((s) => s.modal);
+  const type = useprofileModalStore((s) => s.type);
+  const open = useprofileModalStore((s) => s.open);
 
   const handleOpen = () => open("header");
   const [imgState, setImgState] = useState("/public/bell.svg");
@@ -37,7 +37,6 @@ export default function Header() {
             onClick={() => setImgState("/public/alarm_icon.svg")}
           />
         </Link>
-
         <button
           onClick={(e) => {
             e.stopPropagation();

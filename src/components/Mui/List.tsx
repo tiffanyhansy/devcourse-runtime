@@ -5,8 +5,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { useHeaderModalStore } from "../../store/store";
-import Modal from "../headerModal/Modal";
+import { useprofileModalStore } from "../../store/store";
+import Modal from "../Modal/ProfileModal";
 
 // 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
@@ -26,15 +26,15 @@ export default function CheckboxListSecondary() {
   };
 
   // 모달 창 store
-  const open = useHeaderModalStore((s) => s.open);
-  const type = useHeaderModalStore((s) => s.type);
   const [x, setX] = React.useState(0);
+  const type = useprofileModalStore((s) => s.type);
+  const open = useprofileModalStore((s) => s.open);
+
   const handleItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     open("list");
     setX(Math.floor(rect.top + window.scrollY) - 295);
   };
-
   return (
     <div className="relative ">
       <List

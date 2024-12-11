@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function ErrorPage() {
   return (
     <>
@@ -19,9 +21,11 @@ export default function ErrorPage() {
             </span>
           </div>
           <div className="text-center items-center mt-6">
-            <a className="bg-[#C96868] w-44 h-12 text-white font-bold p-3 rounded-[7.49px]">
-              홈으로 돌아가기
-            </a>
+            <Link to="/" className="text-lg">
+              <a className="bg-[#C96868] w-44 h-12 text-white font-bold p-3 rounded-[7.49px]">
+                홈으로 돌아가기
+              </a>
+            </Link>
           </div>
         </section>
       </main>

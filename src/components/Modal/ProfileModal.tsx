@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useHeaderModalStore } from "../../store/store";
+import { useprofileModalStore } from "../../store/store";
 
 export default function Modal({ y, x }: { x?: number; y?: number }) {
-  const modal = useHeaderModalStore((s) => s.modal);
-  const type = useHeaderModalStore((s) => s.type);
-  const close = useHeaderModalStore((s) => s.close);
+  const modal = useprofileModalStore((s) => s.modal);
+  const type = useprofileModalStore((s) => s.type);
+  const close = useprofileModalStore((s) => s.close);
   const contentRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
