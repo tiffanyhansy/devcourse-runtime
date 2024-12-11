@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import FormContainer from "../../components/Form/FormContainer";
-import LoginButton from "../../components/Form/LoginButton";
+import SubmitButton from "../../components/Form/SubmitButton";
 
 export default function JoinSuccess() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function JoinSuccess() {
             </p>
           </section>
           <footer className="mt-16 mb-16">
-            <LoginButton
+            <SubmitButton
               value="로그인 하기"
               onClick={() => navigate("/login")}
               size="xxl"

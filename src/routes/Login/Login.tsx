@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { Alert } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
-import LoginButton from "../../components/Form/LoginButton";
-import { useNavigate } from "react-router-dom";
+import SubmitButton from "../../components/Form/SubmitButton";
 
 export default function Login() {
   const login = "로그인";
@@ -11,6 +12,7 @@ export default function Login() {
   const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,16 +38,31 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (
-      !emailError &&
-      !passwordError &&
-      email &&
-      password
-    ) {
-      navigate('/')
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setLoginError(true); // 이메일 또는 비밀번호가 비어 있을 경우 에러 표시
+      return;
     }
+
+    if (emailError || passwordError) {
+      setLoginError(true); // 유효성 검사가 실패한 경우 에러 표시
+      return;
+    }
+
+    // 유효성 검사가 통과되었을 경우 페이지 이동
+    navigate("/");
   };
+
+  // loginError 상태가 true일 때 일정 시간 후 false로 변경
+  useEffect(() => {
+    if (!loginError) return;
+    const timer = setTimeout(() => {
+      setLoginError(false); // 에러 메시지 숨기기
+    }, 2000);
+
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+  }, [loginError]);
 
   return (
     <main className="flex justify-center items-center">
@@ -58,6 +75,12 @@ export default function Login() {
           />
         </header>
         <h1 className="text-3xl  font-bold  text-center mt-7">로그인</h1>
+        {loginError && (
+          <Alert severity="error" className="mt-4">
+            이메일과 비밀번호를 확인해주세요.
+          </Alert>
+        )}
+
         <section className="mt-10">
           <Input
             label="이메일"
@@ -83,7 +106,7 @@ export default function Login() {
           />
         </section>
         <footer className="mt-10">
-          <LoginButton value={login} onClick={handleSubmit} size="xl"/>
+          <SubmitButton value={login} size="xl" onClick={handleSubmit} />
         </footer>
 
         <div className="flex justify-center items-center text-[#7EACB5] mt-5 mb-10 ">
