@@ -42,7 +42,6 @@ export default function FloatingActionButtons() {
     if (!isTimerActive) {
       clearTimeout(Active);
       Active = 0;
-      console.log(Active);
     }
     return () => {
       localStorage.setItem(

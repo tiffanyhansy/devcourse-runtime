@@ -7,6 +7,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { useHeaderModalStore } from "../../store/store";
 import Modal from "../headerModal/Modal";
+import { BorderBottom } from "@mui/icons-material";
 
 // 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
@@ -37,19 +38,39 @@ export default function CheckboxListSecondary() {
     setX(Math.floor(rect.top + window.scrollY) - 295);
   };
 
+  const styles = {
+    list: {
+      width: "100%",
+      maxWidth: 360,
+      bgcolor: "background.paper",
+      position: "relative",
+      overflow: "auto",
+      maxHeight: 205,
+      borderBottomLeftRadius: 10,
+      borderBottomRightRadius: 10,
+      "& ul": { padding: 0 },
+      /* 스크롤바 스타일 수정 */
+      "&::-webkit-scrollbar": {
+        width: "0px",
+      },
+      "&:hover::-webkit-scrollbar": {
+        width: "8px",
+      },
+      "&::-webkit-scrollbar-track": {
+        background: "#f1f1f1",
+      },
+      "&::-webkit-scrollbar-thumb": {
+        background: "#888",
+      },
+      "&::-webkit-scrollbar-thumb:hover": {
+        background: "#555",
+      },
+    },
+  };
+
   return (
     <div className="relative ">
-      <List
-        id="mainListModal"
-        dense
-        sx={{
-          width: "100%",
-          maxWidth: 360,
-          bgcolor: "background.paper",
-          height: 205,
-          overflowY: "scroll",
-        }}
-      >
+      <List id="mainListModal" dense sx={styles.list}>
         {[0, 1, 2, 3, 4, 5].map((value) => {
           const labelId = `checkbox-list-secondary-label-${value}`;
           return (
