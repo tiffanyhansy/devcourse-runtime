@@ -35,20 +35,20 @@ export default function HowTimeModal() {
   }, [changingHours, count]);
 
   return (
-    <section className="w-full h-full block absolute left-0 top-0 z-40">
+    <section className="absolute top-0 left-0 z-40 block w-full h-full">
       <div
-        className="w-full h-full block bg-black bg-opacity-70"
+        className="block w-full h-full bg-black bg-opacity-70"
         onClick={toggleHowTime}
       ></div>
-      <article className="w-full max-w-[1152px] h-[819px] bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 rounded-[10px]">
+      <article className="w-full max-w-[1152px] h-[820px] bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 rounded-[10px]">
         <HowTimeHeader />
-        <article className="px-[50px] py-[30px]">
+        <article className="px-[50px] pt-[30px]">
           <HowTimeContents
             changingHours={changingHours}
             setRestart={setRestart}
           />
           <article className="flex flex-col items-center gap-5 translate-y-[30px] opacity-0 animate-fadeIn_2s">
-            <span className="text-[40px] font-bold ">
+            <span className="text-[40px] font-bold">
               자, 이제 공부하러 가볼까요? 📖
             </span>
 

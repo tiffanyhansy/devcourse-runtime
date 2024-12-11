@@ -19,6 +19,7 @@ export default function ToDoEditor() {
   return (
     <li className="w-full h-[50px] border-b flex gap-[18px] border-[#D0E5F9]">
       <input
+        placeholder="console.log(                                                                );"
         type="text"
         ref={editorInputRef}
         onChange={(event) => {
