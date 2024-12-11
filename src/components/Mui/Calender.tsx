@@ -12,6 +12,9 @@ export default function BasicDateCalendar() {
       "& .MuiButtonBase-root.Mui-selected": {
         backgroundColor: "#7EACB5",
       },
+      "& .MuiButtonBase-root:focused": {
+        backgroundColor: "#7EACB5",
+      },
       "& .MuiPickersDay-today": {},
     },
   };

@@ -52,7 +52,9 @@ export default function Timer({
   return (
     <>
       <article
-        className={`LAB-digital timer-shadow flex flex-col gap-[10px] items-center justify-center w-[25rem] h-[25rem] rounded-full bg-[#F0F5F8] mb-5 transition-colors duration-200`}
+        className={`LAB-digital timer-shadow flex flex-col gap-[10px] items-center justify-center w-[25rem] h-[25rem] bg-[#F0F5F8] mb-5 transition-colors duration-200 ${
+          polygonForm === "circle" ? "rounded-full" : "rounded-[10px]"
+        }`}
         style={style}
       >
         {isStaticTime ? (
