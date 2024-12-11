@@ -1,19 +1,11 @@
 import LeftContents from "./LeftContents/LeftContents";
 import RightContents from "./RightComponent/RightContents";
 import CenterContents from "./CenterContents/CenterContents";
-import { useHowTimeStore } from "../../store/store";
+import { useEasterEgg, useHowTimeStore } from "../../store/store";
 import HowTimeModal from "../../components/howTime/HowTimeModal";
 import TopContents from "./TopContents/TopContents";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import { Favorite } from "@mui/icons-material";
 import { styled } from "@mui/material";
-import { useState } from "react";
-import Button from "../../components/common/Button";
-
-interface Heart {
-  id: number;
-  style: React.CSSProperties;
-}
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -34,52 +26,11 @@ const HeartStyle = styled("div")`
 
 export default function Main() {
   const isHowTimeOpen = useHowTimeStore((state) => state.isHowTimeOpen);
-
-  const [hearts, setHearts] = useState<Heart[]>([]);
-
-  const handleNameClick = () => {
-    const newHeart: Heart = {
-      id: Date.now(),
-      style: {
-        position: "absolute",
-        left: `${Math.random() * 100}%`, // 랜덤한 위치
-        top: `${Math.random() * 90}%`, // 100%일 경우 화면이 밀리게 됨
-        fontSize: "30px",
-        color: "red",
-        animation: "float 2s ease-in-out", // 애니메이션 적용
-      },
-    };
-    setHearts((prevHearts) => [...prevHearts, newHeart]);
-
-    setTimeout(() => {
-      setHearts((prevHearts) =>
-        prevHearts.filter((heart) => heart.id !== newHeart.id)
-      );
-    }, 2000); // 하트가 2초 후에 사라짐
-  };
+  const hearts = useEasterEgg((state) => state.hearts);
 
   return (
-    <section className="">
-      <article className="flex items-end mt-20">
-        <h1 className="text-[50px] text-[#3E435D] mr-5 select-none">
-          <span className="font-bold" onClick={handleNameClick}>
-            조명
-          </span>
-          님, 오늘도 열공하세요!!
-        </h1>
-
-        <Button
-          size="xl"
-          variant="todo"
-          textSize="lg"
-          className="text-[#7eacb5] w-fit font-semibold flex content-center"
-        >
-          {"오늘의 목표 설정하기"}
-          <KeyboardArrowRightRoundedIcon
-            style={{ fontWeight: "bolder", fontSize: "30px" }}
-          />
-        </Button>
-      </article>
+    <section>
+      <TopContents />
       {/* 컨텐츠 */}
       <section className="mt-[60px] flex justify-between">
         {/* 좌측 컨텐츠 */}

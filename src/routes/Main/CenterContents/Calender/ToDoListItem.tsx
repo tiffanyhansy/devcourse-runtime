@@ -54,9 +54,9 @@ export default function ToDoListItem({
         onMouseLeave={() => setIsDeleteIconHovered(false)}
       >
         {clickedIndex === index || isDeleteIconHovered ? (
-          <DeleteRounded />
+          <DeleteRounded sx={{ color: "#C96868" }} />
         ) : (
-          <DeleteOutline />
+          <DeleteOutline sx={{ color: "#C96868" }} />
         )}
       </button>
     </li>

@@ -217,3 +217,43 @@ export const useTimeSetterStore = create<TimeSetterStorage>((set) => ({
           : `0${date?.getSeconds()}`,
     })),
 }));
+
+// 메인페이지 하트 이스터에그 저장소
+interface useEasterEgg {
+  hearts:
+    | {
+        id: number;
+        style: React.CSSProperties;
+      }[]
+    | [];
+  handleNameClick: () => void;
+}
+interface Heart {
+  id: number;
+  style: React.CSSProperties;
+}
+
+export const useEasterEgg = create<useEasterEgg>((set) => ({
+  hearts: [],
+  handleNameClick: () => {
+    const newHeart: Heart = {
+      id: Date.now(),
+      style: {
+        position: "absolute",
+        left: `${Math.random() * 100}%`, // 랜덤한 위치
+        top: `${Math.random() * 90}%`, // 100%일 경우 화면이 밀리게 됨
+        fontSize: "30px",
+        color: "red",
+        animation: "float 2s ease-in-out", // 애니메이션 적용
+        zIndex: 50,
+      },
+    };
+    set((state) => ({ hearts: [...state.hearts, newHeart] }));
+
+    setTimeout(() => {
+      set((state) => ({
+        hearts: state.hearts.filter((heart) => heart.id !== newHeart.id),
+      }));
+    }, 2000); // 하트가 2초 후에 사라짐
+  },
+}));

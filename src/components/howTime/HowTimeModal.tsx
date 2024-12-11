@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHowTimeStore, useTimerStore } from "../../store/store";
-import Timer from "../../routes/Main/LeftContents/TimerComponent/Timer";
-import HowTimeTimer from "./HowTimeContents/HowTimeTimer";
-import HowTimeUnder from "./HowTimeContents/HowTimeUnder";
-import HowTimeTop from "./HowTimeContents/HowTimeTop";
 import HowTimeHeader from "./howTimeHeader/HowTimeHeader";
 import HowTimeContents from "./HowTimeContents/HowTimeContents";
 import Button from "../common/Button";
@@ -14,7 +10,6 @@ export default function HowTimeModal() {
   const randomTime = Math.floor(Math.random() * 24 + 1).toString();
   // 난수 몇 번 반복하는지
   const [count, setCount] = useState(10);
-  const [restart, setRestart] = useState(0);
   const setChangingHours = useHowTimeStore((state) => state.setChangingHours);
   const changingHours = useHowTimeStore((state) => state.changingHours);
 
@@ -43,10 +38,7 @@ export default function HowTimeModal() {
       <article className="w-full max-w-[1152px] h-[820px] bg-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 rounded-[10px]">
         <HowTimeHeader />
         <article className="px-[50px] pt-[30px]">
-          <HowTimeContents
-            changingHours={changingHours}
-            setRestart={setRestart}
-          />
+          <HowTimeContents changingHours={changingHours} />
           <article className="flex flex-col items-center gap-5 translate-y-[30px] opacity-0 animate-fadeIn_2s">
             <span className="text-[40px] font-bold">
               자, 이제 공부하러 가볼까요? 📖
