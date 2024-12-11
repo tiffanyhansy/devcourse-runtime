@@ -8,22 +8,29 @@ import {
   Tooltip,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
-import { useState } from "react";
 import Input from "../../components/Mypage/Input";
+import { useProfileStore } from "../../store/store";
 
 const Mypage = () => {
-  const initialProfilePic = "/src/asset/default_profile.png";
-  const [clickedField, setClickedField] = useState<Set<number>>(new Set());
-  const [isEditable, setIsEditable] = useState(false);
-  const [profilePic, setProfilePic] = useState<string>(initialProfilePic);
-  const [tempProfilePic, setTempProfilePic] =
-    useState<string>(initialProfilePic);
-  const [tempClickedField, setTempClickedField] = useState<Set<number>>(
-    new Set(clickedField)
-  );
-  const [name, setName] = useState<string>(""); // 이름
-  const [nickname, setNickname] = useState<string>(""); // 별명
-  const [website, setWebsite] = useState<string>(""); // 웹사이트
+  const {
+    clickedField,
+    isEditable,
+    profilePic,
+    tempProfilePic,
+    name,
+    nickname,
+    website,
+    tempClickedField,
+    setClickedField,
+    setIsEditable,
+    setProfilePic,
+    setTempProfilePic,
+    setName,
+    setNickname,
+    setWebsite,
+    setTempClickedField,
+  } = useProfileStore();
+
   const isAnyFieldEmpty = !name.trim() || !nickname.trim();
 
   const handleEditButtonClick = () => {

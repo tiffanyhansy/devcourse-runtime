@@ -217,3 +217,47 @@ export const useTimeSetterStore = create<TimeSetterStorage>((set) => ({
           : `0${date?.getSeconds()}`,
     })),
 }));
+
+//마이페이지 저장소
+
+interface ProfileState {
+  clickedField: Set<number>;
+  isEditable: boolean;
+  profilePic: string;
+  tempProfilePic: string;
+  name: string;
+  nickname: string;
+  website: string;
+  tempClickedField: Set<number>;
+
+  setClickedField: (fields: Set<number>) => void;
+  setIsEditable: (editable: boolean) => void;
+  setProfilePic: (pic: string) => void;
+  setTempProfilePic: (pic: string) => void;
+  setName: (name: string) => void;
+  setNickname: (nickname: string) => void;
+  setWebsite: (website: string) => void;
+  setTempClickedField: (fields: Set<number>) => void;
+}
+
+const initialProfilePic = "/src/asset/default_profile.png";
+
+export const useProfileStore = create<ProfileState>((set) => ({
+  clickedField: new Set(),
+  isEditable: false,
+  profilePic: initialProfilePic,
+  tempProfilePic: initialProfilePic,
+  name: "",
+  nickname: "",
+  website: "",
+  tempClickedField: new Set(),
+
+  setClickedField: (fields) => set({ clickedField: fields }),
+  setIsEditable: (editable) => set({ isEditable: editable }),
+  setProfilePic: (pic) => set({ profilePic: pic }),
+  setTempProfilePic: (pic) => set({ tempProfilePic: pic }),
+  setName: (name) => set({ name }),
+  setNickname: (nickname) => set({ nickname }),
+  setWebsite: (website) => set({ website }),
+  setTempClickedField: (fields) => set({ tempClickedField: fields }),
+}));
