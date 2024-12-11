@@ -4,6 +4,7 @@ import Input from "../../components/Form/Input";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
 import SubmitButton from "../../components/Form/SubmitButton";
+import { axiosInstance } from "../../api/axios";
 
 export default function Join() {
   const [email, setEmail] = useState("");
@@ -92,7 +93,7 @@ export default function Join() {
   };
 
   // 폼 제출 처리
-  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!email || !password || !checkPassword || !userName) {
       setJoinError(true);
@@ -102,7 +103,17 @@ export default function Join() {
       setJoinError(true);
       return;
     }
-    navigate("/join-success");
+    try {
+      const response = await axiosInstance.post("/signup", {
+        email,
+        fullName: userName,
+        password,
+      });
+      console.log(response.data); // 성공 응답 확인
+      navigate("/join-success"); // 성공 시 이동
+    } catch (error) {
+      setJoinError(true); // 에러 상태 설정
+    }
   };
 
   useEffect(() => {
@@ -124,9 +135,9 @@ export default function Join() {
             className="w-14 h-14"
           />
         </header>
-        <h1 className="text-3xl font-bold text-center mt-5">회원가입</h1>
+        <h1 className="text-2xl font-bold text-center mt-5">회원가입</h1>
 
-        <section className="mt-8">
+        <section className="mt-7">
           <Input
             label="이메일"
             value={email}
