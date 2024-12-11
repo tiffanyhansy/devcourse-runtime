@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 interface ButtonProps extends React.ComponentProps<"button"> {
   size: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
   variant: "primary" | "secondary" | "todo" | "custom";
-  textSize: "sm" | "md" | "lg";
+  textSize: "sm" | "smd" | "md" | "lg";
   children: React.ReactNode;
 }
 
@@ -32,6 +32,7 @@ export default function Button({
   };
   const buttonTextSize = {
     sm: "text-[16px]",
+    smd: "text-[18px]",
     md: "text-[20px]",
     lg: "text-[24px]",
   };
