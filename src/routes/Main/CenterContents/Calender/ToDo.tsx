@@ -20,36 +20,42 @@ export default function ToDo() {
             <Pin key={i} />
           ))}
         </article>
-        <article className="w-full h-[500px] bg-white overflow-y-scroll">
+        <article className="w-full h-[520px] bg-white overflow-y-scroll">
           <ul>
             {localStorage.getItem("ToDoList")
               ? ToDoList.map((ToDo, i) => (
                   <ToDoListItem
                     key={ToDo.id}
+                    findid={ToDo.id}
                     text={ToDo.text}
+                    ckeck={ToDo.checked}
                     color={"#666666"}
                     index={i}
                   />
                 ))
               : null}
             {isShowEditor ? <ToDoEditor /> : null}
-            <li className="w-full h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9]">
-              <Button
-                size="lg" // 버튼 크기
-                variant="todo" // 사용자 정의 스타일
-                textSize="sm" // 텍스트 크기
-                className="flex items-center gap-[20px] w-full h-full pr-[12px] justify-start pl-6 hover:bg-[#e9e9e9]"
-                onClick={() => {
-                  toggleShowEditor();
-                }}
-              >
-                <img
-                  src={"/src/asset/images/small_icon.svg"}
-                  alt={"추가 아이콘"}
-                />
-                <span className="text-[#666666] font-medium ">할 일 추가</span>
-              </Button>
-            </li>
+            {!isShowEditor ? (
+              <li className="w-full h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9]">
+                <Button
+                  size="lg" // 버튼 크기
+                  variant="todo" // 사용자 정의 스타일
+                  textSize="sm" // 텍스트 크기
+                  className="flex items-center gap-[20px] w-full h-full pr-[12px] justify-start pl-6 hover:bg-[#e9e9e9]"
+                  onClick={() => {
+                    toggleShowEditor();
+                  }}
+                >
+                  <img
+                    src={"/src/asset/images/small_icon.svg"}
+                    alt={"추가 아이콘"}
+                  />
+                  <span className="text-[#666666] font-medium ">
+                    할 일 추가
+                  </span>
+                </Button>
+              </li>
+            ) : null}
           </ul>
         </article>
         <article className="w-full h-[30px] bg-white rounded-b-2xl"></article>
