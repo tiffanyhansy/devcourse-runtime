@@ -31,7 +31,7 @@ export default function Join() {
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const validatePassword = (password: string) =>
-    /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,16}$/.test(password);
+    /^(?=.*[a-z])(?=.*\d)(?=.*[\W_])[a-z\d\W_]{8,16}$/.test(password);
 
   const validateName = (name: string) => /^[가-힣a-zA-Z\s]+$/.test(name);
 
@@ -56,7 +56,7 @@ export default function Join() {
     if (!validatePassword(value)) {
       setPasswordError(true);
       setPasswordHelperText(
-        "비밀번호는 8~16자의 영문 대소문자와 숫자를 포함해야 합니다."
+        "8~16자의 영문 소문자, 숫자, 특수문자를 사용해 주세요"
       );
     } else {
       setPasswordError(false);
