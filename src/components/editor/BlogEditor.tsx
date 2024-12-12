@@ -4,7 +4,7 @@ import "../../css/QuillCustom.css";
 import { useEditorStore } from "../../store/store";
 import ConfirmDialog from "./ConfirmDialog";
 import "quill/dist/quill.snow.css";
-import Button from "../common/Button";
+import Button from "../common/SquareButton";
 
 export default function BlogEditor({
   onSave,

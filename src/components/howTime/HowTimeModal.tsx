@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHowTimeStore, useTimerStore } from "../../store/store";
 import HowTimeHeader from "./howTimeHeader/HowTimeHeader";
 import HowTimeContents from "./HowTimeContents/HowTimeContents";
-import Button from "../common/Button";
+import Button from "../common/SquareButton";
 
 export default function HowTimeModal() {
   const toggleHowTime = useHowTimeStore((state) => state.toggleHowTime);
@@ -39,7 +39,7 @@ export default function HowTimeModal() {
         <HowTimeHeader />
         <article className="px-[50px] pt-[30px]">
           <HowTimeContents changingHours={changingHours} />
-          <article className="flex flex-col items-center gap-5 translate-y-[30px] opacity-0 animate-fadeIn_2s">
+          <article className="flex flex-col items-center gap-4 translate-y-[30px] opacity-0 animate-fadeIn_2s">
             <span className="text-[40px] font-bold">
               자, 이제 공부하러 가볼까요? 📖
             </span>
@@ -49,6 +49,7 @@ export default function HowTimeModal() {
               size="sm"
               variant="custom"
               textSize="md"
+              className="hover:bg-[#96ccd6]"
               onClick={() => {
                 setStaticHours(changingHours);
                 setStaticMinuites("00");
@@ -60,18 +61,18 @@ export default function HowTimeModal() {
                 toggleHowTime();
               }}
             >
-              좋아요 🔥
+              좋아요
             </Button>
             <Button
               size="md"
-              variant="custom"
+              variant="outline"
               textSize="md"
               onClick={() => {
                 // 다시 count 0 에서 10으로 변경해 랜덤시간 재실행
                 setCount(() => 10);
               }}
             >
-              다시 할래요 🤔
+              다시 할래요
             </Button>
           </article>
         </article>
