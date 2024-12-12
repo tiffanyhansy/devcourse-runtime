@@ -33,6 +33,13 @@ export default function Timer({
   const setTrophyModalNotViewed = useTimerStore(
     (state) => state.setTrophyModalNotViewed
   );
+  const alertSoundPlayed = useTimerStore((state) => state.alertSoundPlayed);
+  const setAlertSoundPlayed = useTimerStore(
+    (state) => state.setAlertSoundPlayed
+  );
+  const setAlertSoundNotPlayed = useTimerStore(
+    (state) => state.setAlertSoundNotPlayed
+  );
 
   // 시간 달성 체크 기능
   useEffect(() => {
@@ -61,17 +68,23 @@ export default function Timer({
   }, [seconds]);
 
   useEffect(() => {
-    if (isAchieve) {
+    if (isAchieve && !alertSoundPlayed) {
       if (alertSound) {
         const audio = new Audio("/src/asset/achieved_alarm.mp3");
-        audio.play().catch((error) => {
-          console.error("❌ 알람 소리가 재생되지 않았습니다.", error);
-        });
+        audio
+          .play()
+          .then(() => {
+            setAlertSoundPlayed();
+          })
+          .catch((error) => {
+            console.error("❌ 알람 소리가 재생되지 않았습니다.", error);
+          });
       }
     }
     if (!isAchieve) {
       if (trophyModalViewed === true) {
         setTrophyModalNotViewed();
+        setAlertSoundNotPlayed();
       }
     }
   }, [isAchieve]);
