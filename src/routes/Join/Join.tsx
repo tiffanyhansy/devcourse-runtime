@@ -104,12 +104,11 @@ export default function Join() {
       return;
     }
     try {
-      const response = await axiosInstance.post("/signup", {
+      await axiosInstance.post("/signup", {
         email,
         fullName: userName,
         password,
       });
-      console.log(response.data); // 성공 응답 확인
       navigate("/join-success"); // 성공 시 이동
     } catch (error) {
       setJoinError(true); // 에러 상태 설정

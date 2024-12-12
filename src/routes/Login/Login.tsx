@@ -52,11 +52,10 @@ export default function Login() {
     }
 
     try {
-      const response = await axiosInstance.post("/login", {
+      await axiosInstance.post("/login", {
         email,
         password,
       });
-      console.log(response.data); // 성공 응답 확인
       navigate("/"); // 성공 시 이동
     } catch (error) {
       setLoginError(true); // 에러 상태 설정
