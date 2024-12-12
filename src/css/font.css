@@ -13,3 +13,13 @@
 .roboto-medium {
   font-family: "Roboto", sans-serif;
 }
+
+@font-face {
+  font-family: 'S-CoreDream-3Light';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.s-core-dream-light {
+  font-family: 'S-CoreDream-3Light';
+}
