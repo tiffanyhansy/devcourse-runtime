@@ -46,7 +46,7 @@ export default function EditorModal({ children }: ModalProps) {
       >
         <div
           onClick={(e) => e.stopPropagation()} // 이벤트 버블링 방지
-          className={`relative w-[1080px] min-h-[640px] max-w-[90%] max-h-[80%] rounded-[10px] overflow-auto transition-transform duration-500 bg-gray-50 ${
+          className={`relative w-[1080px] min-h-[640px] max-w-[90%] max-h-[80%] rounded-[10px] overflow-hidden transition-transform duration-500 bg-gray-50 ${
             isOpen ? "scale-100" : "scale-90"
           }`}
         >
