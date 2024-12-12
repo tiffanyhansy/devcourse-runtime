@@ -1,4 +1,7 @@
-import { TextField } from "@mui/material";
+import { TextField, IconButton, InputAdornment } from "@mui/material";
+import { useState } from "react";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 type InputProps = {
   label: string;
@@ -17,12 +20,18 @@ export default function Input({
   error,
   helperText,
 }: InputProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
       <TextField
         id="outlined-basic"
         label={label}
-        type={type}
+        type={showPassword ? "text" : type}
         value={value}
         onChange={onChange}
         error={error}
@@ -69,6 +78,21 @@ export default function Input({
             "& fieldset": {
               borderRadius: "10px", // 필드셋의 모서리 둥글게
             },
+          },
+        }}
+        slotProps={{
+          input: {
+            endAdornment: type === "password" && (
+              <InputAdornment position="end">
+                <IconButton onClick={handleTogglePasswordVisibility} edge="end">
+                  {showPassword ? (
+                    <VisibilityOutlinedIcon color="disabled" />
+                  ) : (
+                    <VisibilityOffOutlinedIcon color="disabled" />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            ),
           },
         }}
       />
