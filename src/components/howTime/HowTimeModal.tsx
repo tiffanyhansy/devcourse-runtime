@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useHowTimeStore, useTimerStore } from "../../store/store";
 import HowTimeHeader from "./howTimeHeader/HowTimeHeader";
 import HowTimeContents from "./HowTimeContents/HowTimeContents";
-import Button from "../common/Button";
+import Button from "../common/SquareButton";
 
 export default function HowTimeModal() {
   const toggleHowTime = useHowTimeStore((state) => state.toggleHowTime);
