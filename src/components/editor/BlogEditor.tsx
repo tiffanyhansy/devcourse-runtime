@@ -3,7 +3,7 @@ import "react-quill-new/dist/quill.snow.css";
 import "../../css/QuillCustom.css";
 import { useEditorStore } from "../../store/store";
 import ConfirmDialog from "./ConfirmDialog";
-import Button from "../common/Button";
+import Button from "../common/SquareButton";
 
 export default function BlogEditor({
   onSave,

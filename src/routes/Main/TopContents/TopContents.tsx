@@ -1,4 +1,4 @@
-import Button from "../../../components/common/Button";
+import Button from "../../../components/common/SquareButton";
 import { useEasterEgg, useTimeSetterStore } from "../../../store/store";
 import AchieveSetModal from "./AchieveSetModal";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";

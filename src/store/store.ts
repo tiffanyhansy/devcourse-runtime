@@ -119,18 +119,31 @@ export const useToDoStore = create<ToDoType>((set) => ({
   },
 }));
 
-//headerModalStore
-type headerModalStore = {
+// 헤더 > 프로필 모달
+// 메인 > 친구목록 리스트 모달
+type profileModalStore = {
   modal: boolean;
   type: string | null;
   open: (type: string) => void;
   close: () => void;
 };
-export const useHeaderModalStore = create<headerModalStore>((set) => ({
+export const useprofileModalStore = create<profileModalStore>((set) => ({
   modal: false,
   type: null,
   open: (type: string) => set({ modal: true, type }),
   close: () => set(() => ({ modal: false, type: null })),
+}));
+
+// 메인 > 친구관리 모달
+type friendModalStore = {
+  modal: boolean;
+  open: () => void;
+  close: () => void;
+};
+export const useFriendModalStore = create<friendModalStore>((set) => ({
+  modal: false,
+  open: () => set(() => ({ modal: true })),
+  close: () => set(() => ({ modal: false })),
 }));
 
 // 메인페이지 Timer 기능 저장소
@@ -152,6 +165,9 @@ interface TimerStorage {
   setResetAlertModal: () => void;
   isAchieve: boolean;
   setIsAchieve: () => void;
+  trophyModalViewed: boolean;
+  setTrophyModalViewed: () => void;
+  setTrophyModalNotViewed: () => void;
 }
 export const useTimerStore = create<TimerStorage>((set) => ({
   hours: localStorage.getItem("TimerTime")
@@ -204,6 +220,10 @@ export const useTimerStore = create<TimerStorage>((set) => ({
   },
   isAchieve: false,
   setIsAchieve: () => set((state) => ({ isAchieve: !state.isAchieve })),
+  // 트로피 모달 전역변수입니당
+  trophyModalViewed: false,
+  setTrophyModalViewed: () => set(() => ({ trophyModalViewed: true })),
+  setTrophyModalNotViewed: () => set(() => ({ trophyModalViewed: false })),
 }));
 
 // 메인페이지 TimeSetter 저장소(static 시간 관리)

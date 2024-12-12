@@ -1,4 +1,4 @@
-import Button from "../../../../components/common/Button";
+import Button from "../../../../components/common/SquareButton";
 import { useToDoStore } from "../../../../store/store";
 import Pin from "./Pin";
 import ToDoListItem from "./ToDoListItem";

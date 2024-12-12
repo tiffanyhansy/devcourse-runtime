@@ -1,12 +1,14 @@
+import { Link } from "react-router-dom";
+
 export default function ErrorPage() {
   return (
     <>
-      <main className=" h-screen w-screen">
+      <main className="">
         <section className="flex w-full h-screen justify-center items-center flex-col">
           <div className="flex">
             <span className="text-9xl text-[#C96868] font-bold">4</span>
             <img
-              src="./runtime_logo.svg"
+              src="/src/asset/images/runtime_logo.svg"
               alt="Runtime Logo"
               className="w-36 h-36 mx-5"
             />
@@ -19,9 +21,11 @@ export default function ErrorPage() {
             </span>
           </div>
           <div className="text-center items-center mt-6">
-            <a className="bg-[#C96868] w-44 h-12 text-white font-bold p-3 rounded-[7.49px]">
-              홈으로 돌아가기
-            </a>
+            <Link to="/" className="text-lg">
+              <button className="bg-[#C96868] w-44 h-12 text-white font-bold p-3 rounded-[7.49px]">
+                홈으로 돌아가기
+              </button>
+            </Link>
           </div>
         </section>
       </main>
