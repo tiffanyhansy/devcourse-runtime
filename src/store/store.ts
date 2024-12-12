@@ -119,18 +119,31 @@ export const useToDoStore = create<ToDoType>((set) => ({
   },
 }));
 
-//headerModalStore
-type headerModalStore = {
+// 헤더 > 프로필 모달
+// 메인 > 친구목록 리스트 모달
+type profileModalStore = {
   modal: boolean;
   type: string | null;
   open: (type: string) => void;
   close: () => void;
 };
-export const useHeaderModalStore = create<headerModalStore>((set) => ({
+export const useprofileModalStore = create<profileModalStore>((set) => ({
   modal: false,
   type: null,
   open: (type: string) => set({ modal: true, type }),
   close: () => set(() => ({ modal: false, type: null })),
+}));
+
+// 메인 > 친구관리 모달
+type friendModalStore = {
+  modal: boolean;
+  open: () => void;
+  close: () => void;
+};
+export const useFriendModalStore = create<friendModalStore>((set) => ({
+  modal: false,
+  open: () => set(() => ({ modal: true })),
+  close: () => set(() => ({ modal: false })),
 }));
 
 // 메인페이지 Timer 기능 저장소
@@ -295,8 +308,8 @@ interface ProfileState {
   isEditable: boolean;
   profilePic: string;
   tempProfilePic: string;
-  name: string;
-  nickname: string;
+  fullName: string;
+  username: string;
   website: string;
   tempClickedField: Set<number>;
 
@@ -304,21 +317,21 @@ interface ProfileState {
   setIsEditable: (editable: boolean) => void;
   setProfilePic: (pic: string) => void;
   setTempProfilePic: (pic: string) => void;
-  setName: (name: string) => void;
-  setNickname: (nickname: string) => void;
+  setFullName: (fullName: string) => void;
+  setUsername: (username: string) => void;
   setWebsite: (website: string) => void;
   setTempClickedField: (fields: Set<number>) => void;
 }
 
 const initialProfilePic = "/src/asset/default_profile.png";
 
-export const useProfileStore = create<ProfileState>((set) => ({
+export const useProfileStore = create<ProfileState>((set, get) => ({
   clickedField: new Set(),
   isEditable: false,
   profilePic: initialProfilePic,
   tempProfilePic: initialProfilePic,
-  name: "",
-  nickname: "",
+  fullName: "",
+  username: "",
   website: "",
   tempClickedField: new Set(),
 
@@ -326,8 +339,15 @@ export const useProfileStore = create<ProfileState>((set) => ({
   setIsEditable: (editable) => set({ isEditable: editable }),
   setProfilePic: (pic) => set({ profilePic: pic }),
   setTempProfilePic: (pic) => set({ tempProfilePic: pic }),
-  setName: (name) => set({ name }),
-  setNickname: (nickname) => set({ nickname }),
+  setFullName: (fullName) => {
+    set({ fullName });
+    const { username } = get();
+    //username이 미정이면 fullName 할당
+    if (!username.trim()) {
+      set({ username: fullName });
+    }
+  },
+  setUsername: (username) => set({ username }),
   setWebsite: (website) => set({ website }),
   setTempClickedField: (fields) => set({ tempClickedField: fields }),
 }));

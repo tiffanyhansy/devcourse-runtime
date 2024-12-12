@@ -68,7 +68,7 @@ export default function AchieveSetModal() {
     >
       <TimeSetter />
       <button
-        className="w-[400px] h-[44px] rounded-[10px] bg-[#4F4F4F] text-white"
+        className="w-[400px] h-[44px] rounded-[10px] bg-[#4F4F4F] text-white hover:bg-[#737373]"
         onClick={() => {
           if (!selectDate) return alert("목표 시간을 설정해주세요(임시)");
           setStaticHours(selectHours);

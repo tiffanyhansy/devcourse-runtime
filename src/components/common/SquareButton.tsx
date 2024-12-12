@@ -2,8 +2,8 @@ import React from "react";
 import { cn } from "../../lib/utils";
 
 interface ButtonProps extends React.ComponentProps<"button"> {
-  size: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-  variant: "primary" | "secondary" | "todo" | "custom";
+  size: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+  variant: "primary" | "secondary" | "todo" | "custom" | "outline";
   textSize: "sm" | "smd" | "md" | "lg";
   children: React.ReactNode;
 }
@@ -19,10 +19,13 @@ export default function Button({
   const buttonVar = {
     primary: "bg-[#7EACB5] text-[#ffffff]",
     secondary: "bg-[#D6D6D6] text-black",
+    outline:
+      "bg-[#ffffff] text-[#7EACB5] border-2 border-[#7EACB5] solid hover:border-[#96ccd6] hover:text-[#96ccd6]",
     todo: "bg-[#ffffff] text-black",
     custom: "",
   };
   const buttonSize = {
+    xxs: "w-[64px] h-[32px]",
     xs: "w-[100px] h-[40px]",
     sm: "w-[130px] h-[48px]",
     md: "w-[160px] h-[48px]",

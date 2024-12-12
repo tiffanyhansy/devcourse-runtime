@@ -21,7 +21,7 @@ export default function Login() {
   };
 
   const validatePassword = (password: string) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[\W_])[a-z\d\W_]{8,16}$/;
     return passwordRegex.test(password);
   };
 
@@ -52,11 +52,10 @@ export default function Login() {
     }
 
     try {
-      const response = await axiosInstance.post("/login", {
+      await axiosInstance.post("/login", {
         email,
         password,
       });
-      console.log(response.data); // 성공 응답 확인
       navigate("/"); // 성공 시 이동
     } catch (error) {
       setLoginError(true); // 에러 상태 설정
@@ -104,7 +103,7 @@ export default function Login() {
             error={passwordError}
             helperText={
               passwordError
-                ? "비밀번호는 8~16자의 영문 대소문자와 숫자를 포함해야 합니다."
+                ? "8~16자의 영문 소문자, 숫자, 특수문자를 사용해 주세요."
                 : ""
             }
           />

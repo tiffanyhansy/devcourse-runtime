@@ -5,11 +5,13 @@ import {
   useEasterEgg,
   useHowTimeStore,
   useTimerStore,
+  useFriendModalStore,
 } from "../../store/store";
 import HowTimeModal from "../../components/howTime/HowTimeModal";
 import TopContents from "./TopContents/TopContents";
 import { Favorite } from "@mui/icons-material";
 import { styled } from "@mui/material";
+import FriendManageModal from "../../components/Modal/FriendManageModal";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -36,6 +38,7 @@ export default function Main() {
   const setTrophyModalViewed = useTimerStore(
     (state) => state.setTrophyModalViewed
   );
+  const modal = useFriendModalStore((s) => s.modal);
 
   return (
     <section>
@@ -50,6 +53,7 @@ export default function Main() {
         <RightContents />
       </section>
       {isHowTimeOpen ? <HowTimeModal /> : null}
+      {modal ? <FriendManageModal /> : null}
       {/* 하트 아이콘들 */}
       {hearts.map((heart) => (
         <HeartStyle key={heart.id} style={heart.style}>

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useToDoStore } from "../../../../store/store";
 import { v4 as uuidv4 } from "uuid";
-import Button from "../../../../components/common/Button";
+import Button from "../../../../components/common/SquareButton";
 
 export default function ToDoEditor() {
   const editorInputRef = useRef<HTMLInputElement>(null);

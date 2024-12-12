@@ -1,4 +1,4 @@
-import Button from "../common/Button";
+import Button from "../common/SquareButton";
 
 interface LoginButtonProps extends React.ComponentProps<"button"> {
   value: string;
