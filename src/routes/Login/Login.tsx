@@ -5,6 +5,7 @@ import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import SubmitButton from "../../components/Form/SubmitButton";
 import { axiosInstance } from "../../api/axios";
+import { useLoginStore } from "../../store/API";
 
 export default function Login() {
   const login = "로그인";
@@ -39,6 +40,8 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  const setUser = useLoginStore((state) => state.setUser);
+
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!email || !password) {
@@ -52,10 +55,15 @@ export default function Login() {
     }
 
     try {
-      await axiosInstance.post("/login", {
-        email,
-        password,
-      });
+      await axiosInstance
+        .post("/login", {
+          email,
+          password,
+        })
+        .then((res) => {
+          console.log(res.data.token);
+          setUser(res.data.user);
+        });
       navigate("/"); // 성공 시 이동
     } catch (error) {
       setLoginError(true); // 에러 상태 설정

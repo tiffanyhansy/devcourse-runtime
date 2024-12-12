@@ -12,6 +12,9 @@ import TopContents from "./TopContents/TopContents";
 import { Favorite } from "@mui/icons-material";
 import { styled } from "@mui/material";
 import FriendManageModal from "../../components/Modal/FriendManageModal";
+import { axiosInstance } from "../../api/axios";
+import { useEffect } from "react";
+import { useLoginStore } from "../../store/API";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -40,6 +43,12 @@ export default function Main() {
   );
   const modal = useFriendModalStore((s) => s.modal);
 
+  // user 정보 가져오기
+  const user = useLoginStore((state) => state.user);
+  useEffect(() => {
+    console.log(user);
+  });
+
   return (
     <section>
       <TopContents />
@@ -60,6 +69,14 @@ export default function Main() {
           <Favorite />
         </HeartStyle>
       ))}
+      {/* 임시 로그아웃 기능 */}
+      {/* <button
+        onClick={() => {
+          axiosInstance.post(`/logout`).then((res) => console.log(res));
+        }}
+      >
+        로그아웃
+      </button> */}
       {/* 트로피 모달 프로토타입입니당 */}
       {isAchieve && !trophyModalViewed ? (
         <article className="animate-show w-screen h-screen absolute top-0 left-0 z-50 overflow-hidden">
