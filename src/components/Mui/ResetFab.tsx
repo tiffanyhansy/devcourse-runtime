@@ -1,7 +1,8 @@
-import { Box, Fab } from "@mui/material";
+import { Box, Fab, Stack } from "@mui/material";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { useTimerPlayStore, useTimerStore } from "../../store/store";
-
+import Button from "../common/SquareButton";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 export default function ResetFab() {
   const isPlayBtnClicked = useTimerPlayStore((state) => state.isPlayBtnClicked);
   const resetTimer = useTimerStore((state) => state.resetTimer);
@@ -35,24 +36,64 @@ export default function ResetFab() {
       </Box>
       {isResetAlertModalOn ? (
         <>
-          <article className="w-full h-full absolute top-0 left-0 z-50">
+          <article className="absolute top-0 left-0 z-50 w-full h-full">
             <article className="w-[400px] h-[200px] bg-white border rounded-[10px] flex flex-col gap-[20px] items-center justify-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50">
-              <span className="text-[30px] font-bold">
-                정말 초기화 하시나요?
-              </span>
-              <button
-                onClick={() => {
-                  resetTimer();
-                  setResetAlertModal();
-                  localStorage.setItem("TimerTime", JSON.stringify([0, 0, 0]));
-                }}
+              <Stack
+                width="340px"
+                direction="row"
+                gap={2}
+                alignItems="center"
+                className=" justify-stretch"
               >
-                네
-              </button>
-              <button onClick={setResetAlertModal}>아니요</button>
+                <div className="flex items-center justify-center p-2 bg-[#FEF3F2] rounded-full">
+                  <div className="flex items-center justify-center py-2 bg-[#FEE4E2] rounded-full">
+                    <DeleteForeverIcon
+                      style={{ width: "2em", height: "2rem", color: "#E14444" }}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-2xl font-extrabold">
+                    정말 초기화 하시나요?
+                  </span>
+
+                  <span className="block text-sm text-gray-700">
+                    이 작업은 되돌릴 수 없습니다.{" "}
+                  </span>
+                </div>
+              </Stack>
+
+              <Stack direction="row" gap={2} alignItems="center">
+                <Button
+                  size="md"
+                  textSize="sm"
+                  variant="todo"
+                  className="border-2 border-[#D6D6D6] border-solid text-gray-700 hover:bg-gray-100"
+                  onClick={setResetAlertModal}
+                >
+                  취소
+                </Button>
+
+                <Button
+                  size="md"
+                  textSize="sm"
+                  variant="custom"
+                  className="bg-[#E14444] hover:bg-[#e14444c0]"
+                  onClick={() => {
+                    resetTimer();
+                    setResetAlertModal();
+                    localStorage.setItem(
+                      "TimerTime",
+                      JSON.stringify([0, 0, 0])
+                    );
+                  }}
+                >
+                  삭제
+                </Button>
+              </Stack>
             </article>
             <article
-              className="w-full h-full bg-black bg-opacity-70 z-40"
+              className="z-40 w-full h-full bg-black bg-opacity-70"
               onClick={setResetAlertModal}
             ></article>
           </article>
