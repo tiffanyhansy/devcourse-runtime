@@ -17,21 +17,21 @@ const Mypage = () => {
     isEditable,
     profilePic,
     tempProfilePic,
-    name,
-    nickname,
+    fullName,
+    username,
     website,
     tempClickedField,
     setClickedField,
     setIsEditable,
     setProfilePic,
     setTempProfilePic,
-    setName,
-    setNickname,
+    setFullName,
+    setUsername,
     setWebsite,
     setTempClickedField,
   } = useProfileStore();
 
-  const isAnyFieldEmpty = !name.trim() || !nickname.trim();
+  const isAnyFieldEmpty = !fullName.trim() || !username.trim();
 
   const handleEditButtonClick = () => {
     if (isEditable) {
@@ -171,14 +171,14 @@ const Mypage = () => {
           <Input
             isEditable={isEditable}
             label="이름"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
           />
           <Input
             isEditable={isEditable}
             label="별명"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <Input
             isEditable={isEditable}

@@ -1,5 +1,4 @@
 import Button from "../../../../components/common/Button";
-import { useEffect, useRef } from "react";
 import { useToDoStore } from "../../../../store/store";
 import Pin from "./Pin";
 import ToDoListItem from "./ToDoListItem";
