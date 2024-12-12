@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
 import SubmitButton from "../../components/Form/SubmitButton";
 import { axiosInstance } from "../../api/axios";
+import { useLoginStore } from "../../store/API";
 
 export default function Join() {
   const [email, setEmail] = useState("");
@@ -93,6 +94,7 @@ export default function Join() {
   };
 
   // 폼 제출 처리
+
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!email || !password || !checkPassword || !userName) {

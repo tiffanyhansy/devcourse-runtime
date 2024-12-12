@@ -126,16 +126,12 @@ type profileModalStore = {
   type: string | null;
   open: (type: string) => void;
   close: () => void;
-  animating: boolean;
-  isAnimating: () => void;
 };
 export const useprofileModalStore = create<profileModalStore>((set) => ({
   modal: false,
   type: null,
-  animating: false,
   open: (type: string) => set({ modal: true, type }),
   close: () => set(() => ({ modal: false, type: null })),
-  isAnimating: () => set(() => ({ animating: true })),
 }));
 
 // 메인 > 친구관리 모달
@@ -172,6 +168,9 @@ interface TimerStorage {
   trophyModalViewed: boolean;
   setTrophyModalViewed: () => void;
   setTrophyModalNotViewed: () => void;
+  alertSoundPlayed: boolean;
+  setAlertSoundPlayed: () => void;
+  setAlertSoundNotPlayed: () => void;
   isPlayingWhiteNoise: boolean;
   toggleWhiteNoise: () => void;
 }
@@ -230,6 +229,9 @@ export const useTimerStore = create<TimerStorage>((set) => ({
   trophyModalViewed: false,
   setTrophyModalViewed: () => set(() => ({ trophyModalViewed: true })),
   setTrophyModalNotViewed: () => set(() => ({ trophyModalViewed: false })),
+  alertSoundPlayed: false,
+  setAlertSoundPlayed: () => set(() => ({ alertSoundPlayed: true })),
+  setAlertSoundNotPlayed: () => set(() => ({ alertSoundPlayed: false })),
 
   //백색소음 재생
   isPlayingWhiteNoise: false,

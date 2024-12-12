@@ -1,21 +1,17 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useprofileModalStore } from "../../store/store";
+import { axiosInstance } from "../../api/axios";
 
-export default function Modal({
-  y,
-  x,
-  animation,
-}: {
-  x?: number;
-  y?: number;
-  animation?: boolean;
-}) {
+export default function Modal({ y, x }: { x?: number; y?: number }) {
   const modal = useprofileModalStore((s) => s.modal);
   const type = useprofileModalStore((s) => s.type);
   const close = useprofileModalStore((s) => s.close);
-  const animating = useprofileModalStore((s) => s.animating);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const logOut = async () => {
+    await axiosInstance.post(`/logout`).then((res) => console.log(res.status));
+  };
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -40,11 +36,7 @@ export default function Modal({
     <div
       ref={contentRef}
       className={`absolute z-50 ${
-        animating
-          ? type === "header"
-            ? "animate-scaleInTopRight"
-            : "animate-scaleInTopLeft"
-          : "opacity-0"
+        type === "header" ? "animate-scaleInTopRight" : "animate-scaleInTopLeft"
       }`}
       style={{
         top: x ? `${x}px` : "4.5rem",
@@ -56,7 +48,7 @@ export default function Modal({
           type === "header" ? "h-52" : "h-42"
         } inline-flex flex-col items-center justify-center bg-white h-42 drop-shadow-xl rounded-2xl`}
       >
-        <div className="w-[305px] px-4 pt-[18px]  rounded-tl-2xl rounded-tr-2xl justify-start items-center gap-[89px] inline-flex">
+        <div className="w-[240px] px-4 pt-[18px]  rounded-tl-2xl rounded-tr-2xl justify-start items-center gap-[89px] inline-flex">
           <div className="h-[60px] pr-[68px] pb-[18px] justify-start items-center gap-3 flex">
             <div className="w-[42px] h-[42px] relative">
               <div className="w-[42px] h-[42px] left-0 top-0 absolute bg-gradient-to-b from-[#cdddfc] to-[#c9afff] rounded-full" />
@@ -80,7 +72,7 @@ export default function Modal({
           </div>
         </div>
         <div className="cursor-pointer">
-          <div className="w-[305px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
+          <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-center gap-3.5 inline-flex">
               <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
                 <div className="relative w-5 h-5">
@@ -102,7 +94,7 @@ export default function Modal({
         </div>
         {type === "header" && (
           <div className="cursor-pointer">
-            <div className="w-[305px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
+            <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
               <div className="justify-start items-center gap-3.5 inline-flex">
                 <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
                   <div className="relative w-5 h-5">
@@ -114,7 +106,10 @@ export default function Modal({
                   <Link
                     to="./login"
                     className="text-black text-lg font-medium font-['Inter']"
-                    onClick={close}
+                    onClick={() => {
+                      close();
+                      logOut();
+                    }}
                   >
                     로그아웃
                   </Link>
