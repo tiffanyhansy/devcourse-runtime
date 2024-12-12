@@ -5,14 +5,13 @@ import { useFriendModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 
 export default function FriendManageModal() {
-  console.log(useFriendModalStore.getState());
   const [isHovered, setIsHovered] = useState(false);
 
   const [activeTab, setActiveTab] = useState("followers"); // 팔로우 / 팔로워 탭
   const [activeToggle, setActiveToggle] = useState("friend"); // 친구 / 전체 탭
 
   const close = useFriendModalStore((state) => state.close);
-  const { modal } = useFriendModalStore();
+
   const followers = [0, 1, 2, 3, 4, 5, 6, 7, 8]; // 팔로워 임시데이터
   const following = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // 팔로잉 임시데이터
 
@@ -30,12 +29,10 @@ export default function FriendManageModal() {
 
   return (
     <div className="w-full h-full block absolute left-0 top-0 z-40">
+      {/* 뒷배경경 */}
       <div
-        className="w-full h-full block bg-black bg-opacity-70"
-        onClick={() => {
-          console.log("Background clicked");
-          close();
-        }}
+        className="w-full h-[927px] block bg-black bg-opacity-70"
+        onClick={close}
       ></div>
       <section className="h-[619px] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50 rounded-[10px]">
         <article className="flex justify-center ">
@@ -173,7 +170,7 @@ export default function FriendManageModal() {
                       </div>
                       <div className="w-8 h-8 justify-start items-start flex">
                         <div className="grow shrink basis-0 self-stretch p-1 bg-[#7eacb5] rounded-[100px] shadow justify-center items-center gap-2 flex">
-                          <div className="w-5 h-5 relative bg-[url(src/asset/images/Icon.svg)]" />
+                          <div className="w-5 h-5 relative bg-[url(src/asset/images/Search.svg)]" />
                         </div>
                       </div>
                     </div>
@@ -235,8 +232,8 @@ export default function FriendManageModal() {
               <div className="w-[272px] h-[31px] left-7 top-[110px] absolute text-[#3e435d] text-3xl font-bold font-['Roboto']">
                 {activeToggle === "all" ? "전체 목록" : "친구 목록"}
               </div>
-              <div className="w-[132px] h-[50px] left-[190px] top-7 absolute">
-                <div className="relative w-[132px] h-[50px]">
+              <div className="w-[120px] h-[50px] left-[190px] top-7 absolute">
+                <div className="relative w-[120px] h-[50px]">
                   {/* 배경 바 */}
                   <div className="absolute inset-0 bg-white rounded-[229.08px] border border-[#7eacb5]" />
 
@@ -254,7 +251,7 @@ export default function FriendManageModal() {
                       activeToggle === "friend"
                         ? "text-white"
                         : "text-[#7eacb5]"
-                    } text-xl font-medium font-['Montserrat'] uppercase leading-[28.80px] cursor-pointer`}
+                    } text-[17px] font-medium font-['Montserrat'] uppercase leading-[28.80px] cursor-pointer`}
                     onClick={() => setActiveToggle("friend")}
                   >
                     친구
@@ -264,7 +261,7 @@ export default function FriendManageModal() {
                   <div
                     className={`absolute left-[76.57px] top-[10px] text-center ${
                       activeToggle === "all" ? "text-white" : "text-[#7eacb5]"
-                    } text-xl font-medium font-['Montserrat'] uppercase
+                    } text-[17px] font-medium font-['Montserrat'] uppercase
                        leading-[28.80px] cursor-pointer`}
                     onClick={() => setActiveToggle("all")}
                   >

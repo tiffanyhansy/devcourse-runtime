@@ -2,11 +2,21 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useprofileModalStore } from "../../store/store";
 
-export default function Modal({ y, x }: { x?: number; y?: number }) {
+export default function Modal({
+  y,
+  x,
+  animation,
+}: {
+  x?: number;
+  y?: number;
+  animation?: boolean;
+}) {
   const modal = useprofileModalStore((s) => s.modal);
   const type = useprofileModalStore((s) => s.type);
   const close = useprofileModalStore((s) => s.close);
+  const animating = useprofileModalStore((s) => s.animating);
   const contentRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const element = e.target as HTMLElement;
@@ -24,12 +34,18 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
     return () => {
       document.removeEventListener("click", onClick);
     };
-  }, [modal]);
+  }, []);
 
   return (
     <div
       ref={contentRef}
-      className="absolute z-50"
+      className={`absolute z-50 ${
+        animating
+          ? type === "header"
+            ? "animate-scaleInTopRight"
+            : "animate-scaleInTopLeft"
+          : "opacity-0"
+      }`}
       style={{
         top: x ? `${x}px` : "4.5rem",
         right: y ? `${y}px` : "50px",
