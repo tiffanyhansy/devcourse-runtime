@@ -9,14 +9,14 @@ export default function Header() {
   const open = useprofileModalStore((s) => s.open);
 
   const handleOpen = () => open("header");
-  const [imgState, setImgState] = useState("/public/bell.svg");
+  const [imgState, setImgState] = useState("/src/asset/images/bell.svg");
 
   return (
     <header className="w-full h-[80px] fixed justify-between flex top-0 left-0 items-center px-[50px] bg-white z-40">
       <article className="flex items-center gap-[30px]">
         <Link to="#">
           <img
-            src={"/public/runtime_logo.svg"}
+            src={"/src/asset/images/runtime_logo.svg"}
             alt={"런타임 로고"}
             className="w-[40px] h-[40px] object-cover"
           />
@@ -34,7 +34,7 @@ export default function Header() {
           <img
             src={imgState}
             alt={"알람 아이콘"}
-            onClick={() => setImgState("/public/alarm_icon.svg")}
+            onClick={() => setImgState("/src/asset/images/bellalarm_icon.svg")}
           />
         </Link>
         <button
@@ -42,7 +42,7 @@ export default function Header() {
             e.stopPropagation();
             handleOpen();
           }}
-          className={`w-[40px] h-[40px] rounded-full bg-[url(/public/profile.svg)] bg-center`}
+          className={`w-[40px] h-[40px] rounded-full bg-[url(/src/asset/images/profile.svg)] bg-center`}
         ></button>
         {modal && type === "header" && <Modal />}
       </article>
