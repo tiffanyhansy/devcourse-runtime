@@ -29,26 +29,39 @@ export default function Timer({
   const setIsAchieve = useTimerStore((state) => state.setIsAchieve);
 
   useEffect(() => {
-    if (Number(staticHours) < hours) {
-      !isAchieve && setIsAchieve();
-      return;
-    } else if (
-      Number(staticHours) === hours &&
-      Number(staticMinuites) < minutes
-    ) {
-      !isAchieve && setIsAchieve();
-      return;
-    } else if (
-      Number(staticHours) === hours &&
-      Number(staticMinuites) === minutes &&
-      Number(staticSeconds) <= seconds
-    ) {
-      !isAchieve && setIsAchieve();
-      return;
-    } else {
-      isAchieve && setIsAchieve();
-    }
+    const checkAchievement = () => {
+      if (Number(staticHours) < hours) {
+        !isAchieve && setIsAchieve();
+        return;
+      } else if (
+        Number(staticHours) === hours &&
+        Number(staticMinuites) < minutes
+      ) {
+        !isAchieve && setIsAchieve();
+        return;
+      } else if (
+        Number(staticHours) === hours &&
+        Number(staticMinuites) === minutes &&
+        Number(staticSeconds) <= seconds
+      ) {
+        !isAchieve && setIsAchieve();
+        return;
+      } else {
+        isAchieve && setIsAchieve();
+      }
+    };
+
+    checkAchievement();
   }, [seconds]);
+
+  useEffect(() => {
+    if (isAchieve) {
+      const audio = new Audio("/src/asset/achieved_alarm.mp3");
+      audio.play().catch((error) => {
+        console.error("❌ 알람 소리가 재생되지 않았습니다.", error);
+      });
+    }
+  }, [isAchieve]);
   return (
     <>
       <article
