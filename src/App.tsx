@@ -2,12 +2,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import Header from "./routes/LayOut/Header";
 import Main from "./routes/Main/Main";
-import Mypage from "./routes/Mypage/Mypage";
 import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
 import Noti from "./components/notifications/Noti";
 import JoinSuccess from "./routes/Join/JoinSuccess";
 import ErrorPage from "./components/404Page/ErrorPage";
+import UserPage from "./routes/UserPage/UserPage";
+import Mypage from "./routes/Mypage/Mypage";
 
 export default function App() {
   //
@@ -30,11 +31,12 @@ export default function App() {
       <main className="px-[50px] mx-auto s-core-dream-light max-w-[1440px] h-screen select-none overflow-hidden">
         <Header />
         <Routes>
-          <Route path="/login" element={<Login />} />{" "}
+          <Route path="/login" element={<Login />} />
           <Route path="/join" element={<Join />} />
           <Route path="/" element={<Main />} />
           <Route path="/join-success" element={<JoinSuccess />} />
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/userpage/:username" element={<UserPage />} />
           <Route path="/notifications" element={<Noti />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
