@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import Modal from "../../components/headerModal/Modal";
+import Modal from "../../components/Modal/ProfileModal";
 import { useState } from "react";
-import { useHeaderModalStore } from "../../store/store";
+import { useprofileModalStore } from "../../store/store";
 
 export default function Header() {
-  const { modal, type, open, close } = useHeaderModalStore();
+  const { modal, type, open } = useprofileModalStore();
   const handleOpen = () => open("header");
   const [imgState, setImgState] = useState("/src/asset/images/bell.svg");
 

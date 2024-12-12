@@ -1,11 +1,16 @@
 import LeftContents from "./LeftContents/LeftContents";
 import RightContents from "./RightComponent/RightContents";
 import CenterContents from "./CenterContents/CenterContents";
-import { useEasterEgg, useHowTimeStore } from "../../store/store";
+import {
+  useEasterEgg,
+  useHowTimeStore,
+  useFriendModalStore,
+} from "../../store/store";
 import HowTimeModal from "../../components/howTime/HowTimeModal";
 import TopContents from "./TopContents/TopContents";
 import { Favorite } from "@mui/icons-material";
 import { styled } from "@mui/material";
+import FriendManageModal from "../../components/Modal/FriendManageModal";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -27,6 +32,7 @@ const HeartStyle = styled("div")`
 export default function Main() {
   const isHowTimeOpen = useHowTimeStore((state) => state.isHowTimeOpen);
   const hearts = useEasterEgg((state) => state.hearts);
+  const modal = useFriendModalStore((s) => s.modal);
 
   return (
     <section>
@@ -41,6 +47,7 @@ export default function Main() {
         <RightContents />
       </section>
       {isHowTimeOpen ? <HowTimeModal /> : null}
+      {modal ? <FriendManageModal /> : null}
       {/* 하트 아이콘들 */}
       {hearts.map((heart) => (
         <HeartStyle key={heart.id} style={heart.style}>
