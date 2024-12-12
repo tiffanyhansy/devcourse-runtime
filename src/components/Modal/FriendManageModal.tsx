@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useFriendModalStore } from "../../store/store";
+import { axiosInstance } from "../../api/axios";
 
 export default function FriendManageModal() {
   const [isHovered, setIsHovered] = useState(false);
@@ -13,6 +14,18 @@ export default function FriendManageModal() {
 
   const followers = [0, 1, 2, 3, 4, 5, 6, 7, 8]; // 팔로워 임시데이터
   const following = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // 팔로잉 임시데이터
+
+  // 테스트용 상태
+  const [userAll, setUserAll] = useState<userType[] | []>([]);
+
+  const getUserAll = async () => {
+    const userAll = (await axiosInstance.get(`/users/get-users`)).data;
+    setUserAll(() => userAll);
+  };
+
+  useEffect(() => {
+    getUserAll();
+  }, []);
 
   return (
     <div className="w-full h-full block absolute left-0 top-0 z-40">
@@ -162,58 +175,56 @@ export default function FriendManageModal() {
                       </div>
                     </div>
                     <div className="overflow-auto h-[420px]">
-                      {(activeTab === "followers" ? followers : following).map(
-                        (i) => (
-                          <div
-                            key={uuidv4()}
-                            className="self-stretch h-[70px] px-2.5 pl-10 rounded-md flex-col items-start gap-2.5 flex"
-                          >
-                            <div className="self-stretch grow shrink basis-0 items-center gap-2.5 inline-flex">
-                              <div className="h-[70px] py-2.5 justify-center items-center flex">
-                                <div className="flex h-[50px] items-center gap-2.5 w-full justify-between">
-                                  {/* 이미지와 텍스트 그룹 */}
-                                  <div className="flex items-center gap-2.5">
-                                    <img
-                                      className="w-[50px] h-[50px] rounded-[100px]"
-                                      src="https://via.placeholder.com/50x50"
-                                    />
-                                    <div className="flex flex-col grow shrink basis-0 h-[50px]">
-                                      <span className="text-[#0f1419] text-sm font-semibold font-['Inter'] leading-[19px]">
-                                        김김김
-                                      </span>
-                                      <span className="text-[#333333] text-[13px] font-normal font-['Inter'] leading-[19px]"></span>
-                                      <span className="text-[#546471] text-[13px] font-normal font-['Inter'] leading-[19px]">
-                                        @buzzusborne
-                                      </span>
-                                    </div>
-                                    <Button
-                                      id={uuidv4()}
-                                      variant="contained"
-                                      sx={{
-                                        color: isHovered ? "#C96868" : "black", // hover 시 텍스트 색 변경
-                                        backgroundColor: "white", // hover 시 배경색 변경
-                                        fontWeight: "bold",
-                                        border: "1px solid black",
-                                        width: "100px",
-                                        marginLeft: "150px",
-                                        "&:hover": {
-                                          border: "1px solid #C96868",
-                                          color: "#C96868",
-                                        },
-                                      }}
-                                      onMouseEnter={() => setIsHovered(true)} // 마우스를 올릴 때 텍스트 변경
-                                      onMouseLeave={() => setIsHovered(false)} // 마우스를 뗄 때 텍스트 원래대로
-                                    >
-                                      {isHovered ? "언팔로우" : "팔로잉"}{" "}
-                                      {/* hover 상태에 따라 텍스트 변경 */}
-                                    </Button>
+                      {userAll.map((user, idx) => (
+                        <div
+                          key={uuidv4()}
+                          className="self-stretch h-[70px] px-2.5 pl-10 rounded-md flex-col items-start gap-2.5 flex"
+                        >
+                          <div className="self-stretch grow shrink basis-0 items-center gap-2.5 inline-flex">
+                            <div className="h-[70px] py-2.5 justify-center items-center flex">
+                              <div className="flex h-[50px] items-center gap-2.5 w-full justify-between">
+                                {/* 이미지와 텍스트 그룹 */}
+                                <div className="flex items-center gap-2.5">
+                                  <img
+                                    className="w-[50px] h-[50px] rounded-[100px]"
+                                    src="https://via.placeholder.com/50x50"
+                                  />
+                                  <div className="flex flex-col grow shrink basis-0 h-[50px]">
+                                    <span className="text-[#0f1419] text-sm font-semibold font-['Inter'] leading-[19px]">
+                                      {user.fullName}
+                                    </span>
+                                    <span className="text-[#333333] text-[13px] font-normal font-['Inter'] leading-[19px]"></span>
+                                    <span className="text-[#546471] text-[13px] font-normal font-['Inter'] leading-[19px]">
+                                      {`@${user.fullName}`}
+                                    </span>
                                   </div>
+                                  <Button
+                                    id={uuidv4()}
+                                    variant="contained"
+                                    sx={{
+                                      color: isHovered ? "#C96868" : "black", // hover 시 텍스트 색 변경
+                                      backgroundColor: "white", // hover 시 배경색 변경
+                                      fontWeight: "bold",
+                                      border: "1px solid black",
+                                      width: "100px",
+                                      marginLeft: "150px",
+                                      "&:hover": {
+                                        border: "1px solid #C96868",
+                                        color: "#C96868",
+                                      },
+                                    }}
+                                    onMouseEnter={() => setIsHovered(true)} // 마우스를 올릴 때 텍스트 변경
+                                    onMouseLeave={() => setIsHovered(false)} // 마우스를 뗄 때 텍스트 원래대로
+                                  >
+                                    {isHovered ? "언팔로우" : "팔로잉"}{" "}
+                                    {/* hover 상태에 따라 텍스트 변경 */}
+                                  </Button>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        )
-                      )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
