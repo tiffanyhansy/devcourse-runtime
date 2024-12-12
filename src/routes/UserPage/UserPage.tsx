@@ -1,11 +1,10 @@
-import { Stack, Chip, Box, Typography, Alert, Tooltip } from "@mui/material";
+import { Stack, Chip, Box, Typography, Tooltip } from "@mui/material";
 import Input from "../../components/Mypage/Input";
 import { useProfileStore } from "../../store/store";
 import Button from "../../components/common/SquareButton";
 
 const UserPage = () => {
   const {
-    clickedField,
     isEditable,
     profilePic,
     tempProfilePic,
@@ -13,38 +12,13 @@ const UserPage = () => {
     username,
     website,
     tempClickedField,
-    setClickedField,
-    setIsEditable,
-    setProfilePic,
+
     setTempProfilePic,
     setFullName,
     setUsername,
     setWebsite,
     setTempClickedField,
   } = useProfileStore();
-
-  const isAnyFieldEmpty = !fullName.trim() || !username.trim();
-
-  const handleEditButtonClick = () => {
-    if (isEditable) {
-      if (isAnyFieldEmpty) {
-        alert("필수 항목을 모두 입력해주세요.");
-        return;
-      }
-      setProfilePic(tempProfilePic);
-      setClickedField(tempClickedField);
-    } else {
-      setTempProfilePic(profilePic);
-      setTempClickedField(new Set(clickedField));
-    }
-    setIsEditable(!isEditable);
-  };
-
-  const handleCancelButtonClick = () => {
-    setTempProfilePic(profilePic);
-    setTempClickedField(new Set(clickedField));
-    setIsEditable(false);
-  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditable) {
@@ -113,23 +87,7 @@ const UserPage = () => {
                 cursor: isEditable ? "pointer" : "not-allowed",
               }}
             />
-            {isEditable && (
-              <Box
-                position="absolute"
-                top={0}
-                left={0}
-                width="100%"
-                height="100%"
-                bgcolor="rgba(0, 0, 0, 0.2)"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Typography color="white" fontWeight="bold" fontSize="20px">
-                  사진 수정하기
-                </Typography>
-              </Box>
-            )}
+
             <input
               id="fileInput"
               type="file"
