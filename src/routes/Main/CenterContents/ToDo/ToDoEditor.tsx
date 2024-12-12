@@ -20,7 +20,7 @@ export default function ToDoEditor() {
   return (
     <li className="w-full h-[50px] border-b flex border-[#D0E5F9]">
       <input
-        placeholder="console.log(                                                   );"
+        placeholder="console.log(                                               );"
         type="text"
         ref={editorInputRef}
         onChange={(event) => {
@@ -41,7 +41,7 @@ export default function ToDoEditor() {
           }
         }}
         value={EditorText}
-        className="w-full h-full p-5 outline-none"
+        className="w-full h-full py-5 pl-5 outline-none"
       />
       <Button
         size="lg" // 버튼 크기
