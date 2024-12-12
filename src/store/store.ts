@@ -165,6 +165,8 @@ interface TimerStorage {
   setResetAlertModal: () => void;
   isAchieve: boolean;
   setIsAchieve: () => void;
+  trophyModalViewed: boolean;
+  setTrophyModalViewed: () => void;
 }
 export const useTimerStore = create<TimerStorage>((set) => ({
   hours: localStorage.getItem("TimerTime")
@@ -217,6 +219,9 @@ export const useTimerStore = create<TimerStorage>((set) => ({
   },
   isAchieve: false,
   setIsAchieve: () => set((state) => ({ isAchieve: !state.isAchieve })),
+  // 트로피 모달 전역변수입니당
+  trophyModalViewed: false,
+  setTrophyModalViewed: () => set(() => ({ trophyModalViewed: true })),
 }));
 
 // 메인페이지 TimeSetter 저장소(static 시간 관리)

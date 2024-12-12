@@ -4,6 +4,7 @@ import CenterContents from "./CenterContents/CenterContents";
 import {
   useEasterEgg,
   useHowTimeStore,
+  useTimerStore,
   useFriendModalStore,
 } from "../../store/store";
 import HowTimeModal from "../../components/howTime/HowTimeModal";
@@ -32,6 +33,11 @@ const HeartStyle = styled("div")`
 export default function Main() {
   const isHowTimeOpen = useHowTimeStore((state) => state.isHowTimeOpen);
   const hearts = useEasterEgg((state) => state.hearts);
+  const isAchieve = useTimerStore((state) => state.isAchieve);
+  const trophyModalViewed = useTimerStore((state) => state.trophyModalViewed);
+  const setTrophyModalViewed = useTimerStore(
+    (state) => state.setTrophyModalViewed
+  );
   const modal = useFriendModalStore((s) => s.modal);
 
   return (
@@ -54,6 +60,30 @@ export default function Main() {
           <Favorite />
         </HeartStyle>
       ))}
+      {/* 트로피 모달 프로토타입입니당 */}
+      {isAchieve && !trophyModalViewed ? (
+        <article className="animate-show w-screen h-screen absolute top-0 left-0 z-50 overflow-hidden">
+          <article className="animate-spaceInDown_1s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px block">
+            <img src="./src/asset/images/trophy.svg" alt="트로피 이미지" />
+          </article>
+          <article className="absolute bottom-[10%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+            <h2 className="text-white text-4xl font-bold">
+              오늘의 목표시간을 달성했어요!
+            </h2>
+            <article>
+              <button className="px-[30px] py-[10px] bg-white">
+                글 작성 하러가기
+              </button>
+              <button
+                className="px-[30px] py-[10px] bg-white"
+                onClick={setTrophyModalViewed}
+              >
+                닫기
+              </button>
+            </article>
+          </article>
+        </article>
+      ) : null}
     </section>
   );
 }

@@ -44,6 +44,7 @@ export default function ResetFab() {
                 onClick={() => {
                   resetTimer();
                   setResetAlertModal();
+                  localStorage.setItem("TimerTime", JSON.stringify([0, 0, 0]));
                 }}
               >
                 네
