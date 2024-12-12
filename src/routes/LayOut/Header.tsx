@@ -4,10 +4,18 @@ import { useState } from "react";
 import { useprofileModalStore } from "../../store/store";
 
 export default function Header() {
-  const { modal, type, open } = useprofileModalStore();
-  const handleOpen = () => open("header");
+  const { modal, type, open, close } = useprofileModalStore();
+  const handleOpen = () => {
+    if (!modal) open("header");
+    else {
+      close();
+      setTimeout(() => {
+        open("header");
+      }, 100);
+    }
+    console.log(useprofileModalStore.getState());
+  };
   const [imgState, setImgState] = useState("/src/asset/images/bell.svg");
-  const animating = useprofileModalStore((s) => s.animating);
 
   return (
     <header className="w-full h-[80px] fixed justify-between flex top-0 left-0 items-center px-[50px] bg-white z-40">
@@ -43,7 +51,7 @@ export default function Header() {
           }}
           className={`w-[40px] h-[40px] rounded-full bg-[url(/src/asset/images/profile.svg)] bg-center`}
         ></button>
-        {modal && type === "header" && <Modal animation={animating} />}
+        {type === "header" && <Modal />}
       </article>
     </header>
   );

@@ -28,21 +28,18 @@ export default function CheckboxListSecondary() {
   // 모달 창 store
   const { type, open, modal, close } = useprofileModalStore();
   const [x, setX] = React.useState(0);
-  const animating = useprofileModalStore((s) => s.animating);
-  const isAnimating = useprofileModalStore((s) => s.isAnimating);
 
   const handleItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     if (!modal) {
-      isAnimating();
       open("list");
     } else {
       close();
       setTimeout(() => {
-        isAnimating();
         open("list");
       }, 100);
     }
+    console.log(useprofileModalStore.getState());
     setX(Math.floor(rect.top + window.scrollY) - 270);
   };
 
@@ -113,9 +110,7 @@ export default function CheckboxListSecondary() {
           );
         })}
       </List>
-      {modal && type === "list" && (
-        <Modal y={-107} x={x} animation={animating} />
-      )}
+      {modal && type === "list" && <Modal y={-42} x={x} />}
     </div>
   );
 }
