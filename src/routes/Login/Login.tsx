@@ -73,16 +73,16 @@ export default function Login() {
   }, [loginError]);
 
   return (
-    <main className="flex justify-center items-center">
+    <main className="flex items-center justify-center">
       <FormContainer>
-        <header className="flex justify-center items-center mt-10 mb-4">
+        <header className="flex items-center justify-center mt-10 mb-4">
           <img
             src="/src/asset/images/runtime_logo.svg"
             alt="Runtime Logo"
             className="w-16 h-16"
           />
         </header>
-        <h1 className="text-3xl  font-bold  text-center mt-7">로그인</h1>
+        <h1 className="text-3xl font-bold text-center mt-7">로그인</h1>
 
         <section className="mt-10">
           <Input
