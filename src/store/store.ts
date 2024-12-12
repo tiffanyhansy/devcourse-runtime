@@ -134,7 +134,7 @@ export const useFriendModalStore = create<friendModalStore>((set) => ({
   close: () => set(() => ({ modal: false })),
 }));
 
-// 메인페이지 Timer 저장소
+// 메인페이지 Timer 기능 저장소
 interface TimerStorage {
   hours: number;
   minutes: number;
