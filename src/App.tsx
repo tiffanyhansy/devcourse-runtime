@@ -8,9 +8,9 @@ import Join from "./routes/Join/Join";
 import Noti from "./components/notifications/Noti";
 import JoinSuccess from "./routes/Join/JoinSuccess";
 import ErrorPage from "./components/404Page/ErrorPage";
+import { useLoginStore } from "./store/API";
 
 export default function App() {
-  //
   useEffect(() => {
     if (!localStorage.getItem("ToDoList")) {
       localStorage.setItem("ToDoList", "[]");

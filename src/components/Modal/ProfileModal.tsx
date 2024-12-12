@@ -1,12 +1,17 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useprofileModalStore } from "../../store/store";
+import { axiosInstance } from "../../api/axios";
 
 export default function Modal({ y, x }: { x?: number; y?: number }) {
   const modal = useprofileModalStore((s) => s.modal);
   const type = useprofileModalStore((s) => s.type);
   const close = useprofileModalStore((s) => s.close);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const logOut = async () => {
+    await axiosInstance.post(`/logout`).then((res) => console.log(res.status));
+  };
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -101,7 +106,10 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                   <Link
                     to="./login"
                     className="text-black text-lg font-medium font-['Inter']"
-                    onClick={close}
+                    onClick={() => {
+                      close();
+                      logOut();
+                    }}
                   >
                     로그아웃
                   </Link>
