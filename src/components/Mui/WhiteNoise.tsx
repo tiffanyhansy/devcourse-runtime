@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import { useTimerStore } from "../../store/store";
+import { Tooltip } from "@mui/material";
 
 export default function WhiteNoise() {
   const isPlayingWhiteNoise = useTimerStore(
@@ -31,32 +32,34 @@ export default function WhiteNoise() {
   }, [isPlayingWhiteNoise]);
 
   return (
-    <Box
-      sx={{
-        "& > :not(style)": {
-          backgroundColor: "#F0F5F8",
-          zIndex: 0,
-        },
-      }}
-    >
-      <Fab
-        aria-label="play"
-        onClick={() => {
-          toggleWhiteNoise();
-        }}
-        style={{
-          width: "3.5rem",
-          height: "3.5rem",
-          backgroundColor: isPlayingWhiteNoise ? "#778899" : "",
-          color: isPlayingWhiteNoise ? "#ffffff" : "",
+    <Tooltip arrow title={"백색소음"}>
+      <Box
+        sx={{
+          "& > :not(style)": {
+            backgroundColor: "#F0F5F8",
+            zIndex: 0,
+          },
         }}
       >
-        {isPlayingWhiteNoise ? (
-          <VolumeOff style={{ width: "2em", height: "2rem" }} />
-        ) : (
-          <VolumeUp style={{ width: "2rem", height: "2rem" }} />
-        )}
-      </Fab>
-    </Box>
+        <Fab
+          aria-label="play"
+          onClick={() => {
+            toggleWhiteNoise();
+          }}
+          style={{
+            width: "3.5rem",
+            height: "3.5rem",
+            backgroundColor: isPlayingWhiteNoise ? "#778899" : "",
+            color: isPlayingWhiteNoise ? "#ffffff" : "",
+          }}
+        >
+          {isPlayingWhiteNoise ? (
+            <VolumeOff style={{ width: "2em", height: "2rem" }} />
+          ) : (
+            <VolumeUp style={{ width: "2rem", height: "2rem" }} />
+          )}
+        </Fab>
+      </Box>
+    </Tooltip>
   );
 }
