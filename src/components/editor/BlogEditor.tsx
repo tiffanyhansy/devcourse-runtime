@@ -3,6 +3,7 @@ import ReactQuill from "react-quill";
 import ConfirmDialog from "./ConfirmDialog";
 import "quill/dist/quill.snow.css";
 import "../../css/QuillCustom.css";
+import Button from "../common/Button";
 
 export default function BlogEditor({
   onSave,
@@ -66,21 +67,24 @@ export default function BlogEditor({
     <div className="relative flex flex-col text-white">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-black">(optional)</h1>
-        <button
+        <Button
+          size="xxs"
+          variant="todo"
+          textSize="sm"
+          className="font-normal transition hover:text-red-400"
           onClick={handleCancel}
-          className="text-black hover:text-red-400 transition"
         >
           ✕ 닫기
-        </button>
+        </Button>
       </div>
 
-      <div className="flex flex-col flex-grow space-y-6 pb-20">
+      <div className="flex flex-col flex-grow pb-20 space-y-6">
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="제목을 입력하세요..."
-          className="pl-3 w-full bg-transparent text-3xl font-semibold text-black placeholder-gray-600 border-b border-white/30 focus:outline-none pb-2"
+          className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
         />
         <div className="flex-grow">
           <ReactQuill
@@ -95,21 +99,28 @@ export default function BlogEditor({
       </div>
 
       <div className="absolute flex bottom-0 right-3 gap-5 w-[60%] max-w-md justify-end px-4">
-        <button
+        <Button
           onClick={handleCancel}
-          className="px-6 py-2 bg-[#D6D6D6] rounded-lg text-black hover:bg-red-500/60 transition"
+          variant="secondary"
+          size="xs"
+          className="font-normal transition hover:bg-[#C96868] hover:text-white"
+          textSize="sm"
         >
           취소
-        </button>
-        <button
+        </Button>
+
+        <Button
+          variant="primary"
+          size="xs"
+          textSize="sm"
+          className="font-normal hover:bg-[#96ccd6]"
           onClick={() => {
             onSave(content);
             resetEditor();
           }}
-          className="px-6 py-2 bg-[#7EACB5] rounded-lg text-white hover:bg-green-500/60 transition"
         >
           저장하기
-        </button>
+        </Button>
       </div>
 
       <ConfirmDialog
