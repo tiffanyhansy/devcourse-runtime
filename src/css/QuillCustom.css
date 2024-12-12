@@ -6,6 +6,7 @@
   box-shadow: none !important; /* 그림자 제거 */
   overflow-y: auto;
 }
+/* 에디터 전체 디자인 */
 .ql-editor {
   border: none;
   padding: 12px;
@@ -17,9 +18,10 @@
 /* 툴바 테두리 및 그림자 여기 바꿀거면 상의*/
 .ql-toolbar {
   border: 1px solid rgba(255, 255, 255, 0.2) !important; /* 흰색 테두리 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important; /* 그림자 효과 */
   border-radius: 8px; /* 모서리 둥글게 */
   background-color: rgba(255, 255, 255, 0.1);
+  width: 100%; /* 기본 너비 */
+  max-width: 480px; /* 최대 너비 */
 }
 
 /* 기본 글자 크기 옵션 스타일 */
@@ -33,9 +35,10 @@
   content: "Huge";
 }
 
-/* Placeholder 텍스트 스타일 */
+/* 에디터가 비어있을 때 속성 변경*/
 .ql-editor.ql-blank::before {
   color: black;
+  left: 12px;
   font-size: 20px;
   font-style: italic;
   opacity: 0.8;
