@@ -5,8 +5,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { useHeaderModalStore } from "../../store/store";
-import Modal from "../headerModal/Modal";
+import { useprofileModalStore } from "../../store/store";
+import Modal from "../Modal/ProfileModal";
 import { BorderBottom } from "@mui/icons-material";
 
 // 친구목록에 사용하는 리스트 MUI
@@ -26,16 +26,13 @@ export default function CheckboxListSecondary() {
     setChecked(newChecked);
   };
   // 모달 창 store
-  const { modal, type, open, close } = useHeaderModalStore();
+  const { type, open } = useprofileModalStore();
   const [x, setX] = React.useState(0);
-  console.log(useHeaderModalStore.getState());
+
   const handleItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     open("list");
-    console.log({
-      top: rect.top + window.scrollY,
-    });
-    setX(Math.floor(rect.top + window.scrollY) - 295);
+    setX(Math.floor(rect.top + window.scrollY) - 220);
   };
 
   const styles = {
@@ -87,10 +84,6 @@ export default function CheckboxListSecondary() {
               disablePadding
             >
               <ListItemButton
-                // onClick={(e) => {
-                //   e.stopPropagation();
-                //   handleOpen();
-                // }}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleItemClick(e);
