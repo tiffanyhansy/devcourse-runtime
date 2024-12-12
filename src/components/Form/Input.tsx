@@ -33,15 +33,15 @@ export default function Input({
           "& .MuiInputLabel-root.Mui-focused": {
             color: error ? "#d32f2f" : "#7EACB5", // 포커스 시 라벨 색상
           },
-          
 
           "& label": {
             marginLeft: "8px", // 기본 마진 (포커스되지 않았을 때)
+            marginTop: "-1px",
             fontSize: "16px",
-          "&.MuiInputLabel-shrink": {
-            marginLeft: "0px", // 포커스되었을 때 마진 제거
-            fontSize: "16px",
-          },
+            "&.MuiInputLabel-shrink": {
+              marginLeft: "0px", // 포커스되었을 때 마진 제거
+              fontSize: "16px",
+            },
           },
           "& .MuiOutlinedInput-root": {
             height: "52px", // 전체 높이 설정
@@ -51,7 +51,7 @@ export default function Input({
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               border: 2,
-              borderColor: error ? "#d32f2f" : "#cdcdcd"
+              borderColor: error ? "#d32f2f" : "#cdcdcd",
             },
             "& .MuiOutlinedInput-root:hover + .MuiInputLabel-root": {
               color: "#7EACB5", // 입력 필드에 호버했을 때 라벨 색상 변경

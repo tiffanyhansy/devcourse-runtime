@@ -1,8 +1,9 @@
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+import "../../css/QuillCustom.css";
 import { useEditorStore } from "../../store/store";
-import ReactQuill from "react-quill";
 import ConfirmDialog from "./ConfirmDialog";
 import "quill/dist/quill.snow.css";
-import "../../css/QuillCustom.css";
 import Button from "../common/Button";
 
 export default function BlogEditor({
@@ -22,11 +23,11 @@ export default function BlogEditor({
   } = useEditorStore();
 
   const handleCancel = () => {
-    if (content.trim() || title.trim()) {
-      toggleDialog(true);
+    if ((content.trim() && content.trim() !== "<p><br></p>") || title.trim()) {
+      toggleDialog(true); // ConfirmDialog 열기
     } else {
       resetEditor();
-      toggleEditor();
+      toggleEditor(); // 내용이 없으면 바로 닫기
     }
   };
 
@@ -58,7 +59,6 @@ export default function BlogEditor({
     "underline",
     "color",
     "list",
-    "bullet",
     "link",
     "image",
   ];

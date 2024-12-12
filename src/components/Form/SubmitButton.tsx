@@ -11,7 +11,7 @@ export default function SubmitButton({
   ...otherProps
 }: LoginButtonProps) {
   return (
-    <Button size={size} variant="primary" textSize="lg" {...otherProps}>
+    <Button size={size} variant="primary" textSize="smd" {...otherProps}>
       {value}
     </Button>
   );

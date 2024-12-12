@@ -62,13 +62,15 @@ export const useTimerPlayStore = create<TimerPlayStoreState>((set) => ({
 
 // 메인페이지 Todo 리스트 저장소
 interface ToDoType {
-  ToDoList: { text: string; id: string }[];
+  ToDoList: { text: string; id: string; checked: boolean }[];
   isShowEditor: boolean;
   EditorText: string;
-  Checked: boolean;
   clickedIndex: number;
   toggleShowEditor: () => void;
   updateEditorText: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  updateToDoListCheck: (
+    newToDoList: { text: string; id: string; checked: boolean }[]
+  ) => void;
   updateToDoList: () => void;
   deleteToDoList: (index: number) => void;
   setClickedIndex: (index: number) => void;
@@ -77,7 +79,6 @@ export const useToDoStore = create<ToDoType>((set) => ({
   ToDoList: JSON.parse(localStorage.getItem("ToDoList")!) || [],
   isShowEditor: false,
   EditorText: "",
-  Checked: false,
   clickedIndex: -1,
   toggleShowEditor: () =>
     set((state) => ({
@@ -89,9 +90,20 @@ export const useToDoStore = create<ToDoType>((set) => ({
       EditorText: event.target.value,
     }));
   },
+  // 체크박스 클릭시 체크상태 업데이트
+  updateToDoListCheck: (newToDoList) => {
+    console.log(newToDoList);
+    set(() => ({
+      ToDoList: newToDoList,
+    }));
+  },
+  // todo리스트 최초생성시 Todo리스트 배열에 추가
   updateToDoList: () => {
     set((state) => ({
-      ToDoList: [...state.ToDoList, { text: state.EditorText, id: uuidv4() }],
+      ToDoList: [
+        ...state.ToDoList,
+        { text: state.EditorText, id: uuidv4(), checked: false },
+      ],
       EditorText: "",
     }));
   },
@@ -135,6 +147,9 @@ interface TimerStorage {
   isTimerActive: boolean;
   toggleTimer: () => void;
   activeTimer: () => void;
+  resetTimer: () => void;
+  isResetAlertModalOn: boolean;
+  setResetAlertModal: () => void;
   isAchieve: boolean;
   setIsAchieve: () => void;
 }
@@ -176,11 +191,22 @@ export const useTimerStore = create<TimerStorage>((set) => ({
       };
     });
   },
+  resetTimer: () => {
+    set(() => ({
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    }));
+  },
+  isResetAlertModalOn: false,
+  setResetAlertModal: () => {
+    set((state) => ({ isResetAlertModalOn: !state.isResetAlertModalOn }));
+  },
   isAchieve: false,
   setIsAchieve: () => set((state) => ({ isAchieve: !state.isAchieve })),
 }));
 
-// 메인페이지 TimeSetter 저장소
+// 메인페이지 TimeSetter 저장소(static 시간 관리)
 interface TimeSetterStorage {
   isTimeSetterOpen: boolean;
   setIsTimeSetterOpen: () => void;
