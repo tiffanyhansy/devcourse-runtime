@@ -1,4 +1,4 @@
-import ToDo from "./Calender/ToDo";
+import ToDo from "./ToDo/ToDo";
 
 export default function CenterContents() {
   return (
