@@ -24,12 +24,38 @@ export default {
             transform: "translateX(-50%) translateY(-50%) scale(1)",
           },
         },
+        scaleInTopLeft: {
+          "0%": {
+            transform: "scale(0)",
+            transformOrigin: "0% 0%",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "scale(1)",
+            transformOrigin: "0% 0%",
+            opacity: "1",
+          },
+        },
+        scaleInTopRight: {
+          "0%": {
+            transform: "scale(0)",
+            transformOrigin: "100% 0%",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "scale(1)",
+            transformOrigin: "100% 0%",
+            opacity: "1",
+          },
+        },
       },
       animation: {
         show: "show 1s ease-in-out forwards",
         fadeIn_1s: "fadeIn 1s ease-in-out forwards 1000ms",
         fadeIn_2s: "fadeIn 1s ease-in-out forwards 2000ms",
         spaceInDown_1s: "spaceInDown 1s ease-in-out forwards 1000ms",
+        scaleInTopLeft: "scaleInTopLeft 0.3s ease-in-out forwards",
+        scaleInTopRight: "scaleInTopRight 0.3s ease-in-out forwards",
       },
     },
   },
