@@ -29,6 +29,10 @@ export default function Timer({
   const staticSeconds = useTimerStore((state) => state.staticSeconds);
   const isAchieve = useTimerStore((state) => state.isAchieve);
   const setIsAchieve = useTimerStore((state) => state.setIsAchieve);
+  const trophyModalViewed = useTimerStore((state) => state.trophyModalViewed);
+  const setTrophyModalNotViewed = useTimerStore(
+    (state) => state.setTrophyModalNotViewed
+  );
 
   // 시간 달성 체크 기능
   useEffect(() => {
@@ -63,6 +67,11 @@ export default function Timer({
         audio.play().catch((error) => {
           console.error("❌ 알람 소리가 재생되지 않았습니다.", error);
         });
+      }
+    }
+    if (!isAchieve) {
+      if (trophyModalViewed === true) {
+        setTrophyModalNotViewed();
       }
     }
   }, [isAchieve]);
