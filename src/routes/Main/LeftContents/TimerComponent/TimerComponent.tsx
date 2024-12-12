@@ -1,5 +1,6 @@
 import FloatingActionButtons from "../../../../components/Mui/Fab";
 import ResetFab from "../../../../components/Mui/ResetFab";
+import WhiteNoise from "../../../../components/Mui/WhiteNoise";
 import { useTimerPlayStore, useTimerStore } from "../../../../store/store";
 import Timer from "./Timer";
 
@@ -19,6 +20,7 @@ export default function TimerComponent() {
         alertSound={true}
       />
       <article className="flex gap-[10px]">
+        <WhiteNoise />
         <FloatingActionButtons />
         <ResetFab />
       </article>
