@@ -168,6 +168,9 @@ interface TimerStorage {
   trophyModalViewed: boolean;
   setTrophyModalViewed: () => void;
   setTrophyModalNotViewed: () => void;
+  alertSoundPlayed: boolean;
+  setAlertSoundPlayed: () => void;
+  setAlertSoundNotPlayed: () => void;
 }
 export const useTimerStore = create<TimerStorage>((set) => ({
   hours: localStorage.getItem("TimerTime")
@@ -224,6 +227,9 @@ export const useTimerStore = create<TimerStorage>((set) => ({
   trophyModalViewed: false,
   setTrophyModalViewed: () => set(() => ({ trophyModalViewed: true })),
   setTrophyModalNotViewed: () => set(() => ({ trophyModalViewed: false })),
+  alertSoundPlayed: false,
+  setAlertSoundPlayed: () => set(() => ({ alertSoundPlayed: true })),
+  setAlertSoundNotPlayed: () => set(() => ({ alertSoundPlayed: false })),
 }));
 
 // 메인페이지 TimeSetter 저장소(static 시간 관리)
