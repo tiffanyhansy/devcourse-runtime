@@ -52,6 +52,7 @@ export default function ToDoListItem({
           <article
             className="absolute top-[10px] left-[23px]"
             onClick={() => {
+              // 체크 아이콘을 클릭하면 ref객체를 통해 체크박스가 클릭되도록 유도
               inputRef.current?.click();
             }}
           >
