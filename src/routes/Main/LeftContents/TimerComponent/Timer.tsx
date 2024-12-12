@@ -10,6 +10,7 @@ interface TimerType {
   isStaticTime?: boolean;
   isFlowTime?: boolean;
   polygonForm?: "square" | "circle";
+  alertSound?: boolean;
 }
 
 export default function Timer({
@@ -18,6 +19,7 @@ export default function Timer({
   isStaticTime = false,
   isFlowTime = false,
   polygonForm = "square",
+  alertSound = false,
 }: TimerType) {
   const hours = useTimerStore((state) => state.hours);
   const minutes = useTimerStore((state) => state.minutes);
@@ -28,6 +30,7 @@ export default function Timer({
   const isAchieve = useTimerStore((state) => state.isAchieve);
   const setIsAchieve = useTimerStore((state) => state.setIsAchieve);
 
+  // 시간 달성 체크 기능
   useEffect(() => {
     const checkAchievement = () => {
       if (Number(staticHours) < hours) {
@@ -50,16 +53,17 @@ export default function Timer({
         isAchieve && setIsAchieve();
       }
     };
-
     checkAchievement();
   }, [seconds]);
 
   useEffect(() => {
     if (isAchieve) {
-      const audio = new Audio("/src/asset/achieved_alarm.mp3");
-      audio.play().catch((error) => {
-        console.error("❌ 알람 소리가 재생되지 않았습니다.", error);
-      });
+      if (alertSound) {
+        const audio = new Audio("/src/asset/achieved_alarm.mp3");
+        audio.play().catch((error) => {
+          console.error("❌ 알람 소리가 재생되지 않았습니다.", error);
+        });
+      }
     }
   }, [isAchieve]);
   return (

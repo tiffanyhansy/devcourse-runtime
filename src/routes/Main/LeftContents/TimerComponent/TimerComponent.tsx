@@ -16,6 +16,7 @@ export default function TimerComponent() {
           color: `${isPlayBtnClicked ? "#ffffff" : ""}`,
         }}
         isFlowTime={true}
+        alertSound={true}
       />
       <article className="flex gap-[10px]">
         <FloatingActionButtons />
