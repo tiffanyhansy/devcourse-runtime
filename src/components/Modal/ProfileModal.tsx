@@ -55,7 +55,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
       }`}
       style={{
         top: x ? `${x}px` : "4.5rem",
-        right: y ? `${y}px` : "50px",
+        right: y ? `${y}px` : "290px",
       }}
     >
       <div
