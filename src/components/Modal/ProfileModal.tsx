@@ -9,6 +9,9 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
   const close = useprofileModalStore((s) => s.close);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  //임시 username
+  const username = "testuser";
+
   const logOut = async () => {
     await axiosInstance.post(`/logout`).then((res) => console.log(res.status));
   };
@@ -83,7 +86,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                 </div>
                 {type === "header" ? (
                   <Link
-                    to="./mypage"
+                    to="/mypage"
                     className="text-black text-lg font-medium font-['Inter']"
                     onClick={close}
                   >
@@ -91,7 +94,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                   </Link>
                 ) : (
                   <Link
-                    to=""
+                    to={`./userpage/${username}`}
                     className="text-black text-lg font-medium font-['Inter']"
                     onClick={close}
                   >
@@ -114,7 +117,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                     />
                   </div>
                   <Link
-                    to="./login"
+                    to="/login"
                     className="text-black text-lg font-medium font-['Inter']"
                     onClick={() => {
                       close();
