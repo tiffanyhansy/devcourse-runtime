@@ -26,17 +26,25 @@ export default function Join() {
 
   const navigate = useNavigate();
 
-  // 유효성 검사 함수
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const validatePassword = (password: string) =>
     /^(?=.*[a-z])(?=.*\d)(?=.*[\W_])[a-z\d\W_]{8,16}$/.test(password);
 
-  const validateName = (name: string) => /^[가-힣a-zA-Z\s]+$/.test(name);
+  const validateName = (name: string) => /^[a-z0-9]+$/.test(name);
 
-  // 입력값 변경 핸들러
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const checkEmailAvailability = async (email: string): Promise<boolean> => {
+    try {
+      const response = await axiosInstance.get("/users/get-users");
+      const users = response.data;
+      return !users.some((user: { email: string }) => user.email === email);
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const handleEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
 
@@ -44,8 +52,14 @@ export default function Join() {
       setEmailHelperText("유효한 이메일을 입력해주세요.");
       setEmailError(true);
     } else {
-      setEmailHelperText("");
-      setEmailError(false);
+      const isAvailable = await checkEmailAvailability(value);
+      if (!isAvailable) {
+        setEmailHelperText("이미 사용 중인 이메일입니다.");
+        setEmailError(true);
+      } else {
+        setEmailHelperText("");
+        setEmailError(false);
+      }
     }
   };
 
@@ -79,20 +93,42 @@ export default function Join() {
     }
   };
 
-  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const checkUsernameAvailability = async (
+    username: string
+  ): Promise<boolean> => {
+    try {
+      const response = await axiosInstance.get("/users/get-users");
+      const users = response.data;
+      return !users.some(
+        (user: { fullName: string }) => user.fullName === username
+      );
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const handleUserNameChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = e.target.value;
     setUserName(value);
 
     if (!validateName(value)) {
       setUserNameError(true);
-      setUserNameHelperText("이름은 한글 또는 영문만 입력 가능합니다.");
+      setUserNameHelperText(
+        "아이디는 영문 소문자 또는 숫자만 입력 가능합니다."
+      );
     } else {
-      setUserNameError(false);
-      setUserNameHelperText("");
+      const isAvailable = await checkUsernameAvailability(value);
+      if (!isAvailable) {
+        setUserNameError(true);
+        setUserNameHelperText("이미 사용 중인 아이디입니다.");
+      } else {
+        setUserNameError(false);
+        setUserNameHelperText("");
+      }
     }
   };
-
-  // 폼 제출 처리
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -136,7 +172,6 @@ export default function Join() {
           />
         </header>
         <h1 className="text-2xl font-bold text-center mt-5">회원가입</h1>
-
         <section className="mt-7">
           <Input
             label="이메일"
@@ -169,7 +204,7 @@ export default function Join() {
         </section>
         <section className="mt-4">
           <Input
-            label="이름"
+            label="아이디"
             value={userName}
             type="text"
             onChange={handleUserNameChange}
