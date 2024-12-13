@@ -40,7 +40,9 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  // 로그인 + 로그인 시 유저정보 + 토큰값 전역변수, localStorage에 저장
   const setUser = useLoginStore((state) => state.setUser);
+  const setToken = useLoginStore((state) => state.setToken);
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -55,16 +57,17 @@ export default function Login() {
     }
 
     try {
-      await axiosInstance
-        .post("/login", {
-          email,
-          password,
-        })
-        .then((res) => {
-          console.log(res.data.token);
-          setUser(res.data.user);
-        });
-      navigate("/"); // 성공 시 이동
+      const res = await axiosInstance.post("/login", {
+        email,
+        password,
+      });
+
+      setUser(res.data.user);
+      setToken(res.data.token);
+      localStorage.setItem("LoginUserInfo", JSON.stringify(res.data.user));
+      localStorage.setItem("LoginUserToken", JSON.stringify(res.data.token));
+
+      navigate("/");
     } catch (error) {
       setLoginError(true); // 에러 상태 설정
     }
