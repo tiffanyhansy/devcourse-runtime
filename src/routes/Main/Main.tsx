@@ -12,7 +12,6 @@ import TopContents from "./TopContents/TopContents";
 import { Favorite } from "@mui/icons-material";
 import { styled } from "@mui/material";
 import FriendManageModal from "../../components/Modal/FriendManageModal";
-import { axiosInstance } from "../../api/axios";
 import { useEffect } from "react";
 import { useLoginStore } from "../../store/API";
 
@@ -45,8 +44,10 @@ export default function Main() {
 
   // user 정보 가져오기
   const user = useLoginStore((state) => state.user);
+  const token = useLoginStore((state) => state.token);
   useEffect(() => {
     console.log(user);
+    console.log(token);
   });
 
   return (
