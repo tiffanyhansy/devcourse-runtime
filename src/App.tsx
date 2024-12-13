@@ -1,6 +1,5 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router";
 import { useEffect } from "react";
-import Header from "./routes/LayOut/Header";
 import Main from "./routes/Main/Main";
 import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
@@ -9,7 +8,7 @@ import JoinSuccess from "./routes/Join/JoinSuccess";
 import ErrorPage from "./components/404Page/ErrorPage";
 import UserPage from "./routes/UserPage/UserPage";
 import Mypage from "./routes/Mypage/Mypage";
-import { useLoginStore } from "./store/API";
+import LayOut from "./routes/LayOut/LayOut";
 
 export default function App() {
   useEffect(() => {
@@ -25,12 +24,17 @@ export default function App() {
         JSON.stringify(["00", "00", "00"])
       );
     }
+    if (!localStorage.getItem("LoginUserInfo")) {
+      localStorage.setItem("LoginUserInfo", "{}");
+    }
+    if (!localStorage.getItem("LoginUserToken")) {
+      localStorage.setItem("LoginUserToken", JSON.stringify(""));
+    }
   }, []);
   return (
-    <Router>
-      <main className="px-[50px] mx-auto s-core-dream-light max-w-[1440px] h-screen select-none overflow-hidden">
-        <Header />
-        <Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<LayOut />}>
           <Route path="/login" element={<Login />} />
           <Route path="/join" element={<Join />} />
           <Route path="/" element={<Main />} />
@@ -39,8 +43,8 @@ export default function App() {
           <Route path="/userpage/:username" element={<UserPage />} />
           <Route path="/notifications" element={<Noti />} />
           <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </main>
-    </Router>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }

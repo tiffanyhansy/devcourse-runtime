@@ -34,7 +34,7 @@ export default function FriendManageModal() {
   }, []);
 
   const renderUsers = (users: User[]) => (
-    <div className="overflow-auto h-[415px] mt-3">
+    <div className="overflow-auto h-[415px] mt-3 scrollbar-hidden">
       {users.map((user, idx) => (
         <div
           key={uuidv4()}

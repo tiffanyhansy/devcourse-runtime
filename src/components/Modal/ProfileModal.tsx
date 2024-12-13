@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useprofileModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
+import { useLoginStore } from "../../store/API";
 
 export default function Modal({ y, x }: { x?: number; y?: number }) {
   const modal = useprofileModalStore((s) => s.modal);
@@ -9,8 +10,19 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
   const close = useprofileModalStore((s) => s.close);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // 유저토큰값(로그인, 로그아웃 창 트리거 용도도)
+  const token = useLoginStore((state) => state.token);
+
+  // 로그아웃 + 이전 사용자 정보 + 토큰값 지우기
+  const setUser = useLoginStore((state) => state.setUser);
+  const setToken = useLoginStore((state) => state.setToken);
+
   const logOut = async () => {
     await axiosInstance.post(`/logout`).then((res) => console.log(res.status));
+    setUser({});
+    setToken("");
+    localStorage.setItem("LoginUserInfo", JSON.stringify({}));
+    localStorage.setItem("LoginUserToken", JSON.stringify(""));
   };
 
   useEffect(() => {
@@ -64,7 +76,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
               <div className="justify-start items-end gap-2.5 inline-flex">
                 <div className="justify-start items-center gap-[7px] flex">
                   <div className="text-black text-lg font-medium font-['Inter']">
-                    Sardor
+                    {type === "header" ? "내이름" : "친구이름"}
                   </div>
                 </div>
               </div>
@@ -81,13 +93,23 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                     src="/src/asset/images/settings.svg"
                   />
                 </div>
-                <Link
-                  to="./mypage"
-                  className="text-black text-lg font-medium font-['Inter']"
-                  onClick={close}
-                >
-                  내 프로필
-                </Link>
+                {type === "header" ? (
+                  <Link
+                    to="./mypage"
+                    className="text-black text-lg font-medium font-['Inter']"
+                    onClick={close}
+                  >
+                    내 프로필
+                  </Link>
+                ) : (
+                  <Link
+                    to=""
+                    className="text-black text-lg font-medium font-['Inter']"
+                    onClick={close}
+                  >
+                    프로필 보기
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -103,16 +125,28 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                       src="/src/asset/images/signout.svg"
                     />
                   </div>
-                  <Link
-                    to="./login"
-                    className="text-black text-lg font-medium font-['Inter']"
-                    onClick={() => {
-                      close();
-                      logOut();
-                    }}
-                  >
-                    로그아웃
-                  </Link>
+                  {token === "" ? (
+                    <Link
+                      to="./login"
+                      className="text-black text-lg font-medium font-['Inter']"
+                      onClick={() => {
+                        close();
+                      }}
+                    >
+                      로그인
+                    </Link>
+                  ) : (
+                    <Link
+                      to="./login"
+                      className="text-black text-lg font-medium font-['Inter']"
+                      onClick={() => {
+                        close();
+                        logOut();
+                      }}
+                    >
+                      로그아웃
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

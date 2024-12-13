@@ -9,16 +9,16 @@ export default function BasicDateCalendar() {
       width: "100%",
       borderRadius: "10px",
       bgcolor: "#F0F5F8",
-      "& .MuiButtonBase-root.Mui-selected": {
-        backgroundColor: "#7EACB5",
+      "& .MuiPickersDay-root.Mui-selected": {
+        backgroundColor: "#7EACB5 !important",
         "&:hover": {
-          backgroundColor: "#7EACB5",
+          backgroundColor: "#7EACB5 ",
         },
       },
-      "& .MuiButtonBase-root:focus": {
-        backgroundColor: "#7EACB5",
+      "& .MuiPickersDay-root:focus": {
+        backgroundColor: "#7EACB5 !important",
         "&:hover": {
-          backgroundColor: "#7EACB5",
+          backgroundColor: "#7EACB5 !important",
         },
       },
       "& .MuiPickersDay-today": {},
