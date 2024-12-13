@@ -356,12 +356,8 @@ export const useProfileStore = create<ProfileState>((set, get) => ({
   setTempProfilePic: (pic) => set({ tempProfilePic: pic }),
   setFullName: (fullName) => {
     set({ fullName });
-    const { username } = get();
-    //username이 미정이면 fullName 할당
-    if (!username.trim()) {
-      set({ username: fullName });
-    }
   },
+
   setUsername: (username) => set({ username }),
   setWebsite: (website) => set({ website }),
   setTempClickedField: (fields) => set({ tempClickedField: fields }),

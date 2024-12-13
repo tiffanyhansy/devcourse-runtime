@@ -3,8 +3,22 @@ import EmailIcon from "@mui/icons-material/Email";
 import Input from "../../components/Mypage/Input";
 import { useProfileStore } from "../../store/store";
 import Button from "../../components/common/SquareButton";
+import { axiosInstance } from "../../api/axios";
+import { useEffect } from "react";
+import axios from "axios";
+import { useLoginStore } from "../../store/API";
 
 const Mypage = () => {
+  const setUser = useLoginStore((state) => state.setUser);
+
+  const getAuthUser = async () => {
+    const newUser = await (await axiosInstance.get(`/auth-user`)).data;
+    console.log(newUser);
+    localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
+    setUser(newUser);
+  };
+  const user = useLoginStore((state) => state.user!);
+  const token = useLoginStore((state) => state.token);
   const {
     clickedField,
     isEditable,
@@ -24,17 +38,53 @@ const Mypage = () => {
     setTempClickedField,
   } = useProfileStore();
 
-  const isAnyFieldEmpty = !fullName.trim() || !username.trim();
+  //데이터 바인딩
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axiosInstance.get(
+          `/users/get-users/${fullName}`
+        );
+        setFullName(data.fullName || "");
+        setUsername(data.username || "");
+        setWebsite(data.isCover?.website || "");
+        setProfilePic(data.profilePic || "/src/asset/default_profile.png");
+        setClickedField(new Set(data.isCover?.field.split(",")));
+      } catch (error) {
+        console.error(`❌사용자의 데이터를 불러오는 데에 실패했습니다.`, error);
+      }
+    };
+    fetchData();
+  }, [setFullName, setUsername, setWebsite, setProfilePic, setClickedField]);
 
-  const handleEditButtonClick = () => {
+  const isAnyFieldEmpty = !fullName?.trim() || !username?.trim();
+  const handleEditButtonClick = async () => {
     if (isEditable) {
       if (isAnyFieldEmpty) {
         alert("필수 항목을 모두 입력해주세요.");
         return;
       }
-      setProfilePic(tempProfilePic);
-      setClickedField(tempClickedField);
+
+      try {
+        // PUT으로 변경사항 저장
+        const { data } = await axiosInstance.put(`/settings/update-user`, {
+          fullName,
+          username,
+          website,
+          field: Array.from(tempClickedField).join(","),
+        });
+        // 성공적으로 저장된 경우
+        setProfilePic(tempProfilePic);
+        setClickedField(tempClickedField);
+        setUsername(data.username || username);
+        alert("변경사항이 저장되었습니다.");
+        getAuthUser();
+      } catch (error) {
+        console.error("Failed to update user data:", error);
+        alert("변경사항 저장 중 오류가 발생했습니다.");
+      }
     } else {
+      // 수정 가능 상태로
       setTempProfilePic(profilePic);
       setTempClickedField(new Set(clickedField));
     }
@@ -144,7 +194,7 @@ const Mypage = () => {
                 fontWeight: "bold",
               }}
             >
-              Jomyeong
+              {user.fullName}
             </Typography>
 
             {/* 이메일 */}
@@ -153,7 +203,7 @@ const Mypage = () => {
                 <EmailIcon sx={{ color: "#7EACB5" }} />
               </div>
               <Typography variant="body1" className="text-gray-600">
-                alexarawles@gmail.com
+                {user.email}
               </Typography>
             </div>
           </div>
@@ -164,19 +214,21 @@ const Mypage = () => {
           <Input
             isEditable={isEditable}
             label="이름"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            value={isEditable ? fullName || "" : user.fullName}
+            onChange={(e) => isEditable && setFullName(e.target.value)}
           />
           <Input
             isEditable={isEditable}
             label="별명"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={
+              isEditable ? username || "" : user.username || user.fullName || ""
+            }
+            onChange={(e) => isEditable && setUsername(e.target.value)}
           />
           <Input
             isEditable={isEditable}
             label="웹사이트"
-            value={website}
+            value={website || ""}
             onChange={(e) => setWebsite(e.target.value)}
           />
           {/* field */}
