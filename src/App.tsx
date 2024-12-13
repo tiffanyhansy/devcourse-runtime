@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router";
 import { useEffect } from "react";
 import Header from "./routes/LayOut/Header";
 import Main from "./routes/Main/Main";
@@ -9,7 +9,6 @@ import JoinSuccess from "./routes/Join/JoinSuccess";
 import ErrorPage from "./components/404Page/ErrorPage";
 import UserPage from "./routes/UserPage/UserPage";
 import Mypage from "./routes/Mypage/Mypage";
-import { useLoginStore } from "./store/API";
 import LayOut from "./routes/LayOut/LayOut";
 
 export default function App() {

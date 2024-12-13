@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Alert } from "@mui/material";
 import SubmitButton from "../../components/Form/SubmitButton";
 import { axiosInstance } from "../../api/axios";
-import { useLoginStore } from "../../store/API";
 
 export default function Join() {
   const [email, setEmail] = useState("");
