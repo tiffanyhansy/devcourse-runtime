@@ -12,7 +12,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
 
   //임시 username
   const username = "testuser";
-  
+
   // 유저토큰값(로그인, 로그아웃 창 트리거 용도도)
   const token = useLoginStore((state) => state.token);
 
@@ -20,13 +20,12 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
   const setUser = useLoginStore((state) => state.setUser);
   const setToken = useLoginStore((state) => state.setToken);
 
-
   const logOut = async () => {
     await axiosInstance.post(`/logout`).then((res) => console.log(res.status));
-    setUser({});
-    setToken("");
-    localStorage.setItem("LoginUserInfo", JSON.stringify({}));
-    localStorage.setItem("LoginUserToken", JSON.stringify(""));
+    setUser(null);
+    setToken(null);
+    localStorage.setItem("LoginUserInfo", JSON.stringify(null));
+    localStorage.setItem("LoginUserToken", JSON.stringify(null));
   };
 
   useEffect(() => {
@@ -130,7 +129,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                     />
                   </div>
 
-                  {token === "" ? (
+                  {token === null ? (
                     <Link
                       to="/login"
                       className="text-black text-lg font-medium font-['Inter']"

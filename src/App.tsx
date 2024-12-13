@@ -26,10 +26,10 @@ export default function App() {
       );
     }
     if (!localStorage.getItem("LoginUserInfo")) {
-      localStorage.setItem("LoginUserInfo", "{}");
+      localStorage.setItem("LoginUserInfo", JSON.stringify(null));
     }
     if (!localStorage.getItem("LoginUserToken")) {
-      localStorage.setItem("LoginUserToken", JSON.stringify(""));
+      localStorage.setItem("LoginUserToken", JSON.stringify(null));
     }
   }, []);
   return (
