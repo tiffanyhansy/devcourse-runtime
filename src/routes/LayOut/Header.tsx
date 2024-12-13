@@ -30,7 +30,7 @@ export default function Header() {
         <Link to="/" className="text-lg">
           홈
         </Link>
-        <Link to="#" className="text-lg">
+        <Link to="/community" className="text-lg">
           게시글
         </Link>
       </article>
