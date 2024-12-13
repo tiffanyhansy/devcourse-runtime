@@ -3,39 +3,84 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useFriendModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
-
-interface User {
-  fullName?: string;
-}
+import { useLoginStore } from "../../store/API";
 
 export default function FriendManageModal() {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("followers");
   const [activeToggle, setActiveToggle] = useState<string>("friend");
-  const [userAll, setUserAll] = useState<User[]>([]);
+  const [userAll, setUserAll] = useState<userType[]>([]);
 
   const close = useFriendModalStore((state) => state.close);
 
-  //임시데이터
-  const followers: User[] = Array.from({ length: 9 }, (_, idx) => ({
-    fullName: `Follower ${idx + 1}`,
-  }));
-  const following: User[] = Array.from({ length: 11 }, (_, idx) => ({
-    fullName: `Following ${idx + 1}`,
-  }));
+  // //임시데이터
+  // const followers: User[] = Array.from({ length: 9 }, (_, idx) => ({
+  //   fullName: `Follower ${idx + 1}`,
+  // }));
+  // const following: User[] = Array.from({ length: 11 }, (_, idx) => ({
+  //   fullName: `Following ${idx + 1}`,
+  // }));
 
-  useEffect(() => {
-    const getUserAll = async () => {
-      const userAll = (await axiosInstance.get<User[]>(`/users/get-users`))
+  const user = useLoginStore((state) => state.user);
+  const token = useLoginStore((state) => state.token);
+
+  const setUser = useLoginStore((state) => state.setUser);
+
+  const getUserAll = async () => {
+    try {
+      const userAll = (await axiosInstance.get<userType[]>(`/users/get-users`))
         .data;
       setUserAll(userAll);
-    };
+      userAll.map((e) => {
+        console.log(user!.following.map((j) => j.user).includes(e._id));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const postFollow = async (id: string) => {
+    try {
+      const followed = (
+        await axiosInstance.post(`follow/create`, { userId: id })
+      ).data;
+      console.log(followed);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteUnFollow = async (id: string) => {
+    console.log(`${import.meta.env.VITE_API_URL}follow/delete`);
+    console.log(token);
+    try {
+      const unfollowed = (
+        await axiosInstance.delete(`/follow/delete`, {
+          data: {
+            id: id,
+          },
+        })
+      ).data;
+      console.log(unfollowed);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAuthUser = async () => {
+    const newUser = await (await axiosInstance.get(`/auth-user`)).data;
+    console.log(newUser);
+    setUser(newUser);
+    localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
+  };
+
+  useEffect(() => {
     getUserAll();
   }, []);
 
-  const renderUsers = (users: User[]) => (
+  const renderUsers = (userAll: userType[]) => (
     <div className="overflow-auto h-[415px] mt-3 scrollbar-hidden">
-      {users.map((user, idx) => (
+      {userAll.map((userOne, idx) => (
         <div
           key={uuidv4()}
           className="flex items-center justify-between p-4 rounded-md hover:bg-gray-100"
@@ -48,22 +93,59 @@ export default function FriendManageModal() {
             />
             <div>
               <p className="text-sm font-semibold">
-                {user.fullName || "김김김"}
+                {userOne.fullName || "김김김"}
               </p>
               <p className="text-xs text-gray-500">
-                @{user.fullName || "buzzusborne"}
+                @{userOne.fullName || "buzzusborne"}
               </p>
             </div>
           </div>
-          <Button
-            variant="contained"
-            sx={{
-              color: "black",
-              backgroundColor: "white",
-              fontWeight: "bold",
-              border: "1px solid black",
-              width: "118px",
-              "::after": {
+          {user?.following ? (
+            user.following.find((e) => e.user === userOne._id) ? ( // following하고 있는 유저명과 로그인 유저가 일치하면 언팔로우 버튼 활성화
+              <Button
+                variant="contained"
+                sx={{
+                  color: "#C96868",
+                  backgroundColor: "white",
+                  fontWeight: "bold",
+                  border: "1px solid #C96868",
+                  width: "118px",
+                }}
+                onClick={() => {
+                  deleteUnFollow(
+                    user.following.find((e) => e.user === userOne._id)!._id
+                  );
+                  getAuthUser();
+                }}
+              >
+                언팔로우
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{
+                  color: "black",
+                  backgroundColor: "white",
+                  fontWeight: "bold",
+                  border: "1px solid black",
+                  width: "118px",
+                }}
+                onClick={() => {
+                  postFollow(userOne._id);
+                  getAuthUser();
+                }}
+              >
+                팔로잉
+              </Button>
+            )
+          ) : null}
+        </div>
+      ))}
+    </div>
+  );
+
+  /*
+  "::after": {
                 content: '"언팔로우"', // Hover 시 나타날 텍스트
                 position: "absolute",
                 top: "50%",
@@ -81,14 +163,7 @@ export default function FriendManageModal() {
                   opacity: 1, // Hover 시 텍스트 보이기
                 },
               },
-            }}
-          >
-            팔로잉
-          </Button>
-        </div>
-      ))}
-    </div>
-  );
+  */
 
   return (
     <div className="fixed inset-0 z-40">
@@ -164,7 +239,7 @@ export default function FriendManageModal() {
           )}
         </nav>
         {activeToggle === "friend"
-          ? renderUsers(activeTab === "followers" ? followers : following)
+          ? renderUsers(activeTab === "followers" ? userAll : userAll) // 임시 follower, following 빼고 잠시 넣음음
           : renderUsers(userAll)}
       </section>
     </div>
