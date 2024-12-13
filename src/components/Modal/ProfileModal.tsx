@@ -15,6 +15,8 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
 
   // 유저토큰값(로그인, 로그아웃 창 트리거 용도도)
   const token = useLoginStore((state) => state.token);
+  // 유저정보(데이터바인딩용용)
+  const user = useLoginStore((state) => state.user);
 
   // 로그아웃 + 이전 사용자 정보 + 토큰값 지우기
   const setUser = useLoginStore((state) => state.setUser);
@@ -79,7 +81,11 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
               <div className="justify-start items-end gap-2.5 inline-flex">
                 <div className="justify-start items-center gap-[7px] flex">
                   <div className="text-black text-lg font-medium font-['Inter']">
-                    {type === "header" ? "내이름" : "친구이름"}
+                    {type === "header"
+                      ? user !== null
+                        ? user.fullName
+                        : `익명`
+                      : "친구이름"}
                   </div>
                 </div>
               </div>
