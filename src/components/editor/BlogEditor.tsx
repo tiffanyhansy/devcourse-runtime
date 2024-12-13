@@ -2,24 +2,33 @@ import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "../../css/QuillCustom.css";
 import { useEditorStore } from "../../store/store";
+import { usePostStore } from "../../store/postStore"; // postStore 임포트
 import ConfirmDialog from "./ConfirmDialog";
 import Button from "../common/SquareButton";
 
-export default function BlogEditor({
-  onSave,
-}: {
-  onSave: (content: string) => void;
-}) {
+export default function BlogEditor() {
   const {
     content,
     title,
+    isDialogOpen,
+    toggleEditor,
     setContent,
     setTitle,
-    resetEditor,
-    isDialogOpen,
     toggleDialog,
-    toggleEditor,
+    resetEditor,
   } = useEditorStore();
+
+  const { post, isLoading, error } = usePostStore();
+
+  const handleSave = async () => {
+    if (!title.trim() || !content.trim() || content.trim() === "<p><br></p>") {
+      alert("제목과 내용을 모두 입력해주세요.");
+      return;
+    }
+    await post(title, content); // POST 요청 실행
+    resetEditor(); // 에디터 초기화
+    toggleEditor(); // 에디터 닫기
+  };
 
   const handleCancel = () => {
     if ((content.trim() && content.trim() !== "<p><br></p>") || title.trim()) {
@@ -72,12 +81,10 @@ export default function BlogEditor({
             size="xs"
             textSize="sm"
             className="font-normal hover:bg-[#96ccd6]"
-            onClick={() => {
-              onSave(content);
-              resetEditor();
-            }}
+            onClick={handleSave}
+            disabled={isLoading} // 로딩 중이면 비활성화
           >
-            저장하기
+            {isLoading ? "저장 중..." : "저장하기"}
           </Button>
           <Button
             onClick={handleCancel}
@@ -110,6 +117,7 @@ export default function BlogEditor({
           />
         </div>
       </div>
+      {error && <p className="text-red-500">저장 중 오류 발생: {error}</p>}
       <ConfirmDialog
         open={isDialogOpen}
         title="에디터 닫기"
