@@ -1,6 +1,5 @@
 import { Route, Routes, BrowserRouter } from "react-router";
 import { useEffect } from "react";
-import Header from "./routes/LayOut/Header";
 import Main from "./routes/Main/Main";
 import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
@@ -25,6 +24,12 @@ export default function App() {
         "StaticTimerTime",
         JSON.stringify(["00", "00", "00"])
       );
+    }
+    if (!localStorage.getItem("LoginUserInfo")) {
+      localStorage.setItem("LoginUserInfo", "{}");
+    }
+    if (!localStorage.getItem("LoginUserToken")) {
+      localStorage.setItem("LoginUserToken", JSON.stringify(""));
     }
   }, []);
   return (
