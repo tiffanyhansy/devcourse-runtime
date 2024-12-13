@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import Modal from "../../components/Modal/ProfileModal";
 import { useState } from "react";
 import { useprofileModalStore } from "../../store/store";

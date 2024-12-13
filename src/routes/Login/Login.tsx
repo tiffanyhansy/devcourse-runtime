@@ -1,6 +1,6 @@
 import { Alert } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import SubmitButton from "../../components/Form/SubmitButton";
