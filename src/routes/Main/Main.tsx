@@ -80,12 +80,12 @@ export default function Main() {
       </button> */}
       {/* 트로피 모달 프로토타입입니당 */}
       {isAchieve && !trophyModalViewed ? (
-        <article className="animate-show w-screen h-screen absolute top-0 left-0 z-50 overflow-hidden">
-          <article className="animate-spaceInDown_1s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px block">
+        <article className="absolute top-0 left-0 z-50 w-screen h-screen overflow-hidden animate-show">
+          <article className="animate-spaceInDown_1s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px] block">
             <img src="./src/asset/images/trophy.svg" alt="트로피 이미지" />
           </article>
           <article className="absolute bottom-[10%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <h2 className="text-white text-4xl font-bold">
+            <h2 className="text-4xl font-bold text-white">
               오늘의 목표시간을 달성했어요!
             </h2>
             <article>
