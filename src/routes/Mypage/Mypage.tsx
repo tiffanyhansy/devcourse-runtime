@@ -1,15 +1,8 @@
-import {
-  Stack,
-  Chip,
-  Button,
-  Box,
-  Typography,
-  Alert,
-  Tooltip,
-} from "@mui/material";
+import { Stack, Chip, Box, Typography, Alert, Tooltip } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import Input from "../../components/Mypage/Input";
 import { useProfileStore } from "../../store/store";
+import Button from "../../components/common/SquareButton";
 
 const Mypage = () => {
   const {
@@ -236,16 +229,20 @@ const Mypage = () => {
             {isEditable && (
               <Button
                 onClick={handleCancelButtonClick}
-                variant="contained"
-                sx={{ backgroundColor: "#D6D6D6", fontWeight: "bold" }}
+                size="sm"
+                variant="custom"
+                className="bg-[#c0c0c0] w-fit px-8 hover:bg-[#D6D6D6]"
+                textSize="sm"
               >
                 취소
               </Button>
             )}
             <Button
               onClick={handleEditButtonClick}
-              variant="contained"
-              sx={{ backgroundColor: "#7EACB5", fontWeight: "bold" }}
+              variant="primary"
+              textSize="sm"
+              size="md"
+              className="hover:bg-[#96ccd6]"
             >
               {isEditable ? "변경사항 저장" : "프로필 편집"}
             </Button>
