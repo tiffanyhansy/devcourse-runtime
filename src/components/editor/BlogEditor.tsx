@@ -18,14 +18,19 @@ export default function BlogEditor() {
     resetEditor,
   } = useEditorStore();
 
-  const { post, isLoading, error } = usePostStore();
+  const { post, isLoading, error, image, channelId } = usePostStore();
 
   const handleSave = async () => {
     if (!title.trim() || !content.trim() || content.trim() === "<p><br></p>") {
       alert("제목과 내용을 모두 입력해주세요.");
       return;
     }
-    await post(title, content); // POST 요청 실행
+    // image와 channelId가 undefined일 가능성에 대비
+    // if (!image || !channelId) {
+    //   alert("이미지 URL과 채널 ID를 확인해주세요.");
+    //   return;
+    // }
+    await post(title, content, image, channelId); // POST 요청 실행
     resetEditor(); // 에디터 초기화
     toggleEditor(); // 에디터 닫기
   };
