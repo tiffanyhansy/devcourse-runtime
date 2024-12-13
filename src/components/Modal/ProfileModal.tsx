@@ -10,6 +10,9 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
   const close = useprofileModalStore((s) => s.close);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  //임시 username
+  const username = "testuser";
+
   // 유저토큰값(로그인, 로그아웃 창 트리거 용도도)
   const token = useLoginStore((state) => state.token);
 
@@ -19,10 +22,10 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
 
   const logOut = async () => {
     await axiosInstance.post(`/logout`).then((res) => console.log(res.status));
-    setUser({});
-    setToken("");
-    localStorage.setItem("LoginUserInfo", JSON.stringify({}));
-    localStorage.setItem("LoginUserToken", JSON.stringify(""));
+    setUser(null);
+    setToken(null);
+    localStorage.setItem("LoginUserInfo", JSON.stringify(null));
+    localStorage.setItem("LoginUserToken", JSON.stringify(null));
   };
 
   useEffect(() => {
@@ -95,7 +98,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                 </div>
                 {type === "header" ? (
                   <Link
-                    to="./mypage"
+                    to="/mypage"
                     className="text-black text-lg font-medium font-['Inter']"
                     onClick={close}
                   >
@@ -103,7 +106,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                   </Link>
                 ) : (
                   <Link
-                    to=""
+                    to={`./userpage/${username}`}
                     className="text-black text-lg font-medium font-['Inter']"
                     onClick={close}
                   >
@@ -125,9 +128,10 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                       src="/src/asset/images/signout.svg"
                     />
                   </div>
-                  {token === "" ? (
+
+                  {token === null ? (
                     <Link
-                      to="./login"
+                      to="/login"
                       className="text-black text-lg font-medium font-['Inter']"
                       onClick={() => {
                         close();
@@ -137,7 +141,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                     </Link>
                   ) : (
                     <Link
-                      to="./login"
+                      to="/login"
                       className="text-black text-lg font-medium font-['Inter']"
                       onClick={() => {
                         close();

@@ -9,6 +9,7 @@ import ErrorPage from "./components/404Page/ErrorPage";
 import UserPage from "./routes/UserPage/UserPage";
 import Mypage from "./routes/Mypage/Mypage";
 import LayOut from "./routes/LayOut/LayOut";
+import Community from "./routes/Community/Community";
 
 export default function App() {
   useEffect(() => {
@@ -25,10 +26,10 @@ export default function App() {
       );
     }
     if (!localStorage.getItem("LoginUserInfo")) {
-      localStorage.setItem("LoginUserInfo", "{}");
+      localStorage.setItem("LoginUserInfo", JSON.stringify(null));
     }
     if (!localStorage.getItem("LoginUserToken")) {
-      localStorage.setItem("LoginUserToken", JSON.stringify(""));
+      localStorage.setItem("LoginUserToken", JSON.stringify(null));
     }
   }, []);
   return (
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/userpage/:username" element={<UserPage />} />
           <Route path="/notifications" element={<Noti />} />
+          <Route path="/community" element={<Community />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>
