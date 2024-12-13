@@ -64,7 +64,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
               <div className="justify-start items-end gap-2.5 inline-flex">
                 <div className="justify-start items-center gap-[7px] flex">
                   <div className="text-black text-lg font-medium font-['Inter']">
-                    Sardor
+                    {type === "header" ? "내이름" : "친구이름"}
                   </div>
                 </div>
               </div>
@@ -81,13 +81,23 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                     src="/src/asset/images/settings.svg"
                   />
                 </div>
-                <Link
-                  to="./mypage"
-                  className="text-black text-lg font-medium font-['Inter']"
-                  onClick={close}
-                >
-                  내 프로필
-                </Link>
+                {type === "header" ? (
+                  <Link
+                    to="./mypage"
+                    className="text-black text-lg font-medium font-['Inter']"
+                    onClick={close}
+                  >
+                    내 프로필
+                  </Link>
+                ) : (
+                  <Link
+                    to=""
+                    className="text-black text-lg font-medium font-['Inter']"
+                    onClick={close}
+                  >
+                    프로필 보기
+                  </Link>
+                )}
               </div>
             </div>
           </div>
