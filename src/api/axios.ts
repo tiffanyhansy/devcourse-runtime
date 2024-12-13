@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   const token = useLoginStore.getState().token;
   if (token) {
-    config.headers["Authorization"] = `Barear ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
