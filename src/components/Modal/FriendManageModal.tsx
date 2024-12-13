@@ -58,20 +58,32 @@ export default function FriendManageModal() {
           <Button
             variant="contained"
             sx={{
-              color: isHovered ? "#C96868" : "black",
+              color: "black",
               backgroundColor: "white",
               fontWeight: "bold",
               border: "1px solid black",
-              width: "100px",
-              "&:hover": {
-                border: "1px solid #C96868",
+              width: "118px",
+              "::after": {
+                content: '"언팔로우"', // Hover 시 나타날 텍스트
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
                 color: "#C96868",
+                opacity: 0,
+                transition: "none",
+              },
+              "&:hover": {
+                transition: "none",
+                border: "1px solid #C96868",
+                color: "transparent", // 기존 텍스트 숨기기
+                "::after": {
+                  opacity: 1, // Hover 시 텍스트 보이기
+                },
               },
             }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
           >
-            {isHovered ? "언팔로우" : "팔로잉"}
+            팔로잉
           </Button>
         </div>
       ))}

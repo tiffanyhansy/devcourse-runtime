@@ -33,20 +33,18 @@ export default function App() {
     }
   }, []);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<LayOut />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/join" element={<Join />} />
-          <Route path="/" element={<Main />} />
-          <Route path="/join-success" element={<JoinSuccess />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/userpage/:username" element={<UserPage />} />
-          <Route path="/notifications" element={<Noti />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route element={<LayOut />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/join-success" element={<JoinSuccess />} />
+        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/userpage/:username" element={<UserPage />} />
+        <Route path="/notifications" element={<Noti />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Route>
+    </Routes>
   );
 }
