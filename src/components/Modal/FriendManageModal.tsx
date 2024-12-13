@@ -71,14 +71,15 @@ export default function FriendManageModal() {
                 transform: "translate(-50%, -50%)",
                 color: "#C96868",
                 opacity: 0,
-                transition: "opacity 0.3s",
+                transition: "none",
               },
               "&:hover": {
+                transition: "none",
                 border: "1px solid #C96868",
+                color: "transparent", // 기존 텍스트 숨기기
                 "::after": {
                   opacity: 1, // Hover 시 텍스트 보이기
                 },
-                color: "transparent", // 기존 텍스트 숨기기
               },
             }}
           >
