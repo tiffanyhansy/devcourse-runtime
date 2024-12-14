@@ -7,7 +7,7 @@ interface PostStore {
     content: string,
     image: string | null,
     channelId: string
-  ) => Promise<void>;
+  ) => Promise<boolean>;
   isLoading: boolean;
   error: string | null;
   image: string | null;
@@ -32,7 +32,7 @@ export const usePostStore = create<PostStore>((set) => ({
         .post(`${import.meta.env.VITE_API_URL}/posts/create`, {
           title: combinedTitle,
           image: JSON.stringify(null),
-          channelId: "675aa3f8d3266e29a57e4c61",
+          channelId: "", //id값 넣어서 확인가능
         })
         .catch((err) => {
           console.error(err);
@@ -42,10 +42,11 @@ export const usePostStore = create<PostStore>((set) => ({
       //성공
       console.log("Post success!:", response.data);
       alert("Post submitted successfully!");
-      //실패
+      return true;
     } catch (error: any) {
       console.error("Error posting data:", error);
       set({ error: error.message });
+      return false;
     } finally {
       set({ isLoading: false });
     }

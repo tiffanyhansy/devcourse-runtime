@@ -7,6 +7,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import Button from "../common/SquareButton";
 import { Stack, Chip, Tooltip } from "@mui/material";
 import { useProfileStore } from "../../store/store";
+import { useState } from "react";
 
 export default function BlogEditor() {
   const {
@@ -20,16 +21,37 @@ export default function BlogEditor() {
     resetEditor,
   } = useEditorStore();
 
-  const { post, isLoading, error, image, channelId } = usePostStore();
+  const { post, isLoading, image, channelId } = usePostStore();
+
+  const [isShake, setShake] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSave = async () => {
     if (!title.trim() || !content.trim() || content.trim() === "<p><br></p>") {
-      alert("제목과 내용을 모두 입력해주세요.");
+      setShake(true);
+      setErrorMessage("제목과 내용을 모두 입력해주세요");
+
+      setTimeout(() => {
+        setShake(false);
+        setErrorMessage("");
+      }, 2000);
       return;
     }
-    await post(title, content, image, channelId); // POST 요청 실행
-    resetEditor(); // 에디터 초기화
-    toggleEditor(); // 에디터 닫기
+
+    const success = await post(title, content, image, channelId);
+
+    if (success) {
+      resetEditor();
+      toggleEditor();
+    } else {
+      setShake(true);
+      setErrorMessage("저장에 실패했습니다.");
+
+      setTimeout(() => {
+        setShake(false);
+        setErrorMessage("");
+      }, 2000);
+    }
   };
 
   const handleCancel = () => {
@@ -72,13 +94,8 @@ export default function BlogEditor() {
     "link",
     "image",
   ];
-  const {
-    isEditable,
-
-    tempClickedField,
-
-    setTempClickedField,
-  } = useProfileStore();
+  const { isEditable, tempClickedField, setTempClickedField } =
+    useProfileStore();
 
   const fieldLabels = ["SW", "SI", "DA", "GE"];
   const fieldDescriptions = [
@@ -87,6 +104,7 @@ export default function BlogEditor() {
     "데이터/AI 개발",
     "게임/QA",
   ];
+
   const handleFieldClick = (index: number) => {
     const updatedField = new Set(tempClickedField);
     if (updatedField.has(index)) {
@@ -98,10 +116,17 @@ export default function BlogEditor() {
   };
 
   return (
-    <div className="relative flex flex-col text-white">
+    <div
+      className={`relative flex flex-col text-white ${
+        isShake ? "animate-shake" : ""
+      }`}
+    >
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-black pl-3">(optional)</h1>
         <div className="flex gap-2 pt-1">
+          <div className="pt-2">
+            {errorMessage && <p className="text-[#C96868]">{errorMessage}</p>}
+          </div>
           <Button
             variant="primary"
             size="xs"
@@ -174,7 +199,7 @@ export default function BlogEditor() {
             ))}
           </Stack>
         </Stack>
-
+        {/* 에디터 & 본문 */}
         <div className="flex-grow">
           <ReactQuill
             value={content}
@@ -186,8 +211,6 @@ export default function BlogEditor() {
           />
         </div>
       </div>
-
-      {error && <p className="text-red-500">저장 중 오류 발생: {error}</p>}
       <ConfirmDialog
         open={isDialogOpen}
         title="에디터 닫기"
