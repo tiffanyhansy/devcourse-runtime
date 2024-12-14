@@ -226,11 +226,11 @@ export default function FriendManageModal() {
             </>
           ) : (
             <>
-              <div className="w-[458px] h-12 pl-6 pr-2 py-2 mb-5 ml-4 bg-white rounded-full shadow border border-gray-200 justify-start items-center gap-4 inline-flex">
-                <div className="grow shrink basis-0 flex-col justify-start items-start inline-flex">
-                  <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
+              <div className="w-[458px] h-12 pl-6 pr-2 py-2 mb-5 bg-white rounded-full shadow border border-gray-200 justify-start items-center gap-4 inline-flex">
+                <div className="w-full h-full grow shrink basis-0 flex-col justify-start items-start inline-flex">
+                  <div className="w-full h-full self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
                     <input
-                      className="w-full"
+                      className="w-full h-full focus:outline-none"
                       placeholder="검색"
                       ref={inputRef}
                       onKeyDown={(e) => {
