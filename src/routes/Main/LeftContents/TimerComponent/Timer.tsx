@@ -126,15 +126,21 @@ export default function Timer({
             </article>
             <span className="text-[20px] font-black">ㅡ</span>
             <article className="flex gap-1 text-5xl mt-[15px]">
-              <span>{hours < 10 ? `0${hours}` : hours}</span>
+              <span className="w-[50px]">
+                {hours < 10 ? `0${hours}` : hours}
+              </span>
 
               <span>:</span>
 
-              <span>{minutes < 10 ? `0${minutes}` : minutes}</span>
+              <span className="w-[50px]">
+                {minutes < 10 ? `0${minutes}` : minutes}
+              </span>
 
               <span>:</span>
 
-              <span>{seconds < 10 ? `0${seconds}` : seconds}</span>
+              <span className="w-[50px]">
+                {seconds < 10 ? `0${seconds}` : seconds}
+              </span>
             </article>
           </>
         ) : null}
