@@ -6,8 +6,7 @@ import { usePostStore } from "../../store/postStore"; // postStore 임포트
 import ConfirmDialog from "./ConfirmDialog";
 import Button from "../common/SquareButton";
 import { Stack, Chip, Tooltip } from "@mui/material";
-import { useProfileStore } from "../../store/store";
-import { useState } from "react";
+import { useEffect } from "react";
 
 export default function BlogEditor() {
   const {
@@ -19,38 +18,45 @@ export default function BlogEditor() {
     setTitle,
     toggleDialog,
     resetEditor,
+    isShake,
+    setShake,
+    errorMessage,
+    setErrorMessage,
+    resetShakeAndError,
   } = useEditorStore();
 
-  const { post, isLoading, image, channelId } = usePostStore();
+  const {
+    channels,
+    fetchChannels,
+    setSelectedChannelId,
+    post,
+    isLoading,
+    channelId,
+  } = usePostStore();
 
-  const [isShake, setShake] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  useEffect(() => {
+    fetchChannels(); // 컴포넌트가 마운트될 때 채널 리스트 가져오기
+  }, [fetchChannels]);
+
+  const handleError = (message: string) => {
+    setShake(true);
+    setErrorMessage(message);
+    setTimeout(resetShakeAndError, 2000); // 2초 후 상태 초기화
+  };
 
   const handleSave = async () => {
     if (!title.trim() || !content.trim() || content.trim() === "<p><br></p>") {
-      setShake(true);
-      setErrorMessage("제목과 내용을 모두 입력해주세요");
-
-      setTimeout(() => {
-        setShake(false);
-        setErrorMessage("");
-      }, 2000);
+      handleError("제목과 내용을 모두 입력해주세요");
       return;
     }
 
-    const success = await post(title, content, image, channelId);
+    const success = await post(title, content, channelId || "");
 
     if (success) {
       resetEditor();
       toggleEditor();
     } else {
-      setShake(true);
-      setErrorMessage("저장에 실패했습니다.");
-
-      setTimeout(() => {
-        setShake(false);
-        setErrorMessage("");
-      }, 2000);
+      handleError("저장에 실패했습니다.");
     }
   };
 
@@ -94,27 +100,6 @@ export default function BlogEditor() {
     "link",
     "image",
   ];
-  const { isEditable, tempClickedField, setTempClickedField } =
-    useProfileStore();
-
-  const fieldLabels = ["SW", "SI", "DA", "GE"];
-  const fieldDescriptions = [
-    "소프트웨어 개발",
-    "시스템/인프라",
-    "데이터/AI 개발",
-    "게임/QA",
-  ];
-
-  const handleFieldClick = (index: number) => {
-    const updatedField = new Set(tempClickedField);
-    if (updatedField.has(index)) {
-      updatedField.delete(index);
-    } else {
-      updatedField.add(index);
-    }
-    setTempClickedField(updatedField);
-  };
-
   return (
     <div
       className={`relative flex flex-col text-white ${
@@ -157,6 +142,7 @@ export default function BlogEditor() {
           placeholder="제목을 입력하세요..."
           className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
         />
+        {/* Stack 채널 선택 */}
         <Stack
           direction="column"
           spacing={1}
@@ -167,38 +153,32 @@ export default function BlogEditor() {
               fontSize: "20px",
             }}
           >
-            Field
+            채널 선택
           </label>
           <Stack direction="row" spacing={1}>
-            {fieldLabels.map((label, index) => (
-              <Tooltip key={index} title={fieldDescriptions[index]} arrow>
+            {channels.map((channel) => (
+              <Tooltip key={channel._id} title={channel.description} arrow>
                 <Chip
-                  key={index}
-                  label={label}
+                  key={channel._id}
+                  label={channel.name} // 채널 이름 표시
                   variant="filled"
-                  onClick={
-                    isEditable ? () => handleFieldClick(index) : undefined
-                  }
+                  onClick={() => setSelectedChannelId(channel._id)} // 선택된 채널 ID 저장
                   style={{
                     width: "3rem",
-                    backgroundColor: tempClickedField.has(index)
-                      ? isEditable
-                        ? "#7EACB5"
-                        : "#B0B0B0"
-                      : "",
-                    color: tempClickedField.has(index)
-                      ? "white"
-                      : isEditable
-                      ? "#000"
-                      : "",
-                    cursor: isEditable ? "pointer" : "not-allowed",
-                    opacity: isEditable ? 1 : 0.6,
+                    backgroundColor:
+                      channel._id === channelId ? "#7EACB5" : "#f0f0f0", // 선택된 채널 색상 변경
+                    color: channel._id === channelId ? "white" : "black",
+                    border: "1px solid #ccc",
+                    borderRadius: "10px",
+                    cursor: "pointer",
+                    transition: "background-color 0.3s ease",
                   }}
                 />
               </Tooltip>
             ))}
           </Stack>
         </Stack>
+
         {/* 에디터 & 본문 */}
         <div className="flex-grow">
           <ReactQuill

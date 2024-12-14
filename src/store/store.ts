@@ -8,26 +8,45 @@ interface EditorState {
   content: string;
   title: string;
   isDialogOpen: boolean;
+  isShake: boolean;
+  errorMessage: string;
+  thumbnail: File | null;
+  setShake: (v: boolean) => void;
+  setErrorMessage: (message: string) => void;
+  resetShakeAndError: () => void;
   toggleEditor: () => void;
   setContent: (content: string) => void;
   setTitle: (title: string) => void;
   toggleDialog: (open: boolean) => void;
   resetEditor: () => void;
+  setThumbnail: (thumbnail: File | null) => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
   isOpen: false,
   content: "",
   title: "",
+  thumbnail: null,
   isDialogOpen: false,
+  isShake: false,
+  errorMessage: "",
+  setShake: (v: boolean) => set({ isShake: v }),
+  setErrorMessage: (message: string) => set({ errorMessage: message }),
+  resetShakeAndError: () =>
+    set({
+      isShake: false,
+      errorMessage: "",
+    }),
+
   toggleEditor: () =>
     set((state: EditorState) => ({
       isOpen: !state.isOpen, // `state`의 타입이 EditorState임을 명시
     })),
   setContent: (content) => set({ content }),
+  setThumbnail: (thumbnail) => set({ thumbnail }),
   setTitle: (title) => set({ title }),
   toggleDialog: (open) => set({ isDialogOpen: open }),
-  resetEditor: () => set({ content: "", title: "" }),
+  resetEditor: () => set({ content: "", title: "", thumbnail: null }),
 }));
 
 // 메인페이지 몇 시간? 클릭시 상호작용 기능
