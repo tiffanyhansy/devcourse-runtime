@@ -31,26 +31,28 @@ export default function FriendManageModal() {
       const userAll = (await axiosInstance.get<userType[]>(`/users/get-users`))
         .data;
       setUserAll(userAll);
-      userAll.map((e) => {
-        console.log(user!.following.map((j) => j.user).includes(e._id));
-      });
     } catch (error) {
       console.log(error);
     }
   };
 
   const postFollow = async (id: string) => {
+    // 팔로우 요청을 보내는 코드 안에 유저정보 업데이트 함수까지 실행시켜야 즉각적인 업데이트가 가능하다.
     try {
       const followed = (
         await axiosInstance.post(`follow/create`, { userId: id })
       ).data;
-      console.log(followed);
+      const updateUser = { ...user! };
+      updateUser.following.push(followed);
+      setUser(updateUser);
+      localStorage.setItem("LoginUserInfo", JSON.stringify(updateUser));
     } catch (error) {
       console.log(error);
     }
   };
 
   const deleteUnFollow = async (id: string) => {
+    // 언팔로우 요청을 보내는 코드 안에 유저정보 업데이트 함수까지 실행시켜야 즉각적인 업데이트가 가능하다.
     console.log(`${import.meta.env.VITE_API_URL}follow/delete`);
     console.log(token);
     try {
@@ -61,6 +63,12 @@ export default function FriendManageModal() {
           },
         })
       ).data;
+      const updateUser = { ...user! };
+      const updateFollow = updateUser.following.filter((e) => {
+        return e._id !== unfollowed._id;
+      });
+      updateUser.following = updateFollow;
+      setUser(updateUser);
       console.log(unfollowed);
     } catch (error) {
       console.log(error);
@@ -70,12 +78,13 @@ export default function FriendManageModal() {
   const getAuthUser = async () => {
     const newUser = await (await axiosInstance.get(`/auth-user`)).data;
     console.log(newUser);
-    setUser(newUser);
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
+    setUser(newUser);
   };
 
   useEffect(() => {
     getUserAll();
+    getAuthUser();
   }, []);
 
   const renderUsers = (userAll: userType[]) => (
@@ -115,7 +124,6 @@ export default function FriendManageModal() {
                   deleteUnFollow(
                     user.following.find((e) => e.user === userOne._id)!._id
                   );
-                  getAuthUser();
                 }}
               >
                 언팔로우
@@ -132,7 +140,6 @@ export default function FriendManageModal() {
                 }}
                 onClick={() => {
                   postFollow(userOne._id);
-                  getAuthUser();
                 }}
               >
                 팔로잉
@@ -239,7 +246,15 @@ export default function FriendManageModal() {
           )}
         </nav>
         {activeToggle === "friend"
-          ? renderUsers(activeTab === "followers" ? userAll : userAll) // 임시 follower, following 빼고 잠시 넣음음
+          ? renderUsers(
+              activeTab === "followers"
+                ? userAll.filter((e) =>
+                    user?.followers.some((j) => j.follower === e._id)
+                  )
+                : userAll.filter((e) =>
+                    user?.following.some((j) => j.user === e._id)
+                  )
+            ) // 임시 follower, following 빼고 잠시 넣음음
           : renderUsers(userAll)}
       </section>
     </div>
