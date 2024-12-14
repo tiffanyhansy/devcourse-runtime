@@ -1,4 +1,4 @@
-interface userType {
+export interface userType {
   role: string;
   emailVerified: boolean;
   banned: boolean;

@@ -32,7 +32,7 @@ export default function ButtonListComponent() {
         onClick={toggleHowTime}
       />
       <EditorModal>
-        <BlogEditor onSave={saveContent} />
+        <BlogEditor />
       </EditorModal>
     </section>
   );
