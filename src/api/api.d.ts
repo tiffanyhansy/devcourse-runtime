@@ -16,4 +16,9 @@ export interface userType {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  isCover?: {
+    website: string;
+    field: string;
+  };
+  username?: string;
 }
