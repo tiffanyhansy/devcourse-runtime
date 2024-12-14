@@ -1,25 +1,22 @@
 import { Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useFriendModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
 
 export default function FriendManageModal() {
-  const [isHovered, setIsHovered] = useState<boolean>(false);
+  // const [isHovered, setIsHovered] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("followers");
   const [activeToggle, setActiveToggle] = useState<string>("friend");
   const [userAll, setUserAll] = useState<userType[]>([]);
 
   const close = useFriendModalStore((state) => state.close);
 
-  // //임시데이터
-  // const followers: User[] = Array.from({ length: 9 }, (_, idx) => ({
-  //   fullName: `Follower ${idx + 1}`,
-  // }));
-  // const following: User[] = Array.from({ length: 11 }, (_, idx) => ({
-  //   fullName: `Following ${idx + 1}`,
-  // }));
+  // 유저검색창 Ref객체
+  const inputRef = useRef<HTMLInputElement>(null);
+  const ButtonRef = useRef<HTMLButtonElement>(null);
+  const [searchUser, setSearchUser] = useState(userAll);
 
   const user = useLoginStore((state) => state.user);
   const token = useLoginStore((state) => state.token);
@@ -31,6 +28,7 @@ export default function FriendManageModal() {
       const userAll = (await axiosInstance.get<userType[]>(`/users/get-users`))
         .data;
       setUserAll(userAll);
+      setSearchUser(userAll); // searchUser도 첫 페이지 렌더링시 모든 유저로 상태값 업데이트
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +67,6 @@ export default function FriendManageModal() {
       });
       updateUser.following = updateFollow;
       setUser(updateUser);
-      console.log(unfollowed);
     } catch (error) {
       console.log(error);
     }
@@ -77,7 +74,6 @@ export default function FriendManageModal() {
 
   const getAuthUser = async () => {
     const newUser = await (await axiosInstance.get(`/auth-user`)).data;
-    console.log(newUser);
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
     setUser(newUser);
   };
@@ -233,12 +229,28 @@ export default function FriendManageModal() {
               <div className="w-[458px] h-12 pl-6 pr-2 py-2 mb-5 ml-4 bg-white rounded-full shadow border border-gray-200 justify-start items-center gap-4 inline-flex">
                 <div className="grow shrink basis-0 flex-col justify-start items-start inline-flex">
                   <div className="self-stretch text-black text-sm font-medium font-['Inter'] leading-tight">
-                    <input className="w-full" placeholder="검색" />
+                    <input
+                      className="w-full"
+                      placeholder="검색"
+                      ref={inputRef}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") ButtonRef.current?.click();
+                      }}
+                    />
                   </div>
                 </div>
                 <div className="w-8 h-8 justify-start items-start flex">
                   <div className="grow shrink basis-0 self-stretch p-1 bg-[#7eacb5] rounded-[100px] shadow justify-center items-center gap-2 flex">
-                    <button className="w-5 h-5 relative bg-[url(src/asset/images/Search.svg)]" />
+                    <button
+                      className="w-5 h-5 relative bg-[url(src/asset/images/Search.svg)]"
+                      ref={ButtonRef}
+                      onClick={() => {
+                        const searchUser = userAll.filter((e) =>
+                          e.fullName.includes(inputRef.current!.value!)
+                        );
+                        setSearchUser(searchUser);
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -254,8 +266,8 @@ export default function FriendManageModal() {
                 : userAll.filter((e) =>
                     user?.following.some((j) => j.user === e._id)
                   )
-            ) // 임시 follower, following 빼고 잠시 넣음음
-          : renderUsers(userAll)}
+            )
+          : renderUsers(searchUser)}
       </section>
     </div>
   );
