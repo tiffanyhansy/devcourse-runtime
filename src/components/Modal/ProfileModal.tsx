@@ -82,7 +82,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                 <div className="justify-start items-center gap-[7px] flex">
                   <div className="text-black text-lg font-medium font-['Inter']">
                     {type === "header"
-                      ? user !== null
+                      ? user?.fullName
                         ? user.fullName
                         : `익명`
                       : "친구이름"}

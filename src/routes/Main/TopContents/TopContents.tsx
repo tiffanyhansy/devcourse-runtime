@@ -19,7 +19,7 @@ export default function TopContents() {
     <article className="flex items-end mt-20">
       <h1 className="text-[50px] text-[#3E435D] mr-5 select-none">
         <span className="font-bold" onClick={handleNameClick}>
-          {user !== null ? `${user.fullName} ` : "익명 "}
+          {user?.fullName ? `${user.fullName} ` : "익명 "}
         </span>
         님, 오늘도 열공하세요!!
       </h1>

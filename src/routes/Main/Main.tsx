@@ -42,14 +42,6 @@ export default function Main() {
   );
   const modal = useFriendModalStore((s) => s.modal);
 
-  // user 정보 가져오기
-  const user = useLoginStore((state) => state.user!);
-  const token = useLoginStore((state) => state.token);
-  useEffect(() => {
-    console.log(`유저정보 : ${user}`);
-    console.log(`토큰값 : ${token}`);
-  });
-
   return (
     <section>
       <TopContents />
