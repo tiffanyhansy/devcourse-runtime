@@ -36,3 +36,12 @@ export interface userType {
   };
   username?: string;
 }
+
+interface followType {
+  _id: string;
+  user: string;
+  follower: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}

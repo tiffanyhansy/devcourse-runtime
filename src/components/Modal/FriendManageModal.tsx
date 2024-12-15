@@ -6,6 +6,7 @@ import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
 import NonLoginFriendModal from "./NonLoginFriendModal";
 import { Link } from "react-router";
+import { followType, userType } from "../../api/api";
 
 export default function FriendManageModal() {
   // const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -63,7 +64,7 @@ export default function FriendManageModal() {
         })
       ).data;
       const updateUser = { ...user! };
-      const updateFollow = updateUser.following.filter((e) => {
+      const updateFollow = updateUser.following.filter((e: followType) => {
         return e._id !== unfollowed._id;
       });
       updateUser.following = updateFollow;
@@ -116,7 +117,7 @@ export default function FriendManageModal() {
             </Link>
           </div>
           {user?.following ? (
-            user.following.find((e) => e.user === userOne._id) ? ( // following하고 있는 유저명과 로그인 유저가 일치하면 언팔로우 버튼 활성화
+            user.following.find((e: followType) => e.user === userOne._id) ? ( // following하고 있는 유저명과 로그인 유저가 일치하면 언팔로우 버튼 활성화
               <Button
                 variant="contained"
                 sx={{
@@ -128,7 +129,9 @@ export default function FriendManageModal() {
                 }}
                 onClick={() => {
                   deleteUnFollow(
-                    user.following.find((e) => e.user === userOne._id)!._id
+                    user.following.find(
+                      (e: followType) => e.user === userOne._id
+                    )!._id
                   );
                 }}
               >
@@ -253,10 +256,12 @@ export default function FriendManageModal() {
             ? renderUsers(
                 activeTab === "followers"
                   ? userAll.filter((e) =>
-                      user?.followers.some((j) => j.follower === e._id)
+                      user?.followers.some(
+                        (j: followType) => j.follower === e._id
+                      )
                     )
                   : userAll.filter((e) =>
-                      user?.following.some((j) => j.user === e._id)
+                      user?.following.some((j: followType) => j.user === e._id)
                     )
               )
             : renderUsers(searchUser)}

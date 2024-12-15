@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useLoginStore } from "../../store/API";
 import { axiosInstance } from "../../api/axios";
 import { Link } from "react-router";
+import { userType } from "../../api/api";
 
 export default function NonLoginFriendModal() {
   const [userAll, setUserAll] = useState<userType[]>([]);
