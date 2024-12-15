@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Main from "./routes/Main/Main";
 import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
-import Noti from "./components/notifications/Noti";
+import Noti from "./routes/Notifications/Noti";
 import JoinSuccess from "./routes/Join/JoinSuccess";
 import ErrorPage from "./components/404Page/ErrorPage";
 import UserPage from "./routes/UserPage/UserPage";
