@@ -3,6 +3,7 @@ import { useToDoStore } from "../../../../store/store";
 import Pin from "./Pin";
 import ToDoListItem from "./ToDoListItem";
 import ToDoEditor from "./ToDoEditor";
+import { Tooltip } from "@mui/material";
 
 export default function ToDo() {
   // 메모장 핀 길이
