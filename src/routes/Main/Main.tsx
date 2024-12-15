@@ -14,6 +14,7 @@ import { styled } from "@mui/material";
 import FriendManageModal from "../../components/Modal/FriendManageModal";
 import { useEffect } from "react";
 import { useLoginStore } from "../../store/API";
+import { axiosInstance } from "../../api/axios";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -41,6 +42,21 @@ export default function Main() {
     (state) => state.setTrophyModalViewed
   );
   const modal = useFriendModalStore((s) => s.modal);
+
+  // 메인페이지 들어올 떄 마다 유저정보 업데이트
+  const setUser = useLoginStore((state) => state.setUser);
+  const getAuthUser = async () => {
+    const newUser = await (await axiosInstance.get(`/auth-user`)).data;
+    console.log(newUser === "");
+    localStorage.setItem(
+      "LoginUserInfo",
+      JSON.stringify(newUser === "" ? null : newUser)
+    );
+    setUser(newUser);
+  };
+  useEffect(() => {
+    getAuthUser();
+  }, []);
 
   return (
     <section>

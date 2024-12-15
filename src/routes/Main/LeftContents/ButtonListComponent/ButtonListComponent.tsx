@@ -3,6 +3,7 @@ import { useHowTimeStore } from "../../../../store/store";
 import LinkButton from "./LinkButton";
 import EditorModal from "../../../../components/editor/EditorModal";
 import BlogEditor from "../../../../components/editor/BlogEditor";
+import { useLoginStore } from "../../../../store/API";
 
 export default function ButtonListComponent() {
   const { toggleEditor } = useEditorStore();
@@ -12,6 +13,8 @@ export default function ButtonListComponent() {
     toggleEditor();
   };
   const { open } = useFriendModalStore();
+
+  const token = useLoginStore((state) => state.token);
 
   return (
     <section className="flex gap-[20px]">
@@ -23,7 +26,7 @@ export default function ButtonListComponent() {
       <LinkButton icon={"/src/asset/images/Chat.svg"} title={"게시판"} />
       <LinkButton
         icon={"/src/asset/images/Group-person.svg"}
-        title={"친구관리"}
+        title={token ? "친구관리" : "유저 검색"}
         onClick={open}
       />
       <LinkButton
