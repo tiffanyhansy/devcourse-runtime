@@ -23,7 +23,10 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
   const setToken = useLoginStore((state) => state.setToken);
 
   const logOut = async () => {
-    await axiosInstance.post(`/logout`).then((res) => console.log(res.status));
+    await axiosInstance
+      .post(`/logout`)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
     setUser(null);
     setToken(null);
     localStorage.setItem("LoginUserInfo", JSON.stringify(null));
