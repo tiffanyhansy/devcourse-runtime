@@ -1,4 +1,3 @@
-import * as React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -8,10 +7,12 @@ import Avatar from "@mui/material/Avatar";
 import { useprofileModalStore } from "../../store/store";
 import Modal from "../Modal/ProfileModal";
 import { BorderBottom } from "@mui/icons-material";
+import { axiosInstance } from "../../api/axios";
+import { useEffect, useState } from "react";
 
 // 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
-  const [checked, setChecked] = React.useState([1]);
+  const [checked, setChecked] = useState([1]);
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -27,7 +28,7 @@ export default function CheckboxListSecondary() {
   };
   // 모달 창 store
   const { type, open, modal, close } = useprofileModalStore();
-  const [x, setX] = React.useState(0);
+  const [x, setX] = useState(0);
 
   const handleItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -73,10 +74,23 @@ export default function CheckboxListSecondary() {
     },
   };
 
+  const [onlineUser, setOnlineUser] = useState([]);
+  const getOnlineUser = async () => {
+    const onlineUserData = await axiosInstance.get(
+      `${import.meta.env.VITE_API_URL}/users/online-users`
+    );
+    console.log(onlineUserData.data);
+    setOnlineUser(onlineUserData.data);
+  };
+
+  useEffect(() => {
+    getOnlineUser();
+  }, []);
+
   return (
     <div className="relative ">
       <List id="mainListModal" dense sx={styles.list}>
-        {[0, 1, 2, 3, 4, 5].map((value) => {
+        {onlineUser.map((value) => {
           const labelId = `checkbox-list-secondary-label-${value}`;
           return (
             <ListItem
