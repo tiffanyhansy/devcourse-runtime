@@ -99,7 +99,9 @@ export default function FriendManageModal() {
               alt="profile"
             />
             <Link
-              to={`/userpage/${userOne.username}`}
+              to={`/userpage/${
+                userOne.username ? userOne.username : userOne.fullName
+              }`}
               className="text-black text-lg font-medium font-['Inter']"
               onClick={close}
             >
