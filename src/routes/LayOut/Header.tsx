@@ -34,8 +34,6 @@ export default function Header() {
     user && getNotificationList();
   }, []);
 
-  const user = useLoginStore((state) => state.user);
-
   return (
     <header className="w-full h-[80px] fixed top-0 left-0 flex items-center justify-between bg-white z-40">
       <section className="w-[1440px] max-w-[1440px] h-full flex items-center justify-between mx-auto px-[50px] ">
