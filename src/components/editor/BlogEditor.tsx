@@ -50,7 +50,16 @@ export default function BlogEditor() {
       return;
     }
 
-    const success = await post(title, content, channelId || "");
+    // HTML 태그 제거 함수
+    const removeHtml = (html: string) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.textContent || ""; // 태그 제거 후 순수 텍스트 반환
+    };
+
+    //content 적용시키기
+    const removePtags = removeHtml(content);
+
+    const success = await post(title, removePtags, channelId || "");
 
     if (success) {
       resetEditor();
@@ -146,15 +155,13 @@ export default function BlogEditor() {
         <Stack
           direction="column"
           spacing={1}
-          sx={{ position: "relative", top: "-20px", right: "-10px" }}
+          sx={{ position: "relative", top: "-10px", right: "-10px" }}
         >
           <label
             style={{
               fontSize: "20px",
             }}
-          >
-            채널 선택
-          </label>
+          ></label>
           <Stack direction="row" spacing={1}>
             {channels.map((channel) => (
               <Tooltip key={channel._id} title={channel.description} arrow>

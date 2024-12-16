@@ -3,13 +3,8 @@ import PostPreview from "../../components/Community/PostPreview";
 import { Link } from "react-router";
 import { axiosInstance } from "../../api/axios";
 import { Post_T } from "../../type/Post";
+import { usePostStore } from "../../store/postStore";
 
-const channel_id: Record<ChannelId_T, string> = {
-  sw: "675f87850ad9f27988b681aa", // real
-  si: "675f87790ad9f27988b681a6",
-  da: "675aa3f8d3266e29a57e4c61",
-  ge: "675f876b0ad9f27988b6819e",
-};
 type ChannelId_T = "sw" | "si" | "da" | "ge";
 
 type Props = {
@@ -20,22 +15,42 @@ export default function Community({ channelName = "sw" }: Props) {
   const [posts, setPosts] = useState<Post_T[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchChannels = usePostStore((state) => state.fetchChannels); // fetchChannels 가져오기
+  const channels = usePostStore((state) => state.channels); // 채널 리스트 가져오기
+
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/posts/channel/${channel_id[channelName]}`
-        );
-        setPosts(response.data);
-      } catch (err) {
-        setPosts([]);
-      } finally {
-        setLoading(false);
+      setLoading(true);
+
+      // 채널 리스트 비어있을 때 가져오기
+      if (channels.length === 0) {
+        await fetchChannels();
       }
+
+      // 현재 채널 이름에 해당하는 ID 찾기
+      const currentChannel = channels.find(
+        (channel) => channel.name.toLowerCase() === channelName
+      );
+
+      if (currentChannel) {
+        try {
+          const response = await axiosInstance.get(
+            `/posts/channel/${currentChannel._id}`
+          );
+          setPosts(response.data); // 게시글 데이터 저장
+        } catch (err) {
+          console.error("Error fetching posts:", err);
+          setPosts([]);
+        }
+      } else {
+        setPosts([]);
+      }
+
+      setLoading(false);
     };
 
     fetchPosts();
-  }, [channelName]);
+  }, [channelName, channels]);
 
   console.log(posts);
 
