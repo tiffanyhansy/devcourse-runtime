@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from "react-router";
+import { Route, Routes } from "react-router";
 import { useEffect } from "react";
 import Main from "./routes/Main/Main";
 import Login from "./routes/Login/Login";
