@@ -4,14 +4,11 @@ import LinkButton from "./LinkButton";
 import EditorModal from "../../../../components/editor/EditorModal";
 import BlogEditor from "../../../../components/editor/BlogEditor";
 import { useLoginStore } from "../../../../store/API";
+import LoginDialog from "../../../../components/editor/LoginDialog";
 
 export default function ButtonListComponent() {
   const { toggleEditor } = useEditorStore();
   const { toggleHowTime } = useHowTimeStore();
-  const saveContent = (content: string) => {
-    console.log("출간된 내용:", content);
-    toggleEditor();
-  };
   const { open } = useFriendModalStore();
 
   const token = useLoginStore((state) => state.token);
@@ -37,6 +34,7 @@ export default function ButtonListComponent() {
       <EditorModal>
         <BlogEditor />
       </EditorModal>
+      <LoginDialog />
     </section>
   );
 }
