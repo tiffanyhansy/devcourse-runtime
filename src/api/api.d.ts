@@ -35,7 +35,7 @@ export interface userType {
     website: string;
     field: string;
   };
-  profilePic: string;
+  image: string;
   isCover?: boolean;
 }
 

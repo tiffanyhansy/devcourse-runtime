@@ -357,7 +357,7 @@ interface Username {
 interface ProfileState {
   clickedField: string[];
   isEditable: boolean;
-  profilePic: string;
+  image: string;
   tempProfilePic: string | File;
   fullName: string;
   username: Username;
@@ -376,7 +376,7 @@ const initialProfilePic = "/src/asset/default_profile.png";
 export const useProfileStore = create<ProfileState>((set) => ({
   clickedField: [],
   isEditable: false,
-  profilePic: initialProfilePic,
+  image: initialProfilePic,
   tempProfilePic: initialProfilePic,
   fullName: "",
   username: {
@@ -388,7 +388,7 @@ export const useProfileStore = create<ProfileState>((set) => ({
 
   setClickedField: (fields) => set({ clickedField: fields }),
   setIsEditable: (editable) => set({ isEditable: editable }),
-  setProfilePic: (profilePic) => set({ profilePic }),
+  setProfilePic: (image) => set({ image }),
   setTempProfilePic: (profilePic) => set({ tempProfilePic: profilePic }),
   setFullName: (fullName) => set({ fullName }),
   setUsername: (username) => set({ username }),

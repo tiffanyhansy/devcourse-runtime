@@ -16,7 +16,17 @@ const Mypage = () => {
 
     // username 문자열 처리
     if (typeof newUser.username === "string") {
-      newUser.username = JSON.parse(newUser.username.replace(/'/g, '"'));
+      try {
+        // JSON 형식의 문자열인지 확인 후 파싱
+        newUser.username =
+          newUser.username.startsWith("{") && newUser.username.endsWith("}")
+            ? JSON.parse(newUser.username.replace(/'/g, '"'))
+            : newUser.username; // 유효한 JSON 형식이 아니면 그대로
+      } catch (error) {
+        console.error("Error parsing username as JSON:", error);
+
+        newUser.username = "defaultUsername"; // 기본값 설정
+      }
     }
 
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
@@ -27,7 +37,7 @@ const Mypage = () => {
   const {
     clickedField,
     isEditable,
-    profilePic,
+    image,
     tempProfilePic,
     fullName,
     username,
@@ -46,25 +56,13 @@ const Mypage = () => {
       try {
         setFullName(user.fullName || "");
 
-        // username 문자열 처리
-        if (typeof user.username?.username === "string") {
-          try {
-            // 타입 단언으로 replace 메서드 허용
-            user.username.username = JSON.parse(
-              (user.username.username as string).replace(/'/g, '"')
-            );
-          } catch (error) {
-            console.error("parse username 안됨:", error);
-          }
-        }
-
         setUsername({
           username: user.username?.username || user.fullName || "",
           website: user.username?.website || "",
           field: user.username?.field || "",
         });
 
-        setProfilePic(user.profilePic || "/src/asset/default_profile.png");
+        setProfilePic(user.image || "/src/asset/default_profile.png");
         setClickedField(
           typeof user.username?.field === "string" &&
             user.username?.field.trim()
@@ -102,6 +100,7 @@ const Mypage = () => {
       );
 
       console.log("Profile image uploaded:", response.data);
+      console.log("서버 응답:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error uploading profile image:", error);
@@ -118,33 +117,41 @@ const Mypage = () => {
       }
 
       try {
-        // 1. 프로필 사진 업로드 (tempProfilePic 값이 존재할 때만 실행)
+        // 프로필 사진 업로드 (tempProfilePic 값이 존재할 때만 실행)
         if (tempProfilePic && tempProfilePic instanceof File) {
           await uploadProfileImage(tempProfilePic, false);
         }
 
-        // 2. username, website, field 업데이트
+        // username, website, field 업데이트
         const payload = {
           username: username.username,
           website: username.website,
-          field: tempClickedField.join(","), // 필드 조합
+          field: JSON.stringify(tempClickedField),
         };
 
-        await axiosInstance.put("/settings/update-user", payload);
+        const payloadString = JSON.stringify(payload);
+        const updateUserData = {
+          fullName: fullName,
+          username: payloadString,
+        };
+
+        await axiosInstance.put("/settings/update-user", updateUserData);
 
         // 상태 업데이트
         setUsername(payload);
         setClickedField(tempClickedField);
 
+        await getAuthUser();
+        setTempProfilePic(image);
         alert("변경사항이 저장되었습니다.");
-        getAuthUser(); // 최신 데이터 불러오기
       } catch (error) {
         console.error("❌ 변경사항 저장에 실패했습니다.", error);
+
         alert("변경사항 저장 중 오류가 발생했습니다.");
       }
     } else {
       // 수정 모드 시작 시 임시 상태 설정
-      setTempProfilePic(profilePic);
+
       setTempClickedField(clickedField);
     }
 
@@ -152,7 +159,7 @@ const Mypage = () => {
   };
 
   const handleCancelButtonClick = () => {
-    setTempProfilePic(profilePic);
+    setTempProfilePic(image);
     setTempClickedField(clickedField);
     setIsEditable(false);
   };
@@ -216,7 +223,7 @@ const Mypage = () => {
                   ? tempProfilePic instanceof File
                     ? URL.createObjectURL(tempProfilePic) // File일 경우 URL 생성
                     : tempProfilePic // string URL일 경우
-                  : profilePic
+                  : image
               }
               alt="Profile"
               style={{
@@ -276,17 +283,17 @@ const Mypage = () => {
         <div>
           <Input
             isEditable={isEditable}
-            label="이름"
-            value={isEditable ? fullName || "" : user.fullName}
+            label="ID"
+            value={isEditable ? fullName || "" : user.fullName || ""}
             onChange={(e) => isEditable && setFullName(e.target.value)}
           />
           <Input
             isEditable={isEditable}
-            label="별명"
+            label="닉네임"
             value={
               isEditable
-                ? username.username || ""
-                : user.username?.username || user.fullName || ""
+                ? username?.username || ""
+                : user.username?.username || user.fullName || "" // user.username이 없을 경우 fullName 처리
             }
             onChange={(e) => {
               if (isEditable) {
@@ -299,14 +306,14 @@ const Mypage = () => {
           />
           <Input
             isEditable={isEditable}
-            label="웹사이트"
+            label="Website"
             value={
               isEditable ? username.website || "" : user.username?.website || ""
             }
             onChange={(e) => {
               if (isEditable) {
                 setUsername({
-                  ...username, // 기존의 username 객체를 그대로 복사
+                  ...username,
                   website: e.target.value,
                 });
               }
@@ -330,7 +337,7 @@ const Mypage = () => {
                     label={label}
                     variant="filled"
                     onClick={
-                      isEditable ? () => handleFieldClick(index) : undefined
+                      isEditable ? () => handleFieldClick(index) : undefined //TODO:수정
                     }
                     style={{
                       width: "3rem",
