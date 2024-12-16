@@ -5,20 +5,25 @@ import { useProfileStore } from "../../store/store";
 import Button from "../../components/common/SquareButton";
 import { axiosInstance } from "../../api/axios";
 import { useEffect } from "react";
-import axios from "axios";
 import { useLoginStore } from "../../store/API";
+import axios from "axios";
 
 const Mypage = () => {
   const setUser = useLoginStore((state) => state.setUser);
 
   const getAuthUser = async () => {
     const newUser = await (await axiosInstance.get(`/auth-user`)).data;
-    console.log(newUser);
+
+    // username 문자열 처리
+    if (typeof newUser.username === "string") {
+      newUser.username = JSON.parse(newUser.username.replace(/'/g, '"'));
+    }
+
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
     setUser(newUser);
   };
+
   const user = useLoginStore((state) => state.user!);
-  const token = useLoginStore((state) => state.token);
   const {
     clickedField,
     isEditable,
@@ -26,7 +31,6 @@ const Mypage = () => {
     tempProfilePic,
     fullName,
     username,
-    website,
     tempClickedField,
     setClickedField,
     setIsEditable,
@@ -34,30 +38,78 @@ const Mypage = () => {
     setTempProfilePic,
     setFullName,
     setUsername,
-    setWebsite,
     setTempClickedField,
   } = useProfileStore();
 
-  //데이터 바인딩
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axiosInstance.get(
-          `/users/get-users/${fullName}`
+        setFullName(user.fullName || "");
+
+        // username 문자열 처리
+        if (typeof user.username?.username === "string") {
+          try {
+            // 타입 단언으로 replace 메서드 허용
+            user.username.username = JSON.parse(
+              (user.username.username as string).replace(/'/g, '"')
+            );
+          } catch (error) {
+            console.error("parse username 안됨:", error);
+          }
+        }
+
+        setUsername({
+          username: user.username?.username || user.fullName || "",
+          website: user.username?.website || "",
+          field: user.username?.field || "",
+        });
+
+        setProfilePic(user.profilePic || "/src/asset/default_profile.png");
+        setClickedField(
+          typeof user.username?.field === "string" &&
+            user.username?.field.trim()
+            ? user.username.field.split(",")
+            : []
         );
-        setFullName(data.fullName || "");
-        setUsername(data.username || "");
-        setWebsite(data.isCover?.website || "");
-        setProfilePic(data.profilePic || "/src/asset/default_profile.png");
-        setClickedField(new Set(data.isCover?.field.split(",")));
+
+        console.log(user);
+        console.log(user.fullName);
+        console.log(user.email);
       } catch (error) {
         console.error(`❌사용자의 데이터를 불러오는 데에 실패했습니다.`, error);
       }
     };
     fetchData();
-  }, [setFullName, setUsername, setWebsite, setProfilePic, setClickedField]);
+  }, [user, setFullName, setUsername, setProfilePic, setClickedField]);
 
-  const isAnyFieldEmpty = !fullName?.trim() || !username?.trim();
+  const isAnyFieldEmpty = !fullName?.trim() || !username.username?.trim();
+
+  // 이미지 업로드 함수 (재사용 가능하게 분리)
+  const uploadProfileImage = async (imageFile: File, isCover: boolean) => {
+    try {
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      formData.append("isCover", isCover.toString()); // boolean 값을 문자열로 변환해 전송
+
+      const response = await axiosInstance.post(
+        "/users/upload-photo",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Profile image uploaded:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error uploading profile image:", error);
+      throw error;
+    }
+  };
+
+  // 메인 함수 수정
   const handleEditButtonClick = async () => {
     if (isEditable) {
       if (isAnyFieldEmpty) {
@@ -66,34 +118,42 @@ const Mypage = () => {
       }
 
       try {
-        // PUT으로 변경사항 저장
-        const { data } = await axiosInstance.put(`/settings/update-user`, {
-          fullName,
-          username,
-          website,
-          field: Array.from(tempClickedField).join(","),
-        });
-        // 성공적으로 저장된 경우
-        setProfilePic(tempProfilePic);
+        // 1. 프로필 사진 업로드 (tempProfilePic 값이 존재할 때만 실행)
+        if (tempProfilePic && tempProfilePic instanceof File) {
+          await uploadProfileImage(tempProfilePic, false);
+        }
+
+        // 2. username, website, field 업데이트
+        const payload = {
+          username: username.username,
+          website: username.website,
+          field: tempClickedField.join(","), // 필드 조합
+        };
+
+        await axiosInstance.put("/settings/update-user", payload);
+
+        // 상태 업데이트
+        setUsername(payload);
         setClickedField(tempClickedField);
-        setUsername(data.username || username);
+
         alert("변경사항이 저장되었습니다.");
-        getAuthUser();
+        getAuthUser(); // 최신 데이터 불러오기
       } catch (error) {
-        console.error("Failed to update user data:", error);
+        console.error("❌ 변경사항 저장에 실패했습니다.", error);
         alert("변경사항 저장 중 오류가 발생했습니다.");
       }
     } else {
-      // 수정 가능 상태로
+      // 수정 모드 시작 시 임시 상태 설정
       setTempProfilePic(profilePic);
-      setTempClickedField(new Set(clickedField));
+      setTempClickedField(clickedField);
     }
+
     setIsEditable(!isEditable);
   };
 
   const handleCancelButtonClick = () => {
     setTempProfilePic(profilePic);
-    setTempClickedField(new Set(clickedField));
+    setTempClickedField(clickedField);
     setIsEditable(false);
   };
 
@@ -101,11 +161,7 @@ const Mypage = () => {
     if (isEditable) {
       const file = event.target.files?.[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setTempProfilePic(e.target?.result as string);
-        };
-        reader.readAsDataURL(file);
+        setTempProfilePic(file);
       }
     }
   };
@@ -119,11 +175,12 @@ const Mypage = () => {
   ];
 
   const handleFieldClick = (index: number) => {
-    const updatedField = new Set(tempClickedField);
-    if (updatedField.has(index)) {
-      updatedField.delete(index);
+    const updatedField = [...tempClickedField];
+    if (updatedField.includes(index.toString())) {
+      const idx = updatedField.indexOf(index.toString());
+      updatedField.splice(idx, 1); // 필드 제거
     } else {
-      updatedField.add(index);
+      updatedField.push(index.toString()); // 필드 추가
     }
     setTempClickedField(updatedField);
   };
@@ -154,7 +211,13 @@ const Mypage = () => {
             }
           >
             <img
-              src={isEditable ? tempProfilePic : profilePic}
+              src={
+                isEditable
+                  ? tempProfilePic instanceof File
+                    ? URL.createObjectURL(tempProfilePic) // File일 경우 URL 생성
+                    : tempProfilePic // string URL일 경우
+                  : profilePic
+              }
               alt="Profile"
               style={{
                 width: "100%",
@@ -221,15 +284,33 @@ const Mypage = () => {
             isEditable={isEditable}
             label="별명"
             value={
-              isEditable ? username || "" : user.username || user.fullName || ""
+              isEditable
+                ? username.username || ""
+                : user.username?.username || user.fullName || ""
             }
-            onChange={(e) => isEditable && setUsername(e.target.value)}
+            onChange={(e) => {
+              if (isEditable) {
+                setUsername({
+                  ...username, // 기존의 username 객체를 그대로 복사
+                  username: e.target.value,
+                });
+              }
+            }}
           />
           <Input
             isEditable={isEditable}
             label="웹사이트"
-            value={website || ""}
-            onChange={(e) => setWebsite(e.target.value)}
+            value={
+              isEditable ? username.website || "" : user.username?.website || ""
+            }
+            onChange={(e) => {
+              if (isEditable) {
+                setUsername({
+                  ...username, // 기존의 username 객체를 그대로 복사
+                  website: e.target.value,
+                });
+              }
+            }}
           />
           {/* field */}
           <Stack direction="column" spacing={1}>
@@ -253,12 +334,14 @@ const Mypage = () => {
                     }
                     style={{
                       width: "3rem",
-                      backgroundColor: tempClickedField.has(index)
+                      backgroundColor: tempClickedField.includes(
+                        index.toString()
+                      )
                         ? isEditable
                           ? "#7EACB5"
                           : "#B0B0B0"
                         : "",
-                      color: tempClickedField.has(index)
+                      color: tempClickedField.includes(index.toString())
                         ? "white"
                         : isEditable
                         ? "#000"

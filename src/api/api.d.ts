@@ -30,12 +30,13 @@ export interface userType {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  isCover?: {
+  username?: {
+    username: string;
     website: string;
     field: string;
   };
-  coverImage?: string;
-  username?: string;
+  profilePic: string;
+  isCover?: boolean;
 }
 
 interface followType {
