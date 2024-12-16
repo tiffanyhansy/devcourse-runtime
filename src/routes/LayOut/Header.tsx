@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router";
 import Modal from "../../components/Modal/ProfileModal";
 import { useState } from "react";
 import { useprofileModalStore } from "../../store/store";
+import { useLoginStore } from "../../store/API";
 
 export default function Header() {
   const { modal, type, open, close } = useprofileModalStore();
@@ -17,6 +18,8 @@ export default function Header() {
   };
   const [imgState, setImgState] = useState("/src/asset/images/bell.svg");
   const location = useLocation();
+
+  const user = useLoginStore((state) => state.user);
 
   return (
     <header className="w-full h-[80px] fixed top-0 left-0 flex items-center justify-between bg-white z-40">
@@ -61,8 +64,18 @@ export default function Header() {
               e.stopPropagation();
               handleOpen();
             }}
-            className={`w-[40px] h-[40px] rounded-full bg-[url(/src/asset/images/profile.svg)] bg-center`}
-          ></button>
+            className={`w-[40px] h-[40px] rounded-full bg-center`}
+          >
+            <img
+              src={
+                user?.coverImage
+                  ? user.coverImage
+                  : `/src/asset/default_profile.png`
+              }
+              alt="유저 이미지 커버"
+              className="rounded-full"
+            />
+          </button>
           {type === "header" && <Modal />}
         </article>
       </section>

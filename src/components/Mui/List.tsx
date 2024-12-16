@@ -125,7 +125,7 @@ export default function CheckboxListSecondary() {
                     value.fullName,
                     value.coverImage
                       ? value.coverImage
-                      : `/src/asset/images/profile.svg`
+                      : `/src/asset/default_profile.png`
                   );
                 }}
               >
@@ -135,7 +135,7 @@ export default function CheckboxListSecondary() {
                     src={
                       value.coverImage
                         ? value.coverImage
-                        : `/src/asset/images/profile.svg`
+                        : `/src/asset/default_profile.png`
                     }
                   />
                 </ListItemAvatar>
