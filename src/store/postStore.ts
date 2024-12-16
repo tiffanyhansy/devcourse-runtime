@@ -63,8 +63,46 @@ export const usePostStore = create<PostStore>((set) => ({
       alert("Post submitted successfully!");
       return true;
     } catch (error: any) {
-      console.error("Posting Error:", error);
-      set({ error: error.message });
+      //에러코드에 따라 상태 처리
+      if (error.response) {
+        const { status } = error.response;
+        switch (status) {
+          case 400:
+            set({ error: "잘못된 요청입니다. 입력값을 확인해주세요." });
+            break;
+          case 401:
+            set({ error: "인증되지 않은 요청입니다. 다시 로그인해주세요." });
+            break;
+          case 403:
+            set({ error: "권한이 없습니다. 관리자에게 문의하세요." });
+            break;
+          case 404:
+            set({ error: "요청하신 페이지를 찾을 수 없습니다." });
+            break;
+          case 413:
+            set({
+              error: "서버에서 허용된 한도를 초과했습니다.",
+            });
+            break;
+          case 500:
+            set({
+              error: "서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+            });
+            break;
+          default:
+            set({
+              error: `알 수 없는 오류가 발생했습니다. (Error Code: ${status})`,
+            });
+        }
+      } else if (error.request) {
+        // 요청은 전송되었으나 응답을 받지 못한 경우
+        set({
+          error: "서버로부터 응답을 받을 수 없습니다. 네트워크를 확인해주세요.",
+        });
+      } else {
+        // 기타 에러
+        set({ error: "요청 중 오류가 발생했습니다. 다시 시도해주세요." });
+      }
       return false;
     } finally {
       set({ isLoading: false });
