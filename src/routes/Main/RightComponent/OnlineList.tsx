@@ -1,6 +1,6 @@
 import CheckboxListSecondary from "../../../components/Mui/List";
 
-export default function FriendList() {
+export default function OnlineList() {
   return (
     <>
       <article className="w-[22rem] shadow-xl rounded-[10px] mb-[24px]">

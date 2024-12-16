@@ -4,14 +4,21 @@ import { useprofileModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
 
-export default function Modal({ y, x }: { x?: number; y?: number }) {
+export default function Modal({
+  y,
+  x,
+  onlineFullname,
+  onlineCoverImg,
+}: {
+  x?: number;
+  y?: number;
+  onlineFullname?: string;
+  onlineCoverImg?: string;
+}) {
   const modal = useprofileModalStore((s) => s.modal);
   const type = useprofileModalStore((s) => s.type);
   const close = useprofileModalStore((s) => s.close);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  //임시 username
-  const username = "testuser";
 
   // 유저토큰값(로그인, 로그아웃 창 트리거 용도도)
   const token = useLoginStore((state) => state.token);
@@ -60,13 +67,11 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
       }`}
       style={{
         top: x ? `${x}px` : "4.5rem",
-        right: y ? `${y}px` : "290px",
+        right: y ? `${y}px` : "19rem",
       }}
     >
       <div
-        className={`${
-          type === "header" ? "h-52" : "h-42"
-        } inline-flex flex-col items-center justify-center bg-white h-42 drop-shadow-xl rounded-2xl`}
+        className={` inline-flex flex-col items-center justify-center bg-white h-42 drop-shadow-xl rounded-2xl`}
       >
         <div className="w-[240px] px-4 pt-[18px]  rounded-tl-2xl rounded-tr-2xl justify-start items-center gap-[89px] inline-flex">
           <div className="h-[60px] pr-[68px] pb-[18px] justify-start items-center gap-3 flex">
@@ -75,57 +80,78 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
               <div className="w-[42px] h-[42px] left-0 top-0 absolute">
                 <div className="w-[42px] h-[42px] left-0 top-0 absolute bg-gradient-to-b from-[#fcd7b4] to-[#ffc2af] rounded-full" />
                 <img
-                  className="w-11 h-11 left-0 top-[-2px] absolute"
-                  src="/src/asset/images/profile.svg"
+                  className="w-11 h-11 left-0 top-[-2px] absolute rounded-full"
+                  src={
+                    type === "header"
+                      ? user?.coverImage
+                        ? user.coverImage
+                        : "/src/asset/images/profile.svg"
+                      : onlineCoverImg
+                  }
                 />
               </div>
             </div>
             <div className="flex-col justify-center items-start gap-[3px] inline-flex">
-              <div className="justify-start items-end gap-2.5 inline-flex">
-                <div className="justify-start items-center gap-[7px] flex">
-                  <div className="text-black text-lg font-medium font-['Inter']">
-                    {type === "header"
-                      ? user?.fullName
-                        ? user.fullName
-                        : `익명`
-                      : "친구이름"}
+              <span className="text-black text-lg font-medium h-[20px] leading-[10px]">
+                {type === "header"
+                  ? user?.fullName
+                    ? user.fullName
+                    : `익명`
+                  : onlineFullname}
+              </span>
+            </div>
+          </div>
+        </div>
+        {type === "header" ? (
+          token ? (
+            <div className="cursor-pointer">
+              <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
+                <div className="justify-start items-center gap-3.5 inline-flex">
+                  <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
+                    <div className="relative w-5 h-5">
+                      <img
+                        className="w-5 h-5 left-[2px] top-[2px] absolute"
+                        src="/src/asset/images/settings.svg"
+                      />
+                    </div>
+
+                    <Link
+                      to="/mypage"
+                      className="text-black text-lg font-medium leading-[22px]"
+                      onClick={close}
+                    >
+                      내 프로필
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="cursor-pointer">
-          <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
-            <div className="justify-start items-center gap-3.5 inline-flex">
-              <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
-                <div className="relative w-5 h-5">
-                  <img
-                    className="w-5 h-5 left-[2px] top-[2px] absolute"
-                    src="/src/asset/images/settings.svg"
-                  />
-                </div>
-                {type === "header" ? (
+          ) : null
+        ) : (
+          <div className="cursor-pointer">
+            <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
+              <div className="justify-start items-center gap-3.5 inline-flex">
+                <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
+                  <div className="relative w-5 h-5">
+                    <img
+                      className="w-5 h-5 left-[2px] top-[2px] absolute"
+                      src="/src/asset/images/settings.svg"
+                    />
+                  </div>
+
                   <Link
-                    to="/mypage"
-                    className="text-black text-lg font-medium font-['Inter']"
-                    onClick={close}
-                  >
-                    내 프로필
-                  </Link>
-                ) : (
-                  <Link
-                    to={`./userpage/${username}`}
-                    className="text-black text-lg font-medium font-['Inter']"
+                    to={`./userpage/${onlineFullname}`}
+                    className="text-black text-lg font-medium leading-[22px]"
                     onClick={close}
                   >
                     프로필 보기
                   </Link>
-                )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+
         {type === "header" && (
           <div className="cursor-pointer">
             <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
@@ -141,7 +167,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                   {token === null ? (
                     <Link
                       to="/login"
-                      className="text-black text-lg font-medium font-['Inter']"
+                      className="text-black text-lg font-medium leading-[22px]"
                       onClick={() => {
                         close();
                       }}
@@ -151,7 +177,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                   ) : (
                     <Link
                       to="/login"
-                      className="text-black text-lg font-medium font-['Inter']"
+                      className="text-black text-lg font-medium leading-[22px]"
                       onClick={() => {
                         close();
                         logOut();

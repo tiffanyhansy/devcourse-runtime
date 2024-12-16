@@ -34,6 +34,7 @@ export interface userType {
     website: string;
     field: string;
   };
+  coverImage?: string;
   username?: string;
 }
 
@@ -45,3 +46,23 @@ interface followType {
   updatedAt: string;
   __v: number;
 }
+
+export type Post_T = {
+  _id: string;
+  author: Author_T;
+  comments: Comments_T[];
+  createdAt: string;
+  updatedAt: string;
+  likes: Likes_T[];
+  title: string; //Title_T가 string으로 들어옴
+};
+
+type Author_T = {
+  fullName: string;
+  coverImage: string;
+};
+
+export type Title_T = {
+  title: string;
+  content: string;
+};

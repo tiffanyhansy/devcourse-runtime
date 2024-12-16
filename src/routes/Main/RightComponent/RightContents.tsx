@@ -1,10 +1,10 @@
-import FriendList from "./FriendList";
+import OnlineList from "./OnlineList";
 import BasicDateCalendar from "../../../components/Mui/Calender";
 
 export default function RightContents() {
   return (
     <section>
-      <FriendList />
+      <OnlineList />
       <BasicDateCalendar />
     </section>
   );
