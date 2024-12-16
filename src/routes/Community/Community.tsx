@@ -72,7 +72,7 @@ export default function Community({ channelName = "sw" }: Props) {
           <Link to="/community/ge">GE</Link>
         </div>
       </nav>
-      <main className="grid gap-9 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] mt-8 ">
+      <main className="grid gap-9 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] mt-8 mb-6">
         {posts && posts.length > 0 ? (
           posts.map((post) => <PostPreview preview={post} key={post._id} />)
         ) : (
