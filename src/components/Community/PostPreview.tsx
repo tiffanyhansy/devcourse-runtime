@@ -8,19 +8,24 @@ export default function PostPreview({ preview }: Props) {
   const sampleImgUrl =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdrgVj6z0tfzZSheYRKDWVUhB5zIkiZ9vUo6rFSULPgctqkQSmlkwfCDZ1RMHxgFF2XKIlAJb_28QzyZaR5s6zfQ";
 
+  // title 파싱한 객체(여기에 제목, 내용 들어가있고, 추후에 여러 컨텐츠들 추가할 예정 - 목표 달성 트로피 표시 등등)
+  const parsedTitle = JSON.parse(preview.title);
+
   return (
     <article className="bg-white shadow-md">
       {/* 썸네일 이미지 */}
       <div className="relative aspect-video">
         <img
           src={sampleImgUrl}
-          alt={preview.title}
+          alt={parsedTitle.title}
           className="object-cover w-full h-full"
         />
       </div>
       {/* 글 제목 및 내용 미리보기 */}
       <div className="">
-        <h4 className="truncate mb-1 font-bold text-2xl">{preview.title}</h4>
+        <h4 className="truncate mb-1 font-bold text-2xl">
+          {parsedTitle.title}
+        </h4>
         <div>
           <p className="line-clamp-3 mb-3	text-sm text-slate-600	">
             안녕하세요!💌 오늘은 12 Days of OpenAI: Day 3에서는 새로운 AI 비디오
@@ -28,6 +33,7 @@ export default function PostPreview({ preview }: Props) {
             지금 폭주 중이라, SignUp은 좀 기다려야 할수도 ㅠㅠㅠㅠ 아 써보고
             싶은데...!!!
           </p>
+          {parsedTitle.content}
         </div>
         <div className="text-xs text-slate-500">
           <span>{preview.createdAt}</span>
