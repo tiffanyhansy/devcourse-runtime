@@ -13,3 +13,21 @@
   box-shadow: -10px -10px 20px 0px rgba(0, 0, 0, 0.25),
     4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
+@layer components {
+  .custom-scroll {
+    & ul {
+      padding: 0;
+    }
+    &::-webkit-scrollbar {
+      width: 8px;
+      z-index: 999;
+    }
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+  }
+}
