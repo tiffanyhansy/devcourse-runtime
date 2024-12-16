@@ -10,6 +10,7 @@ import UserPage from "./routes/UserPage/UserPage";
 import Mypage from "./routes/Mypage/Mypage";
 import LayOut from "./routes/LayOut/LayOut";
 import Community from "./routes/Community/Community";
+import CommunityLayout from "./routes/LayOut/CommunityLayout";
 
 export default function App() {
   useEffect(() => {
@@ -33,18 +34,36 @@ export default function App() {
     }
   }, []);
   return (
-    <Routes>
-      <Route element={<LayOut />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/join" element={<Join />} />
-        <Route path="/" element={<Main />} />
-        <Route path="/join-success" element={<JoinSuccess />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/userpage/:username" element={<UserPage />} />
-        <Route path="/notifications" element={<Noti />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Route>
-    </Routes>
+      <Routes>
+        <Route element={<LayOut />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/join-success" element={<JoinSuccess />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/userpage/:username" element={<UserPage />} />
+          <Route path="/notifications" element={<Noti />} />
+          <Route path="*" element={<ErrorPage />} />{" "}
+        </Route>
+        <Route element={<CommunityLayout />}>
+          <Route path="/community" element={<Community />} />
+          <Route
+            path="/community/sw"
+            element={<Community channelName="sw" />}
+          />
+          <Route
+            path="/community/si"
+            element={<Community channelName="si" />}
+          />
+          <Route
+            path="/community/da"
+            element={<Community channelName="da" />}
+          />
+          <Route
+            path="/community/ge"
+            element={<Community channelName="ge" />}
+          />
+        </Route>
+      </Routes>
   );
 }
