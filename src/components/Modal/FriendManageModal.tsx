@@ -96,7 +96,11 @@ export default function FriendManageModal() {
           <div className="flex items-center gap-4">
             <img
               className="w-12 h-12 rounded-full"
-              src="https://via.placeholder.com/50x50"
+              src={
+                userOne.coverImage
+                  ? userOne.coverImage
+                  : "/src/asset/default_profile.png"
+              }
               alt="profile"
             />
             <Link
@@ -170,7 +174,7 @@ export default function FriendManageModal() {
         <section className="absolute inset-1/2 w-[502px] h-[619px] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow py-4 pl-2">
           <header className="flex justify-between p-4">
             <h1 className="text-3xl font-bold text-gray-800">
-              {activeToggle === "all" ? "전체 목록" : "친구 목록"}
+              {activeToggle === "all" ? "유저 목록" : "친구 목록"}
             </h1>
             <div className="relative w-32 h-10">
               <div className="absolute inset-0 bg-gray-200 rounded-full"></div>

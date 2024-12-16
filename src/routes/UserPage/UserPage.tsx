@@ -1,7 +1,12 @@
 import { Stack, Chip, Box, Typography, Tooltip } from "@mui/material";
 import Input from "../../components/Mypage/Input";
 import { useProfileStore } from "../../store/store";
-import Button from "../../components/common/SquareButton";
+import Button from "@mui/material/Button";
+import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "../../api/axios";
+import { followType, userType } from "../../api/api";
+import { useLoginStore } from "../../store/API";
 
 const UserPage = () => {
   const {
@@ -51,12 +56,69 @@ const UserPage = () => {
     setTempClickedField(updatedField);
   };
 
+  const user = useLoginStore((state) => state.user);
+  const setUser = useLoginStore((state) => state.setUser);
+
+  const deleteUnFollow = async (id: string) => {
+    // 언팔로우 요청을 보내는 코드 안에 유저정보 업데이트 함수까지 실행시켜야 즉각적인 업데이트가 가능하다.
+    try {
+      const unfollowed = (
+        await axiosInstance.delete(`/follow/delete`, {
+          data: {
+            id: id,
+          },
+        })
+      ).data;
+      const updateUser = { ...user! };
+      const updateFollow = updateUser.following.filter((e: followType) => {
+        return e._id !== unfollowed._id;
+      });
+      updateUser.following = updateFollow;
+      console.log(updateUser);
+      setUser(updateUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const postFollow = async (id: string) => {
+    // 팔로우 요청을 보내는 코드 안에 유저정보 업데이트 함수까지 실행시켜야 즉각적인 업데이트가 가능하다.
+    try {
+      const followed = (
+        await axiosInstance.post(`follow/create`, { userId: id })
+      ).data;
+      const updateUser = { ...user! };
+      updateUser.following.push(followed);
+      setUser(updateUser);
+      localStorage.setItem("LoginUserInfo", JSON.stringify(updateUser));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // params로 유저 정보 불러오기
+  const [searchUsers, setSearchUsers] = useState<userType | null>(null);
+
+  const params = useParams();
+
+  const getSearchUsers = async () => {
+    const searchUsersData: userType = await (
+      await axiosInstance.get(`/search/users/${params.fullname}`)
+    ).data[0];
+    console.log(searchUsersData);
+    setSearchUsers(searchUsersData);
+  };
+
+  useEffect(() => {
+    getSearchUsers();
+  }, []);
+
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
       {/* 제목 */}
       <article className="flex mt-14">
         {/* username 즉, id */}
-        <h1 className="text-4xl font-bold">Jomyeong님의 프로필</h1>
+        <h1 className="text-4xl font-bold">{`${searchUsers?.fullName}님의 프로필`}</h1>
       </article>
 
       <div className="flex p-[5rem] justify-between">
@@ -78,7 +140,11 @@ const UserPage = () => {
             }
           >
             <img
-              src={isEditable ? tempProfilePic : profilePic}
+              src={
+                searchUsers?.coverImage
+                  ? searchUsers.coverImage
+                  : `/src/asset/default_profile.png`
+              }
               alt="Profile"
               style={{
                 width: "100%",
@@ -103,18 +169,53 @@ const UserPage = () => {
                 fontWeight: "bold",
               }}
             >
-              Jomyeong
+              {searchUsers?.username
+                ? searchUsers.username
+                : searchUsers?.fullName}
             </Typography>
 
             {/* 팔로우하기 */}
-            <Button
-              variant="primary"
-              size="sm"
-              textSize="sm"
-              className="hover:bg-[#96ccd6]"
-            >
-              팔로우하기
-            </Button>
+            {user !== null ? (
+              user.following.find(
+                (e: followType) => e.user === searchUsers?._id
+              ) ? ( // following하고 있는 유저명과 로그인 유저가 일치하면 언팔로우 버튼 활성화
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "#C96868",
+                    backgroundColor: "white",
+                    fontWeight: "bold",
+                    border: "1px solid #C96868",
+                    width: "118px",
+                  }}
+                  onClick={() => {
+                    deleteUnFollow(
+                      user.following.find(
+                        (e: followType) => e.user === searchUsers?._id
+                      )!._id
+                    );
+                  }}
+                >
+                  언팔로우
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "black",
+                    backgroundColor: "white",
+                    fontWeight: "bold",
+                    border: "1px solid black",
+                    width: "118px",
+                  }}
+                  onClick={() => {
+                    postFollow(searchUsers!._id);
+                  }}
+                >
+                  팔로잉
+                </Button>
+              )
+            ) : null}
           </div>
         </Stack>
 
@@ -122,14 +223,20 @@ const UserPage = () => {
         <div>
           <Input
             isEditable={isEditable}
-            label="이름"
-            value={fullName}
+            label="ID"
+            value={searchUsers?.fullName ? searchUsers.fullName : "error"} // 이거 왜 searchUsers?.fullName만 넣으면 데이터 바인딩 오류 나오지? 데이터 있는데?
             onChange={(e) => setFullName(e.target.value)}
           />
           <Input
             isEditable={isEditable}
-            label="별명"
-            value={username}
+            label="닉네임"
+            value={
+              searchUsers?.username
+                ? searchUsers.username
+                : searchUsers?.fullName
+                ? searchUsers.fullName
+                : "error"
+            }
             onChange={(e) => setUsername(e.target.value)}
           />
           <Input

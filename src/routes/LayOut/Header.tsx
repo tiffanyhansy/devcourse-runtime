@@ -34,6 +34,8 @@ export default function Header() {
     user && getNotificationList();
   }, []);
 
+  const user = useLoginStore((state) => state.user);
+
   return (
     <header className="w-full h-[80px] fixed top-0 left-0 flex items-center justify-between bg-white z-40">
       <section className="w-[1440px] max-w-[1440px] h-full flex items-center justify-between mx-auto px-[50px] ">
@@ -82,8 +84,18 @@ export default function Header() {
               e.stopPropagation();
               handleOpen();
             }}
-            className={`w-[40px] h-[40px] rounded-full bg-[url(/src/asset/images/profile.svg)] bg-center`}
-          ></button>
+            className={`w-[40px] h-[40px] rounded-full bg-center`}
+          >
+            <img
+              src={
+                user?.coverImage
+                  ? user.coverImage
+                  : `/src/asset/default_profile.png`
+              }
+              alt="유저 이미지 커버"
+              className="rounded-full"
+            />
+          </button>
           {type === "header" && <Modal />}
         </article>
       </section>
