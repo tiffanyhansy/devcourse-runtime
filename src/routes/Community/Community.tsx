@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PostPreview from "../../components/Community/PostPreview";
 import { Link } from "react-router";
 import { axiosInstance } from "../../api/axios";
-import { Post_T } from "../../type/Post";
+import { Post_T } from "../../api/api";
 import { usePostStore } from "../../store/postStore";
 
 type ChannelId_T = "sw" | "si" | "da" | "ge";
@@ -58,7 +58,7 @@ export default function Community({ channelName = "sw" }: Props) {
 
   return (
     <>
-      <nav className="mt-[80px] flex">
+      <nav className="mt-[80px] flex py-3 items-center ">
         <div className="mr-4">
           <Link to="/community/sw">SW</Link>
         </div>
@@ -72,7 +72,7 @@ export default function Community({ channelName = "sw" }: Props) {
           <Link to="/community/ge">GE</Link>
         </div>
       </nav>
-      <main className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(310px,1fr))] ">
+      <main className="grid gap-9 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] mt-8 ">
         {posts && posts.length > 0 ? (
           posts.map((post) => <PostPreview preview={post} key={post._id} />)
         ) : (
@@ -82,50 +82,3 @@ export default function Community({ channelName = "sw" }: Props) {
     </>
   );
 }
-
-// const ChannelList: React.FC = () => {
-//   const [channels, setChannels] = useState<Channel[]>([]);
-//   const [isLoading, setIsLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
-
-// fetchChannels(si)
-// fetchChannels(nd)
-
-//   const fetchChannels = async (id) => {
-//     try {
-//       setIsLoading(true);
-//       const response = await axios.get<Channel[]>("/api/channels/${id}"); // Replace with your API endpoint
-//       setChannels(response.data);
-//     } catch (err) {
-//       setError("Failed to load channels.");
-//       console.error(err);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchChannels();
-//   }, []);
-
-//   if (isLoading) return <p>Loading...</p>;
-//   if (error) return <p>{error}</p>;
-
-//   return (
-//     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-//btn
-//       {channels.map((channel) => (
-//         <PostPreview
-//           key={channel.id}
-//           id={channel.id}
-//           title={channel.title}
-//           author={channel.author}
-//           thumbnail={channel.thumbnail}
-//           subscribers={channel.subscribers}
-//         />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default ChannelList;
