@@ -348,47 +348,49 @@ export const useEasterEgg = create<useEasterEgg>((set) => ({
 }));
 
 //마이페이지 저장소
-interface ProfileState {
-  clickedField: Set<number>;
-  isEditable: boolean;
-  profilePic: string;
-  tempProfilePic: string;
-  fullName: string;
+interface Username {
   username: string;
   website: string;
-  tempClickedField: Set<number>;
+  field: string;
+}
 
-  setClickedField: (fields: Set<number>) => void;
+interface ProfileState {
+  clickedField: string[];
+  isEditable: boolean;
+  image: string;
+  tempProfilePic: string | File;
+  fullName: string;
+  username: Username;
+  tempClickedField: string[];
+
+  setClickedField: (fields: string[]) => void;
   setIsEditable: (editable: boolean) => void;
-  setProfilePic: (pic: string) => void;
-  setTempProfilePic: (pic: string) => void;
+  setProfilePic: (profilePic: string) => void;
+  setTempProfilePic: (profilePic: string | File) => void;
   setFullName: (fullName: string) => void;
-  setUsername: (username: string) => void;
-  setWebsite: (website: string) => void;
-  setTempClickedField: (fields: Set<number>) => void;
+  setUsername: (username: Username) => void;
+  setTempClickedField: (fields: string[]) => void;
 }
 
 const initialProfilePic = "/src/asset/default_profile.png";
-
-export const useProfileStore = create<ProfileState>((set, get) => ({
-  clickedField: new Set(),
+export const useProfileStore = create<ProfileState>((set) => ({
+  clickedField: [],
   isEditable: false,
-  profilePic: initialProfilePic,
+  image: initialProfilePic,
   tempProfilePic: initialProfilePic,
   fullName: "",
-  username: "",
-  website: "",
-  tempClickedField: new Set(),
+  username: {
+    username: "",
+    website: "",
+    field: "",
+  },
+  tempClickedField: [],
 
   setClickedField: (fields) => set({ clickedField: fields }),
   setIsEditable: (editable) => set({ isEditable: editable }),
-  setProfilePic: (pic) => set({ profilePic: pic }),
-  setTempProfilePic: (pic) => set({ tempProfilePic: pic }),
-  setFullName: (fullName) => {
-    set({ fullName });
-  },
-
+  setProfilePic: (image) => set({ image }),
+  setTempProfilePic: (profilePic) => set({ tempProfilePic: profilePic }),
+  setFullName: (fullName) => set({ fullName }),
   setUsername: (username) => set({ username }),
-  setWebsite: (website) => set({ website }),
   setTempClickedField: (fields) => set({ tempClickedField: fields }),
 }));
