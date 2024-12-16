@@ -217,9 +217,13 @@ export default function Join() {
             입력한 정보를 다시 확인해주세요.
           </Alert>
         )}
-        <footer className={`${joinError ? "mt-5" : "mt-8"} mb-12`}>
+        <footer className={`${joinError ? "mt-5" : "mt-8"} `}>
           <SubmitButton value="회원가입" onClick={handleSubmit} size="xl" />
         </footer>
+
+        <div className="flex justify-center items-center text-[#7EACB5] mt-5 mb-10 ">
+          <button onClick={() => navigate("/login")}>로그인</button>
+        </div>
       </FormContainer>
     </main>
   );

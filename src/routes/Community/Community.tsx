@@ -2,14 +2,9 @@ import { useEffect, useState } from "react";
 import PostPreview from "../../components/Community/PostPreview";
 import { Link } from "react-router";
 import { axiosInstance } from "../../api/axios";
-import { Post_T } from "../../type/Post";
+import { Post_T } from "../../api/api";
+import { usePostStore } from "../../store/postStore";
 
-const channel_id: Record<ChannelId_T, string> = {
-  sw: "675f87850ad9f27988b681aa", // real
-  si: "675f87790ad9f27988b681a6",
-  da: "675aa3f8d3266e29a57e4c61",
-  ge: "675f876b0ad9f27988b6819e",
-};
 type ChannelId_T = "sw" | "si" | "da" | "ge";
 
 type Props = {
@@ -20,22 +15,42 @@ export default function Community({ channelName = "sw" }: Props) {
   const [posts, setPosts] = useState<Post_T[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchChannels = usePostStore((state) => state.fetchChannels); // fetchChannels 가져오기
+  const channels = usePostStore((state) => state.channels); // 채널 리스트 가져오기
+
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/posts/channel/${channel_id[channelName]}`
-        );
-        setPosts(response.data);
-      } catch (err) {
-        setPosts([]);
-      } finally {
-        setLoading(false);
+      setLoading(true);
+
+      // 채널 리스트 비어있을 때 가져오기
+      if (channels.length === 0) {
+        await fetchChannels();
       }
+
+      // 현재 채널 이름에 해당하는 ID 찾기
+      const currentChannel = channels.find(
+        (channel) => channel.name.toLowerCase() === channelName
+      );
+
+      if (currentChannel) {
+        try {
+          const response = await axiosInstance.get(
+            `/posts/channel/${currentChannel._id}`
+          );
+          setPosts(response.data); // 게시글 데이터 저장
+        } catch (err) {
+          console.error("Error fetching posts:", err);
+          setPosts([]);
+        }
+      } else {
+        setPosts([]);
+      }
+
+      setLoading(false);
     };
 
     fetchPosts();
-  }, [channelName]);
+  }, [channelName, channels]);
 
   console.log(posts);
 
@@ -43,7 +58,7 @@ export default function Community({ channelName = "sw" }: Props) {
 
   return (
     <>
-      <nav className="mt-[80px] flex">
+      <nav className="mt-[80px] flex py-3 items-center ">
         <div className="mr-4">
           <Link to="/community/sw">SW</Link>
         </div>
@@ -57,7 +72,7 @@ export default function Community({ channelName = "sw" }: Props) {
           <Link to="/community/ge">GE</Link>
         </div>
       </nav>
-      <main className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(310px,1fr))] ">
+      <main className="grid gap-9 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] mt-8 mb-6">
         {posts && posts.length > 0 ? (
           posts.map((post) => <PostPreview preview={post} key={post._id} />)
         ) : (
@@ -67,50 +82,3 @@ export default function Community({ channelName = "sw" }: Props) {
     </>
   );
 }
-
-// const ChannelList: React.FC = () => {
-//   const [channels, setChannels] = useState<Channel[]>([]);
-//   const [isLoading, setIsLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
-
-// fetchChannels(si)
-// fetchChannels(nd)
-
-//   const fetchChannels = async (id) => {
-//     try {
-//       setIsLoading(true);
-//       const response = await axios.get<Channel[]>("/api/channels/${id}"); // Replace with your API endpoint
-//       setChannels(response.data);
-//     } catch (err) {
-//       setError("Failed to load channels.");
-//       console.error(err);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchChannels();
-//   }, []);
-
-//   if (isLoading) return <p>Loading...</p>;
-//   if (error) return <p>{error}</p>;
-
-//   return (
-//     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-//btn
-//       {channels.map((channel) => (
-//         <PostPreview
-//           key={channel.id}
-//           id={channel.id}
-//           title={channel.title}
-//           author={channel.author}
-//           thumbnail={channel.thumbnail}
-//           subscribers={channel.subscribers}
-//         />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default ChannelList;

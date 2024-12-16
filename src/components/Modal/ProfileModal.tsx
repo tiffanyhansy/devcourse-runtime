@@ -67,7 +67,7 @@ export default function Modal({
       }`}
       style={{
         top: x ? `${x}px` : "4.5rem",
-        right: y ? `${y}px` : "290px",
+        right: y ? `${y}px` : "19rem",
       }}
     >
       <div
@@ -92,7 +92,7 @@ export default function Modal({
               </div>
             </div>
             <div className="flex-col justify-center items-start gap-[3px] inline-flex">
-              <span className="text-black text-lg font-medium font-['Inter'] h-[20px] leading-[10px]">
+              <span className="text-black text-lg font-medium h-[20px] leading-[10px]">
                 {type === "header"
                   ? user?.fullName
                     ? user.fullName
@@ -117,7 +117,7 @@ export default function Modal({
 
                     <Link
                       to="/mypage"
-                      className="text-black text-lg font-medium font-['Inter'] leading-[22px]"
+                      className="text-black text-lg font-medium leading-[22px]"
                       onClick={close}
                     >
                       내 프로필
@@ -141,7 +141,7 @@ export default function Modal({
 
                   <Link
                     to={`./userpage/${onlineFullname}`}
-                    className="text-black text-lg font-medium font-['Inter'] leading-[22px]"
+                    className="text-black text-lg font-medium leading-[22px]"
                     onClick={close}
                   >
                     프로필 보기
@@ -167,7 +167,7 @@ export default function Modal({
                   {token === null ? (
                     <Link
                       to="/login"
-                      className="text-black text-lg font-medium font-['Inter'] leading-[22px]"
+                      className="text-black text-lg font-medium leading-[22px]"
                       onClick={() => {
                         close();
                       }}
@@ -177,7 +177,7 @@ export default function Modal({
                   ) : (
                     <Link
                       to="/login"
-                      className="text-black text-lg font-medium font-['Inter'] leading-[22px]"
+                      className="text-black text-lg font-medium leading-[22px]"
                       onClick={() => {
                         close();
                         logOut();

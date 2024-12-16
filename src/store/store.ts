@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useLoginStore } from "../store/API";
 import { v4 as uuidv4 } from "uuid";
 import dayjs, { Dayjs } from "dayjs";
 
@@ -7,10 +8,12 @@ interface EditorState {
   isOpen: boolean;
   content: string;
   title: string;
+  isAlertOpen: boolean;
   isDialogOpen: boolean;
   isShake: boolean;
   errorMessage: string;
   thumbnail: File | null;
+  closeLoginDialog: () => void;
   setShake: (v: boolean) => void;
   setErrorMessage: (message: string) => void;
   resetShakeAndError: () => void;
@@ -24,6 +27,7 @@ interface EditorState {
 
 export const useEditorStore = create<EditorState>((set) => ({
   isOpen: false,
+  isAlertOpen: false,
   content: "",
   title: "",
   thumbnail: null,
@@ -37,11 +41,18 @@ export const useEditorStore = create<EditorState>((set) => ({
       isShake: false,
       errorMessage: "",
     }),
-
-  toggleEditor: () =>
+  //로그인 검증여부 추가
+  toggleEditor: () => {
+    const token = useLoginStore.getState().token; // 로그인 상태의 토큰 확인
+    if (!token) {
+      set({ isAlertOpen: true }); // 로그인 안내 메시지
+      return;
+    }
     set((state: EditorState) => ({
-      isOpen: !state.isOpen, // `state`의 타입이 EditorState임을 명시
-    })),
+      isOpen: !state.isOpen,
+    }));
+  },
+  closeLoginDialog: () => set({ isAlertOpen: false }),
   setContent: (content) => set({ content }),
   setThumbnail: (thumbnail) => set({ thumbnail }),
   setTitle: (title) => set({ title }),
