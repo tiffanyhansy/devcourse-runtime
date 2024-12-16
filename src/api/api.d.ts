@@ -1,4 +1,4 @@
-interface userType {
+export interface userType {
   role: string;
   emailVerified: boolean;
   banned: boolean;
@@ -6,13 +6,41 @@ interface userType {
   posts: string[];
   likes: string[];
   comments: string[];
-  followers: string[];
-  following: string[];
+  followers: {
+    _id: string;
+    user: string;
+    follower: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }[];
+  following: {
+    _id: string;
+    user: string;
+    follower: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }[];
   notifications: string[];
   messages: string[];
   _id: string;
   fullName: string;
   email: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  isCover?: {
+    website: string;
+    field: string;
+  };
+  username?: string;
+}
+
+interface followType {
+  _id: string;
+  user: string;
+  follower: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

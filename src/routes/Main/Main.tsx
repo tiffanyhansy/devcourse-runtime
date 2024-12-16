@@ -12,9 +12,9 @@ import TopContents from "./TopContents/TopContents";
 import { Favorite } from "@mui/icons-material";
 import { styled } from "@mui/material";
 import FriendManageModal from "../../components/Modal/FriendManageModal";
-import { axiosInstance } from "../../api/axios";
 import { useEffect } from "react";
 import { useLoginStore } from "../../store/API";
+import { axiosInstance } from "../../api/axios";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -43,11 +43,20 @@ export default function Main() {
   );
   const modal = useFriendModalStore((s) => s.modal);
 
-  // user 정보 가져오기
-  const user = useLoginStore((state) => state.user);
+  // 메인페이지 들어올 떄 마다 유저정보 업데이트
+  const setUser = useLoginStore((state) => state.setUser);
+  const getAuthUser = async () => {
+    const newUser = await (await axiosInstance.get(`/auth-user`)).data;
+    console.log(newUser === "");
+    localStorage.setItem(
+      "LoginUserInfo",
+      JSON.stringify(newUser === "" ? null : newUser)
+    );
+    setUser(newUser);
+  };
   useEffect(() => {
-    console.log(user);
-  });
+    getAuthUser();
+  }, []);
 
   return (
     <section>
@@ -79,12 +88,12 @@ export default function Main() {
       </button> */}
       {/* 트로피 모달 프로토타입입니당 */}
       {isAchieve && !trophyModalViewed ? (
-        <article className="animate-show w-screen h-screen absolute top-0 left-0 z-50 overflow-hidden">
-          <article className="animate-spaceInDown_1s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px block">
+        <article className="absolute top-0 left-0 z-50 w-screen h-screen overflow-hidden animate-show">
+          <article className="animate-spaceInDown_1s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px] block">
             <img src="./src/asset/images/trophy.svg" alt="트로피 이미지" />
           </article>
           <article className="absolute bottom-[10%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <h2 className="text-white text-4xl font-bold">
+            <h2 className="text-4xl font-bold text-white">
               오늘의 목표시간을 달성했어요!
             </h2>
             <article>

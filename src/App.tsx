@@ -1,10 +1,9 @@
 import { Route, Routes, BrowserRouter } from "react-router";
 import { useEffect } from "react";
-import Header from "./routes/LayOut/Header";
 import Main from "./routes/Main/Main";
 import Login from "./routes/Login/Login";
 import Join from "./routes/Join/Join";
-import Noti from "./components/notifications/Noti";
+import Noti from "./routes/Notifications/Noti";
 import JoinSuccess from "./routes/Join/JoinSuccess";
 import ErrorPage from "./components/404Page/ErrorPage";
 import UserPage from "./routes/UserPage/UserPage";
@@ -27,9 +26,14 @@ export default function App() {
         JSON.stringify(["00", "00", "00"])
       );
     }
+    if (!localStorage.getItem("LoginUserInfo")) {
+      localStorage.setItem("LoginUserInfo", JSON.stringify(null));
+    }
+    if (!localStorage.getItem("LoginUserToken")) {
+      localStorage.setItem("LoginUserToken", JSON.stringify(null));
+    }
   }, []);
   return (
-    <BrowserRouter>
       <Routes>
         <Route element={<LayOut />}>
           <Route path="/login" element={<Login />} />
@@ -61,6 +65,5 @@ export default function App() {
           />
         </Route>
       </Routes>
-    </BrowserRouter>
   );
 }

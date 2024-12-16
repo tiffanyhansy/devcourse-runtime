@@ -48,6 +48,12 @@ export default {
             opacity: "1",
           },
         },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "25%": { transform: "translateX(-10px)" },
+          "50%": { transform: "translateX(10px)" },
+          "75%": { transform: "translateX(-10px)" },
+        },
       },
       animation: {
         show: "show 1s ease-in-out forwards",
@@ -56,6 +62,7 @@ export default {
         spaceInDown_1s: "spaceInDown 1s ease-in-out forwards 1000ms",
         scaleInTopLeft: "scaleInTopLeft 0.3s ease-in-out forwards",
         scaleInTopRight: "scaleInTopRight 0.3s ease-in-out forwards",
+        shake: "shake 0.5s ease-in-out 2",
       },
     },
   },

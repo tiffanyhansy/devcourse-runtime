@@ -20,9 +20,7 @@ export default function PostPreview({ preview }: Props) {
       </div>
       {/* 글 제목 및 내용 미리보기 */}
       <div className="">
-        <h4 className="truncate mb-1 font-bold text-2xl">
-          {preview.title}
-        </h4>
+        <h4 className="truncate mb-1 font-bold text-2xl">{preview.title}</h4>
         <div>
           <p className="line-clamp-3 mb-3	text-sm text-slate-600	">
             안녕하세요!💌 오늘은 12 Days of OpenAI: Day 3에서는 새로운 AI 비디오
