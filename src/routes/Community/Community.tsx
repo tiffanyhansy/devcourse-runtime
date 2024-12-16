@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import PostPreview from "../../components/Community/PostPreview";
 import { Link } from "react-router";
 import { axiosInstance } from "../../api/axios";
@@ -7,7 +6,7 @@ import { Post_T } from "../../type/Post";
 
 const channel_id: Record<ChannelId_T, string> = {
   sw: "675aa3f8d3266e29a57e4c61", // real
-  si: "675aa3f8d3266e29a57e4c61",
+  si: "675beca6dc8f0703d626edc9",
   da: "675aa3f8d3266e29a57e4c61",
   ge: "",
 };
@@ -27,7 +26,6 @@ export default function Community({ channelName = "sw" }: Props) {
         const response = await axiosInstance.get(
           `/posts/channel/${channel_id[channelName]}`
         );
-        response.data.
         setPosts(response.data);
       } catch (err) {
         setPosts([]);
