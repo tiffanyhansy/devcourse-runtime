@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from "react-router";
+import { Route, Routes } from "react-router";
 import { useEffect } from "react";
 import Main from "./routes/Main/Main";
 import Login from "./routes/Login/Login";
@@ -41,7 +41,7 @@ export default function App() {
         <Route path="/" element={<Main />} />
         <Route path="/join-success" element={<JoinSuccess />} />
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/userpage/:username" element={<UserPage />} />
+        <Route path="/userpage/:fullname" element={<UserPage />} />
         <Route path="/notifications" element={<Noti />} />
         <Route path="*" element={<ErrorPage />} />{" "}
       </Route>

@@ -3,10 +3,10 @@ import "react-quill-new/dist/quill.snow.css";
 import "../../css/QuillCustom.css";
 import { useEditorStore } from "../../store/store";
 import { usePostStore } from "../../store/postStore"; // postStore 임포트
+import { useEffect, useRef } from "react";
+import { Stack, Chip, Tooltip } from "@mui/material";
 import ConfirmDialog from "./ConfirmDialog";
 import Button from "../common/SquareButton";
-import { Stack, Chip, Tooltip } from "@mui/material";
-import { useEffect } from "react";
 
 export default function BlogEditor() {
   const {
@@ -18,7 +18,6 @@ export default function BlogEditor() {
     setTitle,
     toggleDialog,
     resetEditor,
-    isShake,
     setShake,
     errorMessage,
     setErrorMessage,
@@ -30,6 +29,7 @@ export default function BlogEditor() {
     fetchChannels,
     setSelectedChannelId,
     post,
+    error,
     isLoading,
     channelId,
   } = usePostStore();
@@ -41,7 +41,7 @@ export default function BlogEditor() {
   const handleError = (message: string) => {
     setShake(true);
     setErrorMessage(message);
-    setTimeout(resetShakeAndError, 2000); // 2초 후 상태 초기화
+    setTimeout(resetShakeAndError, 1000); // 1초 후 상태 초기화
   };
 
   const handleSave = async () => {
@@ -109,17 +109,56 @@ export default function BlogEditor() {
     "link",
     "image",
   ];
+
+  //quillRef api호출
+  const quillRef = useRef<ReactQuill>(null);
+
+  //ReactQuill의 DOM을 직접 제어하기
+  useEffect(() => {
+    const editorElement = quillRef.current?.getEditor().root;
+
+    if (editorElement) {
+      // 텍스트 입력을 시작하면 placeholder 제거
+      const handleCompositionStart = () => {
+        editorElement.classList.remove("ql-blank");
+      };
+      // 입력이 끝난 후 에디터 내용 확인
+      const handleCompositionEnd = () => {
+        if (!editorElement.innerText.trim()) {
+          editorElement.classList.add("ql-blank");
+        }
+      };
+      //이벤트 리스너로 함수실행
+      editorElement.addEventListener(
+        "compositionstart",
+        handleCompositionStart
+      );
+      editorElement.addEventListener("compositionend", handleCompositionEnd);
+      //메모리 누수 방지
+      return () => {
+        editorElement.removeEventListener(
+          "compositionstart",
+          handleCompositionStart
+        );
+        editorElement.removeEventListener(
+          "compositionend",
+          handleCompositionEnd
+        );
+      };
+    }
+  }, []);
+
+  const currentErrorMessage = error || errorMessage;
+
   return (
-    <div
-      className={`relative flex flex-col text-white ${
-        isShake ? "animate-shake" : ""
-      }`}
-    >
+    <div className={`relative flex flex-col text-white`}>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-black pl-3">(optional)</h1>
         <div className="flex gap-2 pt-1">
           <div className="pt-2">
-            {errorMessage && <p className="text-[#C96868]">{errorMessage}</p>}
+            {currentErrorMessage && (
+              <p className="text-[#C96868]">{currentErrorMessage}</p>
+            )}
           </div>
           <Button
             variant="primary"
@@ -133,9 +172,9 @@ export default function BlogEditor() {
           </Button>
           <Button
             onClick={handleCancel}
-            variant="secondary"
-            size="closeEditor"
-            className="font-normal transition hover:bg-[#C96868] hover:text-white"
+            variant="custom"
+            size="md"
+            className="font-normal transition bg-[#D6D6D6] hover:bg-[#C96868] w-[40px] h-[40px]"
             textSize="sm"
           >
             ✕
@@ -189,6 +228,7 @@ export default function BlogEditor() {
         {/* 에디터 & 본문 */}
         <div className="flex-grow">
           <ReactQuill
+            ref={quillRef}
             value={content}
             onChange={setContent}
             modules={modules}
