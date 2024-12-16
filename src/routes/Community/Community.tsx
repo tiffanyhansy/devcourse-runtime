@@ -5,10 +5,10 @@ import { axiosInstance } from "../../api/axios";
 import { Post_T } from "../../type/Post";
 
 const channel_id: Record<ChannelId_T, string> = {
-  sw: "675aa3f8d3266e29a57e4c61", // real
-  si: "675beca6dc8f0703d626edc9",
+  sw: "675f87850ad9f27988b681aa", // real
+  si: "675f87790ad9f27988b681a6",
   da: "675aa3f8d3266e29a57e4c61",
-  ge: "",
+  ge: "675f876b0ad9f27988b6819e",
 };
 type ChannelId_T = "sw" | "si" | "da" | "ge";
 

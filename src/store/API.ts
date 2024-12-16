@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { userType } from "../api/api";
 
 // 로그인시 가져오는 유저정보
 interface LoginType {
