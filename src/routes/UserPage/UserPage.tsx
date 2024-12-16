@@ -9,21 +9,8 @@ import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
 
 const UserPage = () => {
-  const {
-    isEditable,
-    profilePic,
-    tempProfilePic,
-    fullName,
-    username,
-    website,
-    tempClickedField,
-
-    setTempProfilePic,
-    setFullName,
-    setUsername,
-    setWebsite,
-    setTempClickedField,
-  } = useProfileStore();
+  const { isEditable, username, fullName, setTempProfilePic } =
+    useProfileStore();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isEditable) {
@@ -45,16 +32,6 @@ const UserPage = () => {
     "데이터/AI 개발",
     "게임/QA",
   ];
-
-  const handleFieldClick = (index: number) => {
-    const updatedField = new Set(tempClickedField);
-    if (updatedField.has(index)) {
-      updatedField.delete(index);
-    } else {
-      updatedField.add(index);
-    }
-    setTempClickedField(updatedField);
-  };
 
   const user = useLoginStore((state) => state.user);
   const setUser = useLoginStore((state) => state.setUser);
@@ -169,8 +146,8 @@ const UserPage = () => {
                 fontWeight: "bold",
               }}
             >
-              {searchUsers?.username
-                ? searchUsers.username
+              {searchUsers?.username?.username
+                ? searchUsers?.username?.username
                 : searchUsers?.fullName}
             </Typography>
 
@@ -225,25 +202,22 @@ const UserPage = () => {
             isEditable={isEditable}
             label="ID"
             value={searchUsers?.fullName ? searchUsers.fullName : "error"} // 이거 왜 searchUsers?.fullName만 넣으면 데이터 바인딩 오류 나오지? 데이터 있는데?
-            onChange={(e) => setFullName(e.target.value)}
           />
           <Input
             isEditable={isEditable}
             label="닉네임"
             value={
-              searchUsers?.username
-                ? searchUsers.username
+              searchUsers?.username?.username
+                ? searchUsers?.username?.username
                 : searchUsers?.fullName
                 ? searchUsers.fullName
                 : "error"
             }
-            onChange={(e) => setUsername(e.target.value)}
           />
           <Input
             isEditable={isEditable}
             label="웹사이트"
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
+            value={searchUsers?.username?.website!}
           />
           {/* field */}
           <Stack direction="column" spacing={1}>
@@ -262,21 +236,20 @@ const UserPage = () => {
                     key={index}
                     label={label}
                     variant="filled"
-                    onClick={
-                      isEditable ? () => handleFieldClick(index) : undefined
-                    }
                     style={{
                       width: "3rem",
-                      backgroundColor: tempClickedField.has(index)
-                        ? isEditable
-                          ? "#7EACB5"
-                          : "#B0B0B0"
-                        : "",
-                      color: tempClickedField.has(index)
-                        ? "white"
-                        : isEditable
-                        ? "#000"
-                        : "",
+                      // backgroundColor: tempClickedField.includes(
+                      //   index.toString()
+                      // )
+                      //   ? isEditable
+                      //     ? "#7EACB5"
+                      //     : "#B0B0B0"
+                      //   : "",
+                      // color: tempClickedField.has(index)
+                      //   ? "white"
+                      //   : isEditable
+                      //   ? "#000"
+                      //   : "",
                       cursor: isEditable ? "pointer" : "not-allowed",
                       opacity: isEditable ? 1 : 0.6,
                     }}
