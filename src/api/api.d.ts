@@ -34,6 +34,7 @@ export interface userType {
     website: string;
     field: string;
   };
+  coverImage?: string;
   username?: string;
 }
 

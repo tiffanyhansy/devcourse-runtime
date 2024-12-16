@@ -4,14 +4,21 @@ import { useprofileModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
 
-export default function Modal({ y, x }: { x?: number; y?: number }) {
+export default function Modal({
+  y,
+  x,
+  onlineFullname,
+  onlineCoverImg,
+}: {
+  x?: number;
+  y?: number;
+  onlineFullname?: string;
+  onlineCoverImg?: string;
+}) {
   const modal = useprofileModalStore((s) => s.modal);
   const type = useprofileModalStore((s) => s.type);
   const close = useprofileModalStore((s) => s.close);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  //임시 username
-  const username = "testuser";
 
   // 유저토큰값(로그인, 로그아웃 창 트리거 용도도)
   const token = useLoginStore((state) => state.token);
@@ -75,8 +82,12 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
               <div className="w-[42px] h-[42px] left-0 top-0 absolute">
                 <div className="w-[42px] h-[42px] left-0 top-0 absolute bg-gradient-to-b from-[#fcd7b4] to-[#ffc2af] rounded-full" />
                 <img
-                  className="w-11 h-11 left-0 top-[-2px] absolute"
-                  src="/src/asset/images/profile.svg"
+                  className="w-11 h-11 left-0 top-[-2px] absolute rounded-full"
+                  src={
+                    type === "header"
+                      ? "/src/asset/images/profile.svg"
+                      : onlineCoverImg
+                  }
                 />
               </div>
             </div>
@@ -88,7 +99,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                       ? user?.fullName
                         ? user.fullName
                         : `익명`
-                      : "친구이름"}
+                      : onlineFullname}
                   </div>
                 </div>
               </div>
@@ -115,7 +126,7 @@ export default function Modal({ y, x }: { x?: number; y?: number }) {
                   </Link>
                 ) : (
                   <Link
-                    to={`./userpage/${username}`}
+                    to={`./userpage/${onlineFullname}`}
                     className="text-black text-lg font-medium font-['Inter']"
                     onClick={close}
                   >
