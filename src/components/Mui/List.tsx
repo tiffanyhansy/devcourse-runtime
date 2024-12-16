@@ -8,7 +8,7 @@ import { useprofileModalStore } from "../../store/store";
 import Modal from "../Modal/ProfileModal";
 import { BorderBottom } from "@mui/icons-material";
 import { axiosInstance } from "../../api/axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { userType } from "../../api/api";
 
 // 친구목록에 사용하는 리스트 MUI
@@ -30,8 +30,18 @@ export default function CheckboxListSecondary() {
   // 모달 창 store
   const { type, open, modal, close } = useprofileModalStore();
   const [x, setX] = useState(0);
+  const [onlineFullname, setOnlineFullname] = useState("");
+  const [onlineCoverImg, setOnlineCoverImg] = useState("");
 
-  const handleItemClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleItemClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    fullname: string,
+    coverImg: string
+  ) => {
+    setOnlineFullname(() => fullname);
+    setOnlineCoverImg(() => coverImg);
+    console.log(onlineFullname);
+    console.log(onlineCoverImg);
     const rect = e.currentTarget.getBoundingClientRect();
     if (!modal) {
       open("list");
@@ -110,13 +120,23 @@ export default function CheckboxListSecondary() {
                 key={value._id}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleItemClick(e);
+                  handleItemClick(
+                    e,
+                    value.fullName,
+                    value.coverImage
+                      ? value.coverImage
+                      : `/src/asset/images/profile.svg`
+                  );
                 }}
               >
                 <ListItemAvatar>
                   <Avatar
                     alt={`Avatar n°${value._id + 1}`}
-                    src={`/static/images/avatar/${value._id + 1}.jpg`}
+                    src={
+                      value.coverImage
+                        ? value.coverImage
+                        : `/src/asset/images/profile.svg`
+                    }
                   />
                 </ListItemAvatar>
                 <ListItemText id={labelId} primary={`${value.fullName}`} />
@@ -125,7 +145,14 @@ export default function CheckboxListSecondary() {
           );
         })}
       </List>
-      {modal && type === "list" && <Modal y={-42} x={x} />}
+      {modal && type === "list" && (
+        <Modal
+          y={-42}
+          x={x}
+          onlineFullname={onlineFullname}
+          onlineCoverImg={onlineCoverImg}
+        />
+      )}
     </div>
   );
 }
