@@ -62,7 +62,7 @@ export default {
         spaceInDown_1s: "spaceInDown 1s ease-in-out forwards 1000ms",
         scaleInTopLeft: "scaleInTopLeft 0.3s ease-in-out forwards",
         scaleInTopRight: "scaleInTopRight 0.3s ease-in-out forwards",
-        shake: "shake 0.5s ease-in-out 2",
+        shake: "shake 0.5s ease-in-out 1",
       },
     },
   },
