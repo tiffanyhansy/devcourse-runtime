@@ -9,6 +9,7 @@ import Modal from "../Modal/ProfileModal";
 import { BorderBottom } from "@mui/icons-material";
 import { axiosInstance } from "../../api/axios";
 import { useEffect, useState } from "react";
+import { userType } from "../../api/api";
 
 // 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
@@ -74,7 +75,7 @@ export default function CheckboxListSecondary() {
     },
   };
 
-  const [onlineUser, setOnlineUser] = useState([]);
+  const [onlineUser, setOnlineUser] = useState<userType[] | []>([]);
   const getOnlineUser = async () => {
     const onlineUserData = await axiosInstance.get(
       `${import.meta.env.VITE_API_URL}/users/online-users`
@@ -91,10 +92,10 @@ export default function CheckboxListSecondary() {
     <div className="relative ">
       <List id="mainListModal" dense sx={styles.list}>
         {onlineUser.map((value) => {
-          const labelId = `checkbox-list-secondary-label-${value}`;
+          const labelId = `checkbox-list-secondary-label-${value._id}`;
           return (
             <ListItem
-              key={value}
+              key={value._id}
               // secondaryAction={
               //   <Checkbox
               //     edge="end"
@@ -106,7 +107,7 @@ export default function CheckboxListSecondary() {
               disablePadding
             >
               <ListItemButton
-                key={value}
+                key={value._id}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleItemClick(e);
@@ -114,11 +115,11 @@ export default function CheckboxListSecondary() {
               >
                 <ListItemAvatar>
                   <Avatar
-                    alt={`Avatar n°${value + 1}`}
-                    src={`/static/images/avatar/${value + 1}.jpg`}
+                    alt={`Avatar n°${value._id + 1}`}
+                    src={`/static/images/avatar/${value._id + 1}.jpg`}
                   />
                 </ListItemAvatar>
-                <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
+                <ListItemText id={labelId} primary={`${value.fullName}`} />
               </ListItemButton>
             </ListItem>
           );
