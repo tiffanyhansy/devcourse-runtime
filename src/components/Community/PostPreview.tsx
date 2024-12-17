@@ -28,7 +28,7 @@ export default function PostPreview({ preview }: Props) {
       {/* 썸네일 이미지 */}
       <div className="relative aspect-video">
         <img
-          src= { preview.image ? preview.image :  sampleImgUrl}
+          src={preview.image ? preview.image : sampleImgUrl}
           alt={parsedTitle.title}
           className="object-cover w-full h-full"
         />

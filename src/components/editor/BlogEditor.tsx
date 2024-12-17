@@ -22,6 +22,7 @@ export default function BlogEditor() {
     errorMessage,
     setErrorMessage,
     resetShakeAndError,
+    handleCancel,
   } = useEditorStore();
 
   const {
@@ -32,6 +33,8 @@ export default function BlogEditor() {
     error,
     isLoading,
     channelId,
+    setImage,
+    image,
   } = usePostStore();
 
   useEffect(() => {
@@ -59,22 +62,13 @@ export default function BlogEditor() {
     //content 적용시키기
     const removePtags = removeHtml(content);
 
-    const success = await post(title, removePtags, channelId || "");
+    const success = await post(title, removePtags, channelId || "", image);
 
     if (success) {
       resetEditor();
       toggleEditor();
     } else {
       handleError("저장에 실패했습니다.");
-    }
-  };
-
-  const handleCancel = () => {
-    if ((content.trim() && content.trim() !== "<p><br></p>") || title.trim()) {
-      toggleDialog(true); // ConfirmDialog 열기
-    } else {
-      resetEditor();
-      toggleEditor(); // 내용이 없으면 바로 닫기
     }
   };
 
@@ -171,7 +165,7 @@ export default function BlogEditor() {
             {isLoading ? "저장 중..." : "저장하기"}
           </Button>
           <Button
-            onClick={handleCancel}
+            onClick={() => handleCancel(setImage)}
             variant="custom"
             size="md"
             className="font-normal transition bg-[#D6D6D6] hover:bg-[#C96868] w-[40px] h-[40px]"
@@ -190,6 +184,38 @@ export default function BlogEditor() {
           placeholder="제목을 입력하세요..."
           className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
         />
+        {/* 파일 업로드 테스트용 input */}
+        <div className="relative pb-2">
+          <form className="flex items-center">
+            {/* 버튼 디자인 */}
+            <label
+              htmlFor="file-upload"
+              className=" ml-[10px] inline-block cursor-pointer text-white text-[12px] bg-[#7EACB5] px-2 py-2 rounded-[10px] hover:bg-[#96CCD6] transition"
+            >
+              썸네일
+            </label>
+            {/* 파일 업로드 input */}
+            <input
+              id="file-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                e.preventDefault();
+                const file = e.target.files?.[0] || null;
+                setImage(file);
+              }}
+            />
+            {/* 파일 이름 표시*/}
+            <span
+              id="file-name-display"
+              className="ml-3 text-gray-600 text-sm truncate max-w-[150px]"
+            >
+              {image ? image.name : "파일을 선택하세요"}
+            </span>
+          </form>
+        </div>
+
         {/* Stack 채널 선택 */}
         <Stack
           direction="column"
