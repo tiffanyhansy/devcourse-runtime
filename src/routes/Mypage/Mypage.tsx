@@ -1,15 +1,26 @@
+import React, { useEffect } from "react";
+// MUI
 import { Stack, Chip, Box, Typography, Alert, Tooltip } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
+
+// 커스텀 component
 import Input from "../../components/Mypage/Input";
-import { useProfileStore } from "../../store/store";
 import Button from "../../components/common/SquareButton";
-import { axiosInstance } from "../../api/axios";
-import { useEffect } from "react";
+
+// Store
+import { useProfileStore } from "../../store/store";
 import { useLoginStore } from "../../store/API";
-import axios from "axios";
+
+// API
+import { axiosInstance } from "../../api/axios";
+
+//이미지
+import default_profile from "../../asset/default_profile.png";
 
 const Mypage = () => {
   const setUser = useLoginStore((state) => state.setUser);
+  const parsedField = useProfileStore((state) => state.parsedField);
+  const setParsedField = useProfileStore((state) => state.setParsedField);
 
   const getAuthUser = async () => {
     const newUser = await (await axiosInstance.get(`/auth-user`)).data;
@@ -25,12 +36,17 @@ const Mypage = () => {
       } catch (error) {
         console.error("Error parsing username as JSON:", error);
 
-        newUser.username = "defaultUsername"; // 기본값 설정
+        newUser.username = "defaultUsername"; // 기본값
       }
     }
 
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
     setUser(newUser);
+
+    setParsedField(newUser.username ? newUser.username.field : []);
+    setProfilePic(newUser.image);
+    setFullName(newUser.fullName);
+    setUsername(newUser.username);
   };
 
   const user = useLoginStore((state) => state.user!);
@@ -52,37 +68,10 @@ const Mypage = () => {
   } = useProfileStore();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setFullName(user.fullName || "");
+    getAuthUser();
+  }, []);
 
-        setUsername({
-          username: user.username?.username || user.fullName || "",
-          website: user.username?.website || "",
-          field: user.username?.field || "",
-        });
-
-        setProfilePic(user.image || "/src/asset/default_profile.png");
-        setClickedField(
-          typeof user.username?.field === "string" &&
-            user.username?.field.trim()
-            ? user.username.field.split(",")
-            : []
-        );
-
-        console.log(user);
-        console.log(user.fullName);
-        console.log(user.email);
-      } catch (error) {
-        console.error(`❌사용자의 데이터를 불러오는 데에 실패했습니다.`, error);
-      }
-    };
-    fetchData();
-  }, [user, setFullName, setUsername, setProfilePic, setClickedField]);
-
-  const isAnyFieldEmpty = !fullName?.trim() || !username.username?.trim();
-
-  // 이미지 업로드 함수 (재사용 가능하게 분리)
+  // 이미지 업로드 함수
   const uploadProfileImage = async (imageFile: File, isCover: boolean) => {
     try {
       const formData = new FormData();
@@ -99,8 +88,6 @@ const Mypage = () => {
         }
       );
 
-      console.log("Profile image uploaded:", response.data);
-      console.log("서버 응답:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error uploading profile image:", error);
@@ -108,11 +95,15 @@ const Mypage = () => {
     }
   };
 
-  // 메인 함수 수정
   const handleEditButtonClick = async () => {
+    setTempClickedField(user.username ? [...user.username?.field] : []);
+
+    const isAnyFieldEmpty =
+      !fullName?.trim() || !username || !username.username.trim();
+
     if (isEditable) {
       if (isAnyFieldEmpty) {
-        alert("필수 항목을 모두 입력해주세요.");
+        alert("닉네임을 입력해주세요.");
         return;
       }
 
@@ -124,9 +115,9 @@ const Mypage = () => {
 
         // username, website, field 업데이트
         const payload = {
-          username: username.username,
-          website: username.website,
-          field: JSON.stringify(tempClickedField),
+          username: username?.username,
+          website: username?.website,
+          field: tempClickedField,
         };
 
         const payloadString = JSON.stringify(payload);
@@ -139,7 +130,7 @@ const Mypage = () => {
 
         // 상태 업데이트
         setUsername(payload);
-        setClickedField(tempClickedField);
+        setClickedField(parsedField);
 
         await getAuthUser();
         setTempProfilePic(image);
@@ -149,10 +140,6 @@ const Mypage = () => {
 
         alert("변경사항 저장 중 오류가 발생했습니다.");
       }
-    } else {
-      // 수정 모드 시작 시 임시 상태 설정
-
-      setTempClickedField(clickedField);
     }
 
     setIsEditable(!isEditable);
@@ -183,6 +170,7 @@ const Mypage = () => {
 
   const handleFieldClick = (index: number) => {
     const updatedField = [...tempClickedField];
+
     if (updatedField.includes(index.toString())) {
       const idx = updatedField.indexOf(index.toString());
       updatedField.splice(idx, 1); // 필드 제거
@@ -194,15 +182,12 @@ const Mypage = () => {
 
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
-      {/* 제목 */}
       <article className="flex mt-14">
         <h1 className="text-4xl font-bold">내 프로필</h1>
       </article>
 
       <div className="flex p-[5rem] justify-between">
-        {/* 프로필 */}
         <Stack direction="column" className="items-center">
-          {/* 프로필 사진 */}
           <Box
             position="relative"
             width="22.5rem"
@@ -222,8 +207,8 @@ const Mypage = () => {
                 isEditable
                   ? tempProfilePic instanceof File
                     ? URL.createObjectURL(tempProfilePic) // File일 경우 URL 생성
-                    : tempProfilePic // string URL일 경우
-                  : image
+                    : image || default_profile // string URL일 경우
+                  : image || default_profile
               }
               alt="Profile"
               style={{
@@ -267,7 +252,6 @@ const Mypage = () => {
               {user.fullName}
             </Typography>
 
-            {/* 이메일 */}
             <div className="flex items-center gap-4 w-fit">
               <div className="flex items-center justify-center p-2 bg-gray-100 rounded-full">
                 <EmailIcon sx={{ color: "#7EACB5" }} />
@@ -279,13 +263,12 @@ const Mypage = () => {
           </div>
         </Stack>
 
-        {/* 필드 입력 */}
         <div>
           <Input
-            isEditable={isEditable}
             label="ID"
-            value={isEditable ? fullName || "" : user.fullName || ""}
-            onChange={(e) => isEditable && setFullName(e.target.value)}
+            value={user.fullName}
+            readonly={true}
+            isEditable={isEditable}
           />
           <Input
             isEditable={isEditable}
@@ -293,12 +276,12 @@ const Mypage = () => {
             value={
               isEditable
                 ? username?.username || ""
-                : user.username?.username || user.fullName || "" // user.username이 없을 경우 fullName 처리
+                : user.username?.username || "" // user.username이 없을 경우 fullName 처리
             }
             onChange={(e) => {
               if (isEditable) {
                 setUsername({
-                  ...username, // 기존의 username 객체를 그대로 복사
+                  ...username,
                   username: e.target.value,
                 });
               }
@@ -308,7 +291,9 @@ const Mypage = () => {
             isEditable={isEditable}
             label="Website"
             value={
-              isEditable ? username.website || "" : user.username?.website || ""
+              isEditable
+                ? username?.website || ""
+                : user.username?.website || ""
             }
             onChange={(e) => {
               if (isEditable) {
@@ -319,7 +304,7 @@ const Mypage = () => {
               }
             }}
           />
-          {/* field */}
+
           <Stack direction="column" spacing={1}>
             <label
               style={{
@@ -337,31 +322,26 @@ const Mypage = () => {
                     label={label}
                     variant="filled"
                     onClick={
-                      isEditable ? () => handleFieldClick(index) : undefined //TODO:수정
+                      isEditable ? () => handleFieldClick(index) : undefined
                     }
                     style={{
                       width: "3rem",
-                      backgroundColor: tempClickedField.includes(
-                        index.toString()
-                      )
-                        ? isEditable
+                      backgroundColor: isEditable
+                        ? tempClickedField.includes(index.toString())
                           ? "#7EACB5"
                           : "#B0B0B0"
-                        : "",
-                      color: tempClickedField.includes(index.toString())
-                        ? "white"
-                        : isEditable
-                        ? "#000"
-                        : "",
+                        : parsedField.includes(index.toString())
+                        ? "#7EACB5"
+                        : "#B0B0B0",
+                      color: "white",
                       cursor: isEditable ? "pointer" : "not-allowed",
-                      opacity: isEditable ? 1 : 0.6,
                     }}
                   />
                 </Tooltip>
               ))}
             </Stack>
           </Stack>
-          {/* 버튼 */}
+
           <Stack
             direction="row"
             spacing={2}
@@ -388,16 +368,17 @@ const Mypage = () => {
             >
               {isEditable ? "변경사항 저장" : "프로필 편집"}
             </Button>
-          </Stack>{" "}
-          {/* 경고 알림 */}
-          {isEditable && isAnyFieldEmpty && (
-            <Alert
-              severity="error"
-              sx={{ mt: 3, width: "500px", justifySelf: "end" }}
-            >
-              이름과 별명 모두 채워주세요!
-            </Alert>
-          )}
+          </Stack>
+
+          {isEditable &&
+            (!fullName?.trim() || !username || !username.username?.trim()) && (
+              <Alert
+                severity="error"
+                sx={{ mt: 3, width: "500px", justifySelf: "end" }}
+              >
+                닉네임을 적어주세요!
+              </Alert>
+            )}
         </div>
       </div>
     </section>
