@@ -40,11 +40,11 @@ export default function PostPreview({ preview }: Props) {
   }
 
   return (
-    <article className="bg-white shadow-md">
+    <article className="bg-white shadow-md hover:shadow-lg transition-transform duration-500 ease-in-out hover:-translate-y-1 rounded">
       {/* 썸네일 이미지 */}
       <div className="relative aspect-video">
         <img
-          src={currentImage || sampleImgUrl}
+          src={preview.image ? preview.image : sampleImgUrl}
           alt={parsedTitle.title}
           className="object-cover w-full h-full"
         />
@@ -55,7 +55,7 @@ export default function PostPreview({ preview }: Props) {
           {parsedTitle.title}
         </h4>
         <div>
-          <p className="line-clamp-3 mb-6	text-sm text-[#495057] h-[3.9375rem] ">
+          <p className="line-clamp-3 mb-6	text-sm text-[#495057] h-[3.93rem] ">
             {parsedTitle.content}
           </p>
         </div>
@@ -73,7 +73,7 @@ export default function PostPreview({ preview }: Props) {
         </div>
         <div className="flex items-center ">
           <img
-            src={preview.author.coverImage}
+            src={preview.author.image}
             alt="글쓴이 프로필 이미지"
             className="w-6 h-6 rounded-full mr-2"
           />

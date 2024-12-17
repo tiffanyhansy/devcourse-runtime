@@ -50,22 +50,18 @@ interface followType {
 
 export interface Post_T {
   _id: string;
-  title: string; // JSON.stringify로 묶인 title과 content
-  channel: string | null;
-  likes: string[];
+  author: Author_T;
   comments: string[];
   createdAt: string;
   updatedAt: string;
-  author: {
-    fullName: string;
-    coverImage: string; // 작성자 프로필 이미지
-  };
-  imageUrl?: string; // 게시글 썸네일 이미지 URL
+  likes: string[];
+  title: string; //Title_T가 string으로 들어옴
+  image: string;
 }
 
 type Author_T = {
   fullName: string;
-  coverImage: string;
+  image: string;
 };
 
 export type Title_T = {
