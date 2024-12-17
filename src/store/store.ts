@@ -13,6 +13,7 @@ interface EditorState {
   isShake: boolean;
   errorMessage: string;
   thumbnail: File | null;
+  handleCancel: (setImage: (file: File | null) => void) => void;
   closeLoginDialog: () => void;
   setShake: (v: boolean) => void;
   setErrorMessage: (message: string) => void;
@@ -25,7 +26,7 @@ interface EditorState {
   setThumbnail: (thumbnail: File | null) => void;
 }
 
-export const useEditorStore = create<EditorState>((set) => ({
+export const useEditorStore = create<EditorState>((set, get) => ({
   isOpen: false,
   isAlertOpen: false,
   content: "",
@@ -58,6 +59,18 @@ export const useEditorStore = create<EditorState>((set) => ({
   setTitle: (title) => set({ title }),
   toggleDialog: (open) => set({ isDialogOpen: open }),
   resetEditor: () => set({ content: "", title: "", thumbnail: null }),
+  // handleCancel 함수 - setImage를 매개변수로 받아 사용
+  handleCancel: (setImage) => {
+    const { content, title, toggleDialog, resetEditor, toggleEditor } = get();
+
+    if ((content.trim() && content.trim() !== "<p><br></p>") || title.trim()) {
+      toggleDialog(true);
+    } else {
+      resetEditor();
+      setImage(null); // 타입 에러 없이 사용 가능
+      toggleEditor();
+    }
+  },
 }));
 
 // 메인페이지 몇 시간? 클릭시 상호작용 기능

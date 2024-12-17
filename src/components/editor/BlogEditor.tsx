@@ -22,6 +22,7 @@ export default function BlogEditor() {
     errorMessage,
     setErrorMessage,
     resetShakeAndError,
+    handleCancel,
   } = useEditorStore();
 
   const {
@@ -68,15 +69,6 @@ export default function BlogEditor() {
       toggleEditor();
     } else {
       handleError("저장에 실패했습니다.");
-    }
-  };
-
-  const handleCancel = () => {
-    if ((content.trim() && content.trim() !== "<p><br></p>") || title.trim()) {
-      toggleDialog(true); // ConfirmDialog 열기
-    } else {
-      resetEditor();
-      toggleEditor(); // 내용이 없으면 바로 닫기
     }
   };
 
@@ -173,7 +165,7 @@ export default function BlogEditor() {
             {isLoading ? "저장 중..." : "저장하기"}
           </Button>
           <Button
-            onClick={handleCancel}
+            onClick={() => handleCancel(setImage)}
             variant="custom"
             size="md"
             className="font-normal transition bg-[#D6D6D6] hover:bg-[#C96868] w-[40px] h-[40px]"
@@ -194,13 +186,15 @@ export default function BlogEditor() {
         />
         {/* 파일 업로드 테스트용 input */}
         <div className="relative pb-2">
-          <form>
+          <form className="flex items-center">
+            {/* 버튼 디자인 */}
             <label
               htmlFor="file-upload"
-              className="inline-block relative left-[10px] top-[5px] cursor-pointer text-white text-[14px] bg-[#7EACB5] px-2 py-2 rounded-[10px] hover:bg-[#96CCD6] transition"
+              className=" ml-[10px] inline-block cursor-pointer text-white text-[12px] bg-[#7EACB5] px-2 py-2 rounded-[10px] hover:bg-[#96CCD6] transition"
             >
               썸네일
             </label>
+            {/* 파일 업로드 input */}
             <input
               id="file-upload"
               type="file"
@@ -209,12 +203,19 @@ export default function BlogEditor() {
               onChange={(e) => {
                 e.preventDefault();
                 const file = e.target.files?.[0] || null;
-                //이미지 불러오기
                 setImage(file);
               }}
             />
+            {/* 파일 이름 표시*/}
+            <span
+              id="file-name-display"
+              className="ml-3 text-gray-600 text-sm truncate max-w-[150px]"
+            >
+              {image ? image.name : "파일을 선택하세요"}
+            </span>
           </form>
         </div>
+
         {/* Stack 채널 선택 */}
         <Stack
           direction="column"

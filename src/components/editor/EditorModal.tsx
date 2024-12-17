@@ -1,6 +1,7 @@
 import React from "react";
 import { useEditorStore } from "../../store/store";
 import ConfirmDialog from "./ConfirmDialog";
+import { usePostStore } from "../../store/postStore";
 
 interface ModalProps {
   children?: React.ReactNode;
@@ -10,22 +11,15 @@ export default function EditorModal({ children }: ModalProps) {
   const {
     isOpen,
     toggleEditor,
-    content,
-    title,
+
     resetEditor,
     isDialogOpen,
     toggleDialog,
     isShake,
+    handleCancel,
   } = useEditorStore();
 
-  const handleCancel = () => {
-    if ((content.trim() && content.trim() !== "<p><br></p>") || title.trim()) {
-      toggleDialog(true); // ConfirmDialog 열기
-    } else {
-      resetEditor();
-      toggleEditor(); // 내용이 없으면 바로 닫기
-    }
-  };
+  const { setImage } = usePostStore();
 
   const confirmClose = () => {
     resetEditor();
@@ -43,7 +37,7 @@ export default function EditorModal({ children }: ModalProps) {
         className={`fixed inset-0 bg-black bg-opacity-75 z-40 flex items-center justify-center transition-opacity duration-500 ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
-        onClick={handleCancel}
+        onClick={() => handleCancel(setImage)}
       >
         <div
           onClick={(e) => e.stopPropagation()} // 이벤트 버블링 방지
