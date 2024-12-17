@@ -73,8 +73,6 @@ const Mypage = () => {
     getAuthUser();
   }, []);
 
-  // const isAnyFieldEmpty = !fullName?.trim() || !username.username?.trim();
-
   // 이미지 업로드 함수 (재사용 가능하게 분리)
   const uploadProfileImage = async (imageFile: File, isCover: boolean) => {
     try {
@@ -110,7 +108,7 @@ const Mypage = () => {
 
     if (isEditable) {
       if (isAnyFieldEmpty) {
-        alert("필수 항목을 모두 입력해주세요.");
+        alert("이름을 입력해주세요.");
         return;
       }
 
@@ -282,10 +280,10 @@ const Mypage = () => {
         {/* 필드 입력 */}
         <div>
           <Input
-            isEditable={isEditable}
             label="ID"
-            value={isEditable ? fullName || "" : user.fullName || ""}
-            onChange={(e) => isEditable && setFullName(e.target.value)}
+            value={fullName}
+            readonly={true}
+            isEditable={isEditable}
           />
           <Input
             isEditable={isEditable}
@@ -402,7 +400,7 @@ const Mypage = () => {
                 severity="error"
                 sx={{ mt: 3, width: "500px", justifySelf: "end" }}
               >
-                이름과 별명 모두 채워주세요!
+                별명을 적어주세요!
               </Alert>
             )}
         </div>

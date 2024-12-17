@@ -5,10 +5,17 @@ interface InputProps {
   isEditable: boolean; // 편집 가능 여부
   label: string; // 필드 라벨
   value: string; // 입력값
+  readonly?: boolean; // readonly 여부
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // 입력값 변경 핸들러
 }
 
-const Input = ({ isEditable, label, value, onChange }: InputProps) => {
+const Input = ({
+  isEditable,
+  label,
+  value,
+  onChange,
+  readonly,
+}: InputProps) => {
   const isRequiredProfile = ["이름", "별명"].includes(label);
 
   return (
@@ -43,6 +50,7 @@ const Input = ({ isEditable, label, value, onChange }: InputProps) => {
         }}
         value={value}
         onChange={onChange} // 부모 컴포넌트에서 전달된 핸들러 호출
+        readOnly={readonly}
       />
     </Stack>
   );
