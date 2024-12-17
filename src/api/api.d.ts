@@ -48,7 +48,7 @@ interface followType {
   __v: number;
 }
 
-export type Post_T = {
+export interface Post_T {
   _id: string;
   author: Author_T;
   comments: string[];
@@ -56,8 +56,9 @@ export type Post_T = {
   updatedAt: string;
   likes: string[];
   title: string; //Title_T가 string으로 들어옴
-  image: string
-};
+  image: string;
+  imageUrl?: string;
+}
 
 type Author_T = {
   fullName: string;
