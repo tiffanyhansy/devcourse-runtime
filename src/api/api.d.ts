@@ -57,6 +57,7 @@ export interface Post_T {
   likes: string[];
   title: string; //Title_T가 string으로 들어옴
   image: string;
+  imageUrl?: string;
 }
 
 type Author_T = {

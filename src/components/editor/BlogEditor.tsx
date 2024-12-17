@@ -193,24 +193,24 @@ export default function BlogEditor() {
           className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
         />
         {/* 파일 업로드 테스트용 input */}
-        <div className="pb-2">
+        <div className="relative pb-2">
           <form>
             <label
               htmlFor="file-upload"
-              className="block text-md font-semibold text-gray-600 mb-1"
+              className="inline-block relative left-[10px] top-[5px] cursor-pointer text-white text-[14px] bg-[#7EACB5] px-2 py-2 rounded-[10px] hover:bg-[#96CCD6] transition"
             >
-              테스트용 파일 업로드
+              썸네일
             </label>
             <input
               id="file-upload"
               type="file"
               accept="image/*"
-              className="w-full text-sm text-gray-600 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-sm file:bg-[#7EACB5] file:text-white hover:file:bg-[#96CCD6] transition"
+              className="hidden"
               onChange={(e) => {
                 e.preventDefault();
                 const file = e.target.files?.[0] || null;
+                //이미지 불러오기
                 setImage(file);
-                console.log("이미지파일 디버깅용:", file);
               }}
             />
           </form>
