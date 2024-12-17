@@ -37,6 +37,7 @@ export interface userType {
   };
   image: string;
   isCover?: boolean;
+  coverImage: string;
 }
 
 interface followType {
