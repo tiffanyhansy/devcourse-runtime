@@ -48,6 +48,7 @@ const Mypage = () => {
 
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
     setUser(newUser);
+    console.log("삼항", newUser.username ? newUser.username.field : []);
     setParsedField(newUser.username ? newUser.username.field : []);
     setProfilePic(newUser.image);
     setFullName(newUser.fullName);
@@ -76,7 +77,7 @@ const Mypage = () => {
     getAuthUser();
   }, []);
 
-  // 이미지 업로드 함수 (재사용 가능하게 분리)
+  // 이미지 업로드 함수
   const uploadProfileImage = async (imageFile: File, isCover: boolean) => {
     try {
       const formData = new FormData();
@@ -102,7 +103,6 @@ const Mypage = () => {
     }
   };
 
-  // 메인 함수 수정
   const handleEditButtonClick = async () => {
     console.log(username);
 
@@ -144,7 +144,7 @@ const Mypage = () => {
 
         // 상태 업데이트
         setUsername(payload);
-        setClickedField(tempClickedField);
+        setClickedField(parsedField);
 
         await getAuthUser();
         setTempProfilePic(image);
@@ -156,8 +156,7 @@ const Mypage = () => {
       }
     } else {
       // 수정 모드 시작 시 임시 상태 설정
-
-      setTempClickedField(clickedField);
+      // setTempClickedField(clickedField);
     }
 
     setIsEditable(!isEditable);
@@ -199,6 +198,8 @@ const Mypage = () => {
 
     console.log("updated field", updatedField);
   };
+
+  console.log("temp", tempClickedField);
 
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
@@ -351,22 +352,34 @@ const Mypage = () => {
                     }
                     style={{
                       width: "3rem",
-                      backgroundColor: tempClickedField.includes(
-                        index.toString()
-                      )
-                        ? isEditable
-                          ? "#7EACB5"
-                          : "#B0B0B0"
-                        : parsedField.includes(index.toString())
-                        ? "#7EACB5"
-                        : "#B0B0B0",
-                      color: tempClickedField.includes(index.toString())
-                        ? "white"
-                        : isEditable
-                        ? "#000"
-                        : parsedField.includes(index.toString())
-                        ? "white"
-                        : "#000",
+                      backgroundColor:
+                        tempClickedField.includes(index.toString()) &&
+                        parsedField.includes(index.toString())
+                          ? "red"
+                          : tempClickedField.includes(index.toString()) &&
+                            !parsedField.includes(index.toString())
+                          ? "yellow"
+                          : !tempClickedField.includes(index.toString()) &&
+                            parsedField.includes(index.toString())
+                          ? "green"
+                          : "blue",
+
+                      // ? "#7EACB5"
+                      // : parsedField.includes(index.toString()) &&
+                      //   tempClickedField.includes(index.toString())
+                      // ? "#7EACB5"
+                      // : "#B0B0B0",
+
+                      color: "white",
+                      // parsedField.includes(index.toString()) ||
+                      // tempClickedField.includes(index.toString())
+                      //   ? "white"
+                      //   : "black",
+                      //   : isEditable
+                      //   ? "#000"
+                      //   : parsedField.includes(index.toString())
+                      //   ? "white"
+                      //   : "#000",
                       cursor: isEditable ? "pointer" : "not-allowed",
                     }}
                   />
