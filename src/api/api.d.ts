@@ -51,16 +51,17 @@ interface followType {
 export type Post_T = {
   _id: string;
   author: Author_T;
-  comments: Comments_T[];
+  comments: string[];
   createdAt: string;
   updatedAt: string;
-  likes: Likes_T[];
+  likes: string[];
   title: string; //Title_T가 string으로 들어옴
+  image: string
 };
 
 type Author_T = {
   fullName: string;
-  coverImage: string;
+  image: string;
 };
 
 export type Title_T = {

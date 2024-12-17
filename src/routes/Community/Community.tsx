@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { axiosInstance } from "../../api/axios";
 import { Post_T } from "../../api/api";
 import { usePostStore } from "../../store/postStore";
+import { Tooltip } from "@mui/material";
 
 type ChannelId_T = "sw" | "si" | "da" | "ge";
 
@@ -58,19 +59,27 @@ export default function Community({ channelName = "sw" }: Props) {
 
   return (
     <>
-      <nav className="mt-[80px] flex py-3 items-center ">
-        <div className="mr-4">
-          <Link to="/community/sw">SW</Link>
+      <nav className="mt-[80px] flex py-3 items-center text-lg ">
+        <Tooltip title="소프트웨어 개발" arrow>
+        <div className="mr-4 text-white bg-[#7EACB5] hover:bg-black hover:text-white transition-colors font-bold px-3 py-1 rounded-[10px] w-16 text-center opacity-80 ">
+          <Link to="/community/sw" >SW</Link>
         </div>
-        <div className="mr-4">
+        </Tooltip>
+        <Tooltip title="시스템/인프라" arrow>
+        <div className="mr-4 text-white bg-[#7EACB5] hover:bg-black hover:text-white transition-colors font-bold px-3 py-1 rounded-[10px] w-16 text-center opacity-80">
           <Link to="/community/si">SI</Link>
         </div>
-        <div className="mr-4">
+        </Tooltip>
+        <Tooltip title="데이터/AI 개발" arrow>
+        <div className="mr-4 text-white bg-[#7EACB5] hover:bg-black hover:text-white transition-colors font-bold px-3 py-1 rounded-[10px] w-16 text-center opacity-80">
           <Link to="/community/da">DA</Link>
         </div>
-        <div className="">
+        </Tooltip>
+        <Tooltip title="게임/QA" arrow>
+        <div className="text-white bg-[#7EACB5] hover:bg-black hover:text-white transition-colors font-bold px-3 py-1 rounded-[10px] w-16 text-center opacity-80">
           <Link to="/community/ge">GE</Link>
         </div>
+        </Tooltip>
       </nav>
       <main className="grid gap-9 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] mt-8 mb-6">
         {posts && posts.length > 0 ? (
