@@ -32,6 +32,8 @@ export default function BlogEditor() {
     error,
     isLoading,
     channelId,
+    setImage,
+    image,
   } = usePostStore();
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function BlogEditor() {
     //content 적용시키기
     const removePtags = removeHtml(content);
 
-    const success = await post(title, removePtags, channelId || "");
+    const success = await post(title, removePtags, channelId || "", image);
 
     if (success) {
       resetEditor();
@@ -190,6 +192,29 @@ export default function BlogEditor() {
           placeholder="제목을 입력하세요..."
           className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
         />
+        {/* 파일 업로드 테스트용 input */}
+        <div className="pb-2">
+          <form>
+            <label
+              htmlFor="file-upload"
+              className="block text-md font-semibold text-gray-600 mb-1"
+            >
+              테스트용 파일 업로드
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              accept="image/*"
+              className="w-full text-sm text-gray-600 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-sm file:bg-[#7EACB5] file:text-white hover:file:bg-[#96CCD6] transition"
+              onChange={(e) => {
+                e.preventDefault();
+                const file = e.target.files?.[0] || null;
+                setImage(file);
+                console.log("이미지파일 디버깅용:", file);
+              }}
+            />
+          </form>
+        </div>
         {/* Stack 채널 선택 */}
         <Stack
           direction="column"

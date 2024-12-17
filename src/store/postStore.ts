@@ -4,12 +4,18 @@ import { axiosInstance } from "../api/axios";
 interface PostStore {
   channels: { _id: string; name: string; description: string }[];
   channelId: string | null; // 선택된 채널 ID
-
+  image: File | null;
   isLoading: boolean; // 로딩 상태
   error: string | null; // 에러 메시지
   setSelectedChannelId: (id: string) => void;
   fetchChannels: () => Promise<void>; // 채널 리스트 GET 요청
-  post: (title: string, content: string, channelId: string) => Promise<boolean>; // POST 요청
+  setImage: (file: File | null) => void;
+  post: (
+    title: string,
+    content: string,
+    channelId: string,
+    image?: File | null
+  ) => Promise<boolean>; // POST 요청
 }
 
 export const usePostStore = create<PostStore>((set) => ({
@@ -17,9 +23,13 @@ export const usePostStore = create<PostStore>((set) => ({
   channelId: null,
   isLoading: false,
   error: null,
+  image: null,
 
   // 선택된 채널 ID 업데이트
   setSelectedChannelId: (id: string) => set({ channelId: id }),
+
+  // 이미지 설정 함수
+  setImage: (file: File | null) => set({ image: file }),
 
   // 채널 리스트 GET 요청
   fetchChannels: async () => {
@@ -31,7 +41,6 @@ export const usePostStore = create<PostStore>((set) => ({
       if (response.data && response.data.length > 0) {
         set({ channels: response.data }); // 채널 리스트 저장
         set({ channelId: response.data[0]._id }); // 첫 번째 채널을 기본 선택
-        console.log("Fetched channels:", response.data);
       }
     } catch (error) {
       console.error("Error fetching channels:", error);
@@ -39,28 +48,32 @@ export const usePostStore = create<PostStore>((set) => ({
     }
   },
 
-  post: async (title: string, content: string, channelId: string) => {
+  post: async (
+    title: string,
+    content: string,
+    channelId: string,
+    image?: File | null
+  ) => {
     set({ isLoading: true, error: null });
     try {
-      //JSON 문자열로 변환해서 title로 넣기
-      const combinedTitle = JSON.stringify({ title, content });
-      //디버깅
-      console.log("디버깅 체크", title, content, combinedTitle);
+      const formData = new FormData();
+      formData.append("title", JSON.stringify({ title, content })); // 제목과 본문을 묶어서 title에 추가
+      formData.append("channelId", channelId); // 선택된 채널 ID 추가
+      if (image) {
+        formData.append("image", image); // 이미지 파일 추가
+      } else {
+        formData.append("image", "null"); // 이미지가 없으면 null 값 추가
+      }
 
-      const payload = {
-        title: combinedTitle, // 묶은 데이터를 title 필드로 전송
-        channelId, // 선택된 채널 ID 포함
-      };
-
-      //axiosInstance 사용하기
+      // axiosInstance 사용하기
       const response = await axiosInstance.post(
         `${import.meta.env.VITE_API_URL}/posts/create`,
-        payload
+        formData
       );
       //성공
       console.log("Posting success:", response.data);
       //임시 여기 이쁘게 바꿔보기.
-      alert("Post submitted successfully!");
+      alert("게시글이 포스팅 됐습니다");
       return true;
     } catch (error: any) {
       //에러코드에 따라 상태 처리

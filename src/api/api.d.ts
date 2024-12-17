@@ -48,15 +48,20 @@ interface followType {
   __v: number;
 }
 
-export type Post_T = {
+export interface Post_T {
   _id: string;
-  author: Author_T;
-  comments: Comments_T[];
+  title: string; // JSON.stringify로 묶인 title과 content
+  channel: string | null;
+  likes: string[];
+  comments: string[];
   createdAt: string;
   updatedAt: string;
-  likes: Likes_T[];
-  title: string; //Title_T가 string으로 들어옴
-};
+  author: {
+    fullName: string;
+    coverImage: string; // 작성자 프로필 이미지
+  };
+  imageUrl?: string; // 게시글 썸네일 이미지 URL
+}
 
 type Author_T = {
   fullName: string;
