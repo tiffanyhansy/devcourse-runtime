@@ -12,10 +12,9 @@ interface EditorState {
   isDialogOpen: boolean;
   isShake: boolean;
   errorMessage: string;
-  thumbnail: File | null;
   handleCancel: (setImage: (file: File | null) => void) => void;
   closeLoginDialog: () => void;
-  setShake: (v: boolean) => void;
+  setShake: (value: boolean) => void;
   setErrorMessage: (message: string) => void;
   resetShakeAndError: () => void;
   toggleEditor: () => void;
@@ -23,7 +22,6 @@ interface EditorState {
   setTitle: (title: string) => void;
   toggleDialog: (open: boolean) => void;
   resetEditor: () => void;
-  setThumbnail: (thumbnail: File | null) => void;
 }
 
 export const useEditorStore = create<EditorState>((set, get) => ({
@@ -35,7 +33,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   isDialogOpen: false,
   isShake: false,
   errorMessage: "",
-  setShake: (v: boolean) => set({ isShake: v }),
+  setShake: (value: boolean) => set({ isShake: value }),
   setErrorMessage: (message: string) => set({ errorMessage: message }),
   resetShakeAndError: () =>
     set({
@@ -55,10 +53,9 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   },
   closeLoginDialog: () => set({ isAlertOpen: false }),
   setContent: (content) => set({ content }),
-  setThumbnail: (thumbnail) => set({ thumbnail }),
   setTitle: (title) => set({ title }),
   toggleDialog: (open) => set({ isDialogOpen: open }),
-  resetEditor: () => set({ content: "", title: "", thumbnail: null }),
+  resetEditor: () => set({ content: "", title: "" }),
   // handleCancel 함수 - setImage를 매개변수로 받아 사용
   handleCancel: (setImage) => {
     const { content, title, toggleDialog, resetEditor, toggleEditor } = get();
