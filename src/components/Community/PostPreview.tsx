@@ -1,8 +1,6 @@
 import { Post_T, Title_T } from "../../api/api";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
-import { usePostStore } from "../../store/postStore";
-import { useEffect, useState } from "react";
 
 type Props = {
   preview: Post_T;
@@ -14,20 +12,6 @@ export default function PostPreview({ preview }: Props) {
 
   // title 파싱한 객체(여기에 제목, 내용 들어가있고, 추후에 여러 컨텐츠들 추가할 예정 - 목표 달성 트로피 표시 등등)
   const parsedTitle: Title_T = JSON.parse(preview.title);
-
-  const { image } = usePostStore();
-
-  const [currentImage, setCurrentImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    // image 상태가 존재하면 썸네일 이미지에 적용
-    if (image) {
-      const imageUrl = URL.createObjectURL(image); // File 객체를 브라우저 URL로 변환
-      setCurrentImage(imageUrl);
-    } else {
-      setCurrentImage(preview.imageUrl || sampleImgUrl); // API 데이터나 기본 이미지 사용
-    }
-  }, [image, preview.imageUrl]);
 
   // 날짜를 'YYYY년 MM월 DD일' 형식으로 변환하는 함수
   function formatDateToKorean(dateString: string): string {
