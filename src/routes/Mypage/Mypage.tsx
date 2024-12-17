@@ -40,15 +40,9 @@ const Mypage = () => {
       }
     }
 
-    // try {
-
-    // } catch (error) {
-    //   console.error("Error parsing field as JSON:", error);
-    // }
-
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
     setUser(newUser);
-    console.log("삼항", newUser.username ? newUser.username.field : []);
+
     setParsedField(newUser.username ? newUser.username.field : []);
     setProfilePic(newUser.image);
     setFullName(newUser.fullName);
@@ -94,8 +88,6 @@ const Mypage = () => {
         }
       );
 
-      console.log("Profile image uploaded:", response.data);
-      console.log("서버 응답:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error uploading profile image:", error);
@@ -104,13 +96,7 @@ const Mypage = () => {
   };
 
   const handleEditButtonClick = async () => {
-    console.log(username);
-
     setTempClickedField(user.username ? [...user.username?.field] : []);
-    console.log(
-      "Tempclickedfield",
-      user.username ? [...user.username?.field] : []
-    );
 
     const isAnyFieldEmpty =
       !fullName?.trim() || !username || !username.username.trim();
@@ -154,9 +140,6 @@ const Mypage = () => {
 
         alert("변경사항 저장 중 오류가 발생했습니다.");
       }
-    } else {
-      // 수정 모드 시작 시 임시 상태 설정
-      // setTempClickedField(clickedField);
     }
 
     setIsEditable(!isEditable);
@@ -187,7 +170,7 @@ const Mypage = () => {
 
   const handleFieldClick = (index: number) => {
     const updatedField = [...tempClickedField];
-    console.log(updatedField);
+
     if (updatedField.includes(index.toString())) {
       const idx = updatedField.indexOf(index.toString());
       updatedField.splice(idx, 1); // 필드 제거
@@ -195,23 +178,16 @@ const Mypage = () => {
       updatedField.push(index.toString()); // 필드 추가
     }
     setTempClickedField(updatedField);
-
-    console.log("updated field", updatedField);
   };
-
-  console.log("temp", tempClickedField);
 
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
-      {/* 제목 */}
       <article className="flex mt-14">
         <h1 className="text-4xl font-bold">내 프로필</h1>
       </article>
 
       <div className="flex p-[5rem] justify-between">
-        {/* 프로필 */}
         <Stack direction="column" className="items-center">
-          {/* 프로필 사진 */}
           <Box
             position="relative"
             width="22.5rem"
@@ -276,7 +252,6 @@ const Mypage = () => {
               {user.fullName}
             </Typography>
 
-            {/* 이메일 */}
             <div className="flex items-center gap-4 w-fit">
               <div className="flex items-center justify-center p-2 bg-gray-100 rounded-full">
                 <EmailIcon sx={{ color: "#7EACB5" }} />
@@ -288,7 +263,6 @@ const Mypage = () => {
           </div>
         </Stack>
 
-        {/* 필드 입력 */}
         <div>
           <Input
             label="ID"
@@ -307,7 +281,7 @@ const Mypage = () => {
             onChange={(e) => {
               if (isEditable) {
                 setUsername({
-                  ...username, // 기존의 username 객체를 그대로 복사
+                  ...username,
                   username: e.target.value,
                 });
               }
@@ -330,7 +304,7 @@ const Mypage = () => {
               }
             }}
           />
-          {/* field */}
+
           <Stack direction="column" spacing={1}>
             <label
               style={{
@@ -348,38 +322,18 @@ const Mypage = () => {
                     label={label}
                     variant="filled"
                     onClick={
-                      isEditable ? () => handleFieldClick(index) : undefined //TODO:수정
+                      isEditable ? () => handleFieldClick(index) : undefined
                     }
                     style={{
                       width: "3rem",
-                      backgroundColor:
-                        tempClickedField.includes(index.toString()) &&
-                        parsedField.includes(index.toString())
-                          ? "red"
-                          : tempClickedField.includes(index.toString()) &&
-                            !parsedField.includes(index.toString())
-                          ? "yellow"
-                          : !tempClickedField.includes(index.toString()) &&
-                            parsedField.includes(index.toString())
-                          ? "green"
-                          : "blue",
-
-                      // ? "#7EACB5"
-                      // : parsedField.includes(index.toString()) &&
-                      //   tempClickedField.includes(index.toString())
-                      // ? "#7EACB5"
-                      // : "#B0B0B0",
-
+                      backgroundColor: isEditable
+                        ? tempClickedField.includes(index.toString())
+                          ? "#7EACB5"
+                          : "#B0B0B0"
+                        : parsedField.includes(index.toString())
+                        ? "#7EACB5"
+                        : "#B0B0B0",
                       color: "white",
-                      // parsedField.includes(index.toString()) ||
-                      // tempClickedField.includes(index.toString())
-                      //   ? "white"
-                      //   : "black",
-                      //   : isEditable
-                      //   ? "#000"
-                      //   : parsedField.includes(index.toString())
-                      //   ? "white"
-                      //   : "#000",
                       cursor: isEditable ? "pointer" : "not-allowed",
                     }}
                   />
@@ -387,7 +341,7 @@ const Mypage = () => {
               ))}
             </Stack>
           </Stack>
-          {/* 버튼 */}
+
           <Stack
             direction="row"
             spacing={2}
@@ -415,7 +369,7 @@ const Mypage = () => {
               {isEditable ? "변경사항 저장" : "프로필 편집"}
             </Button>
           </Stack>
-          {/* 경고 알림 */}
+
           {isEditable &&
             (!fullName?.trim() || !username || !username.username?.trim()) && (
               <Alert
