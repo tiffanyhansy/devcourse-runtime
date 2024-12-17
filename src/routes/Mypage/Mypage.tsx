@@ -73,7 +73,7 @@ const Mypage = () => {
     getAuthUser();
   }, []);
 
-  const isAnyFieldEmpty = !fullName?.trim() || !username.username?.trim();
+  // const isAnyFieldEmpty = !fullName?.trim() || !username.username?.trim();
 
   // 이미지 업로드 함수 (재사용 가능하게 분리)
   const uploadProfileImage = async (imageFile: File, isCover: boolean) => {
@@ -103,6 +103,11 @@ const Mypage = () => {
 
   // 메인 함수 수정
   const handleEditButtonClick = async () => {
+    console.log(username);
+
+    const isAnyFieldEmpty =
+      !fullName?.trim() || !username || !username.username.trim();
+
     if (isEditable) {
       if (isAnyFieldEmpty) {
         alert("필수 항목을 모두 입력해주세요.");
@@ -288,7 +293,7 @@ const Mypage = () => {
             value={
               isEditable
                 ? username?.username || ""
-                : user.username?.username || user.fullName || "" // user.username이 없을 경우 fullName 처리
+                : user.username?.username || "" // user.username이 없을 경우 fullName 처리
             }
             onChange={(e) => {
               if (isEditable) {
@@ -389,16 +394,17 @@ const Mypage = () => {
             >
               {isEditable ? "변경사항 저장" : "프로필 편집"}
             </Button>
-          </Stack>{" "}
+          </Stack>
           {/* 경고 알림 */}
-          {isEditable && isAnyFieldEmpty && (
-            <Alert
-              severity="error"
-              sx={{ mt: 3, width: "500px", justifySelf: "end" }}
-            >
-              이름과 별명 모두 채워주세요!
-            </Alert>
-          )}
+          {isEditable &&
+            (!fullName?.trim() || !username || !username.username?.trim()) && (
+              <Alert
+                severity="error"
+                sx={{ mt: 3, width: "500px", justifySelf: "end" }}
+              >
+                이름과 별명 모두 채워주세요!
+              </Alert>
+            )}
         </div>
       </div>
     </section>
