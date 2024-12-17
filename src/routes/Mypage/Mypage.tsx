@@ -14,6 +14,9 @@ import { useLoginStore } from "../../store/API";
 // API
 import { axiosInstance } from "../../api/axios";
 
+//이미지
+import default_profile from "../../asset/default_profile.png";
+
 const Mypage = () => {
   const setUser = useLoginStore((state) => state.setUser);
   const parsedField = useProfileStore((state) => state.parsedField);
@@ -220,8 +223,8 @@ const Mypage = () => {
                 isEditable
                   ? tempProfilePic instanceof File
                     ? URL.createObjectURL(tempProfilePic) // File일 경우 URL 생성
-                    : image // string URL일 경우
-                  : image
+                    : image || default_profile // string URL일 경우
+                  : image || default_profile
               }
               alt="Profile"
               style={{
