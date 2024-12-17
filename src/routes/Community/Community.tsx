@@ -5,8 +5,6 @@ import { usePostStore } from "../../store/postStore";
 import PostPreview from "../../components/Community/PostPreview";
 import ChannelButton from "../../components/Community/ChannelButton";
 import Skeleton from "../../components/Community/Skeleton";
-import { Tooltip } from "@mui/material";
-import { Link } from "react-router";
 type ChannelId_T = "sw" | "si" | "da" | "ge";
 
 type Props = {
