@@ -48,7 +48,7 @@ const Mypage = () => {
 
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
     setUser(newUser);
-    setParsedField(newUser.username.field);
+    setParsedField(newUser.username ? newUser.username.field : []);
     setProfilePic(newUser.image);
     setFullName(newUser.fullName);
     setUsername(newUser.username);
@@ -368,7 +368,6 @@ const Mypage = () => {
                         ? "white"
                         : "#000",
                       cursor: isEditable ? "pointer" : "not-allowed",
-                      opacity: isEditable ? 1 : 0.6,
                     }}
                   />
                 </Tooltip>
