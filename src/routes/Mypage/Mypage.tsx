@@ -111,7 +111,7 @@ const Mypage = () => {
 
     if (isEditable) {
       if (isAnyFieldEmpty) {
-        alert("이름을 입력해주세요.");
+        alert("닉네임을 입력해주세요.");
         return;
       }
 
@@ -403,7 +403,7 @@ const Mypage = () => {
                 severity="error"
                 sx={{ mt: 3, width: "500px", justifySelf: "end" }}
               >
-                별명을 적어주세요!
+                닉네임을 적어주세요!
               </Alert>
             )}
         </div>
