@@ -351,7 +351,7 @@ export const useEasterEgg = create<useEasterEgg>((set) => ({
 interface Username {
   username: string;
   website: string;
-  field: string;
+  field: string[];
 }
 
 interface ProfileState {
@@ -384,7 +384,7 @@ export const useProfileStore = create<ProfileState>((set) => ({
   username: {
     username: "",
     website: "",
-    field: "",
+    field: [],
   },
   tempClickedField: [],
   parsedField: [],

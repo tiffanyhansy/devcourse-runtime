@@ -39,16 +39,16 @@ const Mypage = () => {
         newUser.username = "defaultUsername"; // 기본값
       }
     }
-    if (typeof newUser.username?.field === "string") {
-      try {
-        setParsedField(JSON.parse(newUser.username.field));
-      } catch (error) {
-        console.error("Error parsing field as JSON:", error);
-      }
-    }
+
+    // try {
+
+    // } catch (error) {
+    //   console.error("Error parsing field as JSON:", error);
+    // }
 
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
     setUser(newUser);
+    setParsedField(newUser.username.field);
     setProfilePic(newUser.image);
     setFullName(newUser.fullName);
     setUsername(newUser.username);
@@ -106,6 +106,12 @@ const Mypage = () => {
   const handleEditButtonClick = async () => {
     console.log(username);
 
+    setTempClickedField(user.username ? [...user.username?.field] : []);
+    console.log(
+      "Tempclickedfield",
+      user.username ? [...user.username?.field] : []
+    );
+
     const isAnyFieldEmpty =
       !fullName?.trim() || !username || !username.username.trim();
 
@@ -125,7 +131,7 @@ const Mypage = () => {
         const payload = {
           username: username?.username,
           website: username?.website,
-          field: JSON.stringify(tempClickedField),
+          field: tempClickedField,
         };
 
         const payloadString = JSON.stringify(payload);
@@ -182,6 +188,7 @@ const Mypage = () => {
 
   const handleFieldClick = (index: number) => {
     const updatedField = [...tempClickedField];
+    console.log(updatedField);
     if (updatedField.includes(index.toString())) {
       const idx = updatedField.indexOf(index.toString());
       updatedField.splice(idx, 1); // 필드 제거
@@ -284,7 +291,7 @@ const Mypage = () => {
         <div>
           <Input
             label="ID"
-            value={fullName}
+            value={user.fullName}
             readonly={true}
             isEditable={isEditable}
           />
