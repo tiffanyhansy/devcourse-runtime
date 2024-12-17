@@ -1,12 +1,18 @@
+import React, { useEffect } from "react";
+// MUI
 import { Stack, Chip, Box, Typography, Alert, Tooltip } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
+
+// 커스텀 component
 import Input from "../../components/Mypage/Input";
-import { useProfileStore } from "../../store/store";
 import Button from "../../components/common/SquareButton";
-import { axiosInstance } from "../../api/axios";
-import { useEffect } from "react";
+
+// Store
+import { useProfileStore } from "../../store/store";
 import { useLoginStore } from "../../store/API";
-import axios from "axios";
+
+// API
+import { axiosInstance } from "../../api/axios";
 
 const Mypage = () => {
   const setUser = useLoginStore((state) => state.setUser);
