@@ -362,6 +362,7 @@ interface ProfileState {
   fullName: string;
   username: Username;
   tempClickedField: string[];
+  parsedField: string[];
 
   setClickedField: (fields: string[]) => void;
   setIsEditable: (editable: boolean) => void;
@@ -370,6 +371,7 @@ interface ProfileState {
   setFullName: (fullName: string) => void;
   setUsername: (username: Username) => void;
   setTempClickedField: (fields: string[]) => void;
+  setParsedField: (fields: string[]) => void;
 }
 
 const initialProfilePic = "/src/asset/default_profile.png";
@@ -385,12 +387,14 @@ export const useProfileStore = create<ProfileState>((set) => ({
     field: "",
   },
   tempClickedField: [],
+  parsedField: [],
 
   setClickedField: (fields) => set({ clickedField: fields }),
   setIsEditable: (editable) => set({ isEditable: editable }),
-  setProfilePic: (image) => set({ image }),
+  setProfilePic: (image) => set({ image: image }),
   setTempProfilePic: (profilePic) => set({ tempProfilePic: profilePic }),
   setFullName: (fullName) => set({ fullName }),
   setUsername: (username) => set({ username }),
   setTempClickedField: (fields) => set({ tempClickedField: fields }),
+  setParsedField: (fields) => set({ parsedField: fields }),
 }));

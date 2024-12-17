@@ -16,6 +16,8 @@ import { axiosInstance } from "../../api/axios";
 
 const Mypage = () => {
   const setUser = useLoginStore((state) => state.setUser);
+  const parsedField = useProfileStore((state) => state.parsedField);
+  const setParsedField = useProfileStore((state) => state.setParsedField);
 
   const getAuthUser = async () => {
     const newUser = await (await axiosInstance.get(`/auth-user`)).data;
@@ -31,12 +33,22 @@ const Mypage = () => {
       } catch (error) {
         console.error("Error parsing username as JSON:", error);
 
-        newUser.username = "defaultUsername"; // 기본값 설정
+        newUser.username = "defaultUsername"; // 기본값
+      }
+    }
+    if (typeof newUser.username?.field === "string") {
+      try {
+        setParsedField(JSON.parse(newUser.username.field));
+      } catch (error) {
+        console.error("Error parsing field as JSON:", error);
       }
     }
 
     localStorage.setItem("LoginUserInfo", JSON.stringify(newUser));
     setUser(newUser);
+    setProfilePic(newUser.image);
+    setFullName(newUser.fullName);
+    setUsername(newUser.username);
   };
 
   const user = useLoginStore((state) => state.user!);
@@ -58,33 +70,8 @@ const Mypage = () => {
   } = useProfileStore();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setFullName(user.fullName || "");
-
-        setUsername({
-          username: user.username?.username || user.fullName || "",
-          website: user.username?.website || "",
-          field: user.username?.field || "",
-        });
-
-        setProfilePic(user.image || "/src/asset/default_profile.png");
-        setClickedField(
-          typeof user.username?.field === "string" &&
-            user.username?.field.trim()
-            ? user.username.field.split(",")
-            : []
-        );
-
-        console.log(user);
-        console.log(user.fullName);
-        console.log(user.email);
-      } catch (error) {
-        console.error(`❌사용자의 데이터를 불러오는 데에 실패했습니다.`, error);
-      }
-    };
-    fetchData();
-  }, [user, setFullName, setUsername, setProfilePic, setClickedField]);
+    getAuthUser();
+  }, []);
 
   const isAnyFieldEmpty = !fullName?.trim() || !username.username?.trim();
 
@@ -130,8 +117,8 @@ const Mypage = () => {
 
         // username, website, field 업데이트
         const payload = {
-          username: username.username,
-          website: username.website,
+          username: username?.username,
+          website: username?.website,
           field: JSON.stringify(tempClickedField),
         };
 
@@ -196,6 +183,8 @@ const Mypage = () => {
       updatedField.push(index.toString()); // 필드 추가
     }
     setTempClickedField(updatedField);
+
+    console.log("updated field", updatedField);
   };
 
   return (
@@ -228,7 +217,7 @@ const Mypage = () => {
                 isEditable
                   ? tempProfilePic instanceof File
                     ? URL.createObjectURL(tempProfilePic) // File일 경우 URL 생성
-                    : tempProfilePic // string URL일 경우
+                    : image // string URL일 경우
                   : image
               }
               alt="Profile"
@@ -314,7 +303,9 @@ const Mypage = () => {
             isEditable={isEditable}
             label="Website"
             value={
-              isEditable ? username.website || "" : user.username?.website || ""
+              isEditable
+                ? username?.website || ""
+                : user.username?.website || ""
             }
             onChange={(e) => {
               if (isEditable) {
@@ -353,12 +344,16 @@ const Mypage = () => {
                         ? isEditable
                           ? "#7EACB5"
                           : "#B0B0B0"
-                        : "",
+                        : parsedField.includes(index.toString())
+                        ? "#7EACB5"
+                        : "#B0B0B0",
                       color: tempClickedField.includes(index.toString())
                         ? "white"
                         : isEditable
                         ? "#000"
-                        : "",
+                        : parsedField.includes(index.toString())
+                        ? "white"
+                        : "#000",
                       cursor: isEditable ? "pointer" : "not-allowed",
                       opacity: isEditable ? 1 : 0.6,
                     }}
