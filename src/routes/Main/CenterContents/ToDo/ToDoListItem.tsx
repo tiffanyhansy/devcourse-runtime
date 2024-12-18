@@ -2,6 +2,8 @@ import { useRef } from "react";
 import { useToDoStore } from "../../../../store/store";
 import { DeleteOutline, DeleteRounded } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
+import check_icon from "../../../../asset/images/check_icon.svg";
+import line_through from "../../../../asset/images/line_through.svg";
 
 export default function ToDoListItem({
   findid,
@@ -56,7 +58,7 @@ export default function ToDoListItem({
                 inputRef.current?.click();
               }}
             >
-              <img src="/src/asset/images/check_icon.svg" alt="체크 아이콘" />
+              <img src={check_icon} alt="체크 아이콘" />
             </article>
           ) : null}
           <span
@@ -67,7 +69,7 @@ export default function ToDoListItem({
           </span>
           {ckeck ? (
             <article className="w-[80%] absolute left-[40px] self-center">
-              <img src="/src/asset/images/line_through.svg" alt="빨간줄" />
+              <img src={line_through} alt="빨간줄" />
             </article>
           ) : null}
         </article>
