@@ -59,7 +59,7 @@ export default function Header() {
               location.pathname === "/community" ? "font-bold" : ""
             }`}
           >
-            게시글
+            게시판
           </Link>
         </article>
         <article className="flex items-center gap-[30px]">
