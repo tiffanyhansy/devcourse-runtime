@@ -1,3 +1,4 @@
+// react
 import React, { useEffect } from "react";
 // MUI
 import { Stack, Chip, Box, Typography, Alert, Tooltip } from "@mui/material";
@@ -6,6 +7,7 @@ import EmailIcon from "@mui/icons-material/Email";
 // 커스텀 component
 import Input from "../../components/Mypage/Input";
 import Button from "../../components/common/SquareButton";
+import ProfileSkeleton from "../../components/Mypage/ProfileSkeleton";
 
 // Store
 import { useProfileStore } from "../../store/store";
@@ -58,6 +60,7 @@ const Mypage = () => {
     fullName,
     username,
     tempClickedField,
+    isLoading,
     setClickedField,
     setIsEditable,
     setProfilePic,
@@ -65,10 +68,12 @@ const Mypage = () => {
     setFullName,
     setUsername,
     setTempClickedField,
+    setIsLoading,
   } = useProfileStore();
 
   useEffect(() => {
     getAuthUser();
+    setIsLoading(false);
   }, []);
 
   // 이미지 업로드 함수
@@ -180,6 +185,9 @@ const Mypage = () => {
     setTempClickedField(updatedField);
   };
 
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
       <article className="flex mt-14">
