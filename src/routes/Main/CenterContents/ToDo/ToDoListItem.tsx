@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useToDoStore } from "../../../../store/store";
 import { DeleteOutline, DeleteRounded } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
@@ -21,8 +21,6 @@ export default function ToDoListItem({
   const updateToDoListCheck = useToDoStore(
     (state) => state.updateToDoListCheck
   );
-  const clickedIndex = useToDoStore((state) => state.clickedIndex);
-  const [isDeleteIconHovered, setIsDeleteIconHovered] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -82,14 +80,39 @@ export default function ToDoListItem({
               JSON.stringify(ToDoList.filter((_, i) => i !== index))
             );
           }}
-          onMouseEnter={() => setIsDeleteIconHovered(true)}
-          onMouseLeave={() => setIsDeleteIconHovered(false)}
         >
-          {clickedIndex === index || isDeleteIconHovered ? (
-            <DeleteRounded sx={{ color: "#C96868" }} />
-          ) : (
-            <DeleteOutline sx={{ color: "#C96868" }} />
-          )}
+          <DeleteRounded
+            sx={{
+              color: "#C96868",
+              opacity: 0,
+              position: "absolute",
+              top: "14px",
+              right: "10px",
+            }}
+            className="delete-outline"
+          />
+
+          <DeleteOutline
+            sx={{
+              color: "#C96868",
+              opacity: 1,
+              position: "absolute",
+              top: "14px",
+              right: "10px",
+            }}
+            className="delete-rounded"
+          />
+
+          <style>
+            {`
+      button:hover .delete-outline {
+        opacity: 1;
+      }
+      button:hover .delete-rounded {
+        opacity: 0;
+      }
+    `}
+          </style>
         </button>
       </li>
     </Tooltip>

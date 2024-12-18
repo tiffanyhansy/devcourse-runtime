@@ -40,8 +40,7 @@ export default function CheckboxListSecondary() {
   ) => {
     setOnlineFullname(() => fullname);
     setOnlineCoverImg(() => coverImg);
-    console.log(onlineFullname);
-    console.log(onlineCoverImg);
+
     const rect = e.currentTarget.getBoundingClientRect();
     if (!modal) {
       open("list");
@@ -51,7 +50,6 @@ export default function CheckboxListSecondary() {
         open("list");
       }, 100);
     }
-    console.log(useprofileModalStore.getState());
     setX(Math.floor(rect.top + window.scrollY) - 270);
   };
 
@@ -87,10 +85,9 @@ export default function CheckboxListSecondary() {
 
   const [onlineUser, setOnlineUser] = useState<userType[] | []>([]);
   const getOnlineUser = async () => {
-    const onlineUserData = await axiosInstance.get(
+    const onlineUserData = await await axiosInstance.get(
       `${import.meta.env.VITE_API_URL}/users/online-users`
     );
-    console.log(onlineUserData.data);
     setOnlineUser(onlineUserData.data);
   };
 
@@ -103,6 +100,10 @@ export default function CheckboxListSecondary() {
       <List id="mainListModal" dense sx={styles.list}>
         {onlineUser.map((value) => {
           const labelId = `checkbox-list-secondary-label-${value._id}`;
+
+          if (value.username && typeof value.username === "string")
+            value.username = JSON.parse(value.username);
+
           return (
             <ListItem
               key={value._id}
@@ -123,9 +124,7 @@ export default function CheckboxListSecondary() {
                   handleItemClick(
                     e,
                     value.fullName,
-                    value.coverImage
-                      ? value.coverImage
-                      : `/src/asset/default_profile.png`
+                    value.image ? value.image : `/src/asset/default_profile.png`
                   );
                 }}
               >
@@ -133,13 +132,31 @@ export default function CheckboxListSecondary() {
                   <Avatar
                     alt={`Avatar n°${value._id + 1}`}
                     src={
-                      value.coverImage
-                        ? value.coverImage
+                      value.image
+                        ? value.image
                         : `/src/asset/default_profile.png`
                     }
                   />
                 </ListItemAvatar>
-                <ListItemText id={labelId} primary={`${value.fullName}`} />
+                <ListItemText
+                  id={labelId}
+                  sx={{
+                    "& .MuiListItemText-primary": {
+                      fontWeight: "bold",
+                      fontFamily: "S-CoreDream-3Light",
+                    },
+                    "& .MuiListItemText-secondary": {
+                      fontFamily: "S-CoreDream-3Light",
+                    },
+                  }}
+                  primary={
+                    value.username
+                      ? typeof value.username !== "string" &&
+                        value.username?.username
+                      : "유저"
+                  }
+                  secondary={value.fullName}
+                />
               </ListItemButton>
             </ListItem>
           );

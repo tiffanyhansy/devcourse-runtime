@@ -1,9 +1,10 @@
+import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useLoginStore } from "../../store/API";
 import { axiosInstance } from "../../api/axios";
-import { Link } from "react-router";
 import { userType } from "../../api/api";
+import { useFriendModalStore } from "../../store/store";
 
 export default function NonLoginFriendModal() {
   const [userAll, setUserAll] = useState<userType[]>([]);
@@ -37,6 +38,8 @@ export default function NonLoginFriendModal() {
     getUserAll();
     getAuthUser();
   }, []);
+
+  const close = useFriendModalStore((state) => state.close);
 
   const renderUsers = (userAll: userType[]) => (
     <div className="overflow-auto h-[415px] mt-3 scrollbar-hidden">

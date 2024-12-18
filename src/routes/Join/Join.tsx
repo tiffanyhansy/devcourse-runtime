@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { axiosInstance } from "../../api/axios";
+import { Alert } from "@mui/material";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
-import { useNavigate } from "react-router";
-import { Alert } from "@mui/material";
 import SubmitButton from "../../components/Form/SubmitButton";
-import { axiosInstance } from "../../api/axios";
+import runtime_logo from "/src/asset/images/runtime_logo.svg"
 
 export default function Join() {
   const [email, setEmail] = useState("");
@@ -166,7 +167,7 @@ export default function Join() {
       <FormContainer>
         <header className="flex justify-center items-center mt-8 mb-4">
           <img
-            src="/src/asset/images/runtime_logo.svg"
+            src={runtime_logo}
             alt="Runtime Logo"
             className="w-14 h-14"
           />

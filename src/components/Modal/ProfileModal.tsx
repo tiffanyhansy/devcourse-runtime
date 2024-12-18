@@ -83,11 +83,11 @@ export default function Modal({
               <div className="w-[42px] h-[42px] left-0 top-0 absolute">
                 <div className="w-[42px] h-[42px] left-0 top-0 absolute bg-gradient-to-b from-[#fcd7b4] to-[#ffc2af] rounded-full" />
                 <img
-                  className="w-11 h-11 left-0 top-[-2px] absolute rounded-full"
+                  className="w-11 h-11 left-0 top-[-2px] absolute rounded-full object-cover"
                   src={
                     type === "header"
-                      ? user?.coverImage
-                        ? user.coverImage
+                      ? user?.image
+                        ? user.image
                         : default_profile
                       : onlineCoverImg
                   }
@@ -95,11 +95,11 @@ export default function Modal({
               </div>
             </div>
             <div className="flex-col justify-center items-start gap-[3px] inline-flex">
-              <span className="text-black text-lg font-medium h-[20px] leading-[10px]">
+              <span className="text-black text-lg font-medium w-[150px] h-[20px] leading-[18px] text-[15px] line-clamp-1 overflow-ellipsis">
                 {type === "header"
                   ? user?.fullName
                     ? user.fullName
-                    : `익명`
+                    : `로그인이 필요합니다.`
                   : onlineFullname}
               </span>
             </div>

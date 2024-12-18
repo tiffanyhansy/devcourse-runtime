@@ -6,7 +6,7 @@ export default function Skeleton() {
       {/* 제목 및 내용 스켈레톤 */}
       <div className="px-4 py-5 h-[163px]">
         <div className="pt-1 h-4 bg-gray-300 rounded mb-2 w-3/4"></div>
-        <div className="space-y-2 h-[3.93rem] mb-7">
+        <div className="space-y-2 h-[3.9rem] mb-7">
           <div className="h-3 bg-gray-300 rounded w-full"></div>
           <div className="h-3 bg-gray-300 rounded w-full"></div>
           <div className="h-3 bg-gray-300 rounded w-5/6"></div>
