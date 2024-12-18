@@ -1,6 +1,9 @@
 import React from "react";
-import { useEditorStore } from "../../store/store";
+import { useLocation } from "react-router";
 import ConfirmDialog from "./ConfirmDialog";
+import ChannelDialog from "./ChannelDialog";
+import { useEffect } from "react";
+import { useEditorStore } from "../../store/store";
 import { usePostStore } from "../../store/postStore";
 
 interface ModalProps {
@@ -10,26 +13,20 @@ interface ModalProps {
 export default function EditorModal({ children }: ModalProps) {
   const {
     isOpen,
-    toggleEditor,
-
-    resetEditor,
     isDialogOpen,
-    toggleDialog,
     isShake,
     handleCancel,
+    confirmClose,
+    cancelClose,
+    isChannelDialogOpen,
+    closeChannelDialog,
   } = useEditorStore();
 
   const { setImage } = usePostStore();
-
-  const confirmClose = () => {
-    resetEditor();
-    toggleDialog(false);
-    toggleEditor(); // 에디터 닫기
-  };
-
-  const cancelClose = () => {
-    toggleDialog(false); // ConfirmDialog 닫기
-  };
+  const location = useLocation();
+  useEffect(() => {
+    closeChannelDialog(); // 라우트 변경 시 ChannelDialog 닫기
+  }, [location.pathname, closeChannelDialog]);
 
   return (
     <>
@@ -52,9 +49,19 @@ export default function EditorModal({ children }: ModalProps) {
         open={isDialogOpen}
         title="에디터 닫기"
         description="작성 중인 내용이 있습니다. 정말로 닫으시겠습니까?"
-        onConfirm={confirmClose}
+        onConfirm={() => {
+          confirmClose(setImage);
+        }}
         onCancel={cancelClose}
       />
+      {isChannelDialogOpen && (
+        <ChannelDialog
+          onCancel={closeChannelDialog}
+          onMoveToBoard={() => {
+            closeChannelDialog();
+          }}
+        />
+      )}
     </>
   );
 }
