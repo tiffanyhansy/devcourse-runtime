@@ -1,11 +1,12 @@
 import { Alert } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { axiosInstance } from "../../api/axios";
+import { useLoginStore } from "../../store/API";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import SubmitButton from "../../components/Form/SubmitButton";
-import { axiosInstance } from "../../api/axios";
-import { useLoginStore } from "../../store/API";
+import runtime_logo from "/src/asset/images/runtime_logo.svg"
 
 export default function Login() {
   const login = "로그인";
@@ -88,7 +89,7 @@ export default function Login() {
       <FormContainer>
         <header className="flex items-center justify-center mt-10 mb-4">
           <img
-            src="/src/asset/images/runtime_logo.svg"
+            src={runtime_logo}
             alt="Runtime Logo"
             className="w-16 h-16"
           />
