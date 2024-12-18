@@ -15,7 +15,7 @@ export default function WhiteNoise() {
   //백색소음 재생 기능
   useEffect(() => {
     if (!whiteNoiseRef.current) {
-      whiteNoiseRef.current = new Audio("/public/white_noise.ogg");
+      whiteNoiseRef.current = new Audio("/white_noise.ogg");
       whiteNoiseRef.current.loop = true;
     }
     if (isPlayingWhiteNoise) {
