@@ -1,8 +1,8 @@
 export default function Skeleton() {
   return (
-    <article className="bg-white shadow-md rounded animate-pulse">
+    <article className="bg-white shadow-md animate-pulse rounded-[10px]">
       {/* 썸네일 스켈레톤 */}
-      <div className="relative aspect-video bg-gray-300"></div>
+      <div className="relative aspect-video bg-gray-300 rounded-t-[10px] overflow-hidden"></div>
       {/* 제목 및 내용 스켈레톤 */}
       <div className="px-4 py-5 h-[163px]">
         <div className="pt-1 h-4 bg-gray-300 rounded mb-2 w-3/4"></div>
