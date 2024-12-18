@@ -123,16 +123,14 @@ export default function FriendManageModal() {
                 className="text-black text-lg font-medium"
                 onClick={close}
               >
-                <div>
-                  <p className="text-sm font-semibold">
-                    {(typeof userOne.username !== "string" &&
-                      userOne.username?.username) ||
-                      "유저"}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    @{userOne.fullName || "error"}
-                  </p>
-                </div>
+                <p className="text-sm font-semibold">
+                  {(typeof userOne.username !== "string" &&
+                    userOne.username?.username) ||
+                    "유저"}
+                </p>
+                <p className="text-xs text-gray-500">
+                  @{userOne.fullName || "error"}
+                </p>
               </Link>
             </div>
             {user?.following ? (

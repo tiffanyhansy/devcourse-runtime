@@ -11,7 +11,6 @@ import default_profile from "../../asset/default_profile.png";
 
 export default function Header() {
   const location = useLocation();
-  const user = useLoginStore((state) => state.user);
   const { modal, type, open, close } = useprofileModalStore();
   const { getNotificationList, update, seenUpdate } = useNotificationsStore();
 
@@ -21,9 +20,8 @@ export default function Header() {
       close();
     }
   };
-  
-  const user = useLoginStore((state) => state.user);
 
+  const user = useLoginStore((state) => state.user);
 
   // 알림이 있는경우 상태표시하기
   useEffect(() => {
