@@ -1,6 +1,7 @@
 import { Post_T, Title_T } from "../../api/api";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
+import { Link } from "react-router";
 
 type Props = {
   preview: Post_T;
@@ -24,9 +25,9 @@ export default function PostPreview({ preview }: Props) {
   }
 
   return (
-    <article className="bg-white shadow-md hover:shadow-lg transition-transform duration-500 ease-in-out hover:-translate-y-1 rounded">
+    <article className="bg-white shadow-md hover:shadow-lg transition-transform duration-500 ease-in-out hover:-translate-y-1 rounded-[10px] ">
       {/* 썸네일 이미지 */}
-      <div className="relative aspect-video">
+      <div className="relative aspect-video rounded-t-[10px] overflow-hidden">
         <img
           src={preview.image ? preview.image : sampleImgUrl}
           alt={parsedTitle.title}
@@ -56,12 +57,17 @@ export default function PostPreview({ preview }: Props) {
           {preview.comments.length}
         </div>
         <div className="flex items-center ">
-          <img
-            src={preview.author.image}
-            alt="글쓴이 프로필 이미지"
-            className="w-6 h-6 rounded-full mr-2"
-          />
-          <span className="font-bold">{preview.author.fullName}</span>
+          <Link
+            to={`/userpage/${preview.author.fullName}`}
+            className="flex items-center"
+          >
+            <img
+              src={preview.author.image}
+              alt="글쓴이 프로필 이미지"
+              className="w-6 h-6 rounded-full mr-2"
+            />
+            <span className="font-bold">{preview.author.fullName}</span>
+          </Link>
         </div>
       </div>
     </article>
