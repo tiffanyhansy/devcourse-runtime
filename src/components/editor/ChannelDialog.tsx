@@ -1,16 +1,17 @@
 import { Stack } from "@mui/material";
 import Button from "../common/SquareButton";
 import { useNavigate } from "react-router";
+import { useEditorStore } from "../../store/store";
 
 interface ChannelDialogProps {
   onCancel: () => void;
   onMoveToBoard: () => void;
+  closeChannelDialog?: () => void;
 }
 
-export default function ChannelDialog({
-  onCancel,
-  onMoveToBoard,
-}: ChannelDialogProps) {
+// const { closeChannelDialog } = useEditorStore();
+
+export default function ChannelDialog({ onCancel }: ChannelDialogProps) {
   const navigate = useNavigate(); // useNavigate 호출
 
   return (
@@ -22,21 +23,20 @@ export default function ChannelDialog({
           </span>
         </Stack>
         <Stack direction="row" gap={2}>
-          {/* <Button
+          <Button
             size="md"
             textSize="sm"
             variant="todo"
-            onClick={() => {
-              navigate("/"); // 메인 페이지로 이동 (루트 경로 유지)
-            }} // 메인 페이지로 이동
+            className="bg-[#C96868] text-white"
+            onClick={onCancel}
           >
-            홈
-          </Button> */}
+            닫기
+          </Button>
           <Button
             size="md"
             textSize="sm"
             variant="custom"
-            onClick={() => navigate("/community")} // 게시판으로 이동
+            onClick={() => navigate("/community")}
           >
             게시판
           </Button>
@@ -44,7 +44,7 @@ export default function ChannelDialog({
       </div>
       <div
         className="z-40 w-full h-full bg-black bg-opacity-70"
-        onClick={onCancel} // 배경 클릭 시 취소
+        onClick={onCancel}
       ></div>
     </article>
   );

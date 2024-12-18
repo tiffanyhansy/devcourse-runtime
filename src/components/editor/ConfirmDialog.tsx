@@ -38,7 +38,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 
         <Button
           onClick={() => {
-            onConfirm(); // 부모에서 전달된 onConfirm 실행
+            onConfirm();
           }}
           color="primary"
           autoFocus
