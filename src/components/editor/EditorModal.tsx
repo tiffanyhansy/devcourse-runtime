@@ -1,8 +1,10 @@
 import React from "react";
-import { useEditorStore } from "../../store/store";
+import { useLocation } from "react-router";
 import ConfirmDialog from "./ConfirmDialog";
-import { usePostStore } from "../../store/postStore";
 import ChannelDialog from "./ChannelDialog";
+import { useEffect } from "react";
+import { useEditorStore } from "../../store/store";
+import { usePostStore } from "../../store/postStore";
 
 interface ModalProps {
   children?: React.ReactNode;
@@ -21,6 +23,10 @@ export default function EditorModal({ children }: ModalProps) {
   } = useEditorStore();
 
   const { setImage } = usePostStore();
+  const location = useLocation();
+  useEffect(() => {
+    closeChannelDialog(); // 라우트 변경 시 ChannelDialog 닫기
+  }, [location.pathname, closeChannelDialog]);
 
   return (
     <>
@@ -52,7 +58,6 @@ export default function EditorModal({ children }: ModalProps) {
         <ChannelDialog
           onCancel={closeChannelDialog}
           onMoveToBoard={() => {
-            console.log("게시판으로 이동");
             closeChannelDialog();
           }}
         />

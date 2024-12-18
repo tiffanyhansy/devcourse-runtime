@@ -1,5 +1,6 @@
 import { Stack } from "@mui/material";
 import Button from "../common/SquareButton";
+import { useNavigate } from "react-router";
 
 interface ChannelDialogProps {
   onCancel: () => void;
@@ -10,30 +11,34 @@ export default function ChannelDialog({
   onCancel,
   onMoveToBoard,
 }: ChannelDialogProps) {
+  const navigate = useNavigate(); // useNavigate 호출
+
   return (
     <article className="absolute top-0 left-0 z-50 w-full h-full">
       <div className="w-[400px] h-[200px] bg-white border rounded-[10px] flex flex-col gap-[20px] items-center justify-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50">
         <Stack width="340px" direction="row" gap={2} justifyContent="center">
           <span className="text-2xl font-extrabold">
-            정말 이동하시겠습니까?
+            게시글을 확인하시겠습니까?
           </span>
         </Stack>
         <Stack direction="row" gap={2}>
-          <Button
+          {/* <Button
             size="md"
             textSize="sm"
             variant="todo"
-            onClick={onCancel} // 취소 버튼
+            onClick={() => {
+              navigate("/"); // 메인 페이지로 이동 (루트 경로 유지)
+            }} // 메인 페이지로 이동
           >
-            취소
-          </Button>
+            홈
+          </Button> */}
           <Button
             size="md"
             textSize="sm"
             variant="custom"
-            onClick={onMoveToBoard} // 게시판으로 이동
+            onClick={() => navigate("/community")} // 게시판으로 이동
           >
-            게시판으로 이동
+            게시판
           </Button>
         </Stack>
       </div>
