@@ -12,11 +12,11 @@ export default function LinkButton({ icon, title, onClick }: buttonProps) {
         size="sm" // 버튼 크기 설정
         variant="custom" // 사용자 정의 스타일
         textSize="sm" // 텍스트 크기
-        className="w-20 h-20 p-2 bg-[#7eacb5] rounded-[100px] flex flex-col gap-[4px] items-center justify-center mt-[30px] shadow-lg" // 추가적인 스타일
+        className="w-20 h-20 p-2 bg-[#D5E6E9] flex flex-col gap-[4px] items-center justify-center" // 추가적인 스타일
         onClick={onClick}
       >
         <img src={icon} alt={"게시판 버튼 로고"} />
-        <p className="text-[0.75rem] font-semibold text-white">{title}</p>
+        <p className="text-[0.75rem] font-semibold text-[#374B4F]">{title}</p>
       </Button>
     </>
   );
