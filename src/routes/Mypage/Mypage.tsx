@@ -96,7 +96,11 @@ const Mypage = () => {
   };
 
   const handleEditButtonClick = async () => {
-    setTempClickedField(user.username ? [...user.username?.field] : []);
+    setTempClickedField(
+      user.username && typeof user.username !== "string"
+        ? [...user.username?.field]
+        : []
+    );
 
     const isAnyFieldEmpty =
       !fullName?.trim() || !username || !username.username.trim();
@@ -276,7 +280,9 @@ const Mypage = () => {
             value={
               isEditable
                 ? username?.username || ""
-                : user.username?.username || "" // user.username이 없을 경우 fullName 처리
+                : (typeof user.username !== "string" &&
+                    user.username?.username) ||
+                  "-" // user.username이 없을 경우 fullName 처리
             }
             onChange={(e) => {
               if (isEditable) {
@@ -293,7 +299,9 @@ const Mypage = () => {
             value={
               isEditable
                 ? username?.website || ""
-                : user.username?.website || ""
+                : (typeof user.username !== "string" &&
+                    user.username?.website) ||
+                  "-"
             }
             onChange={(e) => {
               if (isEditable) {

@@ -14,12 +14,19 @@ export default function TopContents() {
   const handleNameClick = useEasterEgg((state) => state.handleNameClick);
 
   const user = useLoginStore((state) => state.user);
+  if (user?.username && typeof user.username === "string")
+    user.username = JSON.parse(user.username);
+  const token = useLoginStore((state) => state.token);
 
   return (
     <article className="flex items-end mt-20">
       <h1 className="text-[50px] text-[#3E435D] mr-5 select-none">
         <span className="font-bold" onClick={handleNameClick}>
-          {user?.fullName ? `${user.fullName} ` : "익명 "}
+          {user !== null && token !== null
+            ? user.username && typeof user.username !== "string"
+              ? user.username.username
+              : user?.fullName
+            : "익명"}
         </span>
         님, 오늘도 열공하세요!!
       </h1>

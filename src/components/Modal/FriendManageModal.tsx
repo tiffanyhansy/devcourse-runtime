@@ -88,79 +88,83 @@ export default function FriendManageModal() {
 
   const renderUsers = (userAll: userType[]) => (
     <div className="overflow-auto h-[415px] mt-3 scrollbar-hidden">
-      {userAll.map((userOne, idx) => (
-        <div
-          key={uuidv4()}
-          className="flex items-center justify-between p-4 rounded-md hover:bg-gray-100"
-        >
-          <div className="flex items-center gap-4">
-            <img
-              className="w-12 h-12 rounded-full"
-              src={
-                userOne.coverImage
-                  ? userOne.coverImage
-                  : "/src/asset/default_profile.png"
-              }
-              alt="profile"
-            />
-            <Link
-              to={`/userpage/${
-                userOne.username ? userOne.username : userOne.fullName
-              }`}
-              className="text-black text-lg font-medium"
-              onClick={close}
-            >
-              <div>
-                <p className="text-sm font-semibold">
-                  {userOne.fullName || "김김김"}
-                </p>
-                <p className="text-xs text-gray-500">
-                  @{userOne.fullName || "buzzusborne"}
-                </p>
-              </div>
-            </Link>
+      {userAll.map((userOne, idx) => {
+        if (userOne.username && typeof userOne.username === "string")
+          userOne.username = JSON.parse(userOne.username);
+        return (
+          <div
+            key={uuidv4()}
+            className="flex items-center justify-between p-4 rounded-md hover:bg-gray-100"
+          >
+            <div className="flex items-center gap-4">
+              <img
+                className="w-12 h-12 rounded-full object-cover"
+                src={
+                  userOne.image
+                    ? userOne.image
+                    : "/src/asset/default_profile.png"
+                }
+                alt="profile"
+              />
+              <Link
+                to={`/userpage/${userOne.fullName}`}
+                className="text-black text-lg font-medium"
+                onClick={close}
+              >
+                <div>
+                  <p className="text-sm font-semibold">
+                    {(typeof userOne.username !== "string" &&
+                      userOne.username?.username) ||
+                      "유저"}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    @{userOne.fullName || "error"}
+                  </p>
+                </div>
+              </Link>
+            </div>
+            {user?.following ? (
+              user.following.find((e: followType) => e.user === userOne._id) ? ( // following하고 있는 유저명과 로그인 유저가 일치하면 언팔로우 버튼 활성화
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "#C96868",
+                    backgroundColor: "white",
+                    fontWeight: "bold",
+                    border: "1px solid #C96868",
+                    width: "118px",
+                  }}
+                  onClick={() => {
+                    deleteUnFollow(
+                      user.following.find(
+                        (e: followType) => e.user === userOne._id
+                      )!._id
+                    );
+                  }}
+                >
+                  언팔로우
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "black",
+                    backgroundColor: "white",
+                    fontWeight: "bold",
+                    border: "1px solid black",
+                    width: "118px",
+                  }}
+                  onClick={() => {
+                    postFollow(userOne._id);
+                  }}
+                >
+                  팔로잉
+                </Button>
+              )
+            ) : null}
           </div>
-          {user?.following ? (
-            user.following.find((e: followType) => e.user === userOne._id) ? ( // following하고 있는 유저명과 로그인 유저가 일치하면 언팔로우 버튼 활성화
-              <Button
-                variant="contained"
-                sx={{
-                  color: "#C96868",
-                  backgroundColor: "white",
-                  fontWeight: "bold",
-                  border: "1px solid #C96868",
-                  width: "118px",
-                }}
-                onClick={() => {
-                  deleteUnFollow(
-                    user.following.find(
-                      (e: followType) => e.user === userOne._id
-                    )!._id
-                  );
-                }}
-              >
-                언팔로우
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                sx={{
-                  color: "black",
-                  backgroundColor: "white",
-                  fontWeight: "bold",
-                  border: "1px solid black",
-                  width: "118px",
-                }}
-                onClick={() => {
-                  postFollow(userOne._id);
-                }}
-              >
-                팔로잉
-              </Button>
-            )
-          ) : null}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 
@@ -230,7 +234,7 @@ export default function FriendManageModal() {
                     <div className="w-full h-full self-stretch text-black text-sm font-medium  leading-tight">
                       <input
                         className="w-full h-full focus:outline-none"
-                        placeholder="검색"
+                        placeholder="@을 제외한 유저 ID로 검색 가능합니다."
                         ref={inputRef}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") ButtonRef.current?.click();

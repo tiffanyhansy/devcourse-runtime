@@ -30,11 +30,13 @@ export interface userType {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  username?: {
-    username: string;
-    website: string;
-    field: string;
-  };
+  username?:
+    | {
+        username: string;
+        website: string;
+        field: string;
+      }
+    | string;
   image: string;
   isCover?: boolean;
   coverImage: string;

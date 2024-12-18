@@ -16,13 +16,11 @@ export default function Header() {
     }
   };
   const user = useLoginStore((state) => state.user);
-  console.log("user:", user);
   // 알림목록 받아오기기
   // 임시 api 옮길예정 , 타입 지정 예정
   const getNotificationList = async () => {
     try {
       const { data } = await axiosInstance.get("/notifications");
-      console.log(data.filter((i: any) => i.seen === false).length);
       const count = data.filter((i: any) => i.seen === false).length;
       count > 0 ? setImgState(false) : setImgState(true);
     } catch (error) {
@@ -85,13 +83,9 @@ export default function Header() {
             className={`w-[40px] h-[40px] rounded-full bg-center`}
           >
             <img
-              src={
-                user?.coverImage
-                  ? user.coverImage
-                  : `/src/asset/default_profile.png`
-              }
+              src={user?.image ? user.image : `/src/asset/default_profile.png`}
               alt="유저 이미지 커버"
-              className="rounded-full"
+              className="rounded-full w-full h-full object-cover"
             />
           </button>
           {type === "header" && <Modal />}

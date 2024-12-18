@@ -14,7 +14,7 @@ export default function ButtonListComponent() {
   const token = useLoginStore((state) => state.token);
 
   return (
-    <section className="flex gap-[20px]">
+    <section className="flex gap-[10px]">
       <LinkButton
         icon={"/src/asset/images/Edit.svg"}
         title={"글 작성"}

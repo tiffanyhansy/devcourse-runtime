@@ -80,11 +80,11 @@ export default function Modal({
               <div className="w-[42px] h-[42px] left-0 top-0 absolute">
                 <div className="w-[42px] h-[42px] left-0 top-0 absolute bg-gradient-to-b from-[#fcd7b4] to-[#ffc2af] rounded-full" />
                 <img
-                  className="w-11 h-11 left-0 top-[-2px] absolute rounded-full"
+                  className="w-11 h-11 left-0 top-[-2px] absolute rounded-full object-cover"
                   src={
                     type === "header"
-                      ? user?.coverImage
-                        ? user.coverImage
+                      ? user?.image
+                        ? user.image
                         : "/src/asset/images/profile.svg"
                       : onlineCoverImg
                   }
