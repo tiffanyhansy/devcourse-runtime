@@ -10,26 +10,14 @@ interface ModalProps {
 export default function EditorModal({ children }: ModalProps) {
   const {
     isOpen,
-    toggleEditor,
-
-    resetEditor,
     isDialogOpen,
-    toggleDialog,
     isShake,
     handleCancel,
+    confirmClose,
+    cancelClose,
   } = useEditorStore();
 
   const { setImage } = usePostStore();
-
-  const confirmClose = () => {
-    resetEditor();
-    toggleDialog(false);
-    toggleEditor(); // 에디터 닫기
-  };
-
-  const cancelClose = () => {
-    toggleDialog(false); // ConfirmDialog 닫기
-  };
 
   return (
     <>
@@ -52,7 +40,9 @@ export default function EditorModal({ children }: ModalProps) {
         open={isDialogOpen}
         title="에디터 닫기"
         description="작성 중인 내용이 있습니다. 정말로 닫으시겠습니까?"
-        onConfirm={confirmClose}
+        onConfirm={() => {
+          confirmClose(setImage);
+        }}
         onCancel={cancelClose}
       />
     </>

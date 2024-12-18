@@ -12,11 +12,16 @@ interface EditorState {
   isDialogOpen: boolean;
   isShake: boolean;
   errorMessage: string;
+
   handleCancel: (setImage: (file: File | null) => void) => void;
+  confirmClose: (setImage: (file: File | null) => void) => void;
+  cancelClose: () => void;
+
   closeLoginDialog: () => void;
   setShake: (value: boolean) => void;
   setErrorMessage: (message: string) => void;
   resetShakeAndError: () => void;
+
   toggleEditor: () => void;
   setContent: (content: string) => void;
   setTitle: (title: string) => void;
@@ -29,10 +34,10 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   isAlertOpen: false,
   content: "",
   title: "",
-  thumbnail: null,
   isDialogOpen: false,
   isShake: false,
   errorMessage: "",
+
   setShake: (value: boolean) => set({ isShake: value }),
   setErrorMessage: (message: string) => set({ errorMessage: message }),
   resetShakeAndError: () =>
@@ -40,6 +45,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       isShake: false,
       errorMessage: "",
     }),
+
   //로그인 검증여부 추가
   toggleEditor: () => {
     const token = useLoginStore.getState().token; // 로그인 상태의 토큰 확인
@@ -51,11 +57,14 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       isOpen: !state.isOpen,
     }));
   },
+
   closeLoginDialog: () => set({ isAlertOpen: false }),
   setContent: (content) => set({ content }),
   setTitle: (title) => set({ title }),
+
   toggleDialog: (open) => set({ isDialogOpen: open }),
   resetEditor: () => set({ content: "", title: "" }),
+
   // handleCancel 함수 - setImage를 매개변수로 받아 사용
   handleCancel: (setImage) => {
     const { content, title, toggleDialog, resetEditor, toggleEditor } = get();
@@ -64,9 +73,22 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       toggleDialog(true);
     } else {
       resetEditor();
-      setImage(null); // 타입 에러 없이 사용 가능
+      setImage(null);
       toggleEditor();
     }
+  },
+  //Dialog 상태 통합
+  confirmClose: (setImage) => {
+    const { resetEditor, toggleEditor, toggleDialog } = get();
+    resetEditor();
+    setImage(null);
+    toggleDialog(false);
+    toggleEditor();
+  },
+  // 다이얼로그 취소
+  cancelClose: () => {
+    const { toggleDialog } = get();
+    toggleDialog(false);
   },
 }));
 

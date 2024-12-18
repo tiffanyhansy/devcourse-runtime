@@ -35,7 +35,14 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <Button onClick={onCancel} color="secondary">
           취소
         </Button>
-        <Button onClick={onConfirm} color="primary" autoFocus>
+
+        <Button
+          onClick={() => {
+            onConfirm(); // 부모에서 전달된 onConfirm 실행
+          }}
+          color="primary"
+          autoFocus
+        >
           확인
         </Button>
       </DialogActions>

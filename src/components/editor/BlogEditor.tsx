@@ -16,13 +16,14 @@ export default function BlogEditor() {
     toggleEditor,
     setContent,
     setTitle,
-    toggleDialog,
     resetEditor,
     setShake,
     errorMessage,
     setErrorMessage,
     resetShakeAndError,
     handleCancel,
+    confirmClose,
+    cancelClose,
   } = useEditorStore();
 
   const {
@@ -37,14 +38,15 @@ export default function BlogEditor() {
     image,
   } = usePostStore();
 
+  // 컴포넌트가 마운트될 때 채널 리스트 가져오기
   useEffect(() => {
-    fetchChannels(); // 컴포넌트가 마운트될 때 채널 리스트 가져오기
+    fetchChannels();
   }, [fetchChannels]);
 
   const handleError = (message: string) => {
     setShake(true);
     setErrorMessage(message);
-    setTimeout(resetShakeAndError, 1000); // 1초 후 상태 초기화
+    setTimeout(resetShakeAndError, 1000);
   };
 
   const handleSave = async () => {
@@ -53,13 +55,13 @@ export default function BlogEditor() {
       return;
     }
 
-    // HTML 태그 제거 함수
+    // HTML 태그 제거, 순수 텍스트 변환
     const removeHtml = (html: string) => {
       const doc = new DOMParser().parseFromString(html, "text/html");
-      return doc.body.textContent || ""; // 태그 제거 후 순수 텍스트 반환
+      return doc.body.textContent || "";
     };
 
-    //content 적용시키기
+    //content에 적용시키기
     const removePtags = removeHtml(content);
 
     const success = await post(title, removePtags, channelId || "", image);
@@ -70,16 +72,6 @@ export default function BlogEditor() {
     } else {
       handleError("저장에 실패했습니다.");
     }
-  };
-
-  const confirmClose = () => {
-    toggleDialog(false);
-    resetEditor();
-    toggleEditor();
-  };
-
-  const cancelClose = () => {
-    toggleDialog(false);
   };
 
   const modules = {
@@ -177,13 +169,19 @@ export default function BlogEditor() {
       </div>
 
       <div className="flex flex-col flex-grow pb-10 space-y-3">
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="제목을 입력하세요..."
-          className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
-        />
+        <form onSubmit={(e) => e.preventDefault()} className="w-full">
+          <label htmlFor="title" className="sr-only">
+            제목
+          </label>
+          <input
+            id="title"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="제목을 입력하세요..."
+            className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
+          />
+        </form>
         {/* 파일 업로드 테스트용 input */}
         <div className="relative pb-2">
           <form className="flex items-center">
@@ -268,7 +266,9 @@ export default function BlogEditor() {
         open={isDialogOpen}
         title="에디터 닫기"
         description="작성 중인 내용이 있습니다. 정말로 닫으시겠습니까?"
-        onConfirm={confirmClose}
+        onConfirm={() => {
+          confirmClose(setImage);
+        }}
         onCancel={cancelClose}
       />
     </div>
