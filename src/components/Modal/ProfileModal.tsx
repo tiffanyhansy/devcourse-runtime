@@ -3,7 +3,10 @@ import { Link } from "react-router";
 import { useprofileModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
-import dafault_profile from "../../asset/default_profile.png";
+import default_profile from "../../asset/default_profile.png";
+import setting from "../../asset/images/settings.svg";
+import signOut from "../../asset/images/signout.svg";
+
 
 export default function Modal({
   y,
@@ -67,8 +70,8 @@ export default function Modal({
         type === "header" ? "animate-scaleInTopRight" : "animate-scaleInTopLeft"
       }`}
       style={{
-        top: x ? `${x}px` : "4.5rem",
-        right: y ? `${y}px` : "19rem",
+        top: x ? `${x}px` : "2.5rem",
+        right: y ? `${y}px` : "1rem",
       }}
     >
       <div
@@ -112,7 +115,7 @@ export default function Modal({
                     <div className="relative w-5 h-5">
                       <img
                         className="w-5 h-5 left-[2px] top-[2px] absolute"
-                        src="/src/asset/images/settings.svg"
+                        src={setting}
                       />
                     </div>
 
@@ -136,7 +139,7 @@ export default function Modal({
                   <div className="relative w-5 h-5">
                     <img
                       className="w-5 h-5 left-[2px] top-[2px] absolute"
-                      src="/src/asset/images/settings.svg"
+                      src={setting}
                     />
                   </div>
 
@@ -161,7 +164,7 @@ export default function Modal({
                   <div className="relative w-5 h-5">
                     <img
                       className="w-5 h-5 left-[2px] top-[2px] absolute"
-                      src="/src/asset/images/signout.svg"
+                      src={signOut}
                     />
                   </div>
 

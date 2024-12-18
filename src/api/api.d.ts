@@ -72,3 +72,83 @@ export type Title_T = {
   title: string;
   content: string;
 };
+
+type notificationsType = {
+  seen: boolean;
+  _id: string;
+  author: {
+    coverImage?: string;
+    fullName: string;
+    _id: string;
+  };
+  createdAt: string;
+  follow?: {
+    user: string;
+    _id: string;
+  };
+  like?: {
+    _id: string;
+    post: {
+      title: string;
+    };
+  };
+  user: {
+    coverImage?: string;
+    _id: string;
+    following: string[];
+  };
+};
+
+type createNotiType = {
+  notiType: string;
+  notiTypeId: string;
+  userId: string;
+  postId: null;
+};
+
+type notificationsStore = {
+  imgState?: boolean;
+  loading?: boolean;
+  list?: {
+    seen: boolean;
+    _id: string;
+    author: {
+      coverImage?: string;
+      fullName: string;
+      _id: string;
+    };
+    createdAt: string;
+    follow?: {
+      user: string;
+      _id: string;
+    };
+    like?: {
+      _id: string;
+      post: {
+        title: string;
+      };
+    };
+    user: {
+      coverImage?: string;
+      _id: string;
+      following: string[];
+    };
+  }[];
+  update?: boolean;
+  listLength?: number;
+  seenUpdate?: (i: boolean) => void;
+  getNotificationList?: () => void;
+  isSeen?: () => void;
+  createNotifications?: ({
+    notiType,
+    notiTypeId,
+    userId,
+    postId,
+  }: {
+    notiType: string;
+    notiTypeId: string;
+    userId: string;
+    postId: null;
+  }) => void;
+  isNseenList?: () => void;
+};

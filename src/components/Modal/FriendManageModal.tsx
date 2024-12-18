@@ -1,18 +1,22 @@
 import { Button } from "@mui/material";
+import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useFriendModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
-import NonLoginFriendModal from "./NonLoginFriendModal";
-import { Link } from "react-router";
 import { followType, userType } from "../../api/api";
+import { useNotificationsStore } from "../../store/notificationsStore";
+import NonLoginFriendModal from "./NonLoginFriendModal";
+import default_profile from "../../asset/default_profile.png";
+import Search from "../../asset/images/Search.svg";
 
 export default function FriendManageModal() {
   // const [isHovered, setIsHovered] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("followers");
   const [activeToggle, setActiveToggle] = useState<string>("friend");
   const [userAll, setUserAll] = useState<userType[]>([]);
+  const { createNotifications } = useNotificationsStore();
 
   const close = useFriendModalStore((state) => state.close);
 
@@ -44,6 +48,14 @@ export default function FriendManageModal() {
       const followed = (
         await axiosInstance.post(`follow/create`, { userId: id })
       ).data;
+
+      createNotifications!({
+        notiType: "FOLLOW",
+        notiTypeId: followed._id + "",
+        userId: followed.user + "",
+        postId: null,
+      });
+
       const updateUser = { ...user! };
       updateUser.following.push(followed);
       setUser(updateUser);
@@ -88,7 +100,7 @@ export default function FriendManageModal() {
 
   const renderUsers = (userAll: userType[]) => (
     <div className="overflow-auto h-[415px] mt-3 scrollbar-hidden">
-      {userAll.map((userOne, idx) => {
+      {userAll.map((userOne) => {
         if (userOne.username && typeof userOne.username === "string")
           userOne.username = JSON.parse(userOne.username);
         return (
@@ -245,7 +257,7 @@ export default function FriendManageModal() {
                   <div className="w-8 h-8 justify-start items-start flex">
                     <div className="grow shrink basis-0 self-stretch p-1 bg-[#7eacb5] rounded-[100px] shadow justify-center items-center gap-2 flex">
                       <button
-                        className="w-5 h-5 relative bg-[url(src/asset/images/Search.svg)]"
+                        className="w-5 h-5 relative"
                         ref={ButtonRef}
                         onClick={() => {
                           const searchUser = userAll.filter((e) =>
@@ -253,7 +265,9 @@ export default function FriendManageModal() {
                           );
                           setSearchUser(searchUser);
                         }}
-                      />
+                      >
+                        <img src={Search} alt="search" />
+                      </button>
                     </div>
                   </div>
                 </div>
