@@ -7,7 +7,6 @@ import default_profile from "../../asset/default_profile.png";
 import setting from "../../asset/images/settings.svg";
 import signOut from "../../asset/images/signout.svg";
 
-
 export default function Modal({
   y,
   x,
@@ -89,7 +88,7 @@ export default function Modal({
                     type === "header"
                       ? user?.image
                         ? user.image
-                        : dafault_profile
+                        : default_profile
                       : onlineCoverImg
                   }
                 />

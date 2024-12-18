@@ -184,7 +184,7 @@ const UserPage = () => {
           <Input
             isEditable={false}
             label="ID"
-            value={searchUsers?.fullName ? searchUsers.fullName : "error"} // 이거 왜 searchUsers?.fullName만 넣으면 데이터 바인딩 오류 나오지? 데이터 있는데?
+            value={searchUsers?.fullName ?? "error"} // 이거 왜 searchUsers?.fullName만 넣으면 데이터 바인딩 오류 나오지? 데이터 있는데?
           />
           <Input
             isEditable={false}
