@@ -16,6 +16,7 @@ export default function Community({ channelName = "sw" }: Props) {
   const [posts, setPosts] = useState<Post_T[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeChannel, setActiveChannel] = useState<ChannelId_T>(channelName);
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
 
   const fetchChannels = usePostStore((state) => state.fetchChannels);
   const channels = usePostStore((state) => state.channels);
@@ -23,6 +24,7 @@ export default function Community({ channelName = "sw" }: Props) {
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
+
       if (channels.length === 0) await fetchChannels();
 
       const currentChannel = channels.find(
@@ -46,9 +48,22 @@ export default function Community({ channelName = "sw" }: Props) {
     fetchPosts();
   }, [activeChannel, channels]);
 
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await axiosInstance.get("/auth-user");
+        const { fullName } = response.data;
+        setCurrentUser(fullName);
+      } catch (error) {
+        console.error("현재 사용자 정보를 가져오는 중 오류 발생:", error);
+      }
+    };
+    fetchCurrentUser();
+  }, []);
+
   return (
-    <>
-      <nav className="mt-[80px] flex py-3 items-center text-lg">
+    <main className=" mt-[80px] overflow-y-auto">
+      <nav className="flex py-3 items-center text-lg">
         <ChannelButton
           title="소프트웨어 개발"
           link="/community/sw"
@@ -78,15 +93,21 @@ export default function Community({ channelName = "sw" }: Props) {
           onClick={() => setActiveChannel("ge")}
         />
       </nav>
-      <main className="grid gap-9 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] mt-8 mb-6">
+      <section className="grid gap-9 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] mt-8 mb-6">
         {loading ? (
           Array.from({ length: 10 }).map((_, index) => <Skeleton key={index} />)
         ) : posts.length > 0 ? (
-          posts.map((post) => <PostPreview preview={post} key={post._id} />)
+          posts.map((post) => (
+            <PostPreview
+              preview={post}
+              key={post._id}
+              currentUser={currentUser || "알 수 없음"}
+            />
+          ))
         ) : (
           <div>게시글이 없습니다</div>
         )}
-      </main>
-    </>
+      </section>
+    </main>
   );
 }
