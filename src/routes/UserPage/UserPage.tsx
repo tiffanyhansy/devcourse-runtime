@@ -1,6 +1,5 @@
 import { Stack, Chip, Box, Typography, Tooltip } from "@mui/material";
 import Input from "../../components/Mypage/Input";
-import { useProfileStore } from "../../store/store";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
@@ -9,22 +8,6 @@ import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
 
 const UserPage = () => {
-  const { isEditable, username, fullName, setTempProfilePic } =
-    useProfileStore();
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (isEditable) {
-      const file = event.target.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setTempProfilePic(e.target?.result as string);
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-  };
-
   const fieldLabels = ["SW", "SI", "DA", "GE"];
   const fieldDescriptions = [
     "소프트웨어 개발",
@@ -34,6 +17,7 @@ const UserPage = () => {
   ];
 
   const user = useLoginStore((state) => state.user);
+  const token = useLoginStore((state) => state.token);
   const setUser = useLoginStore((state) => state.setUser);
 
   const deleteUnFollow = async (id: string) => {
@@ -51,7 +35,6 @@ const UserPage = () => {
         return e._id !== unfollowed._id;
       });
       updateUser.following = updateFollow;
-      console.log(updateUser);
       setUser(updateUser);
     } catch (error) {
       console.log(error);
@@ -82,7 +65,12 @@ const UserPage = () => {
     const searchUsersData: userType = await (
       await axiosInstance.get(`/search/users/${params.fullname}`)
     ).data[0];
-    console.log(searchUsersData);
+    if (
+      searchUsersData.username &&
+      typeof searchUsersData.username === "string"
+    ) {
+      searchUsersData.username = JSON.parse(searchUsersData.username);
+    }
     setSearchUsers(searchUsersData);
   };
 
@@ -95,7 +83,12 @@ const UserPage = () => {
       {/* 제목 */}
       <article className="flex mt-14">
         {/* username 즉, id */}
-        <h1 className="text-4xl font-bold">{`${searchUsers?.fullName}님의 프로필`}</h1>
+        <h1 className="text-4xl font-bold">{`${
+          searchUsers?.username
+            ? typeof searchUsers?.username !== "string" &&
+              searchUsers?.username?.username
+            : "유저"
+        } 님의 프로필`}</h1>
       </article>
 
       <div className="flex p-[5rem] justify-between">
@@ -111,15 +104,12 @@ const UserPage = () => {
             borderRadius="50%"
             overflow="hidden"
             boxShadow={3}
-            sx={{ cursor: isEditable ? "pointer" : "default" }}
-            onClick={() =>
-              isEditable && document.getElementById("fileInput")?.click()
-            }
+            sx={{ cursor: "default" }}
           >
             <img
               src={
-                searchUsers?.coverImage
-                  ? searchUsers.coverImage
+                searchUsers?.image
+                  ? searchUsers.image
                   : `/src/asset/default_profile.png`
               }
               alt="Profile"
@@ -127,32 +117,25 @@ const UserPage = () => {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                cursor: isEditable ? "pointer" : "not-allowed",
+                cursor: "not-allowed",
               }}
             />
 
-            <input
-              id="fileInput"
-              type="file"
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
+            <input id="fileInput" type="file" style={{ display: "none" }} />
           </Box>
           <div className="flex flex-col items-center ">
-            {/* username 즉, id */}
+            {/* 좌측 fullname */}
             <Typography
               sx={{
                 fontSize: "48px",
                 fontWeight: "bold",
               }}
             >
-              {searchUsers?.username?.username
-                ? searchUsers?.username?.username
-                : searchUsers?.fullName}
+              {searchUsers?.fullName ? searchUsers?.fullName : "error"}
             </Typography>
 
             {/* 팔로우하기 */}
-            {user !== null ? (
+            {token !== null && user !== null ? (
               user.following.find(
                 (e: followType) => e.user === searchUsers?._id
               ) ? ( // following하고 있는 유저명과 로그인 유저가 일치하면 언팔로우 버튼 활성화
@@ -199,25 +182,32 @@ const UserPage = () => {
         {/* 필드 */}
         <div>
           <Input
-            isEditable={isEditable}
+            isEditable={false}
             label="ID"
             value={searchUsers?.fullName ? searchUsers.fullName : "error"} // 이거 왜 searchUsers?.fullName만 넣으면 데이터 바인딩 오류 나오지? 데이터 있는데?
           />
           <Input
-            isEditable={isEditable}
+            isEditable={false}
             label="닉네임"
             value={
-              searchUsers?.username?.username
-                ? searchUsers?.username?.username
-                : searchUsers?.fullName
-                ? searchUsers.fullName
-                : "error"
+              searchUsers?.username
+                ? typeof searchUsers?.username !== "string" &&
+                  searchUsers?.username.username
+                  ? searchUsers?.username.username
+                  : "-"
+                : "-"
             }
           />
           <Input
-            isEditable={isEditable}
-            label="웹사이트"
-            value={searchUsers?.username?.website!}
+            isEditable={false}
+            label="Website"
+            value={
+              searchUsers?.username
+                ? typeof searchUsers.username !== "string"
+                  ? searchUsers.username.website
+                  : "-"
+                : "-"
+            }
           />
           {/* field */}
           <Stack direction="column" spacing={1}>
@@ -238,20 +228,17 @@ const UserPage = () => {
                     variant="filled"
                     style={{
                       width: "3rem",
-                      // backgroundColor: tempClickedField.includes(
-                      //   index.toString()
-                      // )
-                      //   ? isEditable
-                      //     ? "#7EACB5"
-                      //     : "#B0B0B0"
-                      //   : "",
-                      // color: tempClickedField.has(index)
-                      //   ? "white"
-                      //   : isEditable
-                      //   ? "#000"
-                      //   : "",
-                      cursor: isEditable ? "pointer" : "not-allowed",
-                      opacity: isEditable ? 1 : 0.6,
+                      backgroundColor:
+                        searchUsers?.username &&
+                        typeof searchUsers.username !== "string"
+                          ? searchUsers.username.field.includes(
+                              index.toString()
+                            )
+                            ? "#7EACB5"
+                            : "#B0B0B0"
+                          : "#B0B0B0",
+                      color: "white",
+                      cursor: "not-allowed",
                     }}
                   />
                 </Tooltip>

@@ -21,6 +21,9 @@ export default function Header() {
       close();
     }
   };
+  
+  const user = useLoginStore((state) => state.user);
+
 
   // 알림이 있는경우 상태표시하기
   useEffect(() => {
@@ -73,9 +76,9 @@ export default function Header() {
             className={`w-[40px] h-[40px] rounded-full bg-center`}
           >
             <img
-              src={user?.coverImage ? user.coverImage : default_profile}
+              src={user?.image ? user.image : `/src/asset/default_profile.png`}
               alt="유저 이미지 커버"
-              className="rounded-full"
+              className="rounded-full w-full h-full object-cover"
             />
           </button>
           {type === "header" && <Modal />}

@@ -40,36 +40,44 @@ export default function NonLoginFriendModal() {
 
   const renderUsers = (userAll: userType[]) => (
     <div className="overflow-auto h-[415px] mt-3 scrollbar-hidden">
-      {userAll.map((userOne, idx) => (
-        <div
-          key={uuidv4()}
-          className="flex items-center justify-between p-4 rounded-md hover:bg-gray-100"
-        >
-          <div className="flex items-center gap-4">
-            <img
-              className="w-12 h-12 rounded-full"
-              src="https://via.placeholder.com/50x50"
-              alt="profile"
-            />
-            <Link
-              to={`/userpage/${
-                userOne.username ? userOne.username : userOne.fullName
-              }`}
-              className="text-black text-lg font-medium "
-              onClick={close}
-            >
-              <div>
-                <p className="text-sm font-semibold">
-                  {userOne.fullName || "김김김"}
-                </p>
-                <p className="text-xs text-gray-500">
-                  @{userOne.fullName || "buzzusborne"}
-                </p>
-              </div>
-            </Link>
+      {userAll.map((userOne) => {
+        if (userOne.username && typeof userOne.username === "string")
+          userOne.username = JSON.parse(userOne.username);
+        return (
+          <div
+            key={uuidv4()}
+            className="flex items-center justify-between p-4 rounded-md hover:bg-gray-100"
+          >
+            <div className="flex items-center gap-4">
+              <img
+                className="w-12 h-12 rounded-full object-cover"
+                src={
+                  userOne?.image
+                    ? userOne.image
+                    : `/src/asset/default_profile.png`
+                }
+                alt="profile"
+              />
+              <Link
+                to={`/userpage/${userOne.fullName}`}
+                className="text-black text-lg font-medium "
+                onClick={close}
+              >
+                <div>
+                  <p className="text-sm font-semibold">
+                    {userOne.username && typeof userOne.username !== "string"
+                      ? userOne.username.username
+                      : "유저"}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    @{userOne.fullName || "buzzusborne"}
+                  </p>
+                </div>
+              </Link>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
   return (
@@ -85,7 +93,7 @@ export default function NonLoginFriendModal() {
                 <div className="w-full h-full self-stretch text-black text-sm font-medium  leading-tight">
                   <input
                     className="w-full h-full focus:outline-none"
-                    placeholder="검색"
+                    placeholder="@을 제외한 유저 ID로 검색 가능합니다."
                     ref={inputRef}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") ButtonRef.current?.click();

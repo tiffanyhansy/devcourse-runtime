@@ -49,7 +49,6 @@ export default function Main() {
   const setUser = useLoginStore((state) => state.setUser);
   const getAuthUser = async () => {
     const newUser = await (await axiosInstance.get(`/auth-user`)).data;
-    console.log(newUser === "");
     localStorage.setItem(
       "LoginUserInfo",
       JSON.stringify(newUser === "" ? null : newUser)
@@ -80,14 +79,7 @@ export default function Main() {
           <Favorite />
         </HeartStyle>
       ))}
-      {/* 임시 로그아웃 기능 */}
-      {/* <button
-        onClick={() => {
-          axiosInstance.post(`/logout`).then((res) => console.log(res));
-        }}
-      >
-        로그아웃
-      </button> */}
+
       {/* 트로피 모달 프로토타입입니당 */}
       {isAchieve && !trophyModalViewed ? (
         <article className="absolute top-0 left-0 z-50 w-screen h-screen overflow-hidden animate-show">
