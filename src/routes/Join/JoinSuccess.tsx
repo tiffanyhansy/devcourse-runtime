@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import FormContainer from "../../components/Form/FormContainer";
 import SubmitButton from "../../components/Form/SubmitButton";
+import runtime_logo from "/src/asset/images/runtime_logo.svg"
 
 export default function JoinSuccess() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function JoinSuccess() {
         <FormContainer>
           <header className="flex justify-center items-center mt-16 mb-10">
             <img
-              src="/src/asset/images/runtime_logo.svg"
+              src={runtime_logo}
               alt="Runtime Logo"
               className="w-36 h-36"
             />
