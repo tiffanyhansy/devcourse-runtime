@@ -1,38 +1,34 @@
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router";
-import Modal from "../../components/Modal/ProfileModal";
-import { useEffect, useState } from "react";
 import { useprofileModalStore } from "../../store/store";
-import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
+import { useNotificationsStore } from "../../store/notificationsStore";
+import Modal from "../../components/Modal/ProfileModal";
+import runtime from "../../asset/images/runtime_logo.svg";
+import bell from "../../asset/images/bell.svg";
+import default_bell from "../../asset/images/alarm_icon.svg";
+import default_profile from "../../asset/default_profile.png";
 
 export default function Header() {
-  const [imgState, setImgState] = useState<boolean>(true);
   const location = useLocation();
+  const user = useLoginStore((state) => state.user);
   const { modal, type, open, close } = useprofileModalStore();
+  const { getNotificationList, update, seenUpdate } = useNotificationsStore();
+
   const handleOpen = () => {
     if (!modal) open("header");
     else {
       close();
     }
   };
-  const user = useLoginStore((state) => state.user);
-  console.log("user:", user);
-  // 알림목록 받아오기기
-  // 임시 api 옮길예정 , 타입 지정 예정
-  const getNotificationList = async () => {
-    try {
-      const { data } = await axiosInstance.get("/notifications");
-      console.log(data.filter((i: any) => i.seen === false).length);
-      const count = data.filter((i: any) => i.seen === false).length;
-      count > 0 ? setImgState(false) : setImgState(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
+  // 알림이 있는경우 상태표시하기
   useEffect(() => {
-    user && getNotificationList();
-  }, []);
+    if (!user) return;
+    getNotificationList!();
+    const currentListLength = useNotificationsStore.getState().listLength;
+    currentListLength! > 0 ? seenUpdate!(true) : seenUpdate!(false);
+  }, [user, getNotificationList]);
 
   return (
     <header className="w-full h-[80px] fixed top-0 left-0 flex items-center justify-between bg-white z-40">
@@ -40,7 +36,7 @@ export default function Header() {
         <article className="flex items-center gap-[30px]">
           <Link to="/">
             <img
-              src={"/src/asset/images/runtime_logo.svg"}
+              src={runtime}
               alt={"런타임 로고"}
               className="w-[40px] h-[40px] object-cover"
             />
@@ -62,18 +58,10 @@ export default function Header() {
             게시글
           </Link>
         </article>
-        <article className="flex items-center gap-[30px]">
+        <article className="relative flex items-center gap-[30px]">
           {user && (
             <Link to="./notifications">
-              {/* api 받아와서 상태변경해야함 지금은 임시처리~ */}
-              <img
-                src={
-                  imgState
-                    ? "/src/asset/images/alarm_icon.svg"
-                    : "/src/asset/images/bell.svg"
-                }
-                alt={"알람 아이콘"}
-              />
+              <img src={update ? bell : default_bell} alt={"알람 아이콘"} />
             </Link>
           )}
 
@@ -85,11 +73,7 @@ export default function Header() {
             className={`w-[40px] h-[40px] rounded-full bg-center`}
           >
             <img
-              src={
-                user?.coverImage
-                  ? user.coverImage
-                  : `/src/asset/default_profile.png`
-              }
+              src={user?.coverImage ? user.coverImage : default_profile}
               alt="유저 이미지 커버"
               className="rounded-full"
             />
