@@ -88,7 +88,7 @@ export default function ResetFab() {
                     );
                   }}
                 >
-                  삭제
+                  초기화
                 </Button>
               </Stack>
             </article>
