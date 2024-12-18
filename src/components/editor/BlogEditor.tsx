@@ -5,14 +5,13 @@ import { useEditorStore } from "../../store/store";
 import { usePostStore } from "../../store/postStore"; // postStore 임포트
 import { useEffect, useRef } from "react";
 import { Stack, Chip, Tooltip } from "@mui/material";
-import ConfirmDialog from "./ConfirmDialog";
 import Button from "../common/SquareButton";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function BlogEditor() {
   const {
     content,
     title,
-    isDialogOpen,
     toggleEditor,
     setContent,
     setTitle,
@@ -22,8 +21,7 @@ export default function BlogEditor() {
     setErrorMessage,
     resetShakeAndError,
     handleCancel,
-    confirmClose,
-    cancelClose,
+    openChannelDialog,
   } = useEditorStore();
 
   const {
@@ -61,15 +59,20 @@ export default function BlogEditor() {
       return doc.body.textContent || "";
     };
 
-    //content에 적용시키기
+    //content에 적용
     const removePtags = removeHtml(content);
 
-    const success = await post(title, removePtags, channelId || "", image);
+    //post전송 이후의 로직 정리
+    try {
+      await post(title, removePtags, channelId || "", image);
 
-    if (success) {
       resetEditor();
+      setImage(null);
       toggleEditor();
-    } else {
+      setTimeout(() => {
+        openChannelDialog(); // 에디터 닫힌 뒤 ChannelDialog 표시
+      }, 0);
+    } catch (error) {
       handleError("저장에 실패했습니다.");
     }
   };
@@ -154,7 +157,11 @@ export default function BlogEditor() {
             onClick={handleSave}
             disabled={isLoading} // 로딩 중이면 비활성화
           >
-            {isLoading ? "저장 중..." : "저장하기"}
+            {isLoading ? (
+              <CircularProgress size={20} color="inherit" />
+            ) : (
+              "저장하기"
+            )}
           </Button>
           <Button
             onClick={() => handleCancel(setImage)}
@@ -262,15 +269,6 @@ export default function BlogEditor() {
           />
         </div>
       </div>
-      <ConfirmDialog
-        open={isDialogOpen}
-        title="에디터 닫기"
-        description="작성 중인 내용이 있습니다. 정말로 닫으시겠습니까?"
-        onConfirm={() => {
-          confirmClose(setImage);
-        }}
-        onCancel={cancelClose}
-      />
     </div>
   );
 }

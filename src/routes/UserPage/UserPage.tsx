@@ -77,18 +77,22 @@ const UserPage = () => {
   const [searchUsers, setSearchUsers] = useState<userType | null>(null);
 
   const params = useParams();
-
+  //try, catch으로 다시 정렬
   const getSearchUsers = async () => {
-    const searchUsersData: userType = await (
-      await axiosInstance.get(`/search/users/${params.fullname}`)
-    ).data[0];
-    console.log(searchUsersData);
-    setSearchUsers(searchUsersData);
+    try {
+      const searchUsersData: userType = await (
+        await axiosInstance.get(`/search/users/${params.fullname}`)
+      ).data[0];
+      setSearchUsers(searchUsersData);
+    } catch (error) {
+      console.error("Failed to fetch user data", error);
+      setSearchUsers(null);
+    }
   };
 
   useEffect(() => {
-    getSearchUsers();
-  }, []);
+    if (params.fullname) getSearchUsers();
+  }, [params.fullname]);
 
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
@@ -152,47 +156,45 @@ const UserPage = () => {
             </Typography>
 
             {/* 팔로우하기 */}
-            {user !== null ? (
-              user.following.find(
-                (e: followType) => e.user === searchUsers?._id
-              ) ? ( // following하고 있는 유저명과 로그인 유저가 일치하면 언팔로우 버튼 활성화
-                <Button
-                  variant="contained"
-                  sx={{
-                    color: "#C96868",
-                    backgroundColor: "white",
-                    fontWeight: "bold",
-                    border: "1px solid #C96868",
-                    width: "118px",
-                  }}
-                  onClick={() => {
-                    deleteUnFollow(
-                      user.following.find(
-                        (e: followType) => e.user === searchUsers?._id
-                      )!._id
-                    );
-                  }}
-                >
-                  언팔로우
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  sx={{
-                    color: "black",
-                    backgroundColor: "white",
-                    fontWeight: "bold",
-                    border: "1px solid black",
-                    width: "118px",
-                  }}
-                  onClick={() => {
-                    postFollow(searchUsers!._id);
-                  }}
-                >
-                  팔로잉
-                </Button>
-              )
-            ) : null}
+            {user?.following?.find(
+              (e: followType) => e.user === searchUsers?._id
+            ) ? (
+              <Button
+                variant="contained"
+                sx={{
+                  color: "#C96868",
+                  backgroundColor: "white",
+                  fontWeight: "bold",
+                  border: "1px solid #C96868",
+                  width: "118px",
+                }}
+                //undefined일 때 로직처리 추가.
+                onClick={() => {
+                  const followId = user.following.find(
+                    (e: followType) => e.user === searchUsers?._id
+                  )?._id;
+                  if (followId) deleteUnFollow(followId);
+                }}
+              >
+                언팔로우
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{
+                  color: "black",
+                  backgroundColor: "white",
+                  fontWeight: "bold",
+                  border: "1px solid black",
+                  width: "118px",
+                }}
+                onClick={() => {
+                  if (searchUsers?._id) postFollow(searchUsers._id);
+                }}
+              >
+                팔로잉
+              </Button>
+            )}
           </div>
         </Stack>
 
@@ -238,18 +240,6 @@ const UserPage = () => {
                     variant="filled"
                     style={{
                       width: "3rem",
-                      // backgroundColor: tempClickedField.includes(
-                      //   index.toString()
-                      // )
-                      //   ? isEditable
-                      //     ? "#7EACB5"
-                      //     : "#B0B0B0"
-                      //   : "",
-                      // color: tempClickedField.has(index)
-                      //   ? "white"
-                      //   : isEditable
-                      //   ? "#000"
-                      //   : "",
                       cursor: isEditable ? "pointer" : "not-allowed",
                       opacity: isEditable ? 1 : 0.6,
                     }}

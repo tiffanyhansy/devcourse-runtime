@@ -5,7 +5,7 @@ interface PostStore {
   channels: { _id: string; name: string; description: string }[];
   channelId: string | null; // 선택된 채널 ID
   image: File | null;
-  isLoading: boolean; // 로딩 상태
+  isLoading: boolean;
   error: string | null; // 에러 메시지
   setSelectedChannelId: (id: string) => void;
   fetchChannels: () => Promise<void>; // 채널 리스트 GET 요청
@@ -15,7 +15,7 @@ interface PostStore {
     content: string,
     channelId: string,
     image?: File | null
-  ) => Promise<boolean>; // POST 요청
+  ) => Promise<void>;
 }
 
 export const usePostStore = create<PostStore>((set) => ({
@@ -48,33 +48,29 @@ export const usePostStore = create<PostStore>((set) => ({
     }
   },
 
+  //post요청
   post: async (
     title: string,
     content: string,
     channelId: string,
     image?: File | null
-  ) => {
+  ): Promise<void> => {
     set({ isLoading: true, error: null });
+
     try {
       const formData = new FormData();
-      formData.append("title", JSON.stringify({ title, content })); // 제목과 본문을 묶어서 title에 추가
-      formData.append("channelId", channelId); // 선택된 채널 ID 추가
-      if (image) {
-        formData.append("image", image); // 이미지 파일 추가
-      } else {
-        formData.append("image", "null"); // 이미지가 없으면 null 값 추가
-      }
+      formData.append("title", JSON.stringify({ title, content }));
+      formData.append("channelId", channelId);
+      formData.append("image", image || "null");
 
       // axiosInstance 사용하기
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         `${import.meta.env.VITE_API_URL}/posts/create`,
         formData
       );
-      //성공
-      console.log("Posting success:", response.data);
+
       //임시 여기 이쁘게 바꿔보기.
       alert("게시글이 포스팅 됐습니다");
-      return true;
     } catch (error: any) {
       //에러코드에 따라 상태 처리
       if (error.response) {
@@ -116,7 +112,6 @@ export const usePostStore = create<PostStore>((set) => ({
         // 기타 에러
         set({ error: "요청 중 오류가 발생했습니다. 다시 시도해주세요." });
       }
-      return false;
     } finally {
       set({ isLoading: false });
     }

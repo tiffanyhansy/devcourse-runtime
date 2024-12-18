@@ -2,6 +2,7 @@ import React from "react";
 import { useEditorStore } from "../../store/store";
 import ConfirmDialog from "./ConfirmDialog";
 import { usePostStore } from "../../store/postStore";
+import ChannelDialog from "./ChannelDialog";
 
 interface ModalProps {
   children?: React.ReactNode;
@@ -15,6 +16,8 @@ export default function EditorModal({ children }: ModalProps) {
     handleCancel,
     confirmClose,
     cancelClose,
+    isChannelDialogOpen,
+    closeChannelDialog,
   } = useEditorStore();
 
   const { setImage } = usePostStore();
@@ -45,6 +48,15 @@ export default function EditorModal({ children }: ModalProps) {
         }}
         onCancel={cancelClose}
       />
+      {isChannelDialogOpen && (
+        <ChannelDialog
+          onCancel={closeChannelDialog}
+          onMoveToBoard={() => {
+            console.log("게시판으로 이동");
+            closeChannelDialog();
+          }}
+        />
+      )}
     </>
   );
 }

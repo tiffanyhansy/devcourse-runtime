@@ -11,6 +11,7 @@ interface EditorState {
   isAlertOpen: boolean;
   isDialogOpen: boolean;
   isShake: boolean;
+  isChannelDialogOpen: boolean;
   errorMessage: string;
 
   handleCancel: (setImage: (file: File | null) => void) => void;
@@ -27,6 +28,10 @@ interface EditorState {
   setTitle: (title: string) => void;
   toggleDialog: (open: boolean) => void;
   resetEditor: () => void;
+
+  openChannelDialog: () => void;
+  closeChannelDialog: () => void;
+  toggleChannelDialog: () => void;
 }
 
 export const useEditorStore = create<EditorState>((set, get) => ({
@@ -37,6 +42,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   isDialogOpen: false,
   isShake: false,
   errorMessage: "",
+  isChannelDialogOpen: false,
 
   setShake: (value: boolean) => set({ isShake: value }),
   setErrorMessage: (message: string) => set({ errorMessage: message }),
@@ -89,6 +95,14 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   cancelClose: () => {
     const { toggleDialog } = get();
     toggleDialog(false);
+  },
+
+  openChannelDialog: () => set({ isChannelDialogOpen: true }),
+  closeChannelDialog: () => set({ isChannelDialogOpen: false }),
+  toggleChannelDialog: () => {
+    set((state: EditorState) => ({
+      isChannelDialogOpen: !state.isChannelDialogOpen,
+    }));
   },
 }));
 
