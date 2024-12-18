@@ -28,7 +28,7 @@ export default function TopContents() {
               : user?.fullName
             : "익명"}
         </span>
-        님, 오늘도 열공하세요!!
+        님, 오늘은 좀 쉬세요!!
       </h1>
 
       <article className="relative">
