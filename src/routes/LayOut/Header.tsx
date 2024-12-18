@@ -74,7 +74,7 @@ export default function Header() {
             className={`w-[40px] h-[40px] rounded-full bg-center`}
           >
             <img
-              src={user?.image ? user.image : `/src/asset/default_profile.png`}
+              src={user?.image ? user.image : default_profile}
               alt="유저 이미지 커버"
               className="rounded-full w-full h-full object-cover"
             />

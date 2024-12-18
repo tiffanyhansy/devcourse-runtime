@@ -4,6 +4,7 @@ import Pin from "./Pin";
 import ToDoListItem from "./ToDoListItem";
 import ToDoEditor from "./ToDoEditor";
 import { Tooltip } from "@mui/material";
+import small_icon from "../../../../asset/images/small_icon.svg";
 
 export default function ToDo() {
   // 메모장 핀 길이
@@ -46,10 +47,7 @@ export default function ToDo() {
                     toggleShowEditor();
                   }}
                 >
-                  <img
-                    src={"/src/asset/images/small_icon.svg"}
-                    alt={"추가 아이콘"}
-                  />
+                  <img src={small_icon} alt={"추가 아이콘"} />
                   <span className="text-[#666666] font-medium ">
                     할 일 추가
                   </span>

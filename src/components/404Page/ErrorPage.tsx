@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import runtime_logo from "../../asset/images/runtime_logo.svg";
 
 export default function ErrorPage() {
   return (
@@ -8,7 +9,7 @@ export default function ErrorPage() {
           <div className="flex">
             <span className="text-9xl text-[#C96868] font-bold">4</span>
             <img
-              src="/src/asset/images/runtime_logo.svg"
+              src={runtime_logo}
               alt="Runtime Logo"
               className="w-36 h-36 mx-5"
             />

@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { useLoginStore } from "../../store/API";
 import { axiosInstance } from "../../api/axios";
 import Button from "../../components/common/SquareButton";
+import trophy from "../../asset/images/trophy.svg";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -93,7 +94,7 @@ export default function Main() {
             ✕
           </Button>
           <article className="animate-spaceInDown_05s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px] block translate-x-[-50%] translate-y-[-50%]">
-            <img src="./src/asset/images/trophy.svg" alt="트로피 이미지" />
+            <img src={trophy} alt="트로피 이미지" />
           </article>
           <article className="animate-spaceInDown_1s opacity-0 flex flex-col items-center absolute bottom-[3%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
             <h2 className="text-4xl font-bold text-white mb-4">

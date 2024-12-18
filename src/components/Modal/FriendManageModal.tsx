@@ -111,11 +111,7 @@ export default function FriendManageModal() {
             <div className="flex items-center gap-4">
               <img
                 className="w-12 h-12 rounded-full object-cover"
-                src={
-                  userOne.image
-                    ? userOne.image
-                    : "/src/asset/default_profile.png"
-                }
+                src={userOne.image ? userOne.image : default_profile}
                 alt="profile"
               />
               <Link

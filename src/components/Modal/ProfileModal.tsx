@@ -95,7 +95,7 @@ export default function Modal({
               </div>
             </div>
             <div className="flex-col justify-center items-start gap-[3px] inline-flex">
-              <span className="text-black text-lg font-medium w-[150px] h-[20px] leading-[18px] text-[15px] line-clamp-1 overflow-ellipsis">
+              <span className="text-black font-medium w-[150px] h-[20px] leading-[18px] text-[15px] line-clamp-1 overflow-ellipsis">
                 {type === "header"
                   ? user?.fullName
                     ? user.fullName
