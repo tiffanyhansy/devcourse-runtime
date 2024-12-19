@@ -177,6 +177,7 @@ export default function Join() {
             onChange={handleEmailChange}
             error={emailError}
             helperText={emailHelperText}
+            autoComplete="one-time-code"
           />
         </section>
         <section className="mt-4">
@@ -187,6 +188,7 @@ export default function Join() {
             onChange={handlePasswordChange}
             error={passwordError}
             helperText={passwordHelperText}
+            autoComplete="one-time-code"
           />
         </section>
         <section className="mt-4">
@@ -197,6 +199,7 @@ export default function Join() {
             onChange={handleCheckPasswordChange}
             error={checkPasswordError}
             helperText={checkPasswordHelperText}
+            autoComplete="one-time-code"
           />
         </section>
         <section className="mt-4">
@@ -207,6 +210,7 @@ export default function Join() {
             onChange={handleUserNameChange}
             error={userNameError}
             helperText={userNameHelperText}
+            autoComplete="one-time-code"
           />
         </section>
         {joinError && (
