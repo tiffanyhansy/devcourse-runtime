@@ -1,21 +1,17 @@
 import { useNavigate } from "react-router";
 import FormContainer from "../../components/Form/FormContainer";
 import SubmitButton from "../../components/Form/SubmitButton";
-import runtime_logo from "/src/asset/images/runtime_logo.svg"
+import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 
 export default function JoinSuccess() {
   const navigate = useNavigate();
 
   return (
     <>
-      <main className="flex justify-center items-center">
+      <main className="flex items-center justify-center">
         <FormContainer>
-          <header className="flex justify-center items-center mt-16 mb-10">
-            <img
-              src={runtime_logo}
-              alt="Runtime Logo"
-              className="w-36 h-36"
-            />
+          <header className="flex items-center justify-center mt-16 mb-6">
+            <img src={mascot_nobg} alt="Runtime Logo" className="w-40 h-40" />
           </header>
           <section>
             <p className="text-3xl font-bold text-center">가입을 축하합니다!</p>

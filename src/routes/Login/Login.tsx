@@ -6,7 +6,7 @@ import { useLoginStore } from "../../store/API";
 import FormContainer from "../../components/Form/FormContainer";
 import Input from "../../components/Form/Input";
 import SubmitButton from "../../components/Form/SubmitButton";
-import runtime_logo from "/src/asset/images/runtime_logo.svg"
+import mascot_nobg from "/src/asset/images/mascot_nobg.svg";
 
 export default function Login() {
   const login = "로그인";
@@ -87,14 +87,10 @@ export default function Login() {
   return (
     <main className="flex items-center justify-center">
       <FormContainer>
-        <header className="flex items-center justify-center mt-10 mb-4">
-          <img
-            src={runtime_logo}
-            alt="Runtime Logo"
-            className="w-16 h-16"
-          />
+        <header className="flex items-center justify-center mt-10 mb-4 ">
+          <img src={mascot_nobg} alt="Mascot" className="w-20 h-20" />
         </header>
-        <h1 className="text-3xl font-bold text-center mt-7">로그인</h1>
+        <h1 className="mt-5 text-3xl font-bold text-center">로그인</h1>
 
         <section className="mt-10">
           <Input
