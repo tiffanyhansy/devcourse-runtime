@@ -69,8 +69,7 @@ export default function FloatingActionButtons() {
         style={{
           width: "5rem",
           height: "5rem",
-          backgroundColor: isPlayBtnClicked ? "#778899" : "",
-          color: isPlayBtnClicked ? "#ffffff" : "",
+          boxShadow: "none",
         }}
       >
         {isPlayBtnClicked ? (

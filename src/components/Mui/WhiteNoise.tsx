@@ -49,8 +49,9 @@ export default function WhiteNoise() {
           style={{
             width: "5rem",
             height: "5rem",
-            backgroundColor: isPlayingWhiteNoise ? "#778899" : "",
+            backgroundColor: isPlayingWhiteNoise ? "#98acc1" : "",
             color: isPlayingWhiteNoise ? "#ffffff" : "",
+            boxShadow: "none",
           }}
         >
           {isPlayingWhiteNoise ? (

@@ -3,8 +3,8 @@ import CheckboxListSecondary from "../../../components/Mui/List";
 export default function OnlineList() {
   return (
     <>
-      <article className="w-[22rem] shadow-xl rounded-[10px] mb-[24px]">
-        <article className="w-full h-12 bg-[#F0F5F8] rounded-t-[10px] border-b flex items-center px-[15px]">
+      <article className="w-[25rem] rounded-[30px] mb-[24px] bg-[#F0F5F8]">
+        <article className="w-full h-12 flex items-center pl-7 pt-5">
           <p className="text-lg font-bold">현재 활동 중</p>
         </article>
         <article className="h-[200px]">

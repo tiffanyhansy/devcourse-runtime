@@ -27,8 +27,9 @@ export default function ResetFab() {
           style={{
             width: "5rem",
             height: "5rem",
-            backgroundColor: isPlayBtnClicked ? "#778899" : "",
+            backgroundColor: isPlayBtnClicked ? "#98acc1" : "",
             color: isPlayBtnClicked ? "#ffffff" : "",
+            boxShadow: "none",
           }}
         >
           <ReplayIcon style={{ width: "3em", height: "3rem", opacity: 0.7 }} />
