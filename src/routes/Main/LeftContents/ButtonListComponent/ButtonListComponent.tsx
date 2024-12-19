@@ -5,7 +5,8 @@ import EditorModal from "../../../../components/editor/EditorModal";
 import BlogEditor from "../../../../components/editor/BlogEditor";
 import { useLoginStore } from "../../../../store/API";
 import LoginDialog from "../../../../components/editor/LoginDialog";
-import Chat from "../../../../asset/images/Chat.svg";
+import Clock from "../../../../asset/images/Clock.svg";
+import Edit from "../../../../asset/images/Edit.svg";
 import GroupPerson from "../../../../asset/images/Group-person.svg";
 
 export default function ButtonListComponent() {
@@ -22,17 +23,14 @@ export default function ButtonListComponent() {
         title={"글 작성"}
         onClick={toggleEditor}
       />
-      <LinkButton icon={Chat} title={"게시판"} />
+      <LinkButton icon={Edit} title={"게시판"} />
       <LinkButton
         icon={GroupPerson}
         title={token ? "친구관리" : "유저 검색"}
         onClick={open}
+        margitTop={"mt-4"}
       />
-      <LinkButton
-        icon={"/src/asset/images/Clock.svg"}
-        title={"몇시간?"}
-        onClick={toggleHowTime}
-      />
+      <LinkButton icon={Clock} title={"몇시간?"} onClick={toggleHowTime} />
       <EditorModal>
         <BlogEditor />
       </EditorModal>
