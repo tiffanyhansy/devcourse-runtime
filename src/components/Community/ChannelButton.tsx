@@ -1,5 +1,4 @@
 import { Tooltip } from "@mui/material";
-import { Link } from "react-router";
 
 type Props = {
   title: string; // 툴팁에 표시될 제목
@@ -11,7 +10,6 @@ type Props = {
 
 export default function ChannelButton({
   title,
-  link,
   label,
   isActive,
   onClick,
