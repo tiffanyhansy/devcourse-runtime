@@ -3,7 +3,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import { Link } from "react-router";
 import default_profile from "../../asset/default_profile.png";
-import default_thumbnail from "/src/asset/images/runtime_logo.svg"
+import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
 
 type Props = {
   preview: Post_T;
@@ -11,7 +11,6 @@ type Props = {
 };
 
 export default function PostPreview({ preview, currentUser }: Props) {
-
   // title 파싱한 객체(여기에 제목, 내용 들어가있고, 추후에 여러 컨텐츠들 추가할 예정 - 목표 달성 트로피 표시 등등)
   const parsedTitle: Title_T = JSON.parse(preview.title);
 
@@ -37,7 +36,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
       </div>
       {/* 글 제목 및 내용 미리보기 */}
       <div className="p-4">
-        <h4 className="truncate mb-1 font-bold text-base">
+        <h4 className="mb-1 text-base font-bold truncate">
           {parsedTitle.title}
         </h4>
         <div>
@@ -73,7 +72,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
                   : preview.author.image
               }
               alt="글쓴이 프로필 이미지"
-              className="w-6 h-6 rounded-full mr-2"
+              className="w-6 h-6 mr-2 rounded-full"
             />
             <span className="font-bold">{preview.author.fullName}</span>
           </Link>

@@ -1,17 +1,17 @@
 import { Link } from "react-router";
-import runtime_logo from "../../asset/images/runtime_logo.svg";
+import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 
 export default function ErrorPage() {
   return (
     <>
       <main className="">
-        <section className="flex w-full h-screen justify-center items-center flex-col">
+        <section className="flex flex-col items-center justify-center w-full h-screen">
           <div className="flex">
             <span className="text-9xl text-[#C96868] font-bold">4</span>
             <img
-              src={runtime_logo}
+              src={mascot_nobg}
               alt="Runtime Logo"
-              className="w-36 h-36 mx-5"
+              className="mx-4 w-36 h-36"
             />
             <span className="text-9xl text-[#C96868] font-bold">4</span>
           </div>
@@ -21,7 +21,7 @@ export default function ErrorPage() {
               삭제되었거나 링크를 잘못 입력했습니다.
             </span>
           </div>
-          <div className="text-center items-center mt-6">
+          <div className="items-center mt-6 text-center">
             <Link to="/" className="text-lg">
               <button className="bg-[#C96868] w-44 h-12 text-white font-bold p-3 rounded-[7.49px]">
                 홈으로 돌아가기
