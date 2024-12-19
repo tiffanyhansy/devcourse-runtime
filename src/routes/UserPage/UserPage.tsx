@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
+import default_profile from "../../asset/default_profile.png";
 
 const UserPage = () => {
   const fieldLabels = ["SW", "SI", "DA", "GE"];
@@ -107,11 +108,7 @@ const UserPage = () => {
             sx={{ cursor: "default" }}
           >
             <img
-              src={
-                searchUsers?.image
-                  ? searchUsers.image
-                  : `/src/asset/default_profile.png`
-              }
+              src={searchUsers?.image ? searchUsers.image : default_profile}
               alt="Profile"
               style={{
                 width: "100%",

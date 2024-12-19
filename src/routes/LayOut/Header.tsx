@@ -4,7 +4,7 @@ import { useprofileModalStore } from "../../store/store";
 import { useLoginStore } from "../../store/API";
 import { useNotificationsStore } from "../../store/notificationsStore";
 import Modal from "../../components/Modal/ProfileModal";
-import runtime from "../../asset/images/runtime_logo.svg";
+import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 import bell from "../../asset/images/bell.svg";
 import default_bell from "../../asset/images/alarm_icon.svg";
 import default_profile from "../../asset/default_profile.png";
@@ -37,9 +37,9 @@ export default function Header() {
         <article className="flex items-center gap-[30px]">
           <Link to="/">
             <img
-              src={runtime}
-              alt={"런타임 로고"}
-              className="w-[40px] h-[40px] object-cover"
+              src={mascot_nobg}
+              alt={"mascot"}
+              className="object-cover w-12 h-12"
             />
           </Link>
           <Link
@@ -74,9 +74,9 @@ export default function Header() {
             className={`w-[40px] h-[40px] rounded-full bg-center`}
           >
             <img
-              src={user?.image ? user.image : `/src/asset/default_profile.png`}
+              src={user?.image ? user.image : default_profile}
               alt="유저 이미지 커버"
-              className="rounded-full w-full h-full object-cover"
+              className="object-cover w-full h-full rounded-full"
             />
           </button>
           {type === "header" && <Modal />}
