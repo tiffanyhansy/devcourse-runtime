@@ -186,7 +186,7 @@ export default function BlogEditor() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 입력하세요..."
-            className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
+            className="w-full pb-2 pl-3 leading-relaxed text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
           />
         </form>
         {/* 파일 업로드 테스트용 input */}

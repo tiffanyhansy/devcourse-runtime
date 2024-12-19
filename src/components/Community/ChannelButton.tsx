@@ -18,7 +18,7 @@ export default function ChannelButton({
 }: Props) {
   return (
     <Tooltip title={title} arrow>
-      <Link to={link} className="w-16 mr-4">
+      <article className="w-16 mr-4">
         <button
           onClick={onClick} // 클릭 이벤트 핸들러 연결
           className={`font-bold px-3 py-1 rounded-[10px] w-16 text-center opacity-80 transition-colors ${
@@ -29,7 +29,7 @@ export default function ChannelButton({
         >
           {label}
         </button>
-      </Link>
+      </article>
     </Tooltip>
   );
 }
