@@ -7,6 +7,7 @@ import {
   useTimerStore,
   useFriendModalStore,
   useEditorStore,
+  useChatingModalStore,
 } from "../../store/store";
 import HowTimeModal from "../../components/howTime/HowTimeModal";
 import TopContents from "./TopContents/TopContents";
@@ -18,8 +19,10 @@ import { useLoginStore } from "../../store/API";
 import { axiosInstance } from "../../api/axios";
 import Button from "../../components/common/SquareButton";
 import trophy from "../../asset/images/trophy.svg";
+import ChatingModal from "../../components/Chating/ChatingModal";
 import { useTranslation } from "react-i18next";
 import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
+
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -48,6 +51,14 @@ export default function Main() {
   );
   const modal = useFriendModalStore((s) => s.modal);
   const { toggleEditor } = useEditorStore();
+
+  const isChatModalOpen = useChatingModalStore(
+    (state) => state.isChatModalOpen
+  );
+  const setIsChatModalOpenTrue = useChatingModalStore(
+    (state) => state.setIsChatModalOpenTrue
+  );
+
   // 메인페이지 들어올 떄 마다 유저정보 업데이트
   const setUser = useLoginStore((state) => state.setUser);
   const getAuthUser = async () => {

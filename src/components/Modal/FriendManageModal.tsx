@@ -243,8 +243,8 @@ export default function FriendManageModal() {
                         className="w-full h-full focus:outline-none"
                         placeholder={t("@을 제외한 유저 ID로 검색 가능합니다.")}
                         ref={inputRef}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") ButtonRef.current?.click();
+                        onKeyDown={() => {
+                          ButtonRef.current?.click();
                         }}
                       />
                     </div>
