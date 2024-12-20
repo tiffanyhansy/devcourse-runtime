@@ -5,7 +5,7 @@ interface ButtonProps extends React.ComponentProps<"button"> {
   size: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
   variant: "primary" | "secondary" | "todo" | "custom" | "outline";
   textSize: "sm" | "smd" | "md" | "lg";
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export default function Button({

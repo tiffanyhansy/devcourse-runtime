@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
+import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
 
 const UserPage = () => {
@@ -84,12 +85,15 @@ const UserPage = () => {
       {/* 제목 */}
       <article className="flex mt-14">
         {/* username 즉, id */}
-        <h1 className="text-4xl font-bold">{`${
-          searchUsers?.username
-            ? typeof searchUsers?.username !== "string" &&
-              searchUsers?.username?.username
-            : "유저"
-        } 님의 프로필`}</h1>
+        <h1 className="text-4xl font-bold">
+          {`${
+            searchUsers?.username
+              ? typeof searchUsers?.username !== "string" &&
+                searchUsers?.username?.username
+              : t("유저")
+          }`}
+          ,{t(" 님의 프로필")}
+        </h1>
       </article>
 
       <div className="flex p-[5rem] justify-between">
@@ -153,7 +157,7 @@ const UserPage = () => {
                     );
                   }}
                 >
-                  언팔로우
+                  {t("언팔로우")}
                 </Button>
               ) : (
                 <Button
@@ -169,7 +173,7 @@ const UserPage = () => {
                     postFollow(searchUsers!._id);
                   }}
                 >
-                  팔로잉
+                  {t("팔로잉")}
                 </Button>
               )
             ) : null}
@@ -185,7 +189,7 @@ const UserPage = () => {
           />
           <Input
             isEditable={false}
-            label="닉네임"
+            label={t("닉네임")}
             value={
               searchUsers?.username
                 ? typeof searchUsers?.username !== "string" &&
