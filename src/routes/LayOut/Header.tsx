@@ -8,7 +8,6 @@ import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 import bell from "../../asset/images/bell.svg";
 import default_bell from "../../asset/images/alarm_icon.svg";
 import default_profile from "../../asset/default_profile.png";
-import { useTranslation } from "react-i18next";
 
 export default function Header() {
   const location = useLocation();
@@ -32,8 +31,6 @@ export default function Header() {
     currentListLength! > 0 ? seenUpdate!(true) : seenUpdate!(false);
   }, [user, getNotificationList]);
 
-  const { t } = useTranslation();
-
   return (
     <header className="w-full h-[80px] fixed top-0 left-0 flex items-center justify-between bg-white z-40">
       <section className="w-[1440px] max-w-[1440px] h-full flex items-center justify-between mx-auto px-[50px] ">
@@ -51,7 +48,7 @@ export default function Header() {
               location.pathname === "/" ? "font-bold" : ""
             }`}
           >
-            {t("홈")}
+            홈
           </Link>
           <Link
             to="/community"
@@ -59,7 +56,7 @@ export default function Header() {
               location.pathname === "/community" ? "font-bold" : ""
             }`}
           >
-            {t("게시판")}
+            게시판
           </Link>
         </article>
         <article className="relative flex items-center gap-[30px]">

@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import { useTimerStore } from "../../store/store";
 import { Tooltip } from "@mui/material";
-import { t } from "i18next";
 
 export default function WhiteNoise() {
   const isPlayingWhiteNoise = useTimerStore(
@@ -33,11 +32,11 @@ export default function WhiteNoise() {
   }, [isPlayingWhiteNoise]);
 
   return (
-    <Tooltip arrow title={t("백색소음")}>
+    <Tooltip arrow title={"백색소음"}>
       <Box
         sx={{
           "& > :not(style)": {
-            backgroundColor: "#F0F5F8",
+            backgroundColor: "#D5E6E9",
             zIndex: 0,
           },
         }}
@@ -48,16 +47,17 @@ export default function WhiteNoise() {
             toggleWhiteNoise();
           }}
           style={{
-            width: "3.5rem",
-            height: "3.5rem",
-            backgroundColor: isPlayingWhiteNoise ? "#778899" : "",
+            width: "5rem",
+            height: "5rem",
+            backgroundColor: isPlayingWhiteNoise ? "#98acc1" : "",
             color: isPlayingWhiteNoise ? "#ffffff" : "",
+            boxShadow: "none",
           }}
         >
           {isPlayingWhiteNoise ? (
-            <VolumeOff style={{ width: "2em", height: "2rem" }} />
+            <VolumeOff style={{ width: "4em", height: "4rem", opacity: 0.7 }} />
           ) : (
-            <VolumeUp style={{ width: "2rem", height: "2rem" }} />
+            <VolumeUp style={{ width: "3rem", height: "3rem", opacity: 0.7 }} />
           )}
         </Fab>
       </Box>
