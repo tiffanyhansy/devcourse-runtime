@@ -4,7 +4,7 @@ import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import VerticalAlignTopRoundedIcon from "@mui/icons-material/VerticalAlignTopRounded";
 import { useState } from "react";
-import PostButton from "./PostButton";
+import PostButton from "../Post/PostButton";
 
 type Props = {
   onToTop: () => void;

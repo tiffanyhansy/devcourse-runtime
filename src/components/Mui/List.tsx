@@ -56,8 +56,7 @@ export default function CheckboxListSecondary() {
   const styles = {
     list: {
       width: "100%",
-      maxWidth: 360,
-      bgcolor: "background.paper",
+      maxWidth: 400,
       position: "relative",
       overflow: "auto",
       maxHeight: 205,
@@ -96,7 +95,7 @@ export default function CheckboxListSecondary() {
   }, []);
 
   return (
-    <div className="relative ">
+    <div className="relative  mt-2">
       <List id="mainListModal" dense sx={styles.list}>
         {onlineUser.map((value) => {
           const labelId = `checkbox-list-secondary-label-${value._id}`;
