@@ -19,7 +19,7 @@ export default function JoinSuccess() {
               {t("가입을 축하합니다!")}
             </p>
             <p className="text-4 text-center text-[#c5c5c5] mt-4">
-              {t("개발자의 성장을 돕는")}{" "}
+              {t("개발자의 성장을 돕는")}
               <span className="font-bold ">{t("런타임 ")}</span>
               {t("가입을 환영합니다!")}
               <br></br>
