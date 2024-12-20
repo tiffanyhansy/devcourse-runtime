@@ -23,7 +23,6 @@ import ChatingModal from "../../components/Chating/ChatingModal";
 import { useTranslation } from "react-i18next";
 import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
 
-
 const HeartStyle = styled("div")`
   @keyframes float {
     0% {
@@ -139,6 +138,8 @@ export default function Main() {
           </article>
         ) : null}
       </section>
+
+      {isChatModalOpen && <ChatingModal />}
 
       <SelectLanguageButton />
     </>
