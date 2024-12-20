@@ -16,9 +16,6 @@ export default function JoinSuccess() {
           <section>
             <p className="text-3xl font-bold text-center">가입을 축하합니다!</p>
             <p className="text-4 text-center text-[#c5c5c5] mt-4">
-              개발자의 성장을 돕는 <span className="font-bold ">런타임 </span>
-              가입을 환영합니다!<br></br>
-              여러분의 개발 여정을 기록하고, 함께 나누어 보세요
             </p>
           </section>
           <footer className="mt-16 mb-16">
