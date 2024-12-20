@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useEditorStore } from "../../store/store";
 import { Dialog, DialogTitle, DialogActions } from "@mui/material";
 import Button from "../common/SquareButton";
@@ -21,6 +22,7 @@ export default function LoginDialog() {
         },
       }}
     >
+
       <div
         className="flex items-center justify-center p-2 bg-[#FEF3F2] rounded-full"
         style={{ width: "4rem", height: "4rem" }}
@@ -40,8 +42,9 @@ export default function LoginDialog() {
           marginBottom: "4px",
         }}
       >
-        로그인이 필요합니다.
+        {t("로그인이 필요합니다")}
       </DialogTitle>
+
       <DialogActions>
         {/* 닫기 버튼 */}
         <Button
@@ -52,7 +55,7 @@ export default function LoginDialog() {
           onClick={closeLoginDialog}
           color="inherit"
         >
-          취소
+
         </Button>
         {/* 로그인 버튼 */}
         <Button
@@ -65,7 +68,7 @@ export default function LoginDialog() {
             window.location.href = "/login"; // 로그인 페이지로 이동
           }}
         >
-          로그인
+          {t("로그인")}
         </Button>
       </DialogActions>
     </Dialog>

@@ -6,6 +6,7 @@ import { axiosInstance } from "../../../api/axios";
 import { useLoginStore } from "../../../store/API";
 import noti_empty from "../../../asset/images/noti_empty.svg";
 import loadingImg from "../../../asset/images/loading.svg";
+import { t } from "i18next";
 
 export default function NotiMain() {
   const { loading, list } = useNotificationsStore();
@@ -31,7 +32,7 @@ export default function NotiMain() {
         ) : (
           <div className="flex flex-col items-center">
             <img src={noti_empty} className="h-[450px]" />
-            <span className="text-2xl">새로운 알림이 없습니다.</span>
+            <span className="text-2xl">{t("새로운 알림이 없습니다.")}</span>
           </div>
         )
       ) : (
