@@ -47,6 +47,7 @@ export default function NotiNav() {
         >
           {t("전체")}
         </Buttons>
+
         <Buttons
           variant="primary"
           size="xs"

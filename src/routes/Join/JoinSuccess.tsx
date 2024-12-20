@@ -6,7 +6,6 @@ import { t } from "i18next";
 
 export default function JoinSuccess() {
   const navigate = useNavigate();
-
   return (
     <>
       <main className="flex items-center justify-center">

@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { useEditorStore } from "../../store/store";
-import { Dialog, DialogTitle, DialogActions } from "@mui/material";
 import Button from "../common/SquareButton";
+import { Dialog, DialogTitle, DialogActions } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 export default function LoginDialog() {
@@ -22,7 +22,6 @@ export default function LoginDialog() {
         },
       }}
     >
-
       <div
         className="flex items-center justify-center p-2 bg-[#FEF3F2] rounded-full"
         style={{ width: "4rem", height: "4rem" }}
@@ -54,9 +53,7 @@ export default function LoginDialog() {
           className="border-2 border-[#e7e7e7] border-solid text-gray-700 hover:bg-gray-100 "
           onClick={closeLoginDialog}
           color="inherit"
-        >
-
-        </Button>
+        ></Button>
         {/* 로그인 버튼 */}
         <Button
           size="md"

@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
-import default_profile from "../../asset/default_profile.png";
 import { t } from "i18next";
+import default_profile from "../../asset/default_profile.png";
 
 const UserPage = () => {
   const fieldLabels = ["SW", "SI", "DA", "GE"];

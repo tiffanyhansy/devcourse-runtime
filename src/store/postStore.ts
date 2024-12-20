@@ -109,7 +109,7 @@ export const usePostStore = create<PostStore>((set) => ({
             });
         }
       } else if (error.request) {
-        // 요청은 전송되었으나 응답을 받지 못한 경우
+        //요청은 전송되었으나 응답을 받지 못한 경우
         set({
           error: t(
             "서버로부터 응답을 받을 수 없습니다. 네트워크를 확인해주세요."

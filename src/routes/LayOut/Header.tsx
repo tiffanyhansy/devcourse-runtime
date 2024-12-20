@@ -62,6 +62,7 @@ export default function Header() {
             {t("게시판")}
           </Link>
         </article>
+
         <article className="relative flex items-center gap-[30px]">
           {user && (
             <Link to="./notifications">

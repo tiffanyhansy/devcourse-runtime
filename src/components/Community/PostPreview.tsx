@@ -76,12 +76,8 @@ export default function PostPreview({ preview, currentUser }: Props) {
     }월 ${date.getDate()}일`;
   };
 
-    return `${year}${t("년")} ${month}${t("월")} ${day}${t("일")}`;
-  }
-
   // 댓글 갯수 동적 업데이트를 위해 zustand 상태와 연결
   const currentPost = posts.find((post) => post._id === preview._id);
-
 
   return (
     <>
@@ -99,7 +95,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
         </div>
         {/* 글 제목 및 내용 미리보기 */}
         <div className="p-4">
-          <h4 className="truncate mb-1 font-bold text-base">
+          <h4 className="mb-1 text-base font-bold truncate">
             {parsedTitle.title}
           </h4>
           <div>
@@ -148,7 +144,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
       {/* 화면 중앙에 배치된 상세페이지 모달 */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-start overflow-y-auto z-50"
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black bg-opacity-70"
           onClick={toggleModal}
         >
           <div
@@ -156,7 +152,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
             className="relative w-[90%] md:w-[65%] min-h-screen bg-white transform transition-transform duration-300 ease-in-out translate-y-0 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 border-b flex items-center space-x-4 px-20 md:px-10">
+            <div className="flex items-center p-6 px-20 space-x-4 border-b md:px-10">
               <Link
                 to={
                   currentUser === preview.author.fullName
@@ -172,14 +168,14 @@ export default function PostPreview({ preview, currentUser }: Props) {
                       : preview.author.image
                   }
                   alt="글쓴이 프로필 이미지"
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="object-cover w-16 h-16 rounded-full"
                 />
-                <span className="font-bold text-xl">
+                <span className="text-xl font-bold">
                   {preview.author.fullName}
                 </span>
               </Link>
             </div>
-            <div className="p-5 flex flex-col">
+            <div className="flex flex-col p-5">
               <div className="relative aspect-video rounded-[10px] overflow-hidden mb-6 w-[80%] mx-auto">
                 <img
                   src={preview.image ? preview.image : default_thumbnail}
@@ -188,14 +184,14 @@ export default function PostPreview({ preview, currentUser }: Props) {
                 />
               </div>
               <div className="w-[80%] mx-auto">
-                <h2 className="text-3xl font-bold mb-4">{parsedTitle.title}</h2>
+                <h2 className="mb-4 text-3xl font-bold">{parsedTitle.title}</h2>
                 <p className="text-base break-words">{parsedTitle.content}</p>
                 <CommentComponent postId={updatedPost._id} />
               </div>
             </div>
           </div>
           {/* 모달 배경 위 고정 버튼 필드 */}
-          <div className="fixed bottom-4 right-4 z-50">
+          <div className="fixed z-50 bottom-4 right-4">
             <PostButtonFieldCol
               onToTop={handleToTopButton}
               onComment={handleClickCommentButton}

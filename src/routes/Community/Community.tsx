@@ -93,6 +93,7 @@ export default function Community({ channelName = "sw" }: Props) {
           onClick={() => setActiveChannel("ge")}
         />
       </nav>
+
       <section className="grid gap-9 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] mt-8 mb-6">
         {loading ? (
           Array.from({ length: 10 }).map((_, index) => <Skeleton key={index} />)

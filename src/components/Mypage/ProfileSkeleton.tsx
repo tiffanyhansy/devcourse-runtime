@@ -35,7 +35,6 @@ export default function ProfileSkeleton() {
               <div className=" bg-gray-300 rounded-xl w-[37rem] h-[3rem] px-[1rem] py-[0.5rem] mb-[3rem]  animate-pulse"></div>
             </div>
             {/* Field */}
-
             <div className="space-y-3">
               <span className="text-xl">Field</span>{" "}
               <div className="flex space-x-2 animate-pulse">

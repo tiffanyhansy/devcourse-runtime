@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -10,6 +9,7 @@ import { useNotificationsStore } from "../../store/notificationsStore";
 import NonLoginFriendModal from "./NonLoginFriendModal";
 import default_profile from "../../asset/default_profile.png";
 import Search from "../../asset/images/Search.svg";
+import { Button } from "@mui/material";
 import { t } from "i18next";
 
 export default function FriendManageModal() {

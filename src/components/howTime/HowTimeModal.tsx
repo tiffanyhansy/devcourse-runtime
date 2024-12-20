@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import Button from "../common/SquareButton";
 import { useHowTimeStore, useTimerStore } from "../../store/store";
 import HowTimeHeader from "./howTimeHeader/HowTimeHeader";
 import HowTimeContents from "./HowTimeContents/HowTimeContents";
-import Button from "../common/SquareButton";
 import { t } from "i18next";
 
 export default function HowTimeModal() {

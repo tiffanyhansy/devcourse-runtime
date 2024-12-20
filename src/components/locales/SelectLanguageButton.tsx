@@ -3,16 +3,16 @@ import { useState } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 
 function SelectLanguageButton() {
-  const { i18n } = useTranslation(); // i18n을 사용하여 언어 변경
-  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false); // 언어 선택 메뉴 상태
+  const { i18n } = useTranslation();
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(
     i18n.language || "ko"
-  ); // 기본 언어 상태
+  );
 
   const handleLanguageChange = (lang: string) => {
-    i18n.changeLanguage(lang); // 언어 변경
+    i18n.changeLanguage(lang);
     setSelectedLanguage(lang);
-    setIsLanguageMenuOpen(false); // 새로고침 없이 언어 변경이 되도록 처리 (URL에 쿼리 추가 등 필요 시)
+    setIsLanguageMenuOpen(false);
   };
 
   return (

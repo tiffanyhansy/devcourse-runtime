@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 import { t } from "i18next";
+
 export default function ErrorPage() {
   return (
     <>

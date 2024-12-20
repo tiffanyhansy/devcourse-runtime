@@ -1,5 +1,5 @@
 import { VolumeOff, VolumeUp } from "@mui/icons-material";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import { useTimerStore } from "../../store/store";

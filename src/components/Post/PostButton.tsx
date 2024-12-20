@@ -6,7 +6,6 @@ interface PostButtonProps {
   children?: React.ReactNode;
   otherProps?: any;
 }
-
 export default function PostButton({
   onClick,
   icon,

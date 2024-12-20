@@ -3,8 +3,8 @@ import { notificationsType, followType } from "../../../api/api";
 import { axiosInstance } from "../../../api/axios";
 import { useLoginStore } from "../../../store/API";
 import { useNotificationsStore } from "../../../store/notificationsStore";
-import default_profile from "../../../asset/default_profile.png";
 import { t } from "i18next";
+import default_profile from "../../../asset/default_profile.png";
 
 export default function NotiMainList(list: notificationsType) {
   const { createNotifications } = useNotificationsStore();

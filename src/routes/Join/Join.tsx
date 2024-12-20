@@ -8,7 +8,6 @@ import SubmitButton from "../../components/Form/SubmitButton";
 import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 import { useTranslation } from "react-i18next";
 import LanguageIcon from "@mui/icons-material/Language";
-import PostButton from "../../components/Post/PostButton";
 
 export default function Join() {
   const [email, setEmail] = useState("");

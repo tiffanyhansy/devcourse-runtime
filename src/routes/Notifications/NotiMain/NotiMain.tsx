@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import NotiMainList from "./NotiMainList";
+import { t } from "i18next";
 import { useNotificationsStore } from "../../../store/notificationsStore";
 import { axiosInstance } from "../../../api/axios";
 import { useLoginStore } from "../../../store/API";
 import noti_empty from "../../../asset/images/noti_empty.svg";
 import loadingImg from "../../../asset/images/loading.svg";
-import { t } from "i18next";
 
 export default function NotiMain() {
   const { loading, list } = useNotificationsStore();

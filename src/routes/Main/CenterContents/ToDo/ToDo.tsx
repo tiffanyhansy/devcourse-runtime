@@ -3,7 +3,6 @@ import { useToDoStore } from "../../../../store/store";
 import Pin from "./Pin";
 import ToDoListItem from "./ToDoListItem";
 import ToDoEditor from "./ToDoEditor";
-import { Tooltip } from "@mui/material";
 import small_icon from "../../../../asset/images/small_icon.svg";
 import { t } from "i18next";
 

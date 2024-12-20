@@ -36,7 +36,6 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <Button onClick={onCancel} color="secondary">
           {t("취소")}
         </Button>
-
         <Button
           onClick={() => {
             onConfirm();

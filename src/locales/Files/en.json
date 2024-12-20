@@ -96,7 +96,7 @@
   "모두 읽음": "All read",
   " 님의 프로필": "'s profile",
   "채널 리스트 가져오기 실패": "Failed to get channel list",
-  "게시글이 포스팅 됐습니다": "The post has been posted",
+  "게시글이 포스팅 됐습니다": "Successfully posted.",
   "잘못된 요청입니다. 입력값을 확인해주세요.": "Invalid request. Please check the input value.",
   "인증되지 않은 요청입니다. 다시 로그인해주세요.": "Unauthorized request. Please log in again.",
   "권한이 없습니다. 관리자에게 문의하세요.": "You do not have permission. Please contact the administrator.",

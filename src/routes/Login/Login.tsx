@@ -12,9 +12,7 @@ import SelectLanguageButton from "../../components/locales/SelectLanguageButton"
 
 export default function Login() {
   const { t } = useTranslation();
-
   const login = t("로그인");
-
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState("");

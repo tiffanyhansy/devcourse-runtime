@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import { useEditorStore } from "../../store/store";
 import { t } from "i18next";
 
-
 interface ChannelDialogProps {
   onCancel: () => void;
   onMoveToBoard: () => void;
@@ -12,7 +11,6 @@ interface ChannelDialogProps {
 }
 
 // const { closeChannelDialog } = useEditorStore();
-
 export default function ChannelDialog({ onCancel }: ChannelDialogProps) {
   const navigate = useNavigate(); // useNavigate 호출
 

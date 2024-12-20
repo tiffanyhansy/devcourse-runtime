@@ -14,7 +14,7 @@ export default function HowTimeUnder({
         {t("자, 이제 공부하러 가볼까요? 📖")}
       </span>
 
-      {/* 기타 CSS 지정해야 합니다! */}
+      {/* 기타 CSS 지정해야 합니다!! */}
       <Button size="sm" variant="custom" textSize="md" className="">
         {t("좋아요 🔥")}
       </Button>

@@ -81,6 +81,7 @@ export default function NonLoginFriendModal() {
       })}
     </div>
   );
+
   return (
     <section className="absolute inset-1/2 w-[502px] h-[619px] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow py-4 pl-2">
       <header className="flex justify-between p-4">

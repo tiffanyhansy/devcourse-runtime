@@ -4,6 +4,7 @@ import { useTimerPlayStore, useTimerStore } from "../../store/store";
 import Button from "../common/SquareButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { t } from "i18next";
+
 export default function ResetFab() {
   const isPlayBtnClicked = useTimerPlayStore((state) => state.isPlayBtnClicked);
   const resetTimer = useTimerStore((state) => state.resetTimer);

@@ -3,10 +3,10 @@ import { Link } from "react-router";
 import { useprofileModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
+import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
 import setting from "../../asset/images/settings.svg";
 import signOut from "../../asset/images/signout.svg";
-import { t } from "i18next";
 
 export default function Modal({
   y,

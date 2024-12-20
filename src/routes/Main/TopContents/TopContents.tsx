@@ -1,9 +1,9 @@
-import { t } from "i18next";
 import Button from "../../../components/common/SquareButton";
 import { useLoginStore } from "../../../store/API";
 import { useEasterEgg, useTimeSetterStore } from "../../../store/store";
 import AchieveSetModal from "./AchieveSetModal";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import { t } from "i18next";
 
 export default function TopContents() {
   const isTimeSetterOpen = useTimeSetterStore(
