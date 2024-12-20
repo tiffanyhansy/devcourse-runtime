@@ -64,8 +64,6 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         { headers: { "Content-Type": "application/json" } }
       );
 
-      const newComment = response.data;
-
       // 특정 게시글의 comments 배열만 업데이트
       set((state) => ({
         posts: state.posts.map((post) =>
