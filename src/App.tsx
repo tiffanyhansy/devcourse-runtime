@@ -47,10 +47,6 @@ export default function App() {
       </Route>
       <Route element={<CommunityLayout />}>
         <Route path="/community" element={<Community />} />
-        <Route path="/community/sw" element={<Community channelName="sw" />} />
-        <Route path="/community/si" element={<Community channelName="si" />} />
-        <Route path="/community/da" element={<Community channelName="da" />} />
-        <Route path="/community/ge" element={<Community channelName="ge" />} />
       </Route>
     </Routes>
   );
