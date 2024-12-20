@@ -3,7 +3,6 @@ import { useHowTimeStore, useTimerStore } from "../../store/store";
 import HowTimeHeader from "./howTimeHeader/HowTimeHeader";
 import HowTimeContents from "./HowTimeContents/HowTimeContents";
 import Button from "../common/SquareButton";
-import { t } from "i18next";
 
 export default function HowTimeModal() {
   const toggleHowTime = useHowTimeStore((state) => state.toggleHowTime);
@@ -42,7 +41,7 @@ export default function HowTimeModal() {
           <HowTimeContents changingHours={changingHours} />
           <article className="flex flex-col items-center gap-4 translate-y-[30px] opacity-0 animate-fadeIn_2s">
             <span className="text-[40px] font-bold">
-              {t("자, 이제 공부하러 가볼까요? 📖")}
+              자, 이제 공부하러 가볼까요? 📖
             </span>
 
             {/* 기타 CSS 지정해야 합니다! */}
@@ -62,7 +61,7 @@ export default function HowTimeModal() {
                 toggleHowTime();
               }}
             >
-              {t("좋아요")}
+              좋아요
             </Button>
             <Button
               size="md"
@@ -73,7 +72,7 @@ export default function HowTimeModal() {
                 setCount(() => 10);
               }}
             >
-              {t("다시 할래요")}
+              다시 할래요
             </Button>
           </article>
         </article>

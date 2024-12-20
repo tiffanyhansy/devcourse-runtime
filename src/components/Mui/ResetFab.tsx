@@ -3,7 +3,6 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import { useTimerPlayStore, useTimerStore } from "../../store/store";
 import Button from "../common/SquareButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { t } from "i18next";
 export default function ResetFab() {
   const isPlayBtnClicked = useTimerPlayStore((state) => state.isPlayBtnClicked);
   const resetTimer = useTimerStore((state) => state.resetTimer);
@@ -17,7 +16,7 @@ export default function ResetFab() {
       <Box
         sx={{
           "& > :not(style)": {
-            backgroundColor: "#F0F5F8",
+            backgroundColor: "#D5E6E9",
             zIndex: 0,
           },
         }}
@@ -26,13 +25,14 @@ export default function ResetFab() {
           aria-label="play"
           onClick={setResetAlertModal}
           style={{
-            width: "3.5rem",
-            height: "3.5rem",
-            backgroundColor: isPlayBtnClicked ? "#778899" : "",
+            width: "5rem",
+            height: "5rem",
+            backgroundColor: isPlayBtnClicked ? "#98acc1" : "",
             color: isPlayBtnClicked ? "#ffffff" : "",
+            boxShadow: "none",
           }}
         >
-          <ReplayIcon style={{ width: "2em", height: "2rem" }} />
+          <ReplayIcon style={{ width: "3em", height: "3rem", opacity: 0.7 }} />
         </Fab>
       </Box>
       {isResetAlertModalOn ? (
@@ -55,11 +55,11 @@ export default function ResetFab() {
                 </div>
                 <div className="space-y-1">
                   <span className="text-2xl font-extrabold">
-                    {t("정말 초기화 하시나요?")}
+                    정말 초기화 하시나요?
                   </span>
 
                   <span className="block text-sm text-gray-700">
-                    {t("이 작업은 되돌릴 수 없습니다.")}
+                    이 작업은 되돌릴 수 없습니다.{" "}
                   </span>
                 </div>
               </Stack>
@@ -72,7 +72,7 @@ export default function ResetFab() {
                   className="border-2 border-[#D6D6D6] border-solid text-gray-700 hover:bg-gray-100"
                   onClick={setResetAlertModal}
                 >
-                  {t("취소")}
+                  취소
                 </Button>
 
                 <Button
@@ -89,7 +89,7 @@ export default function ResetFab() {
                     );
                   }}
                 >
-                  {t("초기화")}
+                  초기화
                 </Button>
               </Stack>
             </article>

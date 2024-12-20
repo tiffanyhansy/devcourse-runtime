@@ -6,7 +6,6 @@ import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import dayjs from "dayjs";
 import { useTimeSetterStore } from "../../store/store";
 import { MobileTimePicker } from "@mui/x-date-pickers";
-import { t } from "i18next";
 
 export default function TimeSetter() {
   const DateSet = useTimeSetterStore((state) => state.DateSet);
@@ -22,7 +21,7 @@ export default function TimeSetter() {
       <DemoContainer components={["TimePicker"]}>
         <MobileTimePicker
           sx={{ width: 400 }}
-          label={t("목표 시간 설정하기")}
+          label="목표 시간 설정하기"
           value={selectDate}
           viewRenderers={{
             hours: renderTimeViewClock,

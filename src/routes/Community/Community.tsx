@@ -5,7 +5,6 @@ import { usePostStore } from "../../store/postStore";
 import PostPreview from "../../components/Community/PostPreview";
 import ChannelButton from "../../components/Community/ChannelButton";
 import Skeleton from "../../components/Community/Skeleton";
-import { t } from "i18next";
 type ChannelId_T = "sw" | "si" | "da" | "ge";
 
 type Props = {
@@ -63,30 +62,30 @@ export default function Community({ channelName = "sw" }: Props) {
 
   return (
     <main className=" mt-[80px] overflow-y-auto">
-      <nav className="flex items-center py-3 text-lg">
+      <nav className="flex py-3 items-center text-lg">
         <ChannelButton
-          title={t("소프트웨어 개발")}
+          title="소프트웨어 개발"
           link="/community/sw"
           label="SW"
           isActive={activeChannel === "sw"}
           onClick={() => setActiveChannel("sw")}
         />
         <ChannelButton
-          title={t("시스템/인프라")}
+          title="시스템/인프라"
           link="/community/si"
           label="SI"
           isActive={activeChannel === "si"}
           onClick={() => setActiveChannel("si")}
         />
         <ChannelButton
-          title={t("데이터/AI 개발")}
+          title="데이터/AI 개발"
           link="/community/da"
           label="DA"
           isActive={activeChannel === "da"}
           onClick={() => setActiveChannel("da")}
         />
         <ChannelButton
-          title={t("게임/QA")}
+          title="게임/QA"
           link="/community/ge"
           label="GE"
           isActive={activeChannel === "ge"}
@@ -101,11 +100,11 @@ export default function Community({ channelName = "sw" }: Props) {
             <PostPreview
               preview={post}
               key={post._id}
-              currentUser={currentUser || t("알 수 없음")}
+              currentUser={currentUser || "알 수 없음"}
             />
           ))
         ) : (
-          <div>{t("게시글이 없습니다")}</div>
+          <div>게시글이 없습니다</div>
         )}
       </section>
     </main>

@@ -6,76 +6,74 @@ import VerticalAlignTopRoundedIcon from "@mui/icons-material/VerticalAlignTopRou
 import { useState } from "react";
 import PostButton from "./PostButton";
 
-export default function PostButtonFieldCol() {
+type Props = {
+  onToTop: () => void;
+  onComment: () => void;
+};
+
+export default function PostButtonFieldCol({ onToTop, onComment }: Props) {
   const [isLikeButtonClicked, setIsLikeButtonClicked] = useState(false);
+
   const handleClickLikeButton = () => {
     setIsLikeButtonClicked(!isLikeButtonClicked);
   };
 
-  const handleClickCommentButton = () => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    console.log("comment button clicked");
-  };
-
-  const handleToTopButton = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
-    <>
-      <Stack
-        gap={2}
-        className="w-[72px] items-center h-[220px] justify-center rounded-full drop-shadow-lg"
-        style={{
-          position: "fixed",
-          right: "30px",
-          top: "50%",
-          transform: "translateY(-50%)",
-        }}
-      >
-        <PostButton
-          icon={
-            isLikeButtonClicked ? (
-              <FavoriteRoundedIcon
-                sx={{
-                  fontSize: "28px",
+    <Stack
+      gap={2}
+      className="w-[72px] items-center h-[220px] justify-center rounded-full drop-shadow-lg"
+      style={{
+        position: "fixed",
+        right: "30px",
+        top: "50%",
+        transform: "translateY(-50%)",
+      }}
+    >
+      {/* 좋아요 버튼 */}
+      <PostButton
+        icon={
+          isLikeButtonClicked ? (
+            <FavoriteRoundedIcon
+              sx={{
+                fontSize: "28px",
+                color: "#C96868",
+              }}
+            />
+          ) : (
+            <FavoriteBorderRoundedIcon
+              sx={{
+                fontSize: "28px",
+                "&:hover": {
                   color: "#C96868",
-                }}
-              />
-            ) : (
-              <FavoriteBorderRoundedIcon
-                sx={{
-                  fontSize: "28px",
-                  "&:hover": {
-                    color: "#C96868",
-                  },
-                }}
-              />
-            )
-          }
-          onClick={handleClickLikeButton}
-        />
-
-        <PostButton
-          icon={
-            <MessageOutlinedIcon
-              sx={{ fontSize: "28px" }}
-              className="hover:text-[#7eacb5]"
+                },
+              }}
             />
-          }
-          onClick={handleClickCommentButton}
-        />
+          )
+        }
+        onClick={handleClickLikeButton}
+      />
 
-        <PostButton
-          icon={
-            <VerticalAlignTopRoundedIcon
-              sx={{ fontSize: "28px" }}
-              className="hover:text-[#888]"
-            />
-          }
-          onClick={handleToTopButton}
-        />
-      </Stack>
-    </>
+      {/* 댓글 버튼 */}
+      <PostButton
+        icon={
+          <MessageOutlinedIcon
+            sx={{ fontSize: "28px" }}
+            className="hover:text-[#7eacb5]"
+          />
+        }
+        onClick={onComment}
+      />
+
+      {/* 맨 위로 버튼 */}
+      <PostButton
+        icon={
+          <VerticalAlignTopRoundedIcon
+            sx={{ fontSize: "28px" }}
+            className="hover:text-[#888]"
+          />
+        }
+        onClick={onToTop}
+      />
+    </Stack>
   );
 }

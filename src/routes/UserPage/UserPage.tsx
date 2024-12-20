@@ -7,7 +7,6 @@ import { axiosInstance } from "../../api/axios";
 import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
 import default_profile from "../../asset/default_profile.png";
-import { t } from "i18next";
 
 const UserPage = () => {
   const fieldLabels = ["SW", "SI", "DA", "GE"];
@@ -85,15 +84,12 @@ const UserPage = () => {
       {/* 제목 */}
       <article className="flex mt-14">
         {/* username 즉, id */}
-        <h1 className="text-4xl font-bold">
-          {`${
-            searchUsers?.username
-              ? typeof searchUsers?.username !== "string" &&
-                searchUsers?.username?.username
-              : t("유저")
-          }`}
-          ,{t(" 님의 프로필")}
-        </h1>
+        <h1 className="text-4xl font-bold">{`${
+          searchUsers?.username
+            ? typeof searchUsers?.username !== "string" &&
+              searchUsers?.username?.username
+            : "유저"
+        } 님의 프로필`}</h1>
       </article>
 
       <div className="flex p-[5rem] justify-between">
@@ -157,7 +153,7 @@ const UserPage = () => {
                     );
                   }}
                 >
-                  {t("언팔로우")}
+                  언팔로우
                 </Button>
               ) : (
                 <Button
@@ -173,7 +169,7 @@ const UserPage = () => {
                     postFollow(searchUsers!._id);
                   }}
                 >
-                  {t("팔로잉")}
+                  팔로잉
                 </Button>
               )
             ) : null}
@@ -189,7 +185,7 @@ const UserPage = () => {
           />
           <Input
             isEditable={false}
-            label={t("닉네임")}
+            label="닉네임"
             value={
               searchUsers?.username
                 ? typeof searchUsers?.username !== "string" &&

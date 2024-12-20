@@ -1,13 +1,7 @@
-import { t } from "i18next";
 import { useEditorStore } from "../../store/store";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Dialog, DialogTitle, DialogActions } from "@mui/material";
+import Button from "../common/SquareButton";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 export default function LoginDialog() {
   const { isAlertOpen, closeLoginDialog } = useEditorStore(); // zustand에서 가져옴
@@ -18,42 +12,60 @@ export default function LoginDialog() {
       onClose={closeLoginDialog}
       aria-labelledby="login-prompt-title"
       aria-describedby="login-prompt-description"
+      sx={{
+        "& .MuiPaper-root": {
+          borderRadius: "10px",
+          padding: "20px",
+          alignItems: "center",
+          fontFamily: "S-CoreDream-3Light",
+        },
+      }}
     >
-      <DialogTitle id="login-prompt-title">
-        {t("로그인이 필요합니다")}
+      <div
+        className="flex items-center justify-center p-2 bg-[#FEF3F2] rounded-full"
+        style={{ width: "4rem", height: "4rem" }}
+      >
+        <div className="flex items-center justify-center p-[2px] bg-[#FEE4E2] rounded-full">
+          <ErrorOutlineIcon
+            sx={{ width: "3rem", height: "3rem", color: "#E14444" }}
+          />
+        </div>
+      </div>
+      <DialogTitle
+        id="login-prompt-title"
+        sx={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          textAlign: "center",
+          marginBottom: "4px",
+        }}
+      >
+        로그인이 필요합니다.
       </DialogTitle>
-      <DialogContent>
-        <Typography id="login-prompt-description" variant="body1" gutterBottom>
-          {t("글쓰기 기능은 로그인 후에 이용 가능합니다.")}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          {t("지금 로그인하거나 회원가입을 진행해주세요.")}
-        </Typography>
-      </DialogContent>
       <DialogActions>
-        {/* 회원가입 버튼 */}
+        {/* 닫기 버튼 */}
         <Button
-          onClick={() => {
-            closeLoginDialog();
-            window.location.href = "/join"; // 회원가입 페이지로 이동
-          }}
-          color="secondary"
+          size="md"
+          textSize="sm"
+          variant="todo"
+          className="border-2 border-[#e7e7e7] border-solid text-gray-700 hover:bg-gray-100 "
+          onClick={closeLoginDialog}
+          color="inherit"
         >
-          {t("회원가입")}
+          취소
         </Button>
         {/* 로그인 버튼 */}
         <Button
+          size="md"
+          textSize="sm"
+          variant="custom"
+          className="bg-[#7EACB5] hover:bg-[#90bdc7]"
           onClick={() => {
             closeLoginDialog();
             window.location.href = "/login"; // 로그인 페이지로 이동
           }}
-          color="primary"
         >
-          {t("로그인")}
-        </Button>
-        {/* 닫기 버튼 */}
-        <Button onClick={closeLoginDialog} color="inherit">
-          {t("취소")}
+          로그인
         </Button>
       </DialogActions>
     </Dialog>
