@@ -1,9 +1,10 @@
 import { VolumeOff, VolumeUp } from "@mui/icons-material";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import { useTimerStore } from "../../store/store";
 import { Tooltip } from "@mui/material";
+import { t } from "i18next";
 
 export default function WhiteNoise() {
   const isPlayingWhiteNoise = useTimerStore(
@@ -32,7 +33,7 @@ export default function WhiteNoise() {
   }, [isPlayingWhiteNoise]);
 
   return (
-    <Tooltip arrow title={"백색소음"}>
+    <Tooltip arrow title={t("백색소음")}>
       <Box
         sx={{
           "& > :not(style)": {

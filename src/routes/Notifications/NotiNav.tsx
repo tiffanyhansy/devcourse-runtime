@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Buttons from "../../components/common/SquareButton";
 import { useNotificationsStore } from "../../store/notificationsStore";
+import { t } from "i18next";
 
 export default function NotiNav() {
   const { isSeen, isNseenList, getNotificationList, update } =
@@ -29,7 +30,7 @@ export default function NotiNav() {
   }, [update]);
 
   return (
-    <div className="flex w-4/6 justify-between">
+    <div className="flex justify-between w-4/6">
       <div className="flex gap-2 mb-4">
         <Buttons
           variant="primary"
@@ -44,8 +45,9 @@ export default function NotiNav() {
             isYseenList();
           }}
         >
-          전체
+          {t("전체")}
         </Buttons>
+
         <Buttons
           variant="primary"
           size="xs"
@@ -59,11 +61,11 @@ export default function NotiNav() {
             isNseenList!();
           }}
         >
-          읽지 않음
+          {t("읽지 않음")}
         </Buttons>
       </div>
       <span className="cursor-pointer" onClick={() => isSeen!()}>
-        모두 읽음
+        {t("모두 읽음")}
       </span>
     </div>
   );

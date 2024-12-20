@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { useprofileModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
+import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
 import setting from "../../asset/images/settings.svg";
 import signOut from "../../asset/images/signout.svg";
@@ -99,7 +100,7 @@ export default function Modal({
                 {type === "header"
                   ? user?.fullName
                     ? user.fullName
-                    : `로그인이 필요합니다.`
+                    : t("로그인이 필요합니다.")
                   : onlineFullname}
               </span>
             </div>
@@ -123,7 +124,7 @@ export default function Modal({
                       className="text-black text-lg font-medium leading-[22px]"
                       onClick={close}
                     >
-                      내 프로필
+                      {t("내 프로필")}
                     </Link>
                   </div>
                 </div>
@@ -147,7 +148,7 @@ export default function Modal({
                     className="text-black text-lg font-medium leading-[22px]"
                     onClick={close}
                   >
-                    프로필 보기
+                    {t("프로필 보기")}
                   </Link>
                 </div>
               </div>
@@ -175,7 +176,7 @@ export default function Modal({
                         close();
                       }}
                     >
-                      로그인
+                      {t("로그인")}
                     </Link>
                   ) : (
                     <Link
@@ -186,7 +187,7 @@ export default function Modal({
                         logOut();
                       }}
                     >
-                      로그아웃
+                      {t("로그아웃")}
                     </Link>
                   )}
                 </div>

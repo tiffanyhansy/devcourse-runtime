@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import NotiMainList from "./NotiMainList";
+import { t } from "i18next";
 import { useNotificationsStore } from "../../../store/notificationsStore";
 import { axiosInstance } from "../../../api/axios";
 import { useLoginStore } from "../../../store/API";
@@ -31,7 +32,7 @@ export default function NotiMain() {
         ) : (
           <div className="flex flex-col items-center">
             <img src={noti_empty} className="h-[450px]" />
-            <span className="text-2xl">새로운 알림이 없습니다.</span>
+            <span className="text-2xl">{t("새로운 알림이 없습니다.")}</span>
           </div>
         )
       ) : (

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import TimeSetter from "../../../components/Mui/TimeSetter";
 import { useTimerStore, useTimeSetterStore } from "../../../store/store";
-
+import { t } from "i18next";
 // ref객체와 useEffect 활용해서 모달 외부 클릭시 모달 닫히는 이벤트핸들러 만들기
 function refHandler(
   ref: React.RefObject<HTMLDivElement>,
@@ -81,7 +81,7 @@ export default function AchieveSetModal() {
           setIsTimeSetterOpen();
         }}
       >
-        설정 완료!
+        {t("설정 완료!")}
       </button>
     </div>
   );
