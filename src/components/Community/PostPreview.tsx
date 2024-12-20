@@ -6,7 +6,7 @@ import { useRef, useEffect, useState } from "react";
 import { useCommentStore } from "../../store/comment"; // zustand 스토어 가져오기
 import default_profile from "../../asset/default_profile.png";
 import default_thumbnail from "/src/asset/images/runtime_logo.svg";
-import PostButtonFieldCol from "../Post/PostButtonFieldCol";
+import ControlBtn from "./ControlBtn";
 import CommentComponent from "./CommentComponent";
 
 type Props = {
@@ -74,9 +74,6 @@ export default function PostPreview({ preview, currentUser }: Props) {
     }월 ${date.getDate()}일`;
   };
 
-  // 댓글 갯수와 zustand 상태와 연결
-  const currentPost = posts.find((post) => post._id === preview._id);
-
   return (
     <>
       <article
@@ -109,11 +106,11 @@ export default function PostPreview({ preview, currentUser }: Props) {
         <div className="py-2.5 px-4 justify-between flex text-xs border-t border-[#f1f3f5] ">
           <div className="flex items-center">
             <FavoriteIcon sx={{ fontSize: 14, marginRight: 0.6 }} />
-            {preview.likes.length}
+            {Array.isArray(updatedPost.likes) ? updatedPost.likes.length : 0}
             <ChatIcon
               sx={{ fontSize: 14, marginRight: 0.6, marginLeft: 1.5 }}
             />
-            {currentPost?.comments.length || preview.comments.length}
+            {updatedPost.comments.length}
           </div>
           <div className="flex items-center ">
             <Link
@@ -188,13 +185,13 @@ export default function PostPreview({ preview, currentUser }: Props) {
               </div>
             </div>
           </div>
-          {/* 모달 배경 위 고정 버튼 필드 */}
-          <div className="fixed bottom-4 right-4 z-50">
-            <PostButtonFieldCol
-              onToTop={handleToTopButton}
-              onComment={handleClickCommentButton}
-            />
-          </div>
+          {/* 모달 배경 고정 버튼 필드 */}
+          <ControlBtn
+            onToTop={handleToTopButton}
+            onComment={handleClickCommentButton}
+            postId={preview._id}
+            currentUserId={currentUser}
+          />
         </div>
       )}
     </>
