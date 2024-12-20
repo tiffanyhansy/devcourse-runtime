@@ -64,7 +64,7 @@ export default function Main() {
     <section>
       <TopContents />
       {/* 컨텐츠 */}
-      <section className="mt-[60px] flex justify-between pb-[100px]">
+      <section className="mt-[60px] flex gap-5 pb-[100px] items-center justify-center">
         {/* 좌측 컨텐츠 */}
         <LeftContents />
         {/* 중앙 컨텐츠 */}
@@ -94,6 +94,11 @@ export default function Main() {
             ✕
           </Button>
           <article className="animate-spaceInDown_05s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px] block translate-x-[-50%] translate-y-[-50%]">
+            <article className="firework"></article>
+            <article className="firework"></article>
+            <article className="firework"></article>
+            <article className="firework"></article>
+            <article className="firework"></article>
             <img src={trophy} alt="트로피 이미지" />
           </article>
           <article className="animate-spaceInDown_1s opacity-0 flex flex-col items-center absolute bottom-[3%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
