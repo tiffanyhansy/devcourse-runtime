@@ -74,7 +74,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
     }월 ${date.getDate()}일`;
   };
 
-  // 댓글 갯수 동적 업데이트를 위해 zustand 상태와 연결
+  // 댓글 갯수와 zustand 상태와 연결
   const currentPost = posts.find((post) => post._id === preview._id);
 
   return (

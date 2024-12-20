@@ -54,7 +54,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ postId }) => {
 
   const handleDeleteComment = async (commentId: string) => {
     try {
-      await deleteComment(commentId); // commentId만 전달
+      await deleteComment(commentId);
       alert("댓글이 성공적으로 삭제되었습니다.");
     } catch (error) {
       console.error("댓글 삭제 실패:", error);

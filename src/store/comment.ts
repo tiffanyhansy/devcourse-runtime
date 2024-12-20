@@ -23,12 +23,12 @@ interface Post {
 
 // Zustand 스토어 타입 정의
 interface CommentStore {
-  posts: Post[]; // 게시물 목록
-  selectedPostId: string | null; // 현재 선택된 게시물 ID
-  currentPostId: string | null; // 현재 선택된 게시물 ID
+  posts: Post[]; // 게시물 목록, 헷갈리지 말기
+  selectedPostId: string | null;
+  currentPostId: string | null;
   currentComments: Comment[]; // 현재 게시물의 댓글 목록
-  fetchPosts: () => Promise<void>; // 게시물 목록 가져오기
-  addCommentToPost: (postId: string, comment: string) => Promise<void>; // 댓글 추가
+  fetchPosts: () => Promise<void>;
+  addCommentToPost: (postId: string, comment: string) => Promise<void>;
   deleteComment: (commentId: string) => Promise<void>;
 }
 
@@ -79,9 +79,10 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     }
   },
 
+  // DELETE 요청 보내기
+
   deleteComment: async (commentId: string) => {
     try {
-      // DELETE 요청 보내기
       await axiosInstance.delete(
         `${import.meta.env.VITE_API_URL}/comments/delete`,
         {
