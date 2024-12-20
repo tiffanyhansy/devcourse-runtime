@@ -6,6 +6,8 @@ export default function BasicDateCalendar() {
   const Styles = {
     list: {
       width: "100%",
+      borderRadius: "10px",
+      bgcolor: "#F0F5F8",
       "& .MuiPickersDay-root.Mui-selected": {
         backgroundColor: "#7EACB5 !important",
         "&:hover": {
@@ -18,21 +20,17 @@ export default function BasicDateCalendar() {
           backgroundColor: "#7EACB5 !important",
         },
       },
-      "& .MuiPickersDay-today": {
-        backgroundColor: "#7EACB5 ",
-      },
+      "& .MuiPickersDay-today": {},
       "& .MuiPickersYear-yearButton.Mui-selected": {
-        backgroundColor: "#7EACB5 ",
+        backgroundColor: "#7EACB5 !important",
       },
     },
   };
 
   return (
-    <article className="rounded-[10px]">
+    <article className="shadow-2xl rounded-[10px]">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <div className="w-full bg-[#F0F5F8] rounded-[30px]">
-          <DateCalendar sx={Styles.list} />
-        </div>
+        <DateCalendar sx={Styles.list} />
       </LocalizationProvider>
     </article>
   );

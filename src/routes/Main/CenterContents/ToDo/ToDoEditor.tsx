@@ -41,7 +41,7 @@ export default function ToDoEditor() {
           }
         }}
         value={EditorText}
-        className="w-full h-full py-5 pl-5 outline-none bg-[#F0F5F8]"
+        className="w-full h-full py-5 pl-5 outline-none"
       />
       <Button
         size="lg" // 버튼 크기

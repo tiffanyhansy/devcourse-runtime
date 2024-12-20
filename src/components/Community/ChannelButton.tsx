@@ -1,4 +1,5 @@
 import { Tooltip } from "@mui/material";
+import { Link } from "react-router";
 
 type Props = {
   title: string; // 툴팁에 표시될 제목
@@ -10,13 +11,14 @@ type Props = {
 
 export default function ChannelButton({
   title,
+  link,
   label,
   isActive,
   onClick,
 }: Props) {
   return (
     <Tooltip title={title} arrow>
-      <article className="w-16 mr-4">
+      <Link to={link} className="w-16 mr-4">
         <button
           onClick={onClick} // 클릭 이벤트 핸들러 연결
           className={`font-bold px-3 py-1 rounded-[10px] w-16 text-center opacity-80 transition-colors ${
@@ -27,7 +29,7 @@ export default function ChannelButton({
         >
           {label}
         </button>
-      </article>
+      </Link>
     </Tooltip>
   );
 }

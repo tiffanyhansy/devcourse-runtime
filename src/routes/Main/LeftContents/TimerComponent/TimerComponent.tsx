@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import FloatingActionButtons from "../../../../components/Mui/Fab";
 import ResetFab from "../../../../components/Mui/ResetFab";
 import WhiteNoise from "../../../../components/Mui/WhiteNoise";
@@ -13,16 +12,14 @@ export default function TimerComponent() {
       <Timer
         style={{
           backgroundColor: `${
-            isPlayBtnClicked ? (isAchieve ? "#FADFA1" : "#778899") : "#F0F5F8"
+            isPlayBtnClicked ? (isAchieve ? "#FADFA1" : "#778899") : ""
           }`,
           color: `${isPlayBtnClicked ? "#ffffff" : ""}`,
         }}
         isFlowTime={true}
         alertSound={true}
       />
-      <article
-        className={`flex items-center justify-between px-12 w-[25rem] h-[5rem] -mt-36 border-t border-gray-200 pt-14`}
-      >
+      <article className="flex gap-[10px]">
         <WhiteNoise />
         <FloatingActionButtons />
         <ResetFab />

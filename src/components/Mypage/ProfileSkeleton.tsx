@@ -1,8 +1,10 @@
+import { t } from "i18next";
+
 export default function ProfileSkeleton() {
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh] rounded">
       <article className="flex mt-14">
-        <h1 className="text-4xl font-bold">내 프로필</h1>
+        <h1 className="text-4xl font-bold">{t("내 프로필")}</h1>
       </article>
 
       <div className="flex p-[5rem] justify-between ">
@@ -25,7 +27,7 @@ export default function ProfileSkeleton() {
               <div className=" bg-gray-300 rounded-xl w-[37rem] h-[3rem] px-[1rem] py-[0.5rem] mb-[3rem]  animate-pulse"></div>
             </div>
             <div className="space-y-[12px]">
-              <span className="text-xl">닉네임</span>{" "}
+              <span className="text-xl">{t("닉네임")}</span>{" "}
               <div className=" bg-gray-300 rounded-xl w-[37rem] h-[3rem] px-[1rem] py-[0.5rem] mb-[3rem]  animate-pulse"></div>
             </div>
             <div className="space-y-[12px]">

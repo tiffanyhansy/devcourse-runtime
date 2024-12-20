@@ -55,7 +55,7 @@ export default function FloatingActionButtons() {
     <Box
       sx={{
         "& > :not(style)": {
-          backgroundColor: "#D5E6E9",
+          backgroundColor: "#F0F5F8",
           zIndex: 0,
         },
       }}
@@ -67,19 +67,16 @@ export default function FloatingActionButtons() {
           toggleTimer();
         }}
         style={{
-          width: "5rem",
-          height: "5rem",
-          boxShadow: "none",
+          width: "3.5rem",
+          height: "3.5rem",
+          backgroundColor: isPlayBtnClicked ? "#778899" : "",
+          color: isPlayBtnClicked ? "#ffffff" : "",
         }}
       >
         {isPlayBtnClicked ? (
-          <PauseRoundedIcon
-            style={{ width: "3em", height: "3rem", opacity: 0.7 }}
-          />
+          <PauseRoundedIcon style={{ width: "2em", height: "2rem" }} />
         ) : (
-          <PlayArrowRoundedIcon
-            style={{ width: "3rem", height: "3rem", opacity: 0.7 }}
-          />
+          <PlayArrowRoundedIcon style={{ width: "2rem", height: "2rem" }} />
         )}
       </Fab>
     </Box>
