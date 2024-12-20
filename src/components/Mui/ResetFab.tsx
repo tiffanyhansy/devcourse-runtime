@@ -17,7 +17,7 @@ export default function ResetFab() {
       <Box
         sx={{
           "& > :not(style)": {
-            backgroundColor: "#F0F5F8",
+            backgroundColor: "#D5E6E9",
             zIndex: 0,
           },
         }}
@@ -26,13 +26,14 @@ export default function ResetFab() {
           aria-label="play"
           onClick={setResetAlertModal}
           style={{
-            width: "3.5rem",
-            height: "3.5rem",
-            backgroundColor: isPlayBtnClicked ? "#778899" : "",
+            width: "5rem",
+            height: "5rem",
+            backgroundColor: isPlayBtnClicked ? "#98acc1" : "",
             color: isPlayBtnClicked ? "#ffffff" : "",
+            boxShadow: "none",
           }}
         >
-          <ReplayIcon style={{ width: "2em", height: "2rem" }} />
+          <ReplayIcon style={{ width: "3em", height: "3rem", opacity: 0.7 }} />
         </Fab>
       </Box>
       {isResetAlertModalOn ? (

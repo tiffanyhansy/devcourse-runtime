@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useEditorStore } from "../../store/store";
 import { t } from "i18next";
 
+
 interface ChannelDialogProps {
   onCancel: () => void;
   onMoveToBoard: () => void;

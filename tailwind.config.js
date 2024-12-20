@@ -69,6 +69,7 @@ export default {
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],
+  plugins: [require("tailwind-scrollbar")],
   future: {
     hoverOnlyWhenSupported: true,
   },
