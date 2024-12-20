@@ -1,9 +1,6 @@
 import { Stack } from "@mui/material";
 import Button from "../common/SquareButton";
 import { useNavigate } from "react-router";
-import { useEditorStore } from "../../store/store";
-import { t } from "i18next";
-
 
 interface ChannelDialogProps {
   onCancel: () => void;
@@ -21,7 +18,7 @@ export default function ChannelDialog({ onCancel }: ChannelDialogProps) {
       <div className="w-[400px] h-[200px] bg-white border rounded-[10px] flex flex-col gap-[20px] items-center justify-center absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50">
         <Stack width="340px" direction="row" gap={2} justifyContent="center">
           <span className="text-2xl font-extrabold">
-            {t("게시글을 확인하시겠습니까?")}
+            게시글을 확인하시겠습니까?
           </span>
         </Stack>
         <Stack direction="row" gap={2}>
@@ -32,7 +29,7 @@ export default function ChannelDialog({ onCancel }: ChannelDialogProps) {
             className="bg-[#C96868] text-white"
             onClick={onCancel}
           >
-            {t("닫기")}
+            닫기
           </Button>
           <Button
             size="md"
@@ -40,7 +37,7 @@ export default function ChannelDialog({ onCancel }: ChannelDialogProps) {
             variant="custom"
             onClick={() => navigate("/community")}
           >
-            {t("게시판")}
+            게시판
           </Button>
         </Stack>
       </div>
