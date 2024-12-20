@@ -4,6 +4,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { Link } from "react-router";
 import default_profile from "../../asset/default_profile.png";
 import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   preview: Post_T;
@@ -14,6 +15,8 @@ export default function PostPreview({ preview, currentUser }: Props) {
   // title 파싱한 객체(여기에 제목, 내용 들어가있고, 추후에 여러 컨텐츠들 추가할 예정 - 목표 달성 트로피 표시 등등)
   const parsedTitle: Title_T = JSON.parse(preview.title);
 
+  const { t } = useTranslation();
+
   // 날짜를 'YYYY년 MM월 DD일' 형식으로 변환하는 함수
   function formatDateToKorean(dateString: string): string {
     const date = new Date(dateString);
@@ -21,7 +24,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
     const month = date.getMonth() + 1;
     const day = date.getDate();
 
-    return `${year}년 ${month}월 ${day}일`;
+    return `${year}${t("년")} ${month}${t("월")} ${day}${t("일")}`;
   }
 
   return (

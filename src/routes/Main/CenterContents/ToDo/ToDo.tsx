@@ -5,6 +5,7 @@ import ToDoListItem from "./ToDoListItem";
 import ToDoEditor from "./ToDoEditor";
 import { Tooltip } from "@mui/material";
 import small_icon from "../../../../asset/images/small_icon.svg";
+import { t } from "i18next";
 
 export default function ToDo() {
   // 메모장 핀 길이
@@ -49,7 +50,7 @@ export default function ToDo() {
                 >
                   <img src={small_icon} alt={"추가 아이콘"} />
                   <span className="text-[#666666] font-medium ">
-                    할 일 추가
+                    {t("할 일 추가")}
                   </span>
                 </Button>
               </li>

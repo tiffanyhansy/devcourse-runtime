@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useEditorStore } from "../../store/store";
 import {
   Dialog,
@@ -18,13 +19,15 @@ export default function LoginDialog() {
       aria-labelledby="login-prompt-title"
       aria-describedby="login-prompt-description"
     >
-      <DialogTitle id="login-prompt-title">로그인이 필요합니다</DialogTitle>
+      <DialogTitle id="login-prompt-title">
+        {t("로그인이 필요합니다")}
+      </DialogTitle>
       <DialogContent>
         <Typography id="login-prompt-description" variant="body1" gutterBottom>
-          글쓰기 기능은 로그인 후에 이용 가능합니다.
+          {t("글쓰기 기능은 로그인 후에 이용 가능합니다.")}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          지금 로그인하거나 회원가입을 진행해주세요.
+          {t("지금 로그인하거나 회원가입을 진행해주세요.")}
         </Typography>
       </DialogContent>
       <DialogActions>
@@ -36,7 +39,7 @@ export default function LoginDialog() {
           }}
           color="secondary"
         >
-          회원가입
+          {t("회원가입")}
         </Button>
         {/* 로그인 버튼 */}
         <Button
@@ -46,11 +49,11 @@ export default function LoginDialog() {
           }}
           color="primary"
         >
-          로그인
+          {t("로그인")}
         </Button>
         {/* 닫기 버튼 */}
         <Button onClick={closeLoginDialog} color="inherit">
-          취소
+          {t("취소")}
         </Button>
       </DialogActions>
     </Dialog>

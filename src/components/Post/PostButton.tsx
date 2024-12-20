@@ -1,14 +1,18 @@
 import React from "react";
 interface PostButtonProps {
-  icon: string | React.ReactNode;
+  icon?: string | React.ReactNode;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
+  children?: React.ReactNode;
+  otherProps?: any;
 }
 
 export default function PostButton({
   onClick,
   icon,
   className,
+  children,
+  ...otherProps
 }: PostButtonProps) {
   return (
     <button

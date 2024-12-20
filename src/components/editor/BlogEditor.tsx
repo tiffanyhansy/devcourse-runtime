@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { Stack, Chip, Tooltip } from "@mui/material";
 import Button from "../common/SquareButton";
 import CircularProgress from "@mui/material/CircularProgress";
+import { t } from "i18next";
 
 export default function BlogEditor() {
   const {
@@ -142,7 +143,7 @@ export default function BlogEditor() {
   return (
     <div className={`relative flex flex-col text-white`}>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold text-black pl-3">(optional)</h1>
+        <h1 className="pl-3 text-xl font-bold text-black">(optional)</h1>
         <div className="flex gap-2 pt-1">
           <div className="pt-2">
             {currentErrorMessage && (
@@ -160,7 +161,7 @@ export default function BlogEditor() {
             {isLoading ? (
               <CircularProgress size={20} color="inherit" />
             ) : (
-              "저장하기"
+              t("저장하기")
             )}
           </Button>
           <Button
@@ -185,7 +186,7 @@ export default function BlogEditor() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="제목을 입력하세요..."
+            placeholder={t("제목을 입력하세요...")}
             className="w-full pb-2 pl-3 text-3xl font-semibold text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
           />
         </form>
@@ -197,7 +198,7 @@ export default function BlogEditor() {
               htmlFor="file-upload"
               className=" ml-[10px] inline-block cursor-pointer text-white text-[12px] bg-[#7EACB5] px-2 py-2 rounded-[10px] hover:bg-[#96CCD6] transition"
             >
-              썸네일
+              {t("썸네일")}
             </label>
             {/* 파일 업로드 input */}
             <input
@@ -216,7 +217,7 @@ export default function BlogEditor() {
               id="file-name-display"
               className="ml-3 text-gray-600 text-sm truncate max-w-[150px]"
             >
-              {image ? image.name : "파일을 선택하세요"}
+              {image ? image.name : t("파일을 선택하세요")}
             </span>
           </form>
         </div>
@@ -264,7 +265,7 @@ export default function BlogEditor() {
             onChange={setContent}
             modules={modules}
             formats={formats}
-            placeholder="여기에 내용을 입력하세요..."
+            placeholder={t("여기에 내용을 입력하세요...")}
             theme="snow"
           />
         </div>

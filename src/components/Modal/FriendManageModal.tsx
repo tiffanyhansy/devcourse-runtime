@@ -10,6 +10,7 @@ import { useNotificationsStore } from "../../store/notificationsStore";
 import NonLoginFriendModal from "./NonLoginFriendModal";
 import default_profile from "../../asset/default_profile.png";
 import Search from "../../asset/images/Search.svg";
+import { t } from "i18next";
 
 export default function FriendManageModal() {
   // const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -110,19 +111,19 @@ export default function FriendManageModal() {
           >
             <div className="flex items-center gap-4">
               <img
-                className="w-12 h-12 rounded-full object-cover"
+                className="object-cover w-12 h-12 rounded-full"
                 src={userOne.image ? userOne.image : default_profile}
                 alt="profile"
               />
               <Link
                 to={`/userpage/${userOne.fullName}`}
-                className="text-black text-lg font-medium"
+                className="text-lg font-medium text-black"
                 onClick={close}
               >
                 <p className="text-sm font-semibold">
                   {(typeof userOne.username !== "string" &&
                     userOne.username?.username) ||
-                    "유저"}
+                    t("유저")}
                 </p>
                 <p className="text-xs text-gray-500">
                   @{userOne.fullName || "error"}
@@ -148,7 +149,7 @@ export default function FriendManageModal() {
                     );
                   }}
                 >
-                  언팔로우
+                  {t("언팔로우")}
                 </Button>
               ) : (
                 <Button
@@ -164,7 +165,7 @@ export default function FriendManageModal() {
                     postFollow(userOne._id);
                   }}
                 >
-                  팔로잉
+                  {t("팔로잉")}
                 </Button>
               )
             ) : null}
@@ -184,7 +185,7 @@ export default function FriendManageModal() {
         <section className="absolute inset-1/2 w-[502px] h-[619px] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow py-4 pl-2">
           <header className="flex justify-between p-4">
             <h1 className="text-3xl font-bold text-gray-800">
-              {activeToggle === "all" ? "유저 목록" : "친구 목록"}
+              {activeToggle === "all" ? t("유저 목록") : t("친구 목록")}
             </h1>
             <div className="relative w-32 h-10">
               <div className="absolute inset-0 bg-gray-200 rounded-full"></div>
@@ -196,16 +197,16 @@ export default function FriendManageModal() {
                 }`}
               ></div>
               <div
-                className="absolute inset-y-0 left-4 flex items-center text-sm font-semibold text-center cursor-pointer text-white"
+                className="absolute inset-y-0 flex items-center text-sm font-semibold text-center text-white cursor-pointer left-4"
                 onClick={() => setActiveToggle("friend")}
               >
-                친구
+                {t("친구")}
               </div>
               <div
-                className="absolute inset-y-0 right-4 flex items-center text-sm font-semibold text-center cursor-pointer text-white"
+                className="absolute inset-y-0 flex items-center text-sm font-semibold text-center text-white cursor-pointer right-4"
                 onClick={() => setActiveToggle("all")}
               >
-                전체
+                {t("전체")}
               </div>
             </div>
           </header>
@@ -220,7 +221,7 @@ export default function FriendManageModal() {
                   }`}
                   onClick={() => setActiveTab("followers")}
                 >
-                  팔로워
+                  {t("팔로워")}
                 </div>
                 <div
                   className={`pb-2 cursor-pointer ${
@@ -230,17 +231,17 @@ export default function FriendManageModal() {
                   }`}
                   onClick={() => setActiveTab("following")}
                 >
-                  팔로잉
+                  {t("팔로잉")}
                 </div>
               </>
             ) : (
               <>
                 <div className="w-[458px] h-12 pl-6 pr-2 py-2 mb-5 bg-white rounded-full shadow border border-gray-200 justify-start items-center gap-4 inline-flex">
-                  <div className="w-full h-full grow shrink basis-0 flex-col justify-start items-start inline-flex">
-                    <div className="w-full h-full self-stretch text-black text-sm font-medium  leading-tight">
+                  <div className="inline-flex flex-col items-start justify-start w-full h-full grow shrink basis-0">
+                    <div className="self-stretch w-full h-full text-sm font-medium leading-tight text-black">
                       <input
                         className="w-full h-full focus:outline-none"
-                        placeholder="@을 제외한 유저 ID로 검색 가능합니다."
+                        placeholder={t("@을 제외한 유저 ID로 검색 가능합니다.")}
                         ref={inputRef}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") ButtonRef.current?.click();
@@ -248,10 +249,10 @@ export default function FriendManageModal() {
                       />
                     </div>
                   </div>
-                  <div className="w-8 h-8 justify-start items-start flex">
+                  <div className="flex items-start justify-start w-8 h-8">
                     <div className="grow shrink basis-0 self-stretch p-1 bg-[#7eacb5] rounded-[100px] shadow justify-center items-center gap-2 flex">
                       <button
-                        className="w-5 h-5 relative"
+                        className="relative w-5 h-5"
                         ref={ButtonRef}
                         onClick={() => {
                           const searchUser = userAll.filter((e) =>
