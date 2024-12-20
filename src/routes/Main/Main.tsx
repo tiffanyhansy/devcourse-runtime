@@ -18,8 +18,6 @@ import { useLoginStore } from "../../store/API";
 import { axiosInstance } from "../../api/axios";
 import Button from "../../components/common/SquareButton";
 import trophy from "../../asset/images/trophy.svg";
-import { useTranslation } from "react-i18next";
-import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -61,8 +59,6 @@ export default function Main() {
   useEffect(() => {
     getAuthUser();
   }, []);
-
-  const { t } = useTranslation();
 
   return (
     <section>
@@ -107,7 +103,7 @@ export default function Main() {
           </article>
           <article className="animate-spaceInDown_1s opacity-0 flex flex-col items-center absolute bottom-[3%] left-[50%] translate-x-[-50%] translate-y-[-50%] ">
             <h2 className="text-4xl font-bold text-white mb-4">
-             {t("오늘의 목표시간을 달성했어요!")}
+              오늘의 목표시간을 달성했어요!
             </h2>
             <article>
               <Button
@@ -120,14 +116,12 @@ export default function Main() {
                 textSize="sm"
                 className="font-normal hover:bg-[#96ccd6]"
               >
-              {t("글 작성 하러가기")}
+                글 작성 하러가기
               </Button>
             </article>
           </article>
-        ) : null}
-      </section>
-
-      <SelectLanguageButton />
-    </>
+        </article>
+      ) : null}
+    </section>
   );
 }

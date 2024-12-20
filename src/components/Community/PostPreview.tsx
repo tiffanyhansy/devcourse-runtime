@@ -5,8 +5,7 @@ import { Link } from "react-router";
 import { useRef, useEffect, useState } from "react";
 import { useCommentStore } from "../../store/comment"; // zustand 스토어 가져오기
 import default_profile from "../../asset/default_profile.png";
-import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
-import { useTranslation } from "react-i18next";
+import default_thumbnail from "/src/asset/images/runtime_logo.svg";
 import PostButtonFieldCol from "../Post/PostButtonFieldCol";
 import CommentComponent from "./CommentComponent";
 
@@ -19,7 +18,6 @@ export default function PostPreview({ preview, currentUser }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const { t } = useTranslation();
   // zustand에서 상태 가져오기
   const { posts, fetchPosts } = useCommentStore();
   const updatedPost = posts.find((post) => post._id === preview._id) || preview;
@@ -76,12 +74,8 @@ export default function PostPreview({ preview, currentUser }: Props) {
     }월 ${date.getDate()}일`;
   };
 
-    return `${year}${t("년")} ${month}${t("월")} ${day}${t("일")}`;
-  }
-
   // 댓글 갯수 동적 업데이트를 위해 zustand 상태와 연결
   const currentPost = posts.find((post) => post._id === preview._id);
-
 
   return (
     <>
