@@ -16,6 +16,7 @@ type InputProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: boolean;
   helperText: string;
+  autoComplete?: string;
 };
 
 const theme = createTheme({
@@ -24,9 +25,21 @@ const theme = createTheme({
       styleOverrides: {
         input: {
           "&:-webkit-autofill": {
-            WebkitBoxShadow: "0 0 0px 1000px white inset", // 배경색 흰색
-            WebkitTextFillColor: "black", // 텍스트 색상 검정
+            WebkitBoxShadow: "0 0 0px 1000px white inset",
+            WebkitTextFillColor: "black",
           },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          "&:has(+ .MuiOutlinedInput-root > .MuiOutlinedInput-input:-webkit-autofill)":
+            {
+              transform: "translate(14px, -9px) scale(0.75)",
+              marginLeft: "0px",
+              backgroundColor: "white",
+            },
         },
       },
     },
@@ -40,9 +53,9 @@ export default function Input({
   onChange,
   error,
   helperText,
+  autoComplete,
 }: InputProps) {
   const [showPassword, setShowPassword] = useState(false);
-  // const [shrink, setShrink] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -52,6 +65,7 @@ export default function Input({
     <>
       <ThemeProvider theme={theme}>
         <TextField
+          autoComplete={autoComplete}
           label={label}
           type={showPassword ? "text" : type}
           value={value}
@@ -59,52 +73,48 @@ export default function Input({
           error={error}
           helperText={helperText}
           variant="outlined"
-          // onFocus={() => setShrink(true)}
-          // onBlur={(e) => setShrink(!!e.target.value)}
           sx={{
             width: 384,
             "& .MuiInputLabel-root.Mui-focused": {
-              color: error ? "#d32f2f" : "#7EACB5", // 포커스 시 라벨 색상
+              color: error ? "#d32f2f" : "#7EACB5",
             },
-
             "& label": {
-              marginLeft: "8px", // 기본 마진 (포커스되지 않았을 때)
+              marginLeft: "8px",
               fontSize: "16px",
               "&.MuiInputLabel-shrink": {
-                marginLeft: "0px", // 포커스되었을 때 마진 제거
+                marginLeft: "0px",
                 fontSize: "16px",
               },
             },
             "& .MuiOutlinedInput-root": {
-              height: "52px", // 전체 높이 설정
+              height: "52px",
               "& .MuiOutlinedInput-notchedOutline": {
                 border: error ? 2 : 1,
-                borderColor: error ? "#d32f2f" : "#cdcdcd", // 기본 테두리 색상
+                borderColor: error ? "#d32f2f" : "#cdcdcd",
               },
               "&:hover .MuiOutlinedInput-notchedOutline": {
                 border: 2,
                 borderColor: error ? "#d32f2f" : "#cdcdcd",
               },
               "& .MuiOutlinedInput-root:hover + .MuiInputLabel-root": {
-                color: "#7EACB5", // 입력 필드에 호버했을 때 라벨 색상 변경
+                color: "#7EACB5",
               },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                 border: 2,
-                borderColor: error ? "#d32f2f" : "#7EACB5", // 포커스 시 테두리 색상
+                borderColor: error ? "#d32f2f" : "#7EACB5",
               },
               "& input": {
-                padding: "0 24px", // 수평 패딩만 설정
-                height: "100%", // 입력 필드가 부모 높이와 동일하게
+                padding: "0 24px",
+                height: "100%",
                 lineHeight: 1,
-                boxSizing: "border-box", // 패딩 포함 크기 계산
+                boxSizing: "border-box",
               },
               "& fieldset": {
-                borderRadius: "10px", // 필드셋의 모서리 둥글게
+                borderRadius: "10px",
               },
             },
           }}
           slotProps={{
-            // inputLabel: { shrink: !!value }, // 레이블 축소 설정
             input: {
               endAdornment: type === "password" && (
                 <InputAdornment position="end">

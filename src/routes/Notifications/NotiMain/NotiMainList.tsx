@@ -4,7 +4,6 @@ import { axiosInstance } from "../../../api/axios";
 import { useLoginStore } from "../../../store/API";
 import { useNotificationsStore } from "../../../store/notificationsStore";
 import default_profile from "../../../asset/default_profile.png";
-import { t } from "i18next";
 
 export default function NotiMainList(list: notificationsType) {
   const { createNotifications } = useNotificationsStore();
@@ -87,7 +86,7 @@ export default function NotiMainList(list: notificationsType) {
         />
         <div className=" leading-[19px]">
           <span className="font-extrabold">{list.author.fullName}</span>
-          {t(" 님이 ")}
+          {` 님이 `}
 
           {/* 좋아요 or 팔로우 */}
           {list.like && (
@@ -95,17 +94,17 @@ export default function NotiMainList(list: notificationsType) {
               <span className="font-extrabold">
                 {getTitle(list.like.post.title)}
               </span>
-              {t(" 포스트를 좋아합니다. ")}
+              {` 포스트를 좋아 합니다. `}
             </span>
           )}
-          {list.follow && t(" 회원님을 팔로우 하였습니다. ")}
+          {list.follow && ` 회원님을 팔로우 하였습니다. `}
 
           {/* 시간 */}
-          <span className="text-gray-400 text-[11px]">
-            {`${new Date(list.createdAt).getFullYear()}${t("년")} ${
-              new Date(list.createdAt).getMonth() + 1
-            }${t("월")} ${new Date(list.createdAt).getDate()}${t("일")}`}
-          </span>
+          <span className="text-gray-400 text-[11px]">{`${new Date(
+            list.createdAt
+          ).getFullYear()}년 ${
+            new Date(list.createdAt).getMonth() + 1
+          }월 ${new Date(list.createdAt).getDate()}일 `}</span>
         </div>
       </div>
 
@@ -131,7 +130,7 @@ export default function NotiMainList(list: notificationsType) {
               );
             }}
           >
-            {t("언팔로우")}
+            언팔로우
           </Button>
         ) : (
           <Button
@@ -146,7 +145,7 @@ export default function NotiMainList(list: notificationsType) {
             }}
             onClick={() => postFollow(list.author._id)}
           >
-            {t("팔로우")}
+            팔로우
           </Button>
         ))}
     </div>

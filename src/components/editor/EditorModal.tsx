@@ -5,7 +5,6 @@ import ChannelDialog from "./ChannelDialog";
 import { useEffect } from "react";
 import { useEditorStore } from "../../store/store";
 import { usePostStore } from "../../store/postStore";
-import { t } from "i18next";
 
 interface ModalProps {
   children?: React.ReactNode;
@@ -48,8 +47,8 @@ export default function EditorModal({ children }: ModalProps) {
       </div>
       <ConfirmDialog
         open={isDialogOpen}
-        title={t("에디터 닫기")}
-        description={t("작성 중인 내용이 있습니다. 정말로 닫으시겠습니까?")}
+        title="에디터 닫기"
+        description="작성 중인 내용이 있습니다. 정말로 닫으시겠습니까?"
         onConfirm={() => {
           confirmClose(setImage);
         }}

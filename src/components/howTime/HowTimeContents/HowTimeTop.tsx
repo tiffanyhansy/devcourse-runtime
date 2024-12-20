@@ -1,5 +1,3 @@
-import { t } from "i18next";
-
 export default function HowTimeTop({
   changingHours,
 }: {
@@ -7,9 +5,9 @@ export default function HowTimeTop({
 }) {
   return (
     <article className="flex gap-[10px] text-[2.5rem] font-bold">
-      <span>{t("총")}</span>
+      <span>총</span>
       <span>{changingHours}</span>
-      <span>{t("시간!!")}</span>
+      <span>시간!!</span>
     </article>
   );
 }

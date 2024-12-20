@@ -1,4 +1,3 @@
-import { t } from "i18next";
 import Button from "../../../components/common/SquareButton";
 import { useLoginStore } from "../../../store/API";
 import { useEasterEgg, useTimeSetterStore } from "../../../store/store";
@@ -27,9 +26,9 @@ export default function TopContents() {
             ? user.username && typeof user.username !== "string"
               ? user.username.username
               : user?.fullName
-            : t("익명")}
+            : "익명"}
         </span>
-        {t("님, 오늘도 열공하세요!!")}
+        님, 오늘도 열공하세요!!
       </h1>
 
       <article className="relative">
@@ -42,7 +41,7 @@ export default function TopContents() {
             setIsTimeSetterOpen();
           }}
         >
-          {t("오늘의 목표 설정하기")}
+          {"오늘의 목표 설정하기"}
           <KeyboardArrowRightRoundedIcon
             style={{ fontWeight: "bolder", fontSize: "30px" }}
           />
