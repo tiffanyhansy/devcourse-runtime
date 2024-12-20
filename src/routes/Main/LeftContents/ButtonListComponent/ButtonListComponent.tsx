@@ -1,4 +1,8 @@
-import { useEditorStore, useFriendModalStore } from "../../../../store/store";
+import {
+  useChatingModalStore,
+  useEditorStore,
+  useFriendModalStore,
+} from "../../../../store/store";
 import { useHowTimeStore } from "../../../../store/store";
 import LinkButton from "./LinkButton";
 import EditorModal from "../../../../components/editor/EditorModal";
@@ -16,10 +20,18 @@ export default function ButtonListComponent() {
 
   const token = useLoginStore((state) => state.token);
 
+  const setIsChatModalOpenTrue = useChatingModalStore(
+    (state) => state.setIsChatModalOpenTrue
+  );
+
   return (
     <section className="flex justify-between bg-[#D5E6E9] w-[25rem] rounded-[30px] px-6 py-4 mt-20">
       <LinkButton icon={Edit} title={"글 작성"} onClick={toggleEditor} />
-      <LinkButton icon={"/src/asset/images/Chat.svg"} title={"게시판"} />
+      <LinkButton
+        icon={"/src/asset/images/Chat.svg"}
+        title={"채팅"}
+        onClick={setIsChatModalOpenTrue}
+      />
       <LinkButton
         icon={group}
         title={token ? "친구관리" : "유저 검색"}
