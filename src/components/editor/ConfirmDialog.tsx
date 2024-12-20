@@ -5,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { t } from "i18next";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -33,9 +34,8 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel} color="secondary">
-          취소
+          {t("취소")}
         </Button>
-
         <Button
           onClick={() => {
             onConfirm();
@@ -43,7 +43,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           color="primary"
           autoFocus
         >
-          확인
+          {t("확인")}
         </Button>
       </DialogActions>
     </Dialog>

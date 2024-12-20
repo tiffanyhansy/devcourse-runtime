@@ -1,6 +1,7 @@
+import { t } from "i18next";
 import { useEditorStore } from "../../store/store";
-import { Dialog, DialogTitle, DialogActions } from "@mui/material";
 import Button from "../common/SquareButton";
+import { Dialog, DialogTitle, DialogActions } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 export default function LoginDialog() {
@@ -40,8 +41,9 @@ export default function LoginDialog() {
           marginBottom: "4px",
         }}
       >
-        로그인이 필요합니다.
+        {t("로그인이 필요합니다")}
       </DialogTitle>
+
       <DialogActions>
         {/* 닫기 버튼 */}
         <Button
@@ -51,9 +53,7 @@ export default function LoginDialog() {
           className="border-2 border-[#e7e7e7] border-solid text-gray-700 hover:bg-gray-100 "
           onClick={closeLoginDialog}
           color="inherit"
-        >
-          취소
-        </Button>
+        ></Button>
         {/* 로그인 버튼 */}
         <Button
           size="md"
@@ -65,7 +65,7 @@ export default function LoginDialog() {
             window.location.href = "/login"; // 로그인 페이지로 이동
           }}
         >
-          로그인
+          {t("로그인")}
         </Button>
       </DialogActions>
     </Dialog>

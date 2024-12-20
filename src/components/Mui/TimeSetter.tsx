@@ -1,11 +1,12 @@
 import * as React from "react";
+import dayjs from "dayjs";
+import { useTimeSetterStore } from "../../store/store";
+import { MobileTimePicker } from "@mui/x-date-pickers";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
-import dayjs from "dayjs";
-import { useTimeSetterStore } from "../../store/store";
-import { MobileTimePicker } from "@mui/x-date-pickers";
+import { t } from "i18next";
 
 export default function TimeSetter() {
   const DateSet = useTimeSetterStore((state) => state.DateSet);
@@ -21,7 +22,7 @@ export default function TimeSetter() {
       <DemoContainer components={["TimePicker"]}>
         <MobileTimePicker
           sx={{ width: 400 }}
-          label="목표 시간 설정하기"
+          label={t("목표 시간 설정하기")}
           value={selectDate}
           viewRenderers={{
             hours: renderTimeViewClock,

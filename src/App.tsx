@@ -33,6 +33,7 @@ export default function App() {
       localStorage.setItem("LoginUserToken", JSON.stringify(null));
     }
   }, []);
+
   return (
     <Routes>
       <Route element={<LayOut />}>
@@ -43,7 +44,7 @@ export default function App() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/userpage/:fullname" element={<UserPage />} />
         <Route path="/notifications" element={<Noti />} />
-        <Route path="*" element={<ErrorPage />} />{" "}
+        <Route path="*" element={<ErrorPage />} />
       </Route>
       <Route element={<CommunityLayout />}>
         <Route path="/community" element={<Community />} />
