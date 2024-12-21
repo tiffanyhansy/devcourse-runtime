@@ -96,7 +96,7 @@ export default function ChatUserList() {
           return (
             <article
               key={uuidv4()}
-              className="flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
+              className="relative flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
               onClick={() => {
                 setIsChatingOpenFalse();
                 setTimeout(() => {
@@ -110,6 +110,9 @@ export default function ChatUserList() {
                 className="w-[50px] h-[50px] object-cover rounded-full mb-1"
               />
               <span className="text-[13px] font-bold">{addUser.fullName}</span>
+              {addUser.isOnline && (
+                <article className="w-[10px] h-[10px] rounded-full bg-green-500 absolute top-0 left-0"></article>
+              )}
             </article>
           );
         })}
@@ -117,7 +120,7 @@ export default function ChatUserList() {
           return (
             <article
               key={uuidv4()}
-              className="flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
+              className="relative flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
               onClick={() => {
                 setNowChatId(
                   divide.sender._id !== user?._id
@@ -144,6 +147,13 @@ export default function ChatUserList() {
                   ? divide.sender.fullName
                   : divide.receiver.fullName}
               </span>
+              {divide.sender._id !== user?._id
+                ? divide.sender.isOnline && (
+                    <article className="w-[10px] h-[10px] rounded-full block bg-green-500 absolute top-[40px] left-[40px]"></article>
+                  )
+                : divide.receiver.isOnline && (
+                    <article className="w-[10px] h-[10px] rounded-full block bg-green-500 absolute top-[40px] left-[40px]"></article>
+                  )}
             </article>
           );
         })}
