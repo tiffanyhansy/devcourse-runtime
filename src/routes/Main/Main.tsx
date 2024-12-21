@@ -20,6 +20,7 @@ import Button from "../../components/common/SquareButton";
 import trophy from "../../asset/images/trophy.svg";
 import { useTranslation } from "react-i18next";
 import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
+import ChatbotButton from "../../components/chatbot/ChatbotButton";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -130,6 +131,7 @@ export default function Main() {
       </section>
 
       <SelectLanguageButton />
+      <ChatbotButton />
     </>
   );
 }
