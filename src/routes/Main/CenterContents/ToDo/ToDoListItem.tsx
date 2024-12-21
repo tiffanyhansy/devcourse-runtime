@@ -26,7 +26,12 @@ export default function ToDoListItem({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Tooltip placement="right" arrow title={text}>
+    <Tooltip
+      placement="right"
+      arrow
+      title={text}
+      PopperProps={{ style: { zIndex: 40 } }}
+    >
       <li className="w-100% h-[50px] border-b border-[#D0E5F9] hover:bg-[#e9e9e9] pl-[20px] px-[10px] flex items-center justify-between relative">
         <article className="self-center flex gap-[18px]">
           <input
