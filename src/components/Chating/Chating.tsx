@@ -46,42 +46,91 @@ export default function Chating() {
     }
   };
 
+  const updateSeen = () => {
+    try {
+      axiosInstance.put(`/messages/update-seen`, { sender: nowChatId });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const chatBoxRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     getAuthUser();
-    getMessage();
+    getMessage().then(() => {
+      setTimeout(() => {
+        chatBoxRef.current!.scrollTop = chatBoxRef.current!.scrollHeight;
+      }, 0);
+    });
     const messageInterval = setInterval(() => {
       console.log("작동중");
       getMessage();
+      updateSeen();
     }, 3000);
 
     // return clearInterval(messageInterval)
     return () => clearInterval(messageInterval);
   }, []);
+
+  useEffect(() => {
+    if (
+      chatBoxRef.current!.scrollHeight -
+        (chatBoxRef.current!.scrollTop + chatBoxRef.current!.clientHeight) <
+      100
+    ) {
+      chatBoxRef.current!.scrollTop = chatBoxRef.current!.scrollHeight;
+    }
+  }, [getMessage]);
+
   return (
     <>
       <article className="p-5">
-        <article className="w-full h-[400px] border p-3 flex flex-col gap-[10px] mb-[10px] overflow-y-scroll custom-scroll">
-          <p className="text-[13px] text-gray-500 text-center">
-            {userChat.length !== 0
-              ? `<${
-                  user?._id === userChat[0].receiver._id
-                    ? userChat[0].sender.fullName
-                    : userChat[0].receiver.fullName
-                } 님의 대화 >`
-              : "<채팅을 입력해 대화를 시작해주세요!>"}
-          </p>
+        <p className="text-[13px] text-gray-500 text-center bg-white mb-2">
+          {userChat.length !== 0
+            ? `<${
+                user?._id === userChat[0].receiver._id
+                  ? userChat[0].sender.fullName
+                  : userChat[0].receiver.fullName
+              } 님의 대화 >`
+            : "<채팅을 입력해 대화를 시작해주세요!>"}
+        </p>
+        <article
+          ref={chatBoxRef}
+          className="w-full h-[400px] border pt-5 px-3 flex flex-col gap-[10px] mb-[10px] overflow-y-scroll custom-scroll"
+        >
           {userChat.map((e) => {
             if (user?._id === e.receiver._id) {
               return (
-                <p key={uuidv4()} className="text-left">
-                  {e.message}
-                </p>
+                <article key={uuidv4()} className="w-full flex justify-start">
+                  <article className="flex flex-col items-start">
+                    <article className="flex gap-1 items-end">
+                      <span className="text-left max-w-[200px] px-2 py-1 rounded-lg bg-[#E8F0FE]">
+                        {e.message}
+                      </span>
+                      {!e.seen && (
+                        <span className="text-[10px] text-yellow-500">1</span>
+                      )}
+                    </article>
+                    <span className="text-[10px]">{e.createdAt}</span>
+                  </article>
+                </article>
               );
             } else {
               return (
-                <p key={uuidv4()} className="text-right">
-                  {e.message}
-                </p>
+                <article key={uuidv4()} className="w-full flex justify-end">
+                  <article className="flex flex-col items-end">
+                    <article className="flex gap-1 items-end">
+                      {!e.seen && (
+                        <span className="text-[10px] text-yellow-500">1</span>
+                      )}
+                      <span className="max-w-[200px] text-right px-2 py-1 rounded-lg bg-[#E8F0FE]">
+                        {e.message}
+                      </span>
+                    </article>
+                    <span className="text-[10px]">{e.createdAt}</span>
+                  </article>
+                </article>
               );
             }
           })}
@@ -103,6 +152,8 @@ export default function Chating() {
               ) {
                 sendMessage(chatRef.current.value.trim(), nowChatId);
                 chatRef.current.value = "";
+                chatBoxRef.current!.scrollTop =
+                  chatBoxRef.current!.scrollHeight;
               }
             }}
           >
