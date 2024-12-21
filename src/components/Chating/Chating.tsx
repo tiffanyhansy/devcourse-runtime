@@ -58,6 +58,7 @@ export default function Chating() {
 
   useEffect(() => {
     getAuthUser();
+    updateSeen();
     getMessage().then(() => {
       setTimeout(() => {
         chatBoxRef.current!.scrollTop = chatBoxRef.current!.scrollHeight;

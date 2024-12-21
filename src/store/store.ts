@@ -33,6 +33,8 @@ interface EditorState {
   openChannelDialog: () => void;
   closeChannelDialog: () => void;
   toggleChannelDialog: () => void;
+
+  setIsAlertOpen: () => void;
 }
 
 export const useEditorStore = create<EditorState>((set, get) => ({
@@ -105,6 +107,9 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       isChannelDialogOpen: !state.isChannelDialogOpen,
     }));
   },
+
+  // 재사용용 isAlertOpen 트리거 추가했습니당
+  setIsAlertOpen: () => set(() => ({ isAlertOpen: true })),
 }));
 
 // 메인페이지 몇 시간? 클릭시 상호작용 기능

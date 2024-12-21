@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router";
-import { useprofileModalStore } from "../../store/store";
+import { useChatingModalStore, useprofileModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
 import { t } from "i18next";
@@ -32,6 +32,17 @@ export default function Modal({
   // 로그아웃 + 이전 사용자 정보 + 토큰값 지우기
   const setUser = useLoginStore((state) => state.setUser);
   const setToken = useLoginStore((state) => state.setToken);
+
+  // 채팅창 닫기 로직
+  const isChatModalOpen = useChatingModalStore(
+    (state) => state.isChatModalOpen
+  );
+  const setIsChatModalOpenFalse = useChatingModalStore(
+    (state) => state.setIsChatModalOpenFalse
+  );
+  const setIsChatingOpenFalse = useChatingModalStore(
+    (state) => state.setIsChatingOpenFalse
+  );
 
   const logOut = async () => {
     await axiosInstance
@@ -183,6 +194,10 @@ export default function Modal({
                       to="/login"
                       className="text-black text-lg font-medium leading-[22px]"
                       onClick={() => {
+                        if (isChatModalOpen) {
+                          setIsChatModalOpenFalse();
+                          setIsChatingOpenFalse();
+                        }
                         close();
                         logOut();
                       }}
