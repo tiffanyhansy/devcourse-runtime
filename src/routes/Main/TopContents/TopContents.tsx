@@ -37,14 +37,17 @@ export default function TopContents() {
           size="xl"
           variant="todo"
           textSize="lg"
-          className="text-[#7eacb5] w-fit font-semibold flex content-center"
+          className="text-[#7eacb5] w-fit font-semibold flex content-center hover:text-[#92c7d1]"
           onClick={() => {
             setIsTimeSetterOpen();
           }}
         >
           {t("오늘의 목표 설정하기")}
           <KeyboardArrowRightRoundedIcon
-            style={{ fontWeight: "bolder", fontSize: "30px" }}
+            sx={{
+              fontWeight: "bolder",
+              fontSize: "30px",
+            }}
           />
         </Button>
         {isTimeSetterOpen ? (

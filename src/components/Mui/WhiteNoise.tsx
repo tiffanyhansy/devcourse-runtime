@@ -56,7 +56,9 @@ export default function WhiteNoise() {
           }}
         >
           {isPlayingWhiteNoise ? (
-            <VolumeOff style={{ width: "4em", height: "4rem", opacity: 0.7 }} />
+            <VolumeOff
+              style={{ width: "3rem", height: "3rem", opacity: 0.7 }}
+            />
           ) : (
             <VolumeUp style={{ width: "3rem", height: "3rem", opacity: 0.7 }} />
           )}
