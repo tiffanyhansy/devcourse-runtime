@@ -52,8 +52,10 @@ export default function LoginDialog() {
           variant="todo"
           className="border-2 border-[#e7e7e7] border-solid text-gray-700 hover:bg-gray-100 "
           onClick={closeLoginDialog}
-          color="inherit"
-        ></Button>
+          color="black"
+        >
+          {t("닫기")}
+        </Button>
         {/* 로그인 버튼 */}
         <Button
           size="md"
