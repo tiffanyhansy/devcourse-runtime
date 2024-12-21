@@ -1,9 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useChatingModalStore } from "../../store/store";
-import { axiosInstance } from "../../api/axios";
-import { conversationsType } from "../../api/api";
 import Chating from "./Chating";
-import { useLoginStore } from "../../store/API";
 import UserSearchModal from "./UserSearchModal";
 import ChatUserList from "./ChatUserList";
 
@@ -35,20 +32,6 @@ export default function ChatingModal() {
     }
   };
 
-  // 언제 사용될 지 모르는 전체 채팅로그 불러오기
-  const conversations = useChatingModalStore((state) => state.conversations);
-  const setConversations = useChatingModalStore(
-    (state) => state.setConversations
-  );
-
-  // 중복되는 메신저 유저 분류용 배열 함수
-  const setConversationUsers = useChatingModalStore(
-    (state) => state.setConversationUsers
-  );
-  const conversationUsers = useChatingModalStore(
-    (state) => state.conversationUsers
-  );
-
   // 채팅창 오픈 트리거
   const isChatingOpen = useChatingModalStore((state) => state.isChatingOpen);
 
@@ -68,45 +51,7 @@ export default function ChatingModal() {
     (state) => state.setAddedUserList
   );
 
-  // 현재 유저 정보
-  const user = useLoginStore((state) => state.user);
-
   // 메신저 기록 axios(메시지함은 뭘 받아오는건지 이해가 안되서 안 씀 messages?userId 이거 쓰니 사용자 id와 관련된 메시지 전부를 들고오길래 이걸로 예외처리해서 상단 메시지 기록으로 사용중)
-  const getConversations = async () => {
-    try {
-      const getConversations: conversationsType[] = (
-        await axiosInstance.get(`messages?userId=${user?._id}`)
-      ).data;
-
-      // 언젠가 쓸 지 모르는 전체채팅로그 불러오기
-      setConversations(getConversations);
-
-      // 채팅 보낸 유저들 중복없이 모아두기
-      const users: string[] = [];
-      const filterConversations = getConversations.filter((e) => {
-        if (e.sender._id !== user?._id) {
-          if (!users.includes(e.sender._id)) {
-            users.push(e.sender._id);
-            return true;
-          }
-        }
-        if (e.receiver._id !== user?._id) {
-          if (!users.includes(e.receiver._id)) {
-            users.push(e.receiver._id);
-            return true;
-          }
-        }
-        return false;
-      });
-      setConversationUsers(filterConversations);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getConversations();
-  }, []);
 
   return (
     <article

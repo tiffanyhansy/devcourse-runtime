@@ -61,13 +61,15 @@ export default function Chating() {
     <>
       <article className="p-5">
         <article className="w-full h-[400px] border p-3 flex flex-col gap-[10px] mb-[10px] overflow-y-scroll custom-scroll">
-          <p className="text-[13px] text-gray-500 text-center">{`<${
-            userChat.length !== 0
-              ? user?._id === userChat[0].receiver._id
-                ? userChat[0].sender.fullName
-                : userChat[0].receiver.fullName
-              : ""
-          } 과의 대화 >`}</p>
+          <p className="text-[13px] text-gray-500 text-center">
+            {userChat.length !== 0
+              ? `<${
+                  user?._id === userChat[0].receiver._id
+                    ? userChat[0].sender.fullName
+                    : userChat[0].receiver.fullName
+                } 님의 대화 >`
+              : "<채팅을 입력해 대화를 시작해주세요!>"}
+          </p>
           {userChat.map((e) => {
             if (user?._id === e.receiver._id) {
               return (
