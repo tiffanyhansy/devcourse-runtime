@@ -3,6 +3,7 @@ import { userType } from "../../api/api";
 import { axiosInstance } from "../../api/axios";
 import default_profile from "../../asset/default_profile.png";
 import { useChatingModalStore } from "../../store/store";
+import { v4 as uuidv4 } from "uuid";
 
 export default function UserSearchModal() {
   const [userAll, setUserAll] = useState<userType[]>([]);
@@ -14,6 +15,14 @@ export default function UserSearchModal() {
   const setIsSearchModalOpenFalse = useChatingModalStore(
     (state) => state.setIsSearchModalOpenFalse
   );
+  const setIsChatingOpenTrue = useChatingModalStore(
+    (state) => state.setIsChatingOpenTrue
+  );
+  const setIsChatingOpenFalse = useChatingModalStore(
+    (state) => state.setIsChatingOpenFalse
+  );
+
+  const setNowChatId = useChatingModalStore((state) => state.setNowChatId);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -75,7 +84,13 @@ export default function UserSearchModal() {
                 const listUpdate = [...addedUserList];
                 listUpdate.push(user);
                 setAddedUserList(listUpdate);
+                setNowChatId(user._id);
+                setIsChatingOpenFalse();
+                setTimeout(() => {
+                  setIsChatingOpenTrue();
+                });
               }}
+              key={uuidv4()}
             >
               <img
                 src={user.image ? user.image : default_profile}
