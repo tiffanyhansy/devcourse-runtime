@@ -164,10 +164,10 @@ export default function ChatUserList() {
               </span>
               {divide.sender._id !== user?._id
                 ? divide.sender.isOnline && (
-                    <article className="w-[10px] h-[10px] rounded-full block bg-green-500 absolute top-[40px] left-[40px]"></article>
+                    <article className="w-[10px] h-[10px] rounded-full block bg-green-500 absolute top-[40px] left-[5px]"></article>
                   )
                 : divide.receiver.isOnline && (
-                    <article className="w-[10px] h-[10px] rounded-full block bg-green-500 absolute top-[40px] left-[40px]"></article>
+                    <article className="w-[10px] h-[10px] rounded-full block bg-green-500 absolute top-[40px] left-[5px]"></article>
                   )}
             </button>
           );

@@ -195,8 +195,8 @@ export default function Modal({
                       className="text-black text-lg font-medium leading-[22px]"
                       onClick={() => {
                         if (isChatModalOpen) {
-                          setIsChatModalOpenFalse();
                           setIsChatingOpenFalse();
+                          setIsChatModalOpenFalse();
                         }
                         close();
                         logOut();
