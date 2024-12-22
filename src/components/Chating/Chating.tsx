@@ -107,7 +107,7 @@ export default function Chating() {
                 <article key={uuidv4()} className="w-full flex justify-start">
                   <article className="flex flex-col items-start">
                     <article className="flex gap-1 items-end">
-                      <span className="text-left max-w-[200px] px-2 py-1 rounded-r-lg rounded-tl-lg bg-[#E8F0FE] relative after:contents-[*] after:absolute after:bottom-0 after:left-[-10px] after:w-0 after:h-0 after:border-l-[10px] after:border-l-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
+                      <span className="shadow-md mb-[2px] max-w-[200px] px-2 py-1 rounded-r-lg rounded-tl-lg bg-[#E8F0FE] relative after:contents-[*] after:absolute after:bottom-0 after:left-[-10px] after:w-0 after:h-0 after:border-l-[10px] after:border-l-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
                         {e.message}
                       </span>
                       {!e.seen && (
@@ -126,7 +126,7 @@ export default function Chating() {
                       {!e.seen && (
                         <span className="text-[10px] text-yellow-500">1</span>
                       )}
-                      <span className="max-w-[200px] text-right px-2 py-1 rounded-l-lg rounded-tr-lg relative bg-[#E8F0FE] after:contents-[*] after:absolute after:bottom-0 after:right-[-10px] after:w-0 after:h-0 after:border-r-[10px] after:border-r-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
+                      <span className="shadow-md mb-[2px] max-w-[200px] px-2 py-1 rounded-l-lg rounded-tr-lg relative bg-[#E8F0FE] after:contents-[*] after:absolute after:bottom-0 after:right-[-10px] after:w-0 after:h-0 after:border-r-[10px] after:border-r-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
                         {e.message}
                       </span>
                     </article>

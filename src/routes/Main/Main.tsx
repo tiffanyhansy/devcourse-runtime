@@ -70,11 +70,18 @@ export default function Main() {
     setUser(newUser);
   };
   useEffect(() => {
+    // 10초 마다 유저 정보 업데이트 해서 온라인 상태 유지되도록 변경
     getAuthUser();
+    const userInerval = setInterval(() => {
+      if (JSON.parse(localStorage.getItem("LoginUserInfo")!) !== null) {
+        getAuthUser();
+      }
+    }, 10000);
     document.body.style.overflow = "hidden";
 
     return () => {
       document.body.style.overflow = "auto";
+      clearInterval(userInerval);
     };
   }, []);
 
