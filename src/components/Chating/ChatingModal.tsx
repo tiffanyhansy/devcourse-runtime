@@ -94,6 +94,7 @@ export default function ChatingModal() {
           <button
             className="w-[24px] h-[24px]"
             onClick={() => {
+              isContentClose && setIsContentCloseFalse();
               setIsChatModalOpenFalse();
             }}
           >
