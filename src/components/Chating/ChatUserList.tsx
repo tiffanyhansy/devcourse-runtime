@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useLoginStore } from "../../store/API";
 import { axiosInstance } from "../../api/axios";
 import { conversationsType } from "../../api/api";
+import new_chat_add_icon from "../../asset/images/new_chat_add_icon.svg";
 
 export default function ChatUserList() {
   const conversationUsers = useChatingModalStore(
@@ -26,20 +27,28 @@ export default function ChatUserList() {
   );
 
   // 유저검색 트리거 함수
+  const isSearchModalOpen = useChatingModalStore(
+    (state) => state.isSearchModalOpen
+  );
   const setIsSearchModalOpenTrue = useChatingModalStore(
     (state) => state.setIsSearchModalOpenTrue
+  );
+  const setIsSearchModalOpenFalse = useChatingModalStore(
+    (state) => state.setIsSearchModalOpenFalse
   );
 
   const setConversations = useChatingModalStore(
     (state) => state.setConversations
   );
-
   const setConversationUsers = useChatingModalStore(
     (state) => state.setConversationUsers
   );
 
-  // 전체유저목록에서 추가시키는 유저리스트
-  const addedUserList = useChatingModalStore((state) => state.addedUserList);
+  // 마지막 채팅 기록 불러오기
+  const lastChatList = useChatingModalStore((state) => state.lastChatList);
+  const setLastChatList = useChatingModalStore(
+    (state) => state.setLastChatList
+  );
 
   const getConversations = async () => {
     try {
@@ -50,24 +59,30 @@ export default function ChatUserList() {
       // 언젠가 쓸 지 모르는 전체채팅로그 불러오기
       setConversations(getConversations);
 
+      // 마지막 댓글을 확인하기 위해 배열 뒤집기 사용용
+      const reversedConversations = getConversations.reverse();
       // 채팅 보낸 유저들 중복없이 모아두기
       const users: string[] = [];
-      const filterConversations = getConversations.filter((e) => {
+      const chat: conversationsType[] = [];
+      const filterConversations = reversedConversations.filter((e) => {
         if (e.sender._id !== user?._id) {
           if (!users.includes(e.sender._id)) {
             users.push(e.sender._id);
+            chat.push(e);
             return true;
           }
         }
         if (e.receiver._id !== user?._id) {
           if (!users.includes(e.receiver._id)) {
             users.push(e.receiver._id);
+            chat.push(e);
             return true;
           }
         }
         return false;
       });
       setConversationUsers(filterConversations);
+      setLastChatList(chat);
     } catch (error) {
       console.log(error);
     }
@@ -75,48 +90,33 @@ export default function ChatUserList() {
 
   useEffect(() => {
     getConversations();
+    const conversationInterval = setInterval(() => {
+      getConversations();
+    }, 3000);
+
+    return () => clearInterval(conversationInterval);
   }, []);
 
   return (
-    <article className="w-full overflow-x-scroll custom-scroll-x pr-[100px]">
-      <article className="flex flex-nowrap gap-3 px-2 py-2 ">
+    <article className="w-full overflow-x-scroll custom-scroll-x">
+      <article className="flex flex-nowrap gap-3 pl-3 py-2">
         <button
           key={uuidv4()}
           className="flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
         >
           <img
-            src={small_icon}
-            alt={"추가가 아이콘콘"}
+            src={new_chat_add_icon}
+            alt={"새 채팅 아이콘"}
             className="w-[50px] h-[50px] object-cover rounded-full border mb-1"
-            onClick={setIsSearchModalOpenTrue}
+            onClick={() =>
+              isSearchModalOpen
+                ? setIsSearchModalOpenFalse()
+                : setIsSearchModalOpenTrue()
+            }
           />
-          <span className="text-[13px] font-bold text-green-300">{"추가"}</span>
+          <span className="text-[13px] font-bold">{"새 채팅"}</span>
         </button>
-        {addedUserList?.map((addUser) => {
-          return (
-            <article
-              key={uuidv4()}
-              className="relative flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
-              onClick={() => {
-                setIsChatingOpenFalse();
-                setTimeout(() => {
-                  setIsChatingOpenTrue();
-                });
-              }}
-            >
-              <img
-                src={addUser.image ? addUser.image : default_profile}
-                alt={"전송자 이미지"}
-                className="w-[50px] h-[50px] object-cover rounded-full mb-1"
-              />
-              <span className="text-[13px] font-bold">{addUser.fullName}</span>
-              {addUser.isOnline && (
-                <article className="w-[10px] h-[10px] rounded-full bg-green-500 absolute top-0 left-0"></article>
-              )}
-            </article>
-          );
-        })}
-        {conversationUsers.map((divide) => {
+        {conversationUsers.map((divide, idx) => {
           return (
             <article
               key={uuidv4()}
@@ -141,6 +141,21 @@ export default function ChatUserList() {
                 }
                 alt={"전송자 이미지"}
                 className="w-[50px] h-[50px] object-cover rounded-full mb-1"
+                style={
+                  lastChatList[idx].sender._id !== user?._id &&
+                  !lastChatList[idx].seen
+                    ? {
+                        borderRadius: "50%",
+                        backgroundImage:
+                          "linear-gradient(to right, #ff0000, #ff7f50), linear-gradient(to right, #fff, #fff)",
+                        backgroundOrigin: "border-box",
+                        backgroundClip: "padding-box, border-box",
+                        padding: "3px",
+                        width: "53px",
+                        height: "53px",
+                      }
+                    : {}
+                }
               />
               <span className="text-[13px] font-bold">
                 {divide.sender._id !== user?._id
