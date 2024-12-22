@@ -13,7 +13,7 @@ interface Comment {
 }
 
 // 게시물 타입 정의
-interface Post {
+interface Post_T {
   _id: string;
   title: string;
   content: string;
@@ -33,11 +33,12 @@ interface Like {
 
 // Zustand 스토어 타입 정의
 interface CommentStore {
-  posts: Post[]; // 게시물 목록
+  posts: Post_T[]; // 게시물 목록
   selectedPostId: string | null;
   currentUserId: string | null;
   currentPostId: string | null;
   currentComments: Comment[]; // 현재 게시물의 댓글 목록
+  isFetching: boolean;
   fetchPosts: () => Promise<void>;
   addCommentToPost: (postId: string, comment: string) => Promise<void>;
   deleteComment: (commentId: string) => Promise<void>;
@@ -50,22 +51,27 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
   selectedPostId: null,
   currentPostId: null,
   currentComments: [],
+  isFetching: false,
 
   // 특정 포스트 상세 보기
   fetchPosts: async () => {
+    if (get().isFetching) return; //중복 방지
+    set({ isFetching: true }); //요청 상태 설정
     try {
       const response = await axiosInstance.get(
         `${import.meta.env.VITE_API_URL}/posts`
       );
 
-      // 상태 업데이트
+      //상태 업데이트
       set({
         posts: response.data.map((post: any) => ({
           ...post,
-          isLiked: false, // 초기 좋아요 상태 설정
+          isLiked: post.isLiked || false, // 서버 데이터 기반 설정
         })),
+        isFetching: false, //요청 종료
       });
     } catch (error) {
+      set({ isFetching: false }); //요청 종료
       console.error("게시물 목록 가져오기 실패:", error);
     }
   },
@@ -125,7 +131,9 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
   },
 
   // 좋아요 토글
+
   toggleLike: async (postId: string) => {
+    let likeLoading = false;
     const { posts } = get();
     const post = posts.find((p) => p._id === postId); // postId로 게시물 찾기
 
@@ -134,61 +142,74 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
       return;
     }
 
+    if (likeLoading) return;
+    likeLoading = true;
+
     try {
-      // 좋아요 취소
       if (post.isLiked && post.likes.length > 0) {
-        const likeId = post.likes[post.likes.length - 1]._id; // 최근에 추가된 좋아요 ID 가져오기
-        await axiosInstance.delete(
+        // 최근에 눌렀던 좋아요 ID 가져오기
+        const likeId = post.likes[post.likes.length - 1]?._id;
+
+        // 좋아요 ID가 없을 경우 처리
+        if (!likeId) {
+          console.error("좋아요 ID를 찾을 수 없습니다.");
+          return;
+        }
+
+        // 좋아요 삭제 요청
+        const response = await axiosInstance.delete(
           `${import.meta.env.VITE_API_URL}/likes/delete`,
           {
-            data: { id: likeId }, // likeId만 전달
+            data: { id: likeId },
             headers: { "Content-Type": "application/json" },
           }
         );
 
-        // 상태 업데이트
-        set({
-          posts: posts.map((p) =>
-            p._id === postId
-              ? {
-                  ...p,
-                  isLiked: false,
-                  likes: p.likes.filter((like) => like._id !== likeId),
-                }
-              : p
-          ),
-        });
+        if (response.status === 200) {
+          console.log("좋아요 취소 성공", response.data);
+        }
 
-        console.log(`좋아요 취소 성공: id=${likeId}`);
+        // 상태 업데이트
+        set((state) => ({
+          posts: state.posts.map((currentPost) =>
+            currentPost._id === postId
+              ? {
+                  ...currentPost,
+                  isLiked: false,
+                  likes: currentPost.likes.filter(
+                    (like) => like._id !== likeId
+                  ),
+                }
+              : currentPost
+          ),
+        }));
       } else {
-        // 좋아요 추가
+        // 좋아요 추가 요청
         const response = await axiosInstance.post(
           `${import.meta.env.VITE_API_URL}/likes/create`,
           { postId },
           { headers: { "Content-Type": "application/json" } }
         );
 
-        const newLike = response.data; // 서버가 반환한 좋아요 ID
-        if (newLike && newLike._id) {
-          set({
-            posts: posts.map((p) =>
-              p._id === postId
-                ? {
-                    ...p,
-                    isLiked: true,
-                    likes: [...p.likes, newLike],
-                  }
-                : p
-            ),
-          });
+        //post 상태 업데이트
+        const newLike = response.data;
 
-          console.log(`좋아요 추가 성공: id=${newLike._id}`);
-        } else {
-          console.error("좋아요 ID 생성 실패");
-        }
+        set((state) => ({
+          posts: state.posts.map((currentPost) =>
+            currentPost._id === postId
+              ? {
+                  ...currentPost,
+                  isLiked: true,
+                  likes: [...currentPost.likes, newLike],
+                }
+              : currentPost
+          ),
+        }));
       }
     } catch (error) {
-      console.error("좋아요 토글 실패:", error);
+      console.error("잘못된 접근", error);
+    } finally {
+      likeLoading = false; //요청완료
     }
   },
 }));

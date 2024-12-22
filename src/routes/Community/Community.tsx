@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import { Post_T } from "../../api/api";
 import { usePostStore } from "../../store/postStore";
@@ -99,7 +99,6 @@ export default function Community({ channelName = "sw" }: Props) {
           posts.map((post) => (
             <PostPreview
               preview={post}
-              key={post._id}
               currentUser={currentUser || "알 수 없음"}
             />
           ))
