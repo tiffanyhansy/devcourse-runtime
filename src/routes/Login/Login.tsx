@@ -120,7 +120,13 @@ export default function Login() {
         </section>
 
         {loginError && (
-          <Alert severity="error" className="mt-4">
+          <Alert
+            severity="error"
+            className="mt-4"
+            sx={{
+              fontFamily: "S-CoreDream-3Light",
+            }}
+          >
             {t("이메일과 비밀번호를 확인해주세요.")}
           </Alert>
         )}
