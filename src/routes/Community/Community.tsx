@@ -6,6 +6,7 @@ import PostPreview from "../../components/Community/PostPreview";
 import ChannelButton from "../../components/Community/ChannelButton";
 import Skeleton from "../../components/Community/Skeleton";
 import { t } from "i18next";
+import { v4 as uuidv4 } from "uuid";
 type ChannelId_T = "sw" | "si" | "da" | "ge";
 
 type Props = {
@@ -102,6 +103,7 @@ export default function Community({ channelName = "sw" }: Props) {
             <PostPreview
               preview={post}
               currentUser={currentUser || t("알 수 없음")}
+              key={uuidv4()}
             />
           ))
         ) : (
