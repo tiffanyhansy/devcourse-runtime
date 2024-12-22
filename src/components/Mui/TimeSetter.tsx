@@ -39,9 +39,12 @@ export default function TimeSetter() {
             },
             "& .MuiInputLabel-root": {
               color: "#acacac",
+              fontFamily: "S-CoreDream-3Light",
+              marginLeft: "8px",
             },
             "& .MuiInputLabel-root.Mui-focused": {
               color: "#7EACB5",
+              marginLeft: "0px",
             },
           }}
           label={t("목표 시간 설정하기")}
