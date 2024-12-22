@@ -74,7 +74,7 @@ export default function FloatingActionButtons() {
       >
         {isPlayBtnClicked ? (
           <PauseRoundedIcon
-            style={{ width: "3em", height: "3rem", opacity: 0.7 }}
+            style={{ width: "3rem", height: "3rem", opacity: 0.7 }}
           />
         ) : (
           <PlayArrowRoundedIcon

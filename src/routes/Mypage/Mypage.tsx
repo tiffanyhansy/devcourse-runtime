@@ -1,5 +1,6 @@
 // react
 import React, { useEffect } from "react";
+
 // MUI
 import { Stack, Chip, Box, Typography, Alert, Tooltip } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
@@ -8,6 +9,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import Input from "../../components/Mypage/Input";
 import Button from "../../components/common/SquareButton";
 import ProfileSkeleton from "../../components/Mypage/ProfileSkeleton";
+import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
 
 // Store
 import { useProfileStore } from "../../store/store";
@@ -18,8 +20,11 @@ import { axiosInstance } from "../../api/axios";
 
 //이미지
 import default_profile from "../../asset/default_profile.png";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const Mypage = () => {
+  const { t } = useTranslation();
   const setUser = useLoginStore((state) => state.setUser);
   const parsedField = useProfileStore((state) => state.parsedField);
   const setParsedField = useProfileStore((state) => state.setParsedField);
@@ -112,7 +117,7 @@ const Mypage = () => {
 
     if (isEditable) {
       if (isAnyFieldEmpty) {
-        alert("닉네임을 입력해주세요.");
+        alert(t("닉네임을 입력해주세요."));
         return;
       }
 
@@ -143,11 +148,11 @@ const Mypage = () => {
 
         await getAuthUser();
         setTempProfilePic(image);
-        alert("변경사항이 저장되었습니다.");
+        alert(t("변경사항이 저장되었습니다."));
       } catch (error) {
         console.error("❌ 변경사항 저장에 실패했습니다.", error);
 
-        alert("변경사항 저장 중 오류가 발생했습니다.");
+        alert(t("변경사항 저장 중 오류가 발생했습니다."));
       }
     }
 
@@ -171,10 +176,10 @@ const Mypage = () => {
 
   const fieldLabels = ["SW", "SI", "DA", "GE"];
   const fieldDescriptions = [
-    "소프트웨어 개발",
-    "시스템/인프라",
-    "데이터/AI 개발",
-    "게임/QA",
+    t("소프트웨어 개발"),
+    t("시스템/인프라"),
+    t("데이터/AI 개발"),
+    t("게임/QA"),
   ];
 
   const handleFieldClick = (index: number) => {
@@ -192,10 +197,11 @@ const Mypage = () => {
   if (isLoading) {
     return <ProfileSkeleton />;
   }
+
   return (
     <section className="p-5 pt-8 overflow-hidden h-[100vh]">
       <article className="flex mt-14">
-        <h1 className="text-4xl font-bold">내 프로필</h1>
+        <h1 className="text-4xl font-bold">{t("내 프로필")}</h1>
       </article>
 
       <div className="flex p-[5rem] justify-between">
@@ -243,7 +249,7 @@ const Mypage = () => {
                 justifyContent="center"
               >
                 <Typography color="white" fontWeight="bold" fontSize="20px">
-                  사진 수정하기
+                  {t("사진 수정하기")}
                 </Typography>
               </Box>
             )}
@@ -284,7 +290,7 @@ const Mypage = () => {
           />
           <Input
             isEditable={isEditable}
-            label="닉네임"
+            label={t("닉네임")}
             value={
               isEditable
                 ? username?.username || ""
@@ -372,7 +378,7 @@ const Mypage = () => {
                 className="bg-[#c0c0c0] w-fit px-8 hover:bg-[#D6D6D6]"
                 textSize="sm"
               >
-                취소
+                {t("취소")}
               </Button>
             )}
             <Button
@@ -382,7 +388,7 @@ const Mypage = () => {
               size="md"
               className="hover:bg-[#96ccd6]"
             >
-              {isEditable ? "변경사항 저장" : "프로필 편집"}
+              {isEditable ? t("변경사항 저장") : t("프로필 편집")}
             </Button>
           </Stack>
 
@@ -392,11 +398,13 @@ const Mypage = () => {
                 severity="error"
                 sx={{ mt: 3, width: "500px", justifySelf: "end" }}
               >
-                닉네임을 적어주세요!
+                {t("닉네임을 적어주세요!")}
               </Alert>
             )}
         </div>
       </div>
+
+      <SelectLanguageButton />
     </section>
   );
 };

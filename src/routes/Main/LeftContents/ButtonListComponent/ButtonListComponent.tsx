@@ -1,4 +1,8 @@
-import { useEditorStore, useFriendModalStore } from "../../../../store/store";
+import {
+  useChatingModalStore,
+  useEditorStore,
+  useFriendModalStore,
+} from "../../../../store/store";
 import { useHowTimeStore } from "../../../../store/store";
 import LinkButton from "./LinkButton";
 import EditorModal from "../../../../components/editor/EditorModal";
@@ -7,7 +11,9 @@ import { useLoginStore } from "../../../../store/API";
 import LoginDialog from "../../../../components/editor/LoginDialog";
 import Clock from "../../../../asset/images/Clock.svg";
 import Edit from "../../../../asset/images/Edit.svg";
+import { t } from "i18next";
 import group from "../../../../asset/images/Group-person.svg";
+import chat from "../../../../asset/images/Chat.svg";
 
 export default function ButtonListComponent() {
   const { toggleEditor } = useEditorStore();
@@ -15,18 +21,31 @@ export default function ButtonListComponent() {
   const { open } = useFriendModalStore();
 
   const token = useLoginStore((state) => state.token);
+  const user = useLoginStore((state) => state.user);
+
+  const setIsChatModalOpenTrue = useChatingModalStore(
+    (state) => state.setIsChatModalOpenTrue
+  );
+
+  const setIsAlertOpen = useEditorStore((state) => state.setIsAlertOpen);
 
   return (
     <section className="flex justify-between bg-[#D5E6E9] w-[25rem] rounded-[30px] px-6 py-4 mt-20">
-      <LinkButton icon={Edit} title={"글 작성"} onClick={toggleEditor} />
-      <LinkButton icon={"/src/asset/images/Chat.svg"} title={"게시판"} />
+      <LinkButton icon={Edit} title={t("글 작성")} onClick={toggleEditor} />
+      <LinkButton
+        icon={chat}
+        title={t("채팅")}
+        onClick={() => {
+          user && token ? setIsChatModalOpenTrue() : setIsAlertOpen();
+        }}
+      />
       <LinkButton
         icon={group}
-        title={token ? "친구관리" : "유저 검색"}
+        title={user && token ? t("친구관리") : t("유저 검색")}
         onClick={open}
         margitTop={"mt-4"}
       />
-      <LinkButton icon={Clock} title={"몇시간?"} onClick={toggleHowTime} />
+      <LinkButton icon={Clock} title={t("몇시간?")} onClick={toggleHowTime} />
       <EditorModal>
         <BlogEditor />
       </EditorModal>

@@ -3,6 +3,8 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import { useTimerPlayStore, useTimerStore } from "../../store/store";
 import Button from "../common/SquareButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { t } from "i18next";
+
 export default function ResetFab() {
   const isPlayBtnClicked = useTimerPlayStore((state) => state.isPlayBtnClicked);
   const resetTimer = useTimerStore((state) => state.resetTimer);
@@ -55,11 +57,11 @@ export default function ResetFab() {
                 </div>
                 <div className="space-y-1">
                   <span className="text-2xl font-extrabold">
-                    정말 초기화 하시나요?
+                    {t("정말 초기화 하시나요?")}
                   </span>
 
                   <span className="block text-sm text-gray-700">
-                    이 작업은 되돌릴 수 없습니다.{" "}
+                    {t("이 작업은 되돌릴 수 없습니다.")}
                   </span>
                 </div>
               </Stack>
@@ -72,7 +74,7 @@ export default function ResetFab() {
                   className="border-2 border-[#D6D6D6] border-solid text-gray-700 hover:bg-gray-100"
                   onClick={setResetAlertModal}
                 >
-                  취소
+                  {t("취소")}
                 </Button>
 
                 <Button
@@ -89,7 +91,7 @@ export default function ResetFab() {
                     );
                   }}
                 >
-                  초기화
+                  {t("초기화")}
                 </Button>
               </Stack>
             </article>

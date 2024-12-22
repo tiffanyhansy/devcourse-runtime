@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { useLoginStore } from "../store/API";
 import { v4 as uuidv4 } from "uuid";
 import dayjs, { Dayjs } from "dayjs";
+import { conversationsType, userType } from "../api/api";
 
 //editor 타입 & 상태관리 총 정리
 interface EditorState {
@@ -32,6 +33,8 @@ interface EditorState {
   openChannelDialog: () => void;
   closeChannelDialog: () => void;
   toggleChannelDialog: () => void;
+
+  setIsAlertOpen: () => void;
 }
 
 export const useEditorStore = create<EditorState>((set, get) => ({
@@ -104,6 +107,9 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       isChannelDialogOpen: !state.isChannelDialogOpen,
     }));
   },
+
+  // 재사용용 isAlertOpen 트리거 추가했습니당
+  setIsAlertOpen: () => set(() => ({ isAlertOpen: true })),
 }));
 
 // 메인페이지 몇 시간? 클릭시 상호작용 기능
@@ -447,4 +453,52 @@ export const useProfileStore = create<ProfileState>((set) => ({
   setTempClickedField: (fields) => set({ tempClickedField: fields }),
   setParsedField: (fields) => set({ parsedField: fields }),
   setIsLoading: (isLoading) => set({ isLoading: isLoading }),
+}));
+
+// ChatingModal 저장소
+interface ChatingModalStorage {
+  isChatModalOpen: boolean;
+  setIsChatModalOpenTrue: () => void;
+  setIsChatModalOpenFalse: () => void;
+  conversations: conversationsType[];
+  setConversations: (getData: conversationsType[]) => void;
+  conversationUsers: conversationsType[];
+  setConversationUsers: (userlist: conversationsType[]) => void;
+  isChatingOpen: boolean;
+  setIsChatingOpenTrue: () => void;
+  setIsChatingOpenFalse: () => void;
+  nowChatId: string;
+  setNowChatId: (getId: string) => void;
+  isSearchModalOpen: boolean;
+  setIsSearchModalOpenTrue: () => void;
+  setIsSearchModalOpenFalse: () => void;
+  isContentClose: boolean;
+  setIsContentClose: () => void;
+  addedUserList: userType[];
+  setAddedUserList: (listUpdate: userType[]) => void;
+}
+
+export const useChatingModalStore = create<ChatingModalStorage>((set) => ({
+  isChatModalOpen: false,
+  setIsChatModalOpenTrue: () => set(() => ({ isChatModalOpen: true })),
+  setIsChatModalOpenFalse: () => set(() => ({ isChatModalOpen: false })),
+  conversations: [],
+  setConversations: (getData) => set(() => ({ conversations: getData })),
+  conversationUsers: [],
+  setConversationUsers: (getData) =>
+    set(() => ({ conversationUsers: getData })),
+  isChatingOpen: false,
+  setIsChatingOpenTrue: () => set(() => ({ isChatingOpen: true })),
+  setIsChatingOpenFalse: () => set(() => ({ isChatingOpen: false })),
+  nowChatId: "",
+  setNowChatId: (getId) => set(() => ({ nowChatId: getId })),
+  isSearchModalOpen: false,
+  setIsSearchModalOpenTrue: () => set(() => ({ isSearchModalOpen: true })),
+  setIsSearchModalOpenFalse: () => set(() => ({ isSearchModalOpen: false })),
+  isContentClose: false,
+  setIsContentClose: () => {
+    set((state) => ({ isContentClose: !state.isContentClose }));
+  },
+  addedUserList: [],
+  setAddedUserList: (listUpdate) => set(() => ({ addedUserList: listUpdate })),
 }));

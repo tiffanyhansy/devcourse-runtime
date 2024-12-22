@@ -5,9 +5,12 @@ import { useCommentStore } from "../../store/comment";
 import ControlBtn from "./ControlBtn";
 import CommentComponent from "./CommentComponent";
 import default_profile from "../../asset/default_profile.png";
-import default_thumbnail from "/src/asset/images/runtime_logo.svg";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
+import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
+import { useTranslation } from "react-i18next";
+import PostButtonFieldCol from "../Post/PostButtonFieldCol";
 
 type Props = {
   preview: Post_T;
@@ -19,7 +22,8 @@ export default function PostPreview({ preview, currentUser }: Props) {
   const [isAnimating, setIsAnimating] = useState(false); // 닫히는 중 상태
   const modalRef = useRef<HTMLDivElement>(null);
 
-  //zustand
+  const { t } = useTranslation();
+  // zustand에서 상태 가져오기
   const { posts, fetchPosts } = useCommentStore();
 
   const updatedPost = posts.find((post) => post._id === preview._id) || preview;
@@ -120,7 +124,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
         </div>
         {/* 글 제목 및 내용 미리보기 */}
         <div className="p-4">
-          <h4 className="truncate mb-1 font-bold text-base">
+          <h4 className="mb-1 text-base font-bold truncate">
             {parsedTitle.title}
           </h4>
           <div>

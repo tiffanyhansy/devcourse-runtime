@@ -4,7 +4,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
+import Button from "../common/SquareButton";
+import { t } from "i18next";
+import { DeleteForever } from "@mui/icons-material";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -27,23 +29,41 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       onClose={onCancel}
       aria-labelledby="confirm-dialog-title"
     >
-      <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText>{description}</DialogContentText>
+      <DialogTitle
+        id="confirm-dialog-title"
+        sx={{
+          fontFamily: "S-CoreDream-3Light",
+          fontWeight: "bold",
+          paddingBottom: "8px",
+        }}
+      >
+        {title}
+      </DialogTitle>
+      <DialogContent sx={{ paddingBottom: "8px" }}>
+        <DialogContentText sx={{ fontFamily: "S-CoreDream-3Light" }}>
+          {description}
+        </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onCancel} color="secondary">
-          취소
-        </Button>
-
+      <DialogActions sx={{ justifyContent: "center" }}>
         <Button
+          size="md"
+          textSize="sm"
+          variant="todo"
+          className="w-44 border-2 border-[#D6D6D6] border-solid text-gray-700 hover:bg-gray-100"
+          onClick={onCancel}
+        >
+          {t("취소")}
+        </Button>{" "}
+        <Button
+          size="md"
+          textSize="sm"
+          variant="custom"
+          className="bg-[#E14444] hover:bg-[#e14444c0] w-44"
           onClick={() => {
             onConfirm();
           }}
-          color="primary"
-          autoFocus
         >
-          확인
+          {t("닫기")}
         </Button>
       </DialogActions>
     </Dialog>

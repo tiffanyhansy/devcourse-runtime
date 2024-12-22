@@ -16,8 +16,7 @@ const Input = ({
   onChange,
   readonly,
 }: InputProps) => {
-  const isRequiredProfile = ["이름", "별명"].includes(label);
-
+  const isRequiredProfile = ["ID", "Nickname", "닉네임"].includes(label);
   const isWebsiteField = label === "Website";
   const getWebsite = (value: string) => {
     if (typeof value === "string" && value !== "-") {

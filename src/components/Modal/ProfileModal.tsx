@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router";
-import { useprofileModalStore } from "../../store/store";
+import { useChatingModalStore, useprofileModalStore } from "../../store/store";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
+import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
 import setting from "../../asset/images/settings.svg";
 import signOut from "../../asset/images/signout.svg";
@@ -31,6 +32,17 @@ export default function Modal({
   // 로그아웃 + 이전 사용자 정보 + 토큰값 지우기
   const setUser = useLoginStore((state) => state.setUser);
   const setToken = useLoginStore((state) => state.setToken);
+
+  // 채팅창 닫기 로직
+  const isChatModalOpen = useChatingModalStore(
+    (state) => state.isChatModalOpen
+  );
+  const setIsChatModalOpenFalse = useChatingModalStore(
+    (state) => state.setIsChatModalOpenFalse
+  );
+  const setIsChatingOpenFalse = useChatingModalStore(
+    (state) => state.setIsChatingOpenFalse
+  );
 
   const logOut = async () => {
     await axiosInstance
@@ -99,7 +111,7 @@ export default function Modal({
                 {type === "header"
                   ? user?.fullName
                     ? user.fullName
-                    : `로그인이 필요합니다.`
+                    : t("로그인이 필요합니다.")
                   : onlineFullname}
               </span>
             </div>
@@ -107,7 +119,7 @@ export default function Modal({
         </div>
         {type === "header" ? (
           token ? (
-            <div className="cursor-pointer">
+            <div className="cursor-pointer hover:bg-gray-100">
               <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
                 <div className="justify-start items-center gap-3.5 inline-flex">
                   <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
@@ -123,7 +135,7 @@ export default function Modal({
                       className="text-black text-lg font-medium leading-[22px]"
                       onClick={close}
                     >
-                      내 프로필
+                      {t("내 프로필")}
                     </Link>
                   </div>
                 </div>
@@ -131,7 +143,7 @@ export default function Modal({
             </div>
           ) : null
         ) : (
-          <div className="cursor-pointer">
+          <div className="cursor-pointer hover:bg-gray-100 rounded-b-2xl">
             <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
               <div className="justify-start items-center gap-3.5 inline-flex">
                 <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
@@ -147,7 +159,7 @@ export default function Modal({
                     className="text-black text-lg font-medium leading-[22px]"
                     onClick={close}
                   >
-                    프로필 보기
+                    {t("프로필 보기")}
                   </Link>
                 </div>
               </div>
@@ -156,7 +168,7 @@ export default function Modal({
         )}
 
         {type === "header" && (
-          <div className="cursor-pointer">
+          <div className="cursor-pointer rounded-b-2xl hover:bg-gray-100">
             <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
               <div className="justify-start items-center gap-3.5 inline-flex">
                 <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
@@ -175,18 +187,22 @@ export default function Modal({
                         close();
                       }}
                     >
-                      로그인
+                      {t("로그인")}
                     </Link>
                   ) : (
                     <Link
                       to="/login"
                       className="text-black text-lg font-medium leading-[22px]"
                       onClick={() => {
+                        if (isChatModalOpen) {
+                          setIsChatModalOpenFalse();
+                          setIsChatingOpenFalse();
+                        }
                         close();
                         logOut();
                       }}
                     >
-                      로그아웃
+                      {t("로그아웃")}
                     </Link>
                   )}
                 </div>

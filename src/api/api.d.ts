@@ -159,3 +159,36 @@ type notificationsStore = {
   }) => void;
   isNseenList?: () => void;
 };
+
+// 채팅내역 타입입
+export interface conversationsUserType {
+  _id: string;
+  role: string;
+  emailVerified: boolean;
+  banned: boolean;
+  isOnline: boolean;
+  posts: string[];
+  likes: string[];
+  comments: string[];
+  followers: string[];
+  following: string[];
+  notifications: string[];
+  messages: string[];
+  fullName: string;
+  email: string;
+  password: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  image: string;
+  imagePublicId: string;
+  username: string;
+}
+export interface conversationsType {
+  _id: string;
+  message: string;
+  createdAt: string;
+  sender: conversationsUserType;
+  receiver: conversationsUserType;
+  seen: boolean;
+}
