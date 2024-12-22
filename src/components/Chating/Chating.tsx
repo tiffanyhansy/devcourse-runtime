@@ -4,6 +4,7 @@ import { axiosInstance } from "../../api/axios";
 import { conversationsType } from "../../api/api";
 import { v4 as uuidv4 } from "uuid";
 import { useLoginStore } from "../../store/API";
+import chating_send_icon from "../../asset/images/chating_send_icon.svg";
 
 export default function Chating() {
   const nowChatId = useChatingModalStore((state) => state.nowChatId);
@@ -78,7 +79,7 @@ export default function Chating() {
     if (
       chatBoxRef.current!.scrollHeight -
         (chatBoxRef.current!.scrollTop + chatBoxRef.current!.clientHeight) <
-      100
+      200
     ) {
       chatBoxRef.current!.scrollTop = chatBoxRef.current!.scrollHeight;
     }
@@ -93,12 +94,12 @@ export default function Chating() {
                 user?._id === userChat[0].receiver._id
                   ? userChat[0].sender.fullName
                   : userChat[0].receiver.fullName
-              } 님의 대화 >`
+              } 님과 대화 >`
             : "<채팅을 입력해 대화를 시작해주세요!>"}
         </p>
         <article
           ref={chatBoxRef}
-          className="w-full h-[400px] border pt-5 px-3 flex flex-col gap-[10px] mb-[10px] overflow-y-scroll custom-scroll"
+          className="w-full h-[400px] border pt-5 px-[20px] flex flex-col gap-[10px] mb-[10px] overflow-y-scroll custom-scroll"
         >
           {userChat.map((e) => {
             if (user?._id === e.receiver._id) {
@@ -106,7 +107,7 @@ export default function Chating() {
                 <article key={uuidv4()} className="w-full flex justify-start">
                   <article className="flex flex-col items-start">
                     <article className="flex gap-1 items-end">
-                      <span className="text-left max-w-[200px] px-2 py-1 rounded-lg bg-[#E8F0FE]">
+                      <span className="text-left max-w-[200px] px-2 py-1 rounded-r-lg rounded-tl-lg bg-[#E8F0FE] relative after:contents-[*] after:absolute after:bottom-0 after:left-[-10px] after:w-0 after:h-0 after:border-l-[10px] after:border-l-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
                         {e.message}
                       </span>
                       {!e.seen && (
@@ -125,7 +126,7 @@ export default function Chating() {
                       {!e.seen && (
                         <span className="text-[10px] text-yellow-500">1</span>
                       )}
-                      <span className="max-w-[200px] text-right px-2 py-1 rounded-lg bg-[#E8F0FE]">
+                      <span className="max-w-[200px] text-right px-2 py-1 rounded-l-lg rounded-tr-lg relative bg-[#E8F0FE] after:contents-[*] after:absolute after:bottom-0 after:right-[-10px] after:w-0 after:h-0 after:border-r-[10px] after:border-r-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
                         {e.message}
                       </span>
                     </article>
@@ -139,12 +140,12 @@ export default function Chating() {
         <article className="flex gap-[10px]">
           <input
             type="text"
-            className="w-full px-2 py-2 rounded-lg border border-black"
+            className="w-full px-2 py-2 rounded-lg bg-[#F0F0F0] focus:outline-none"
             ref={chatRef}
             onKeyDown={(e) => e.key === "Enter" && sendBtnRef.current?.click()}
           />
           <button
-            className="w-[100px] px-2 py-1 rounded-[10px] bg-[#D5E6E9] hover:bg-[#e8f9fc]"
+            className="w-[35px] rounded-[10px]"
             ref={sendBtnRef}
             onClick={() => {
               if (
@@ -158,7 +159,11 @@ export default function Chating() {
               }
             }}
           >
-            전송
+            <img
+              src={chating_send_icon}
+              alt="채팅 전송 아이콘"
+              className="w-full"
+            />
           </button>
         </article>
       </article>

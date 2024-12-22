@@ -473,9 +473,10 @@ interface ChatingModalStorage {
   setIsSearchModalOpenTrue: () => void;
   setIsSearchModalOpenFalse: () => void;
   isContentClose: boolean;
-  setIsContentClose: () => void;
-  addedUserList: userType[];
-  setAddedUserList: (listUpdate: userType[]) => void;
+  setIsContentCloseTrue: () => void;
+  setIsContentCloseFalse: () => void;
+  lastChatList: conversationsType[];
+  setLastChatList: (chatUpdate: conversationsType[]) => void;
 }
 
 export const useChatingModalStore = create<ChatingModalStorage>((set) => ({
@@ -496,9 +497,12 @@ export const useChatingModalStore = create<ChatingModalStorage>((set) => ({
   setIsSearchModalOpenTrue: () => set(() => ({ isSearchModalOpen: true })),
   setIsSearchModalOpenFalse: () => set(() => ({ isSearchModalOpen: false })),
   isContentClose: false,
-  setIsContentClose: () => {
-    set((state) => ({ isContentClose: !state.isContentClose }));
+  setIsContentCloseTrue: () => {
+    set(() => ({ isContentClose: true }));
   },
-  addedUserList: [],
-  setAddedUserList: (listUpdate) => set(() => ({ addedUserList: listUpdate })),
+  setIsContentCloseFalse: () => {
+    set(() => ({ isContentClose: false }));
+  },
+  lastChatList: [],
+  setLastChatList: (chatUpdate) => set(() => ({ lastChatList: chatUpdate })),
 }));
