@@ -38,6 +38,7 @@ const theme = createTheme({
             {
               transform: "translate(14px, -9px) scale(0.75)",
               marginLeft: "0px",
+              marginTop: "0px",
               backgroundColor: "white",
             },
         },
@@ -81,9 +82,12 @@ export default function Input({
             "& label": {
               marginLeft: "8px",
               fontSize: "16px",
+              fontFamily: "S-CoreDream-3Light",
+              marginTop: "-2px",
               "&.MuiInputLabel-shrink": {
                 marginLeft: "0px",
                 fontSize: "16px",
+                marginTop: "0px",
               },
             },
             "& .MuiOutlinedInput-root": {

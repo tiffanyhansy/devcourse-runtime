@@ -230,7 +230,13 @@ export default function Join() {
           />
         </section>
         {joinError && (
-          <Alert severity="error" className="mt-4">
+          <Alert
+            severity="error"
+            className="mt-4"
+            sx={{
+              fontFamily: "S-CoreDream-3Light",
+            }}
+          >
             {t("입력한 정보를 다시 확인해주세요.")}
           </Alert>
         )}
