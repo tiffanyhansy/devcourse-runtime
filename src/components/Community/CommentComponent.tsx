@@ -4,6 +4,7 @@ import { Author_T, Post_T, PostComment } from "../../api/api";
 import { useLoginStore } from "../../store/API";
 import { Link } from "react-router";
 import default_profile from "../../asset/default_profile.png";
+import comment from "../../asset/images/comment.svg";
 import {
   Card,
   CardContent,
@@ -13,6 +14,8 @@ import {
   List,
   Box,
 } from "@mui/material";
+import { useNotificationsStore } from "../../store/notificationsStore";
+import { axiosInstance } from "../../api/axios";
 
 type CommentComponentProps = {
   postId: string;
@@ -26,10 +29,12 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   postId,
   inputRef,
   comments,
+  author,
 }) => {
   //로그인 유저 정보 가져오기
   const { posts, addCommentToPost, deleteComment } = useCommentStore();
   const user = useLoginStore((state) => state.user);
+  const { createNotifications } = useNotificationsStore();
 
   //요기 이뿌게 꾸며야될텐데...
   if (!user) {
@@ -65,7 +70,22 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
 
     try {
       await addCommentToPost(postId, newComment);
+
+      const comment = (
+        await axiosInstance.post(`comments/create`, {
+          comment: newComment,
+          postId: postId,
+        })
+      ).data;
+
       setNewComment(""); // 입력 필드 초기화
+      // createNotifications!({
+      //   notiType: "COMMENT",
+      //   notiTypeId: comment._id + "",
+      //   userId: author + "",
+      //   postId: postId + "",
+      // });
+
       alert("댓글이 성공적으로 작성되었습니다.");
     } catch (error) {
       console.error("댓글 작성 실패:", error);
@@ -100,58 +120,66 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   };
 
   return (
-    <Box className="relative w-[90%] md:w-[100%] mt-12">
+    <Box className="m-auto relative w-[90%] md:w-[70%] mt-12">
       {/* 댓글 입력 */}
-      <Card variant="outlined" sx={{ mb: 2 }}>
-        <CardContent>
+      <Card
+        variant="outlined"
+        sx={{
+          mb: 2,
+          border: "none",
+          boxShadow: "none",
+          backgroundColor: "#f9fafb",
+        }}
+      >
+        <CardContent className="flex gap-5">
           <div className="flex items-center mb-4">
             {/* 프로필 이미지 */}
             <img
               src={user.image || default_profile}
               alt={user.fullName || "알 수 없음"}
-              className="w-8 h-8 rounded-full mr-2 object-cover"
+              className="w-14 h-14 rounded-full mr-2 object-cover"
             />
-
-            {/* 프로필 이름 */}
-            <span className="font-bold">{user.fullName || "알 수 없음"}</span>
           </div>
-          <div style={{ marginTop: "16px" }}>
-            <TextField
-              fullWidth
-              inputRef={inputRef}
-              variant="standard"
-              multiline
-              minRows={1}
-              maxRows={10}
-              slotProps={{
-                input: {
-                  style: {
-                    fontSize: "16px",
-                    lineHeight: "1.5",
-                    padding: "8px 0",
+          <div className="flex w-full">
+            <div className="bg-[#F3F3F3] rounded-[30px] flex-1">
+              <TextField
+                fullWidth
+                inputRef={inputRef}
+                variant="standard"
+                multiline
+                minRows={1}
+                maxRows={10}
+                slotProps={{
+                  input: {
+                    style: {
+                      fontSize: "16px",
+                      lineHeight: "1.5",
+                      padding: "23px 10px 0 20px",
+                    },
                   },
-                },
-              }}
-              sx={{
-                "& .MuiInput-underline:before": {
-                  borderBottom: "1px solid #ccc",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottom: "2px solid #7EACB5",
-                },
-                "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                  borderBottom: "1px solid #7EACB5",
-                },
-              }}
-              placeholder="댓글을 입력하세요..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-            />
+                }}
+                sx={{
+                  "& .MuiInput-underline:before": {
+                    borderBottom: "none",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottom: "none",
+                  },
+                  "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                    borderBottom: "none",
+                  },
+                }}
+                placeholder="댓글을 입력하세요..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+            </div>
             <div
               style={{
                 display: "flex",
                 justifyContent: "flex-end",
                 marginTop: "8px",
+                marginLeft: "15px",
               }}
             >
               <Button
@@ -159,13 +187,16 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                 sx={{
                   backgroundColor: "#7EACB5",
                   "&:hover": {
-                    backgroundColor: "#65999F", // 버튼 호버 시 색상 변경
+                    backgroundColor: "#D5E6E9", // 버튼 호버 시 색상 변경
                   },
+                  borderRadius: "50%",
+                  width: "4rem",
+                  height: "4rem",
                 }}
                 onClick={handleAddComment}
                 disabled={!newComment.trim()}
               >
-                댓글 작성
+                <img src={comment} className="w-5" />
               </Button>
             </div>
           </div>
@@ -194,13 +225,13 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                   <img
                     src={comment.author.image || default_profile}
                     alt={comment.author.fullName || "알 수 없음"}
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-14 h-14 rounded-full object-cover"
                   />
                 </Link>
               </div>
 
               {/* 댓글 내용 */}
-              <div className="flex-1 ml-4">
+              <div className="flex-1 ml-4 bg-[#D5E6E9] px-5 py-3 rounded-[8px]">
                 {/* 유저 이름과 날짜 */}
                 <div className="flex items-center justify-between">
                   <Link
@@ -219,14 +250,14 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                 </div>
 
                 {/* 댓글 텍스트 */}
-                <p className="text-sm text-black mt-1 leading-relaxed">
+                <p className="text-sm text-black mt-3 leading-relaxed">
                   {comment.comment}
                 </p>
 
                 {/* 삭제 버튼 */}
                 <div className="flex justify-end mt-2">
                   <button
-                    className="text-xs text-red-500 hover:underline"
+                    className="text-xs text-[#C96868] hover:underline"
                     onClick={() => handleDeleteComment(comment._id)}
                   >
                     삭제
