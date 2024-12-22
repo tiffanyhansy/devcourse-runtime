@@ -1,14 +1,16 @@
-import { Post_T, Title_T } from "../../api/api";
+import { useRef, useEffect, useState } from "react";
+import { Link } from "react-router";
+import { Post_T, Title_T, PostComment } from "../../api/api";
+import { useCommentStore } from "../../store/comment";
+import ControlBtn from "./ControlBtn";
+import CommentComponent from "./CommentComponent";
+import default_profile from "../../asset/default_profile.png";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
-import { Link } from "react-router";
-import { useRef, useEffect, useState } from "react";
-import { useCommentStore } from "../../store/comment"; // zustand 스토어 가져오기
-import default_profile from "../../asset/default_profile.png";
 import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
 import { useTranslation } from "react-i18next";
 import PostButtonFieldCol from "../Post/PostButtonFieldCol";
-import CommentComponent from "./CommentComponent";
 
 type Props = {
   preview: Post_T;
@@ -16,46 +18,76 @@ type Props = {
 };
 
 export default function PostPreview({ preview, currentUser }: Props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // 모달 열림 상태
+  const [isAnimating, setIsAnimating] = useState(false); // 닫히는 중 상태
   const modalRef = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation();
   // zustand에서 상태 가져오기
   const { posts, fetchPosts } = useCommentStore();
+
   const updatedPost = posts.find((post) => post._id === preview._id) || preview;
-
-  // Modal 토글
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
-
-  // Modal Scroll 관리
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isModalOpen]);
 
   // 게시물 업데이트를 위해 상태 갱신
   useEffect(() => {
     fetchPosts(); // 상태 초기화
   }, [fetchPosts]);
 
+  //최상단 스크롤 버튼
   const handleToTopButton = () => {
     if (modalRef.current) {
       modalRef.current.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
+  //댓글이동 버튼
+  const commentInputRef = useRef<HTMLInputElement>(null);
   const handleClickCommentButton = () => {
-    if (modalRef.current) {
-      modalRef.current.scrollTo({
-        top: modalRef.current.scrollHeight,
+    if (commentInputRef.current) {
+      commentInputRef.current.scrollIntoView({
         behavior: "smooth",
+        block: "center",
       });
+    }
+  };
+
+  // 모달 열기
+  const openModal = () => {
+    // 현재 스크롤 위치 저장 및 고정
+    const scrollY = window.scrollY;
+    document.body.style.top = `-${scrollY}px`;
+    // Tailwind로 고정 클래스 추가
+    document.documentElement.classList.add("overflow-hidden");
+
+    // 스크롤 위치를 저장하여 복원 가능하도록 설정
+    document.documentElement.style.setProperty("--scroll-y", `${scrollY}px`);
+
+    setIsOpen(true);
+    setIsAnimating(false); // 초기화
+  };
+
+  // 모달 닫기
+  const closeModal = () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+    }
+  };
+
+  // 애니메이션 종료 처리
+  const handleAnimationEnd = () => {
+    if (isAnimating) {
+      setIsAnimating(false); // 초기화
+      setIsOpen(false); // 모달 닫기
+
+      // Tailwind 고정 클래스 제거
+      document.documentElement.classList.remove("overflow-hidden");
+
+      // 스크롤 위치 복원
+      const scrollY = parseInt(
+        document.documentElement.style.getPropertyValue("--scroll-y") || "0",
+        10
+      );
+      window.scrollTo(0, scrollY);
     }
   };
 
@@ -76,14 +108,11 @@ export default function PostPreview({ preview, currentUser }: Props) {
     }월 ${date.getDate()}일`;
   };
 
-  // 댓글 갯수 동적 업데이트를 위해 zustand 상태와 연결
-  const currentPost = posts.find((post) => post._id === preview._id);
-
   return (
     <>
       <article
-        className="bg-white shadow-md hover:shadow-lg transition-transform duration-500 ease-in-out hover:-translate-y-1 rounded-[10px] cursor-pointer"
-        onClick={toggleModal}
+        className="bg-white scrollbar-gutter-stable shadow-md hover:shadow-lg transition-transform duration-500 ease-in-out hover:-translate-y-1 rounded-[10px] cursor-pointer"
+        onClick={openModal}
       >
         {/* 썸네일 이미지 */}
         <div className="relative aspect-video rounded-t-[10px] overflow-hidden">
@@ -111,11 +140,11 @@ export default function PostPreview({ preview, currentUser }: Props) {
         <div className="py-2.5 px-4 justify-between flex text-xs border-t border-[#f1f3f5] ">
           <div className="flex items-center">
             <FavoriteIcon sx={{ fontSize: 14, marginRight: 0.6 }} />
-            {preview.likes.length}
+            {Array.isArray(updatedPost.likes) ? updatedPost.likes.length : 0}
             <ChatIcon
               sx={{ fontSize: 14, marginRight: 0.6, marginLeft: 1.5 }}
             />
-            {currentPost?.comments.length || preview.comments.length}
+            {updatedPost.comments.length}
           </div>
           <div className="flex items-center ">
             <Link
@@ -133,7 +162,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
                     : preview.author.image
                 }
                 alt="글쓴이 프로필 이미지"
-                className="w-6 h-6 mr-2 rounded-full"
+                className="w-6 h-6 mr-2 rounded-full object-cover"
               />
               <span className="font-bold">{preview.author.fullName}</span>
             </Link>
@@ -141,41 +170,53 @@ export default function PostPreview({ preview, currentUser }: Props) {
         </div>
       </article>
 
-      {/* 화면 중앙에 배치된 상세페이지 모달 */}
-      {isModalOpen && (
+      {/*상세페이지 모달 */}
+      {(isOpen || isAnimating) && (
         <div
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black bg-opacity-70"
-          onClick={toggleModal}
+          ref={modalRef}
+          className={`overflow-y-auto fixed inset-0 bg-black bg-opacity-70 flex justify-center items-start z-50 transition-opacity duration-300${
+            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={closeModal}
         >
           <div
-            ref={modalRef}
-            className="relative w-[90%] md:w-[65%] min-h-screen bg-white transform transition-transform duration-300 ease-in-out translate-y-0 overflow-y-auto"
+            className={`relative w-[90%] md:w-[65%] min-h-screen bg-gray-50 overflow-y-auto ${
+              isAnimating ? "animate-slideOut" : "animate-glassBlur"
+            }`}
+            onAnimationEnd={handleAnimationEnd}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center p-6 px-20 space-x-4 border-b md:px-10">
+            {/* 프로필 섹션 */}
+            <div className="w-[77%] mx-auto flex items-center space-x-4 py-4 mt-4">
               <Link
                 to={
                   currentUser === preview.author.fullName
                     ? `/mypage`
                     : `/userpage/${preview.author.fullName}`
                 }
-                className="flex items-center"
+                className="flex items-center group"
               >
-                <img
-                  src={
-                    !preview.author.image || preview.author.image === ""
-                      ? default_profile
-                      : preview.author.image
-                  }
-                  alt="글쓴이 프로필 이미지"
-                  className="object-cover w-16 h-16 rounded-full"
-                />
-                <span className="text-xl font-bold">
+                {/* 프로필 이미지 */}
+                <div className="relative">
+                  <img
+                    src={
+                      !preview.author.image || preview.author.image === ""
+                        ? default_profile
+                        : preview.author.image
+                    }
+                    alt="글쓴이 프로필 이미지"
+                    className="w-16 h-16 rounded-full object-cover transform transition-transform duration-500 group-hover:rotate-[360deg]"
+                  />
+                </div>
+                {/* 프로필 이름 */}
+                <span className="font-bold text-xl ml-4 opacity-0 translate-x-[-20px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
                   {preview.author.fullName}
                 </span>
               </Link>
             </div>
-            <div className="flex flex-col p-5">
+
+            {/* 메인 */}
+            <div className="p-5 flex flex-col select-text">
               <div className="relative aspect-video rounded-[10px] overflow-hidden mb-6 w-[80%] mx-auto">
                 <img
                   src={preview.image ? preview.image : default_thumbnail}
@@ -184,19 +225,29 @@ export default function PostPreview({ preview, currentUser }: Props) {
                 />
               </div>
               <div className="w-[80%] mx-auto">
-                <h2 className="mb-4 text-3xl font-bold">{parsedTitle.title}</h2>
-                <p className="text-base break-words">{parsedTitle.content}</p>
-                <CommentComponent postId={updatedPost._id} />
+                <h2 className="text-3xl font-bold mt-12">
+                  {parsedTitle.title}
+                </h2>
+                <p className="text-base break-words mt-12">
+                  {parsedTitle.content}
+                </p>
+                <CommentComponent
+                  inputRef={commentInputRef}
+                  postId={updatedPost._id}
+                  author={preview.author}
+                  comments={updatedPost.comments as PostComment[]}
+                />
+                {/* <CommentUI /> */}
               </div>
             </div>
           </div>
-          {/* 모달 배경 위 고정 버튼 필드 */}
-          <div className="fixed z-50 bottom-4 right-4">
-            <PostButtonFieldCol
-              onToTop={handleToTopButton}
-              onComment={handleClickCommentButton}
-            />
-          </div>
+          {/* 모달 배경 고정 버튼 필드 */}
+          <ControlBtn
+            onToTop={handleToTopButton}
+            onComment={handleClickCommentButton}
+            postId={preview._id}
+            currentUserId={currentUser}
+          />
         </div>
       )}
     </>

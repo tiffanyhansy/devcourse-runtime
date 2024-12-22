@@ -54,6 +54,39 @@ export default {
           "50%": { transform: "translateX(10px)" },
           "75%": { transform: "translateX(-10px)" },
         },
+        blurIn: {
+          "0%": { filter: "blur(4px)", transform: "scale(0.9)", opacity: "0" },
+          "100%": { filter: "blur(0px)", transform: "scale(1)", opacity: "1" },
+        },
+        blurOut: {
+          "0%": { filter: "blur(0px)", transform: "scale(1)", opacity: "1" },
+          "100%": {
+            filter: "blur(4px)",
+            transform: "scale(0.9)",
+            opacity: "0",
+          },
+        },
+
+        slideIn: {
+          "0%": { transform: "translateY(30px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        slideOut: {
+          "0%": { transform: "translateY(0)", opacity: "1" },
+          "100%": { transform: "translateY(30px)", opacity: "0" },
+        },
+        flipIn: {
+          "0%": { transform: "rotateY(90deg)", opacity: "0" },
+          "100%": { transform: "rotateY(0)", opacity: "1" },
+        },
+        flipOut: {
+          "0%": { transform: "rotateY(0)", opacity: "1" },
+          "100%": { transform: "rotateY(90deg)", opacity: "0" },
+        },
+        glassBlur: {
+          "0%": { filter: "blur(10px)", transform: "scale(0.8)", opacity: "0" },
+          "100%": { filter: "blur(0px)", transform: "scale(1)", opacity: "1" },
+        },
       },
       animation: {
         show: "show 1s ease-in-out forwards",
@@ -65,11 +98,31 @@ export default {
         scaleInTopLeft: "scaleInTopLeft 0.3s ease-in-out forwards",
         scaleInTopRight: "scaleInTopRight 0.3s ease-in-out forwards",
         shake: "shake 0.5s ease-in-out 1",
+        blurIn: "blurIn 0.4s ease-in-out",
+        blurOut: "blurOut 0.4s ease-in-out",
+        slideIn: "slideIn 0.5s ease-out",
+        slideOut: "slideOut 0.3s ease-out",
+        flipIn: "flipIn 0.5s ease-in-out",
+        flipOut: "flipOut 0.5s ease-in-out",
+        glassBlur: "glassBlur 0.4s ease-in-out",
       },
     },
   },
-  plugins: [require("tailwind-scrollbar-hide")],
-  plugins: [require("tailwind-scrollbar")],
+  plugins: [
+    require("tailwind-scrollbar-hide"),
+    require("tailwind-scrollbar"),
+    // 사용자 정의 플러그인
+    function ({ addUtilities }) {
+      addUtilities({
+        ".scrollbar-gutter-stable": {
+          scrollbarGutter: "stable !important",
+        },
+        ".scrollbar-gutter-auto": {
+          scrollbarGutter: "auto",
+        },
+      });
+    },
+  ],
   future: {
     hoverOnlyWhenSupported: true,
   },

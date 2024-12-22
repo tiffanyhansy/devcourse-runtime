@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import { Post_T } from "../../api/api";
 import { usePostStore } from "../../store/postStore";
@@ -6,6 +6,7 @@ import PostPreview from "../../components/Community/PostPreview";
 import ChannelButton from "../../components/Community/ChannelButton";
 import Skeleton from "../../components/Community/Skeleton";
 import { t } from "i18next";
+import { v4 as uuidv4 } from "uuid";
 type ChannelId_T = "sw" | "si" | "da" | "ge";
 
 type Props = {
@@ -101,8 +102,8 @@ export default function Community({ channelName = "sw" }: Props) {
           posts.map((post) => (
             <PostPreview
               preview={post}
-              key={post._id}
               currentUser={currentUser || t("알 수 없음")}
+              key={uuidv4()}
             />
           ))
         ) : (

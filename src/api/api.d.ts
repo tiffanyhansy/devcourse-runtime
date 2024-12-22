@@ -54,7 +54,7 @@ interface followType {
 export interface Post_T {
   _id: string;
   author: Author_T;
-  comments: string[];
+  comments: PostComment[];
   createdAt: string;
   updatedAt: string;
   likes: string[];
@@ -67,6 +67,13 @@ type Author_T = {
   fullName: string;
   image: string;
 };
+
+export interface PostComment {
+  _id: string; // 댓글 ID
+  author: Author_T; // 댓글 작성자 정보
+  comment: string; // 댓글 내용
+  createdAt: string; // 작성 시간
+}
 
 export type Title_T = {
   title: string;
