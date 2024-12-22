@@ -108,5 +108,6 @@
   "요청 중 오류가 발생했습니다. 다시 시도해주세요.": "An error occurred while requesting. Please try again.",
   "년": " /",
   "월": " /",
-  "일": " "
+  "일": " ",
+  "올바른 형식의 website를 입력해주세요": "Please enter a valid website"
 }
