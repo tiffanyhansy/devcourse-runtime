@@ -103,22 +103,22 @@ export default function ChatUserList() {
         <button
           key={uuidv4()}
           className="flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
+          onClick={() =>
+            isSearchModalOpen
+              ? setIsSearchModalOpenFalse()
+              : setIsSearchModalOpenTrue()
+          }
         >
           <img
             src={new_chat_add_icon}
             alt={"새 채팅 아이콘"}
             className="w-[50px] h-[50px] object-cover rounded-full border mb-1"
-            onClick={() =>
-              isSearchModalOpen
-                ? setIsSearchModalOpenFalse()
-                : setIsSearchModalOpenTrue()
-            }
           />
           <span className="text-[13px] font-bold">{"새 채팅"}</span>
         </button>
         {conversationUsers.map((divide, idx) => {
           return (
-            <article
+            <button
               key={uuidv4()}
               className="relative flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
               onClick={() => {
@@ -169,7 +169,7 @@ export default function ChatUserList() {
                 : divide.receiver.isOnline && (
                     <article className="w-[10px] h-[10px] rounded-full block bg-green-500 absolute top-[40px] left-[40px]"></article>
                   )}
-            </article>
+            </button>
           );
         })}
       </article>
