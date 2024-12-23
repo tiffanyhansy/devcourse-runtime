@@ -12,6 +12,25 @@ export default function NotiMain() {
   const { loading, list } = useNotificationsStore();
   const setUser = useLoginStore((state) => state.setUser);
 
+  const reverseList = [...list!].reverse();
+  // 좋아요 중복 데이터 제거를 위한 처리
+  // 1. 좋아요 중복 제거 데이터 + 기존 데이터
+  // 2. 최신순으로 정렬
+  const uniqueData = [
+    ...Array.from(
+      new Map(
+        reverseList
+          ?.filter((item) => item.like?.post.title)
+          .map((item) => [item.like?.post.title, item])
+      ).values()
+    ),
+    ...list?.filter((item) => !item.like?.post.title)!,
+  ].sort((a, b) => {
+    const dateA = new Date(a.createdAt);
+    const dateB = new Date(b.createdAt);
+    return dateB.getTime() - dateA.getTime();
+  });
+
   // 로그인 사용자 상태 조회
   const getAuthUser = async () => {
     const newUser = await (await axiosInstance.get(`/auth-user`)).data;
@@ -27,8 +46,8 @@ export default function NotiMain() {
   return (
     <div className="w-4/6 p-2 rounded-[20px] flex-col justify-start items-start overflow-auto scrollbar-hidden h-[500px]">
       {loading ? (
-        list!.length > 0 ? (
-          list?.map((item) => <NotiMainList key={uuidv4()} {...item} />)
+        uniqueData!.length > 0 ? (
+          uniqueData?.map((item) => <NotiMainList key={uuidv4()} {...item} />)
         ) : (
           <div className="flex flex-col items-center">
             <img src={noti_empty} className="h-[450px]" />

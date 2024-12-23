@@ -66,6 +66,7 @@ export interface Post_T {
 type Author_T = {
   fullName: string;
   image: string;
+  _id: string;
 };
 
 export interface PostComment {
@@ -84,7 +85,7 @@ type notificationsType = {
   seen: boolean;
   _id: string;
   author: {
-    coverImage?: string;
+    image?: string;
     fullName: string;
     _id: string;
   };
@@ -98,6 +99,10 @@ type notificationsType = {
     post: {
       title: string;
     };
+  };
+  comment?: {
+    comment: string;
+    post: { title: string };
   };
   user: {
     coverImage?: string;

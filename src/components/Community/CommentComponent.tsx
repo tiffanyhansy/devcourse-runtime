@@ -37,6 +37,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   //로그인 유저 정보 가져오기
   const { posts, addCommentToPost, deleteComment } = useCommentStore();
   const user = useLoginStore((state) => state.user);
+  const { createNotifications } = useNotificationsStore();
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false); // Snackbar 열림 상태
   const [snackbarMessage, setSnackbarMessage] = useState<string>(""); // Snackbar 메시지
   const [snackbarSeverity, setSnackbarSeverity] =
@@ -89,10 +90,16 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
       ).data;
 
       setNewComment(""); // 입력 필드 초기화
-
+      createNotifications!({
+        notiType: "COMMENT",
+        notiTypeId: comment._id + "",
+        userId: author._id + "",
+        postId: postId + "",
+      });
       setSnackbarMessage("댓글이 성공적으로 작성되었습니다.");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
+
     } catch (error) {
       setSnackbarMessage("댓글 작성에 실패했습니다.");
       setSnackbarSeverity("error");
@@ -149,9 +156,6 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
               alt={user?.fullName || "알 수 없음"}
               className="w-8 h-8 rounded-full mr-2 object-cover"
             />
-
-            {/* 프로필 이름 */}
-            <span className="font-bold">{user?.fullName || "알 수 없음"}</span>
           </div>
           <div className="flex w-full">
             <div className="bg-[#F3F3F3] rounded-[30px] flex-1">

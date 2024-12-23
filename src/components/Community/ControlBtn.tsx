@@ -5,6 +5,9 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import VerticalAlignTopRoundedIcon from "@mui/icons-material/VerticalAlignTopRounded";
 import PostButton from "../Post/PostButton";
 import { useCommentStore } from "../../store/comment";
+import { useNotificationsStore } from "../../store/notificationsStore";
+import { axiosInstance } from "../../api/axios";
+import { Author_T } from "../../api/api";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -13,6 +16,7 @@ type Props = {
   onComment: () => void;
   postId: string; // 좋아요를 처리할 게시물 ID
   currentUserId: string | null;
+  author: Author_T;
   closeModal: () => void;
 };
 
@@ -21,10 +25,12 @@ export default function ControlBtn({
   onComment,
   postId,
   currentUserId,
+  author,
   closeModal,
 }: Props) {
   const { toggleLike, posts } = useCommentStore();
   const likedPost = posts.find((post) => post._id === postId);
+  const { createNotifications } = useNotificationsStore();
 
   const handleClickLikeButton = async (event: React.MouseEvent) => {
     event.stopPropagation(); // 이벤트 버블링 방지
@@ -47,6 +53,20 @@ export default function ControlBtn({
             likedPost.isLiked ? "취소" : "추가"
           } 요청 성공: postId=${postId}`
         );
+
+        if (!likedPost.isLiked) {
+          const like = (
+            await axiosInstance.post(`likes/create`, {
+              postId: postId,
+            })
+          ).data;
+          createNotifications!({
+            notiType: "LIKE",
+            notiTypeId: like._id + "",
+            userId: author._id + "",
+            postId: postId + "",
+          });
+        }
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
       }

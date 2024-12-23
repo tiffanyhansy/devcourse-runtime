@@ -81,9 +81,7 @@ export default function NotiMainList(list: notificationsType) {
         {/* 프로필 사진 */}
         <img
           className="w-[50px] h-[50px] rounded-[100px]"
-          src={`${
-            list.author.coverImage ? list.author.coverImage : default_profile
-          }`}
+          src={`${list.author.image ? list.author.image : default_profile}`}
         />
         <div className=" leading-[19px]">
           <span className="font-extrabold">{list.author.fullName}</span>
@@ -100,6 +98,14 @@ export default function NotiMainList(list: notificationsType) {
           )}
           {list.follow && t(" 회원님을 팔로우 하였습니다. ")}
 
+          {list.comment && (
+            <span>
+              <span className="font-extrabold">
+                {getTitle(list.comment.post.title)}
+              </span>
+              {t("포스트에 댓글을 남겼습니다.")}
+            </span>
+          )}
           {/* 시간 */}
           <span className="text-gray-400 text-[11px]">
             {`${new Date(list.createdAt).getFullYear()}${t("년")} ${
