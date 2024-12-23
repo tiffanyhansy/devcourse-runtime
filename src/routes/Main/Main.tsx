@@ -108,7 +108,7 @@ export default function Main() {
 
         {/* 트로피 모달 프로토타입입니당 */}
         {isAchieve && !trophyModalViewed ? (
-          <article className="absolute top-0 left-0 z-50 w-screen h-screen overflow-hidden animate-show">
+          <article className="absolute top-0 left-0 z-50 w-screen h-screen overflow-hidden bg-black bg-opacity-70 animate-show">
             <Button
               onClick={setTrophyModalViewed}
               variant="custom"
@@ -118,7 +118,7 @@ export default function Main() {
             >
               ✕
             </Button>
-            <article className="animate-spaceInDown_05s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px] block translate-x-[-50%] translate-y-[-50%]">
+            <article className=" animate-spaceInDown_05s absolute top-[50%] left-[50%] opacity-0 w-[500px] h-[500px] block translate-x-[-50%] translate-y-[-50%]">
               <article className="firework"></article>
               <article className="firework"></article>
               <article className="firework"></article>

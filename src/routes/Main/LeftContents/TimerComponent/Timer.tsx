@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTimerStore } from "../../../../store/store";
+import achieved_alarm from "../../../../asset/achieved_alarm.mp3";
 
 interface TimerType {
   style: {
@@ -74,7 +75,7 @@ export default function Timer({
   useEffect(() => {
     if (isAchieve && !alertSoundPlayed) {
       if (alertSound) {
-        const audio = new Audio("/src/asset/achieved_alarm.mp3");
+        const audio = new Audio(achieved_alarm);
         audio
           .play()
           .then(() => {

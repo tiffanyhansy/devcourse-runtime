@@ -6,6 +6,7 @@ import { useChatingModalStore } from "../../store/store";
 import { v4 as uuidv4 } from "uuid";
 import close from "../../asset/images/close.svg";
 import search_user_icon from "../../asset/images/search_user_icon.svg";
+import { t } from "i18next";
 
 export default function UserSearchModal() {
   const [userAll, setUserAll] = useState<userType[]>([]);
@@ -44,7 +45,7 @@ export default function UserSearchModal() {
     <article className="w-[250px] absolute top-0 right-[-271px] bg-white shadow-lg rounded-[10px]">
       {/* 최상단 바바 */}
       <article className="w-full h-[40px] rounded-t-[10px] bg-[#7EACB5] flex justify-between items-center px-[10px] relative">
-        <span className="text-white">대화 상대 검색</span>
+        <span className="text-white">{t("대화 상대 검색")}</span>
         <button
           className="w-[24px] h-[24px]"
           onClick={setIsSearchModalOpenFalse}
@@ -88,7 +89,7 @@ export default function UserSearchModal() {
           <input
             type="text"
             className="w-full rounded-lg p-2 placeholder:text-[10px] text-[10px] bg-[#F0F0F0] focus:outline-none"
-            placeholder="@을 제외한 유저 ID로 검색 가능합니다."
+            placeholder={t("@을 제외한 유저 ID로 검색 가능합니다.")}
             ref={inputRef}
             onKeyDown={() => {
               buttonRef.current?.click();
