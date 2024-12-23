@@ -41,40 +41,25 @@ export default function Community({ channelName = "sw" }: Props) {
         setLoading(false);
       }
     };
-
     initializeData();
-  }, []); // 초기화는 한 번만 실행
+  }, [activeChannel]); // 초기화는 한 번만 실행
 
   // 채널 변경 감지 및 데이터 로드
   useEffect(() => {
-    let isCancelled = false;
-
     const fetchDataForChannel = async () => {
-      setLoading(true);
-
+      setLoading(true); // 로딩 시작
       try {
-        await fetchPostsByChannel(activeChannel);
-        if (!isCancelled) {
-        }
+        await fetchPostsByChannel(activeChannel); // 채널 데이터 로드
       } catch (error) {
-        if (!isCancelled) {
-          console.error("채널 게시물 로드 실패:", error);
-        }
+        console.error("채널 게시물 로드 실패:", error);
       } finally {
-        if (!isCancelled) {
-          setLoading(false);
-        }
+        setLoading(false); // 로딩 종료
       }
     };
-
     if (activeChannel) {
-      fetchDataForChannel();
+      fetchDataForChannel(); // 채널이 있을 때만 호출
     }
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [activeChannel]);
+  }, [activeChannel]); // activeChannel 변경 시 실행
 
   // 사용자 정보 가져오기
   useEffect(() => {

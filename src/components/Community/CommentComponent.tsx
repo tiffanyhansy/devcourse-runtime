@@ -66,7 +66,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   }
 
   const handleSnackbarClose = (
-    event?: React.SyntheticEvent | Event,
+    // event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === "clickAway") return; // 클릭 이외의 이벤트 무시

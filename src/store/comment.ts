@@ -73,14 +73,15 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
   isLoading: false,
 
   activeChannel: null as string | null,
-  // channels: [] as { name: string; _id: string }[],
 
   // 상태 업데이트 메서드 추가
   updatePosts: (updatedPosts: Post_T[]) => set({ posts: updatedPosts }),
 
   // 채널 정보 가져오기
-
   fetchChannels: async () => {
+    const { channels } = get();
+    // 이미 채널이 로드된 경우 추가 호출 방지
+    if (channels.length > 0) return;
     try {
       const response = await axiosInstance.get(
         `${import.meta.env.VITE_API_URL}/channels`
@@ -95,6 +96,7 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
   fetchCurrentUser: async () => {
     try {
       const response = await axiosInstance.get("/auth-user");
+
       return response.data;
     } catch (error) {
       console.error("Error fetching current user:", error);
@@ -102,14 +104,16 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     }
   },
 
+  //채널 게시글 요청, id찾기
   fetchPostsByChannel: async (channelName: string) => {
     const { channels } = get();
     set({ isLoading: true });
-
     if (channels.length === 0) await get().fetchChannels();
 
-    const currentChannel = channels.find(
-      (channel) => channel.name.toLowerCase() === channelName
+    // 채널 정보를 다시 가져온 후 검색
+    const updatedChannels = get().channels;
+    const currentChannel = updatedChannels.find(
+      (channel) => channel.name.toLowerCase() === channelName.toLowerCase()
     );
 
     if (currentChannel) {
@@ -128,7 +132,12 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
 
   // 활성 채널 변경
   setActiveChannel: (channelName: string) => {
-    set({ activeChannel: channelName });
+    const { activeChannel } = get();
+
+    // 채널 변경 시에만 업데이트
+    if (activeChannel !== channelName) {
+      set({ activeChannel: channelName });
+    }
   },
 
   // 특정 포스트 상세 보기

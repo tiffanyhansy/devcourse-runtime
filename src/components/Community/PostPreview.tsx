@@ -15,6 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "./DeleteDialog";
 import useSnackbarStore from "../../store/store";
 import SnackbarComponent from "../editor/SnackBar";
+import { useImageStore } from "../../store/store";
 
 type Props = {
   preview: Post_T;
@@ -29,6 +30,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const user = useLoginStore((state) => state.user);
   const { showSnackbar } = useSnackbarStore(); //스낵바
+  const uploadedImage = useImageStore((state) => state.uploadedImage); //업로드 이미지 타입공유
 
   const { t } = useTranslation();
 
@@ -211,6 +213,16 @@ export default function PostPreview({ preview, currentUser }: Props) {
             onAnimationEnd={handleAnimationEnd}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* 이미지 컨테이너 */}
+
+            {uploadedImage && (
+              <img
+                src={URL.createObjectURL(uploadedImage)} // image가 File 타입일 때만 호출
+                alt="Uploaded Image"
+                className="w-full h-full object-contain"
+              />
+            )}
+
             {/* 삭제 다이얼로그 */}
             {isDeleteOpen && (
               <DeleteDialog
@@ -269,11 +281,11 @@ export default function PostPreview({ preview, currentUser }: Props) {
 
             {/* 메인 */}
             <div className="flex flex-col items-center p-5 select-text">
-              <div className="relative aspect-video rounded-[10px] overflow-hidden mb-6 w-[80%] mx-auto">
+              <div className="relative aspect-video rounded-[10px] mb-6 w-[80%] mx-auto">
                 <img
                   src={preview.image ? preview.image : default_thumbnail}
                   alt={parsedTitle.title}
-                  className="object-cover w-full"
+                  className="object-cover w-full rounded-[10px]"
                 />
               </div>
               <div className="flex flex-col items-center w-[80%] mx-auto">

@@ -112,6 +112,18 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   setIsAlertOpen: () => set(() => ({ isAlertOpen: true })),
 }));
 
+//업로드되는 이미지 타입
+
+interface ImageStore {
+  uploadedImage: File | null;
+  setUploadedImage: (file: File | null) => void;
+}
+
+export const useImageStore = create<ImageStore>((set) => ({
+  uploadedImage: null,
+  setUploadedImage: (file) => set({ uploadedImage: file }),
+}));
+
 //MUI 스낵바
 
 interface SnackbarState {
