@@ -246,6 +246,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
             onToTop={handleToTopButton}
             onComment={handleClickCommentButton}
             postId={preview._id}
+            author={preview.author}
             currentUserId={currentUser}
           />
         </div>

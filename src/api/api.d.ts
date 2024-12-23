@@ -66,6 +66,7 @@ export interface Post_T {
 type Author_T = {
   fullName: string;
   image: string;
+  _id: string;
 };
 
 export interface PostComment {
@@ -84,7 +85,7 @@ type notificationsType = {
   seen: boolean;
   _id: string;
   author: {
-    coverImage?: string;
+    image?: string;
     fullName: string;
     _id: string;
   };
@@ -99,6 +100,10 @@ type notificationsType = {
       title: string;
     };
   };
+  comment?: {
+    comment: string;
+    post: { title: string };
+  };
   user: {
     coverImage?: string;
     _id: string;
@@ -110,7 +115,7 @@ type createNotiType = {
   notiType: string;
   notiTypeId: string;
   userId: string;
-  postId: null;
+  postId: null | string;
 };
 
 type notificationsStore = {
@@ -155,7 +160,7 @@ type notificationsStore = {
     notiType: string;
     notiTypeId: string;
     userId: string;
-    postId: null;
+    postId: null | string;
   }) => void;
   isNseenList?: () => void;
 };

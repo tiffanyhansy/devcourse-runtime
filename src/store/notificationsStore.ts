@@ -46,12 +46,13 @@ export const useNotificationsStore = create<notificationsStore>((set, get) => ({
     postId,
   }: createNotiType) => {
     try {
-      await axiosInstance.post("/notifications/create", {
+      const data = await axiosInstance.post("/notifications/create", {
         notificationType: notiType, //LIKE , FOLLOW
         notificationTypeId: notiTypeId, // LIKE = LIKE id , FOLLOW = FOLLOW id
         userId: userId, // 알림 받을 user id
         postId: postId, // 좋아요 받은 post id , FOLLOW 는 null
       });
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
