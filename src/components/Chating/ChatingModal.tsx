@@ -3,6 +3,9 @@ import { useChatingModalStore } from "../../store/store";
 import Chating from "./Chating";
 import UserSearchModal from "./UserSearchModal";
 import ChatUserList from "./ChatUserList";
+import close_to_bar from "../../asset/images/close_to_bar.svg";
+import open_in_full from "../../asset/images/open_in_full.svg";
+import close from "../../asset/images/close.svg";
 
 export default function ChatingModal() {
   const setIsChatModalOpenFalse = useChatingModalStore(
@@ -42,25 +45,24 @@ export default function ChatingModal() {
 
   // 컨텐츠 닫기 트리거
   const isContentClose = useChatingModalStore((state) => state.isContentClose);
-  const setIsContentClose = useChatingModalStore(
-    (state) => state.setIsContentClose
+  const setIsContentCloseTrue = useChatingModalStore(
+    (state) => state.setIsContentCloseTrue
   );
-
-  // 여기서는 모달창 닫을 때 추가유저 리스트 초기화용 함수로 사용용
-  const setAddedUserList = useChatingModalStore(
-    (state) => state.setAddedUserList
+  const setIsContentCloseFalse = useChatingModalStore(
+    (state) => state.setIsContentCloseFalse
   );
 
   // 메신저 기록 axios(메시지함은 뭘 받아오는건지 이해가 안되서 안 씀 messages?userId 이거 쓰니 사용자 id와 관련된 메시지 전부를 들고오길래 이걸로 예외처리해서 상단 메시지 기록으로 사용중)
 
   return (
     <article
-      className="w-[500px] rounded-t-[10px] border border-black bg-white absolute top-[100px] left-[50%] translate-x-[-50%] translate-y-[-20px] z-50"
+      className={`w-[500px] rounded-[10px] shadow-lg bg-white absolute top-[100px] left-[50%] translate-x-[-50%] translate-y-[-20px] z-50`}
       ref={movingRef}
+      style={isContentClose ? { width: "200px" } : {}}
     >
       {/* 최상단 검은색 바 */}
       <article
-        className="w-full h-[50px] rounded-t-[10px] bg-black block relative"
+        className="w-full h-[40px] rounded-t-[10px] bg-[#7EACB5] block relative"
         ref={targetRef}
         draggable={true}
         onDragStart={(event) => {
@@ -70,29 +72,33 @@ export default function ChatingModal() {
           dragOverHandler(event);
         }}
       >
-        <article className="flex gap-1 absolute right-[10px] top-[50%] translate-y-[-50%]">
+        <article className="flex gap-[8px] absolute right-[10px] top-[50%] translate-y-[-50%]">
           <button
-            className="w-[20px] h-[20px] bg-white"
+            className={`w-[24px] h-[24px]`}
             onClick={() => {
               if (!isContentClose) {
                 contentRef.current!.style.display = "none";
-                setIsContentClose();
+                setIsContentCloseTrue();
               } else {
                 contentRef.current!.style.display = "block";
-                setIsContentClose();
+                setIsContentCloseFalse();
               }
             }}
           >
-            -
+            {isContentClose ? (
+              <img src={open_in_full} alt="확대 아이콘" />
+            ) : (
+              <img src={close_to_bar} alt="최소화 아이콘" />
+            )}
           </button>
           <button
-            className="w-[20px] h-[20px] bg-white"
+            className="w-[24px] h-[24px]"
             onClick={() => {
+              isContentClose && setIsContentCloseFalse();
               setIsChatModalOpenFalse();
-              setAddedUserList([]);
             }}
           >
-            X
+            <img src={close} alt="채팅 모달 닫기 아이콘" />
           </button>
         </article>
       </article>

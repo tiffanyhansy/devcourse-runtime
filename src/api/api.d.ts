@@ -110,7 +110,7 @@ type createNotiType = {
   notiType: string;
   notiTypeId: string;
   userId: string;
-  postId: null;
+  postId: null | string;
 };
 
 type notificationsStore = {
@@ -155,7 +155,7 @@ type notificationsStore = {
     notiType: string;
     notiTypeId: string;
     userId: string;
-    postId: null;
+    postId: null | string;
   }) => void;
   isNseenList?: () => void;
 };

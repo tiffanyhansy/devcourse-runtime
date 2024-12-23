@@ -6,10 +6,10 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { useprofileModalStore } from "../../store/store";
 import Modal from "../Modal/ProfileModal";
-import { BorderBottom } from "@mui/icons-material";
 import { axiosInstance } from "../../api/axios";
 import { useEffect, useRef, useState } from "react";
 import { userType } from "../../api/api";
+import { v4 as uuidv4 } from "uuid";
 
 // 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
@@ -32,14 +32,17 @@ export default function CheckboxListSecondary() {
   const [x, setX] = useState(0);
   const [onlineFullname, setOnlineFullname] = useState("");
   const [onlineCoverImg, setOnlineCoverImg] = useState("");
+  const [onlineId, setOnlineId] = useState("");
 
   const handleItemClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     fullname: string,
-    coverImg: string
+    coverImg: string,
+    id: string
   ) => {
     setOnlineFullname(() => fullname);
     setOnlineCoverImg(() => coverImg);
+    setOnlineId(() => id);
 
     const rect = e.currentTarget.getBoundingClientRect();
     if (!modal) {
@@ -92,6 +95,11 @@ export default function CheckboxListSecondary() {
 
   useEffect(() => {
     getOnlineUser();
+    const onlineUserInterval = setInterval(() => {
+      getOnlineUser();
+    }, 5000);
+
+    return () => clearInterval(onlineUserInterval);
   }, []);
 
   return (
@@ -123,7 +131,10 @@ export default function CheckboxListSecondary() {
                   handleItemClick(
                     e,
                     value.fullName,
-                    value.image ? value.image : `/src/asset/default_profile.png`
+                    value.image
+                      ? value.image
+                      : `/src/asset/default_profile.png`,
+                    value._id
                   );
                 }}
               >
@@ -135,7 +146,9 @@ export default function CheckboxListSecondary() {
                         ? value.image
                         : `/src/asset/default_profile.png`
                     }
+                    className="relative"
                   />
+                  <article className="w-[10px] h-[10px] rounded-full bg-green-500 absolute bottom-[10px]"></article>
                 </ListItemAvatar>
                 <ListItemText
                   id={labelId}
@@ -167,6 +180,7 @@ export default function CheckboxListSecondary() {
           x={x}
           onlineFullname={onlineFullname}
           onlineCoverImg={onlineCoverImg}
+          onlineId={onlineId}
         />
       )}
     </div>
