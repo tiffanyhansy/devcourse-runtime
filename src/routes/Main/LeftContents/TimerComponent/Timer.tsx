@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTimerStore } from "../../../../store/store";
 
 interface TimerType {
@@ -42,28 +42,32 @@ export default function Timer({
   );
 
   // 시간 달성 체크 기능
+  const checkAchievement = () => {
+    if (Number(staticHours) < hours) {
+      !isAchieve && setIsAchieve();
+      return;
+    } else if (
+      Number(staticHours) === hours &&
+      Number(staticMinuites) < minutes
+    ) {
+      !isAchieve && setIsAchieve();
+      return;
+    } else if (
+      Number(staticHours) === hours &&
+      Number(staticMinuites) === minutes &&
+      Number(staticSeconds) <= seconds
+    ) {
+      !isAchieve && setIsAchieve();
+      return;
+    } else {
+      isAchieve && setIsAchieve();
+    }
+  };
+
+  const [atFirst, setAtFirse] = useState(true);
+
   useEffect(() => {
-    const checkAchievement = () => {
-      if (Number(staticHours) < hours) {
-        !isAchieve && setIsAchieve();
-        return;
-      } else if (
-        Number(staticHours) === hours &&
-        Number(staticMinuites) < minutes
-      ) {
-        !isAchieve && setIsAchieve();
-        return;
-      } else if (
-        Number(staticHours) === hours &&
-        Number(staticMinuites) === minutes &&
-        Number(staticSeconds) <= seconds
-      ) {
-        !isAchieve && setIsAchieve();
-        return;
-      } else {
-        isAchieve && setIsAchieve();
-      }
-    };
+    if (atFirst) return setAtFirse(false);
     checkAchievement();
   }, [seconds]);
 
