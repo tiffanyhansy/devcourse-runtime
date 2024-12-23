@@ -32,14 +32,17 @@ export default function CheckboxListSecondary() {
   const [x, setX] = useState(0);
   const [onlineFullname, setOnlineFullname] = useState("");
   const [onlineCoverImg, setOnlineCoverImg] = useState("");
+  const [onlineId, setOnlineId] = useState("");
 
   const handleItemClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     fullname: string,
-    coverImg: string
+    coverImg: string,
+    id: string
   ) => {
     setOnlineFullname(() => fullname);
     setOnlineCoverImg(() => coverImg);
+    setOnlineId(() => id);
 
     const rect = e.currentTarget.getBoundingClientRect();
     if (!modal) {
@@ -128,7 +131,10 @@ export default function CheckboxListSecondary() {
                   handleItemClick(
                     e,
                     value.fullName,
-                    value.image ? value.image : `/src/asset/default_profile.png`
+                    value.image
+                      ? value.image
+                      : `/src/asset/default_profile.png`,
+                    value._id
                   );
                 }}
               >
@@ -174,6 +180,7 @@ export default function CheckboxListSecondary() {
           x={x}
           onlineFullname={onlineFullname}
           onlineCoverImg={onlineCoverImg}
+          onlineId={onlineId}
         />
       )}
     </div>

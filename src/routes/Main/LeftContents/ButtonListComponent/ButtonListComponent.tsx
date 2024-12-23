@@ -47,8 +47,8 @@ export default function ButtonListComponent() {
         onClick={() => {
           if (user && token) {
             if (isChatModalOpen) {
-              setIsChatModalOpenFalse();
               setIsContentCloseFalse();
+              setIsChatModalOpenFalse();
             } else {
               setIsChatModalOpenTrue();
             }
