@@ -5,12 +5,15 @@ import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import VerticalAlignTopRoundedIcon from "@mui/icons-material/VerticalAlignTopRounded";
 import PostButton from "../Post/PostButton";
 import { useCommentStore } from "../../store/comment";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Props = {
   onToTop: () => void;
   onComment: () => void;
   postId: string; // 좋아요를 처리할 게시물 ID
   currentUserId: string | null;
+  closeModal: () => void;
 };
 
 export default function ControlBtn({
@@ -18,6 +21,7 @@ export default function ControlBtn({
   onComment,
   postId,
   currentUserId,
+  closeModal,
 }: Props) {
   const { toggleLike, posts } = useCommentStore();
   const likedPost = posts.find((post) => post._id === postId);
@@ -54,10 +58,10 @@ export default function ControlBtn({
   return (
     <Stack
       gap={2}
-      className="w-[72px] items-center h-[220px] justify-center rounded-full drop-shadow-lg"
+      className="w-[72px] items-center h-[280px] justify-center rounded-full drop-shadow-lg"
       style={{
         position: "fixed",
-        right: "30px",
+        right: "40px",
         top: "50%",
         transform: "translateY(-50%)",
       }}
@@ -109,7 +113,7 @@ export default function ControlBtn({
         icon={
           <VerticalAlignTopRoundedIcon
             sx={{ fontSize: "28px" }}
-            className="hover:text-[#888]"
+            className="hover:text-[#7eacb5]"
           />
         }
         onClick={(event) => {
@@ -117,6 +121,24 @@ export default function ControlBtn({
           onToTop();
         }}
       />
+      <IconButton
+        onClick={closeModal}
+        sx={{
+          width: "52px", // 너비
+          height: "52px", // 높이
+          backgroundColor: "white", // 배경색
+          borderRadius: "50%", // 둥근 모서리
+          "&:hover": {
+            backgroundColor: "#f0f0f0", // 호버 시 밝은 배경색
+            "& svg": {
+              color: "#7eacb5", // 아이콘 색상 변경
+            },
+          },
+          boxShadow: "0 2px 5px rgba(0,0,0,0.1)", // 약간의 그림자 효과
+        }}
+      >
+        <CloseIcon sx={{ color: "black" }} />
+      </IconButton>
     </Stack>
   );
 }

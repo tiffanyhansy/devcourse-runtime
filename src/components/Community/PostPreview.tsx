@@ -5,7 +5,6 @@ import { useCommentStore } from "../../store/comment";
 import ControlBtn from "./ControlBtn";
 import CommentComponent from "./CommentComponent";
 import default_profile from "../../asset/default_profile.png";
-
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
@@ -128,7 +127,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
             {parsedTitle.title}
           </h4>
           <div>
-            <p className="line-clamp-2 mb-6 text-sm text-[#495057]">
+            <p className="line-clamp-2 mb-6 text-sm text-[#495057] h-[3.9rem]">
               {parsedTitle.content}
             </p>
           </div>
@@ -169,7 +168,6 @@ export default function PostPreview({ preview, currentUser }: Props) {
           </div>
         </div>
       </article>
-
       {/*상세페이지 모달 */}
       {(isOpen || isAnimating) && (
         <div
@@ -240,14 +238,15 @@ export default function PostPreview({ preview, currentUser }: Props) {
                 {/* <CommentUI /> */}
               </div>
             </div>
+            {/* 모달 배경 고정 버튼 필드 */}
+            <ControlBtn
+              onToTop={handleToTopButton}
+              onComment={handleClickCommentButton}
+              postId={preview._id}
+              currentUserId={currentUser}
+              closeModal={closeModal}
+            />
           </div>
-          {/* 모달 배경 고정 버튼 필드 */}
-          <ControlBtn
-            onToTop={handleToTopButton}
-            onComment={handleClickCommentButton}
-            postId={preview._id}
-            currentUserId={currentUser}
-          />
         </div>
       )}
     </>

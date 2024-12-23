@@ -4,6 +4,7 @@ import "../../css/QuillCustom.css";
 import { useEditorStore } from "../../store/store";
 import { usePostStore } from "../../store/postStore"; // postStore 임포트
 import { useEffect, useRef } from "react";
+import useSnackbarStore from "../../store/store";
 import { Stack, Chip, Tooltip } from "@mui/material";
 import Button from "../common/SquareButton";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -37,6 +38,8 @@ export default function BlogEditor() {
     image,
   } = usePostStore();
 
+  const { showSnackbar } = useSnackbarStore();
+
   // 컴포넌트가 마운트될 때 채널 리스트 가져오기
   useEffect(() => {
     fetchChannels();
@@ -66,12 +69,12 @@ export default function BlogEditor() {
     //post전송 이후의 로직 정리
     try {
       await post(title, removePtags, channelId || "", image);
-
       resetEditor();
       setImage(null);
       toggleEditor();
       setTimeout(() => {
         openChannelDialog(); // 에디터 닫힌 뒤 ChannelDialog 표시
+        showSnackbar("댓글이 성공적으로 작성되었습니다.", "success"); //MUI Snackbar
       }, 0);
     } catch (error) {
       handleError("저장에 실패했습니다.");

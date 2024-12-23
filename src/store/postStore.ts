@@ -69,9 +69,6 @@ export const usePostStore = create<PostStore>((set) => ({
         `${import.meta.env.VITE_API_URL}/posts/create`,
         formData
       );
-
-      //임시 여기 이쁘게 바꿔보기.
-      alert(t("게시글이 포스팅 됐습니다"));
     } catch (error: any) {
       //에러코드에 따라 상태 처리
       if (error.response) {

@@ -122,8 +122,6 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
           ),
         })),
       }));
-
-      console.log("댓글 삭제 성공");
     } catch (error) {
       console.error("댓글 삭제 실패:", error);
       throw error;
@@ -157,17 +155,13 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         }
 
         // 좋아요 삭제 요청
-        const response = await axiosInstance.delete(
+        await axiosInstance.delete(
           `${import.meta.env.VITE_API_URL}/likes/delete`,
           {
             data: { id: likeId },
             headers: { "Content-Type": "application/json" },
           }
         );
-
-        if (response.status === 200) {
-          console.log("좋아요 취소 성공", response.data);
-        }
 
         // 상태 업데이트
         set((state) => ({
@@ -209,7 +203,7 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     } catch (error) {
       console.error("잘못된 접근", error);
     } finally {
-      likeLoading = false; //요청완료
+      likeLoading = false;
     }
   },
 }));
