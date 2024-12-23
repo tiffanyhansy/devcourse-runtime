@@ -6,13 +6,15 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
-import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
 import { useNotificationsStore } from "../../store/notificationsStore";
 import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
 import ChatbotButton from "../../components/chatbot/ChatbotButton";
+import { useTranslation } from "react-i18next";
 
 const UserPage = () => {
+  const { t } = useTranslation();
+
   const fieldLabels = ["SW", "SI", "DA", "GE"];
   const fieldDescriptions = [
     "소프트웨어 개발",
