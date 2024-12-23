@@ -7,17 +7,20 @@ import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
 import setting from "../../asset/images/settings.svg";
 import signOut from "../../asset/images/signout.svg";
+import chat from "../../asset/images/Chat.svg";
 
 export default function Modal({
   y,
   x,
   onlineFullname,
   onlineCoverImg,
+  onlineId,
 }: {
   x?: number;
   y?: number;
   onlineFullname?: string;
   onlineCoverImg?: string;
+  onlineId: string;
 }) {
   const modal = useprofileModalStore((s) => s.modal);
   const type = useprofileModalStore((s) => s.type);
@@ -33,15 +36,24 @@ export default function Modal({
   const setUser = useLoginStore((state) => state.setUser);
   const setToken = useLoginStore((state) => state.setToken);
 
-  // 채팅창 닫기 로직
+  // 채팅창  열기/닫기 로직
   const isChatModalOpen = useChatingModalStore(
     (state) => state.isChatModalOpen
+  );
+  const setIsChatModalOpenTrue = useChatingModalStore(
+    (state) => state.setIsChatModalOpenTrue
   );
   const setIsChatModalOpenFalse = useChatingModalStore(
     (state) => state.setIsChatModalOpenFalse
   );
   const setIsChatingOpenFalse = useChatingModalStore(
     (state) => state.setIsChatingOpenFalse
+  );
+
+  // 채팅창 현재 유저 채팅 보여주기 로직
+  const setNowChatId = useChatingModalStore((state) => state.setNowChatId);
+  const setIsChatingOpenTrue = useChatingModalStore(
+    (state) => state.setIsChatingOpenTrue
   );
 
   const logOut = async () => {
@@ -143,28 +155,61 @@ export default function Modal({
             </div>
           ) : null
         ) : (
-          <div className="cursor-pointer hover:bg-gray-100 rounded-b-2xl">
-            <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
-              <div className="justify-start items-center gap-3.5 inline-flex">
-                <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
-                  <div className="relative w-5 h-5">
-                    <img
-                      className="w-5 h-5 left-[2px] top-[2px] absolute"
-                      src={setting}
-                    />
-                  </div>
+          <>
+            {user && token && (
+              <div className="cursor-pointer hover:bg-gray-100">
+                <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
+                  <div className="justify-start items-center gap-3.5 inline-flex">
+                    <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
+                      <div className="relative w-5 h-5">
+                        <img
+                          className="w-5 h-5 left-[2px] top-[2px] absolute"
+                          src={chat}
+                        />
+                      </div>
 
-                  <Link
-                    to={`./userpage/${onlineFullname}`}
-                    className="text-black text-lg font-medium leading-[22px]"
-                    onClick={close}
-                  >
-                    {t("프로필 보기")}
-                  </Link>
+                      <button
+                        className="text-black text-lg font-medium leading-[22px]"
+                        onClick={() => {
+                          setIsChatModalOpenTrue();
+                          setNowChatId(onlineId);
+                          setIsChatingOpenFalse();
+                          setTimeout(() => {
+                            setIsChatingOpenTrue();
+                          }, 0);
+                          close();
+                        }}
+                      >
+                        {t("채팅하기")}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className="cursor-pointer hover:bg-gray-100 rounded-b-2xl">
+              <div className="w-[240px] h-[60px] px-2.5 py-1  flex-col justify-start items-start gap-2.5 flex">
+                <div className="justify-start items-center gap-3.5 inline-flex">
+                  <div className="h-[52px] px-3.5 py-[15px] rounded-[14px] justify-center gap-3 flex">
+                    <div className="relative w-5 h-5">
+                      <img
+                        className="w-5 h-5 left-[2px] top-[2px] absolute"
+                        src={setting}
+                      />
+                    </div>
+
+                    <Link
+                      to={`./userpage/${onlineFullname}`}
+                      className="text-black text-lg font-medium leading-[22px]"
+                      onClick={close}
+                    >
+                      {t("프로필 보기")}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </>
         )}
 
         {type === "header" && (
@@ -195,8 +240,8 @@ export default function Modal({
                       className="text-black text-lg font-medium leading-[22px]"
                       onClick={() => {
                         if (isChatModalOpen) {
-                          setIsChatModalOpenFalse();
                           setIsChatingOpenFalse();
+                          setIsChatModalOpenFalse();
                         }
                         close();
                         logOut();

@@ -23,8 +23,17 @@ export default function ButtonListComponent() {
   const token = useLoginStore((state) => state.token);
   const user = useLoginStore((state) => state.user);
 
+  const isChatModalOpen = useChatingModalStore(
+    (state) => state.isChatModalOpen
+  );
   const setIsChatModalOpenTrue = useChatingModalStore(
     (state) => state.setIsChatModalOpenTrue
+  );
+  const setIsChatModalOpenFalse = useChatingModalStore(
+    (state) => state.setIsChatModalOpenFalse
+  );
+  const setIsContentCloseFalse = useChatingModalStore(
+    (state) => state.setIsContentCloseFalse
   );
 
   const setIsAlertOpen = useEditorStore((state) => state.setIsAlertOpen);
@@ -36,7 +45,16 @@ export default function ButtonListComponent() {
         icon={chat}
         title={t("채팅")}
         onClick={() => {
-          user && token ? setIsChatModalOpenTrue() : setIsAlertOpen();
+          if (user && token) {
+            if (isChatModalOpen) {
+              setIsContentCloseFalse();
+              setIsChatModalOpenFalse();
+            } else {
+              setIsChatModalOpenTrue();
+            }
+          } else {
+            setIsAlertOpen();
+          }
         }}
       />
       <LinkButton

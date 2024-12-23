@@ -5,7 +5,6 @@ import { useCommentStore } from "../../store/comment";
 import ControlBtn from "./ControlBtn";
 import CommentComponent from "./CommentComponent";
 import default_profile from "../../asset/default_profile.png";
-
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
@@ -128,7 +127,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
             {parsedTitle.title}
           </h4>
           <div>
-            <p className="line-clamp-2 mb-6 text-sm text-[#495057]">
+            <p className="line-clamp-2 mb-6 text-sm text-[#495057] h-[3.9rem]">
               {parsedTitle.content}
             </p>
           </div>
@@ -169,7 +168,6 @@ export default function PostPreview({ preview, currentUser }: Props) {
           </div>
         </div>
       </article>
-
       {/*상세페이지 모달 */}
       {(isOpen || isAnimating) && (
         <div
@@ -216,7 +214,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
             </div>
 
             {/* 메인 */}
-            <div className="p-5 flex flex-col select-text">
+            <div className="p-5 flex flex-col select-text items-center">
               <div className="relative aspect-video rounded-[10px] overflow-hidden mb-6 w-[80%] mx-auto">
                 <img
                   src={preview.image ? preview.image : default_thumbnail}
@@ -224,11 +222,11 @@ export default function PostPreview({ preview, currentUser }: Props) {
                   className="object-cover w-full"
                 />
               </div>
-              <div className="w-[80%] mx-auto">
+              <div className="flex flex-col items-center w-[80%] mx-auto">
                 <h2 className="text-3xl font-bold mt-12">
                   {parsedTitle.title}
                 </h2>
-                <p className="text-base break-words mt-12">
+                <p className="text-base break-words mt-12 w-[80%]">
                   {parsedTitle.content}
                 </p>
                 <CommentComponent
@@ -240,15 +238,16 @@ export default function PostPreview({ preview, currentUser }: Props) {
                 {/* <CommentUI /> */}
               </div>
             </div>
+            {/* 모달 배경 고정 버튼 필드 */}
+            <ControlBtn
+              onToTop={handleToTopButton}
+              onComment={handleClickCommentButton}
+              postId={preview._id}
+              author={preview.author}
+              currentUserId={currentUser}
+              closeModal={closeModal}
+            />
           </div>
-          {/* 모달 배경 고정 버튼 필드 */}
-          <ControlBtn
-            onToTop={handleToTopButton}
-            onComment={handleClickCommentButton}
-            postId={preview._id}
-            author={preview.author}
-            currentUserId={currentUser}
-          />
         </div>
       )}
     </>

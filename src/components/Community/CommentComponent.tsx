@@ -13,6 +13,9 @@ import {
   Button,
   List,
   Box,
+  Snackbar,
+  Alert,
+  AlertColor,
 } from "@mui/material";
 import { useNotificationsStore } from "../../store/notificationsStore";
 import { axiosInstance } from "../../api/axios";
@@ -35,11 +38,10 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   const { posts, addCommentToPost, deleteComment } = useCommentStore();
   const user = useLoginStore((state) => state.user);
   const { createNotifications } = useNotificationsStore();
-
-  //요기 이뿌게 꾸며야될텐데...
-  if (!user) {
-    return <div>로그인 정보가 없습니다.</div>;
-  }
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false); // Snackbar 열림 상태
+  const [snackbarMessage, setSnackbarMessage] = useState<string>(""); // Snackbar 메시지
+  const [snackbarSeverity, setSnackbarSeverity] =
+    useState<AlertColor>("success");
 
   const [newComment, setNewComment] = useState<string>("");
 
@@ -52,9 +54,9 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
     }
   }, [currentPost, posts]);
 
-  //나중에 이쁘게 꾸밀 수 있을 지도..
+  //로딩시 (모달은 거의 없음)
   if (!posts.length) {
-    return <Typography>로딩 중입니다...</Typography>;
+    return <Typography>로딩중...</Typography>;
   }
 
   //오류 체크
@@ -62,12 +64,21 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
     return <Typography>해당 게시물을 찾을 수 없습니다.</Typography>;
   }
 
+  const handleSnackbarClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickAway") return; // 클릭 이외의 이벤트 무시
+    setSnackbarOpen(false);
+  };
+
   const handleAddComment = async () => {
-    if (!newComment.trim()) {
-      alert("댓글 내용을 입력해주세요.");
+    if (!user) {
+      setSnackbarMessage("로그인을 해주세요");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
       return;
     }
-
     try {
       await addCommentToPost(postId, newComment);
 
@@ -79,28 +90,33 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
       ).data;
 
       setNewComment(""); // 입력 필드 초기화
-
       createNotifications!({
         notiType: "COMMENT",
         notiTypeId: comment._id + "",
         userId: author._id + "",
         postId: postId + "",
       });
+      setSnackbarMessage("댓글이 성공적으로 작성되었습니다.");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
 
-      alert("댓글이 성공적으로 작성되었습니다.");
     } catch (error) {
-      console.error("댓글 작성 실패:", error);
-      alert("댓글 작성에 실패했습니다.");
+      setSnackbarMessage("댓글 작성에 실패했습니다.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
   const handleDeleteComment = async (commentId: string) => {
     try {
       await deleteComment(commentId);
-      alert("댓글이 성공적으로 삭제되었습니다.");
+      setSnackbarMessage("댓글이 성공적으로 삭제되었습니다.");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     } catch (error) {
-      console.error("댓글 삭제 실패:", error);
-      alert("댓글 삭제에 실패했습니다.");
+      setSnackbarMessage("댓글 삭제에 실패했습니다.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -136,9 +152,9 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
           <div className="flex items-center mb-4">
             {/* 프로필 이미지 */}
             <img
-              src={user.image || default_profile}
-              alt={user.fullName || "알 수 없음"}
-              className="w-14 h-14 rounded-full mr-2 object-cover"
+              src={user?.image || default_profile}
+              alt={user?.fullName || "알 수 없음"}
+              className="w-8 h-8 rounded-full mr-2 object-cover"
             />
           </div>
           <div className="flex w-full">
@@ -199,6 +215,70 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
               >
                 <img src={comment} className="w-5" />
               </Button>
+              {/* Snackbar */}
+              <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={1000} // 2초 후 자동 닫힘
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              >
+                <Alert
+                  onClose={handleSnackbarClose}
+                  severity={snackbarSeverity}
+                  sx={{
+                    color:
+                      snackbarSeverity === "success" ? "#65999F" : "#C96868", // 텍스트 색상
+                    backgroundColor:
+                      snackbarSeverity === "success" ? "white" : "white", // 배경색
+                    border:
+                      snackbarSeverity === "success"
+                        ? "1px solid #7EACB5"
+                        : "1px solid #F56C6C", // 테두리
+                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  iconMapping={{
+                    success: (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="#7EACB5" // Primary 색상
+                        width="20"
+                        height="20"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    ),
+                    error: (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="#C96868" // 에러 색상
+                        width="20"
+                        height="20"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 8v4m0 4h.01"
+                        />
+                        <circle cx="12" cy="12" r="9" />
+                      </svg>
+                    ),
+                  }}
+                >
+                  {snackbarMessage}
+                </Alert>
+              </Snackbar>
             </div>
           </div>
         </CardContent>
@@ -217,7 +297,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
               <div className="flex-shrink-0">
                 <Link
                   to={
-                    user.fullName === comment.author.fullName
+                    user?.fullName === comment.author.fullName
                       ? `/mypage`
                       : `/userpage/${comment.author.fullName}`
                   }
@@ -230,18 +310,17 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                   />
                 </Link>
               </div>
-
               {/* 댓글 내용 */}
               <div className="flex-1 ml-4 bg-[#D5E6E9] px-5 py-3 rounded-[8px]">
                 {/* 유저 이름과 날짜 */}
                 <div className="flex items-center justify-between">
                   <Link
                     to={
-                      user.fullName === comment.author.fullName
+                      user?.fullName === comment.author.fullName
                         ? `/mypage`
                         : `/userpage/${comment.author.fullName}`
                     }
-                    className="font-bold text-sm text-black hover:underline"
+                    className="font-bold text-sm text-black hover:no-underline"
                   >
                     {comment.author.fullName || "알 수 없음"}
                   </Link>
@@ -249,12 +328,10 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                     {formatDateToKorean(comment.createdAt)}
                   </span>
                 </div>
-
                 {/* 댓글 텍스트 */}
                 <p className="text-sm text-black mt-3 leading-relaxed">
                   {comment.comment}
                 </p>
-
                 {/* 삭제 버튼 */}
                 <div className="flex justify-end mt-2">
                   <button

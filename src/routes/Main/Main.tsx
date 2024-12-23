@@ -55,9 +55,6 @@ export default function Main() {
   const isChatModalOpen = useChatingModalStore(
     (state) => state.isChatModalOpen
   );
-  const setIsChatModalOpenTrue = useChatingModalStore(
-    (state) => state.setIsChatModalOpenTrue
-  );
 
   // 메인페이지 들어올 떄 마다 유저정보 업데이트
   const setUser = useLoginStore((state) => state.setUser);
@@ -70,11 +67,18 @@ export default function Main() {
     setUser(newUser);
   };
   useEffect(() => {
+    // 30초 마다 유저 정보 업데이트 해서 온라인 상태 유지되도록 변경
     getAuthUser();
+    const userInerval = setInterval(() => {
+      if (JSON.parse(localStorage.getItem("LoginUserInfo")!) !== null) {
+        getAuthUser();
+      }
+    }, 30000);
     document.body.style.overflow = "hidden";
 
     return () => {
       document.body.style.overflow = "auto";
+      clearInterval(userInerval);
     };
   }, []);
 

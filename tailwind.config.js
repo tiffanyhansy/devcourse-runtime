@@ -72,8 +72,8 @@ export default {
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
         slideOut: {
-          "0%": { transform: "translateY(0)", opacity: "1" },
-          "100%": { transform: "translateY(30px)", opacity: "0" },
+          "0%": { opacity: "1", transform: "translateY(0) scale(1)" },
+          "100%": { opacity: "0", transform: "translateY(-20px) scale(0.9)" },
         },
         flipIn: {
           "0%": { transform: "rotateY(90deg)", opacity: "0" },
@@ -101,10 +101,10 @@ export default {
         blurIn: "blurIn 0.4s ease-in-out",
         blurOut: "blurOut 0.4s ease-in-out",
         slideIn: "slideIn 0.5s ease-out",
-        slideOut: "slideOut 0.3s ease-out",
+        slideOut: "slideOut 0.3s ease-in",
         flipIn: "flipIn 0.5s ease-in-out",
         flipOut: "flipOut 0.5s ease-in-out",
-        glassBlur: "glassBlur 0.4s ease-in-out",
+        glassBlur: "glassBlur 0.3s ease-out",
       },
     },
   },

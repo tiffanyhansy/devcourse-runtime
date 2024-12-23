@@ -105,6 +105,14 @@ const Mypage = () => {
     }
   };
 
+  //웹사이트 검증
+  const isValidWebsite = (website: string) => {
+    const websitePattern = new RegExp(
+      /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,6}(:\d{1,5})?(\/.*)?$/i
+    );
+    return websitePattern.test(website);
+  };
+
   const handleEditButtonClick = async () => {
     setTempClickedField(
       user.username && typeof user.username !== "string"
@@ -115,9 +123,17 @@ const Mypage = () => {
     const isAnyFieldEmpty =
       !fullName?.trim() || !username || !username.username.trim();
 
+    const isWebsiteInvalid =
+      isEditable && username?.website && !isValidWebsite(username.website);
+
     if (isEditable) {
       if (isAnyFieldEmpty) {
         alert(t("닉네임을 입력해주세요."));
+        return;
+      }
+
+      if (isWebsiteInvalid) {
+        alert(t("올바른 형식의 website를 입력해주세요"));
         return;
       }
 
@@ -399,6 +415,17 @@ const Mypage = () => {
                 sx={{ mt: 3, width: "500px", justifySelf: "end" }}
               >
                 {t("닉네임을 적어주세요!")}
+              </Alert>
+            )}
+
+          {isEditable &&
+            username?.website &&
+            !isValidWebsite(username.website) && (
+              <Alert
+                severity="error"
+                sx={{ mt: 3, width: "500px", justifySelf: "end" }}
+              >
+                {t("올바른 형식의 website를 입력해주세요")}
               </Alert>
             )}
         </div>

@@ -4,14 +4,12 @@ import { axiosInstance } from "../../api/axios";
 import default_profile from "../../asset/default_profile.png";
 import { useChatingModalStore } from "../../store/store";
 import { v4 as uuidv4 } from "uuid";
+import close from "../../asset/images/close.svg";
+import search_user_icon from "../../asset/images/search_user_icon.svg";
 
 export default function UserSearchModal() {
   const [userAll, setUserAll] = useState<userType[]>([]);
   const [searchUser, setSearchUser] = useState<userType[]>([]);
-  const addedUserList = useChatingModalStore((state) => state.addedUserList);
-  const setAddedUserList = useChatingModalStore(
-    (state) => state.setAddedUserList
-  );
   const setIsSearchModalOpenFalse = useChatingModalStore(
     (state) => state.setIsSearchModalOpenFalse
   );
@@ -43,66 +41,72 @@ export default function UserSearchModal() {
   }, []);
 
   return (
-    <article className="w-[300px] h-[500px] flex flex-col gap-[10px] border absolute top-[50px] right-[-301px] bg-white px-[10px] py-[20px] rounded-r-lg">
-      <button
-        className="w-full py-1 bg-[#E14444] hover:bg-[#f54a4a] text-white rounded-md"
-        onClick={setIsSearchModalOpenFalse}
-      >
-        X
-      </button>
-      {/* 검색창 */}
-      <article className="flex gap-[10px]">
-        <input
-          type="text"
-          className="w-full border rounded-lg p-2 placeholder:text-[12px]"
-          placeholder="@을 제외한 유저 ID로 검색 가능합니다."
-          ref={inputRef}
-          onKeyDown={() => {
-            buttonRef.current?.click();
-          }}
-        />
+    <article className="w-[250px] absolute top-0 right-[-271px] bg-white shadow-lg rounded-[10px]">
+      {/* 최상단 바바 */}
+      <article className="w-full h-[40px] rounded-t-[10px] bg-[#7EACB5] flex justify-between items-center px-[10px] relative">
+        <span className="text-white">대화 상대 검색</span>
         <button
-          className="w-[50px] rounded-lg bg-[#D5E6E9] hover:bg-[#e8f9fc] px-2 text-[14px]"
-          ref={buttonRef}
-          onClick={() => {
-            const search = userAll.filter((e) => {
-              return e.fullName.includes(inputRef.current!.value!);
-            });
-            setSearchUser(search);
-          }}
+          className="w-[24px] h-[24px]"
+          onClick={setIsSearchModalOpenFalse}
         >
-          검색
+          <img src={close} alt="닫기 아이콘" />
         </button>
       </article>
-      {/* 리스트 */}
-      <article className="w-full h-full border rounded-lg flex flex-col gap-1 overflow-y-scroll custom-scroll">
-        {searchUser.map((user) => {
-          return (
-            <article
-              className="flex items-center gap-2 cursor-pointer p-2 hover:bg-slate-400"
-              onClick={() => {
-                const listUpdate = [...addedUserList];
-                listUpdate.push(user);
-                setAddedUserList(listUpdate);
-                setNowChatId(user._id);
-                setIsChatingOpenFalse();
-                setTimeout(() => {
-                  setIsChatingOpenTrue();
-                });
-              }}
-              key={uuidv4()}
-            >
-              <img
-                src={user.image ? user.image : default_profile}
-                alt={"유저 이미지"}
-                className="w-[40px] h-[40px] rounded-full object-cover"
-              />
-              <article>
-                <span className="text-[14px]">{user.fullName}</span>
+      <article className="flex flex-col">
+        {/* 리스트 */}
+        <article className="w-full h-[200px] flex flex-col gap-1 overflow-y-scroll custom-scroll">
+          {searchUser.map((user) => {
+            return (
+              <article
+                className="flex items-center gap-2 cursor-pointer p-2 hover:bg-[#EAEAEA]"
+                onClick={() => {
+                  // const listUpdate = [...addedUserList];
+                  // listUpdate.push(user);
+                  // setAddedUserList(listUpdate);
+                  setNowChatId(user._id);
+                  setIsChatingOpenFalse();
+                  setTimeout(() => {
+                    setIsChatingOpenTrue();
+                  });
+                }}
+                key={uuidv4()}
+              >
+                <img
+                  src={user.image ? user.image : default_profile}
+                  alt={"유저 이미지"}
+                  className="w-[40px] h-[40px] rounded-full object-cover"
+                />
+                <article>
+                  <span className="text-[14px]">{user.fullName}</span>
+                </article>
               </article>
-            </article>
-          );
-        })}
+            );
+          })}
+        </article>
+        {/* 검색창 */}
+        <article className="flex gap-[5px] p-2">
+          <input
+            type="text"
+            className="w-full rounded-lg p-2 placeholder:text-[10px] text-[10px] bg-[#F0F0F0] focus:outline-none"
+            placeholder="@을 제외한 유저 ID로 검색 가능합니다."
+            ref={inputRef}
+            onKeyDown={() => {
+              buttonRef.current?.click();
+            }}
+          />
+          <button
+            className="w-[40px] rounded-lg bg-[#D5E6E9] hover:bg-[#e8f9fc] text-[14px] flex justify-center items-center"
+            ref={buttonRef}
+            onClick={() => {
+              const search = userAll.filter((e) => {
+                return e.fullName.includes(inputRef.current!.value!);
+              });
+              setSearchUser(search);
+            }}
+          >
+            <img src={search_user_icon} alt="유저 검색 아이콘" />
+          </button>
+        </article>
       </article>
     </article>
   );

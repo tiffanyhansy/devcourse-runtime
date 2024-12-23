@@ -80,7 +80,7 @@ export default function Header() {
             <img
               src={user?.image ? user.image : default_profile}
               alt="유저 이미지 커버"
-              className="object-cover w-full h-full rounded-full"
+              className="object-cover w-full h-full border-2 border-gray-300 rounded-full"
             />
           </button>
           {type === "header" && <Modal />}
