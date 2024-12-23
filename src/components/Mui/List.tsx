@@ -10,7 +10,6 @@ import { axiosInstance } from "../../api/axios";
 import { userType } from "../../api/api";
 import Modal from "../Modal/ProfileModal";
 import default_profile from "../../asset/default_profile.png";
-import { useEffect, useState } from "react";
 
 // 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
