@@ -5,7 +5,7 @@ import { t } from "i18next";
 import { Alert } from "@mui/material";
 // ref객체와 useEffect 활용해서 모달 외부 클릭시 모달 닫히는 이벤트핸들러 만들기
 function refHandler(
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<HTMLDivElement | null>,
   handler: (event: MouseEvent) => void
 ) {
   useEffect(() => {

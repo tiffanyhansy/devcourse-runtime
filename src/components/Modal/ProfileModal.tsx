@@ -20,7 +20,7 @@ export default function Modal({
   y?: number;
   onlineFullname?: string;
   onlineCoverImg?: string;
-  onlineId: string;
+  onlineId?: string;
 }) {
   const modal = useprofileModalStore((s) => s.modal);
   const type = useprofileModalStore((s) => s.type);
@@ -172,7 +172,7 @@ export default function Modal({
                         className="text-black text-lg font-medium leading-[22px]"
                         onClick={() => {
                           setIsChatModalOpenTrue();
-                          setNowChatId(onlineId);
+                          setNowChatId(onlineId!);
                           setIsChatingOpenFalse();
                           setTimeout(() => {
                             setIsChatingOpenTrue();

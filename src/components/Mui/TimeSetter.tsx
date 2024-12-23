@@ -1,4 +1,3 @@
-import * as React from "react";
 import dayjs from "dayjs";
 import { useTimeSetterStore } from "../../store/store";
 import { MobileTimePicker } from "@mui/x-date-pickers";
@@ -12,7 +11,7 @@ export default function TimeSetter() {
   const DateSet = useTimeSetterStore((state) => state.DateSet);
   const selectDate = useTimeSetterStore((state) => state.selectDate);
 
-  const handleTimeChange = (newValue: dayjs.Dayjs | null) => {
+  const handleTimeChange = (newValue: dayjs.Dayjs | any /*임시조치*/) => {
     DateSet(newValue, newValue["$d"]);
     // $d로 오브젝트를 불러와야 하는데 $d를 쓰면 타입에러가 생김.. 하지만 정상작동하니 패쓰
   };

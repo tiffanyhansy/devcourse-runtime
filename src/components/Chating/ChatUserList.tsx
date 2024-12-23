@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import default_profile from "../../asset/default_profile.png";
-import small_icon from "../../asset/images/small_icon.svg";
 import { useChatingModalStore } from "../../store/store";
 import { v4 as uuidv4 } from "uuid";
 import { useLoginStore } from "../../store/API";

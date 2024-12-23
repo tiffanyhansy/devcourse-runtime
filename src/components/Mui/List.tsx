@@ -7,26 +7,25 @@ import Avatar from "@mui/material/Avatar";
 import { useprofileModalStore } from "../../store/store";
 import Modal from "../Modal/ProfileModal";
 import { axiosInstance } from "../../api/axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { userType } from "../../api/api";
-import { v4 as uuidv4 } from "uuid";
 
 // 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
-  const [checked, setChecked] = useState([1]);
+  // const [checked, setChecked] = useState([1]);
 
-  const handleToggle = (value: number) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  // const handleToggle = (value: number) => () => {
+  //   const currentIndex = checked.indexOf(value);
+  //   const newChecked = [...checked];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+  //   if (currentIndex === -1) {
+  //     newChecked.push(value);
+  //   } else {
+  //     newChecked.splice(currentIndex, 1);
+  //   }
 
-    setChecked(newChecked);
-  };
+  //   setChecked(newChecked);
+  // };
   // 모달 창 store
   const { type, open, modal, close } = useprofileModalStore();
   const [x, setX] = useState(0);

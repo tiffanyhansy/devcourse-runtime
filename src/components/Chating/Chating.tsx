@@ -38,7 +38,7 @@ export default function Chating() {
 
   const sendMessage = async (message: string, receiverId: string) => {
     try {
-      const sending = await axiosInstance.post(`/messages/create`, {
+      await axiosInstance.post(`/messages/create`, {
         message: message,
         receiver: receiverId,
       });
