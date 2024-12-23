@@ -3,6 +3,7 @@ import TimeSetter from "../../../components/Mui/TimeSetter";
 import { useTimerStore, useTimeSetterStore } from "../../../store/store";
 import { t } from "i18next";
 import { Alert } from "@mui/material";
+
 // ref객체와 useEffect 활용해서 모달 외부 클릭시 모달 닫히는 이벤트핸들러 만들기
 function refHandler(
   ref: React.RefObject<HTMLDivElement | null>,
@@ -41,6 +42,9 @@ function refHandler(
 export default function AchieveSetModal() {
   const setIsTimeSetterOpen = useTimeSetterStore(
     (state) => state.setIsTimeSetterOpen
+  );
+  const setIsTimerSnackbarOpenTrue = useTimeSetterStore(
+    (state) => state.setIsTimerSnackbarOpenTrue
   );
 
   const selectDate = useTimeSetterStore((state) => state.selectDate);
@@ -111,6 +115,7 @@ export default function AchieveSetModal() {
             JSON.stringify([selectHours, selectMinuites, selectSeconds])
           );
           setIsTimeSetterOpen();
+          setIsTimerSnackbarOpenTrue();
         }}
       >
         {t("설정 완료!")}
