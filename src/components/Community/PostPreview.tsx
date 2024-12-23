@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "./DeleteDialog";
 import useSnackbarStore from "../../store/store";
 import SnackbarComponent from "../editor/SnackBar";
-import { useImageStore } from "../../store/store";
+import { useEditorStore } from "../../store/store";
 
 type Props = {
   preview: Post_T;
@@ -30,7 +30,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const user = useLoginStore((state) => state.user);
   const { showSnackbar } = useSnackbarStore(); //스낵바
-  const uploadedImage = useImageStore((state) => state.uploadedImage); //업로드 이미지 타입공유
+  const image = useEditorStore((state) => state.image);
 
   const { t } = useTranslation();
 
@@ -215,9 +215,9 @@ export default function PostPreview({ preview, currentUser }: Props) {
           >
             {/* 이미지 컨테이너 */}
 
-            {uploadedImage && (
+            {image && (
               <img
-                src={URL.createObjectURL(uploadedImage)} // image가 File 타입일 때만 호출
+                src={URL.createObjectURL(image)} // image가 File 타입일 때만 호출
                 alt="Uploaded Image"
                 className="w-full h-full object-contain"
               />

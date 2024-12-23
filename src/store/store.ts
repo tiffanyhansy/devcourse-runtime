@@ -14,6 +14,8 @@ interface EditorState {
   isShake: boolean;
   isChannelDialogOpen: boolean;
   errorMessage: string;
+  image: File | null;
+  setImage: (file: File | null) => void;
 
   handleCancel: (setImage: (file: File | null) => void) => void;
   confirmClose: (setImage: (file: File | null) => void) => void;
@@ -46,7 +48,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   isShake: false,
   errorMessage: "",
   isChannelDialogOpen: false,
-
+  image: null,
+  setImage: (file: File | null) => set({ image: file }),
   setShake: (value: boolean) => set({ isShake: value }),
   setErrorMessage: (message: string) => set({ errorMessage: message }),
   resetShakeAndError: () =>

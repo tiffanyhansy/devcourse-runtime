@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "../../css/QuillCustom.css";
-import { useEditorStore, useImageStore } from "../../store/store";
+import { useEditorStore } from "../../store/store";
 import { usePostStore } from "../../store/postStore"; // postStore 임포트
 import { useEffect, useRef } from "react";
 import useSnackbarStore from "../../store/store";
@@ -38,7 +38,6 @@ export default function BlogEditor() {
     image,
   } = usePostStore();
 
-  const setUploadedImage = useImageStore((state) => state.setUploadedImage);
   const { showSnackbar } = useSnackbarStore();
 
   // 컴포넌트가 마운트될 때 채널 리스트 가져오기
@@ -215,7 +214,7 @@ export default function BlogEditor() {
               onChange={(e) => {
                 e.preventDefault();
                 const file = e.target.files?.[0] || null;
-                setUploadedImage(file);
+                setImage(file);
               }}
             />
             {/* 파일 이름 표시*/}
