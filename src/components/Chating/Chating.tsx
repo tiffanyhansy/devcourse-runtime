@@ -65,7 +65,9 @@ export default function Chating() {
     updateSeen();
     getMessage().then(() => {
       setTimeout(() => {
-        chatBoxRef.current!.scrollTop = chatBoxRef.current!.scrollHeight;
+        if (chatBoxRef.current?.scrollTop) {
+          chatBoxRef.current!.scrollTop = chatBoxRef.current!.scrollHeight;
+        }
       }, 0);
     });
     const messageInterval = setInterval(() => {
