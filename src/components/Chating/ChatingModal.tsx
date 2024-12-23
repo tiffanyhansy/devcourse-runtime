@@ -35,7 +35,7 @@ export default function ChatingModal() {
     }
   };
 
-  // 채팅창 오픈 트리거
+  // 채팅창 트리거
   const isChatingOpen = useChatingModalStore((state) => state.isChatingOpen);
 
   // 유저 검색창 오픈 트리거
@@ -52,11 +52,9 @@ export default function ChatingModal() {
     (state) => state.setIsContentCloseFalse
   );
 
-  // 메신저 기록 axios(메시지함은 뭘 받아오는건지 이해가 안되서 안 씀 messages?userId 이거 쓰니 사용자 id와 관련된 메시지 전부를 들고오길래 이걸로 예외처리해서 상단 메시지 기록으로 사용중)
-
   return (
     <article
-      className={`w-[500px] rounded-[10px] shadow-lg bg-white absolute top-[100px] left-[50%] translate-x-[-50%] translate-y-[-20px] z-50`}
+      className="animate-chatSwashIn w-[500px] rounded-[10px] shadow-lg bg-white absolute top-[100px] left-[50%] translate-x-[-50%] translate-y-[-20px] z-50"
       ref={movingRef}
       style={isContentClose ? { width: "200px" } : {}}
     >
@@ -71,6 +69,7 @@ export default function ChatingModal() {
         onDragOver={(event) => {
           dragOverHandler(event);
         }}
+        style={isContentClose ? { borderRadius: "10px" } : {}}
       >
         <article className="flex gap-[8px] absolute right-[10px] top-[50%] translate-y-[-50%]">
           <button
@@ -102,7 +101,10 @@ export default function ChatingModal() {
           </button>
         </article>
       </article>
-      <section ref={contentRef}>
+      <section
+        ref={contentRef}
+        className={`${isContentClose ? "hidden" : "block"}`}
+      >
         <ChatUserList />
 
         {isChatingOpen ? (

@@ -1,18 +1,24 @@
+import { useEffect } from "react";
 import { Stack } from "@mui/material";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined";
 import VerticalAlignTopRoundedIcon from "@mui/icons-material/VerticalAlignTopRounded";
-import PostButton from "../Post/PostButton";
-import { useCommentStore } from "../../store/comment";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import PostButton from "../Post/PostButton";
+import { useCommentStore } from "../../store/comment";
+import { useNotificationsStore } from "../../store/notificationsStore";
+import { useLoginStore } from "../../store/API";
+import { axiosInstance } from "../../api/axios";
+import { Author_T } from "../../api/api";
 
 type Props = {
   onToTop: () => void;
   onComment: () => void;
   postId: string; // 좋아요를 처리할 게시물 ID
   currentUserId: string | null;
+  author: Author_T;
   closeModal: () => void;
 };
 
@@ -21,10 +27,23 @@ export default function ControlBtn({
   onComment,
   postId,
   currentUserId,
+  author,
   closeModal,
 }: Props) {
   const { toggleLike, posts } = useCommentStore();
   const likedPost = posts.find((post) => post._id === postId);
+  const { createNotifications, updateLikeState } = useNotificationsStore();
+  const { likeStates } = useNotificationsStore();
+  const user = useLoginStore((state) => state.user);
+
+  // 좋아요 유지 로직
+  const likedItems = Object.entries(likeStates!)
+    .filter(([_, value]) => value.isLiked === false && value.myId === user?._id)
+    .map(([key, value]) => ({ key, ...value }));
+
+  let filteredData = likedPost?.likes.filter((item: { post: string }) => {
+    return likedItems.some((likedItem) => likedItem.key === item.post);
+  });
 
   const handleClickLikeButton = async (event: React.MouseEvent) => {
     event.stopPropagation(); // 이벤트 버블링 방지
@@ -47,6 +66,22 @@ export default function ControlBtn({
             likedPost.isLiked ? "취소" : "추가"
           } 요청 성공: postId=${postId}`
         );
+        const like1 = (
+          await axiosInstance.post(`likes/create`, {
+            postId: postId,
+          })
+        ).data;
+        if (!likedPost.isLiked) {
+          updateLikeState!(author._id, postId, likedPost.isLiked, user?._id);
+          createNotifications!({
+            notiType: "LIKE",
+            notiTypeId: like1._id + "",
+            userId: author._id + "",
+            postId: postId + "",
+          });
+        } else {
+          updateLikeState!(author._id, postId, likedPost.isLiked);
+        }
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
       }
@@ -54,6 +89,15 @@ export default function ControlBtn({
       console.error("게시물을 찾을 수 없습니다.");
     }
   };
+
+  useEffect(() => {
+    filteredData = likedPost?.likes.filter((item: any) => {
+      return likedItems.some(
+        (likedItem) =>
+          likedItem.userId === item.user && likedItem.key === item.post
+      );
+    });
+  }, [filteredData]);
 
   return (
     <Stack
@@ -69,7 +113,7 @@ export default function ControlBtn({
       {/* 좋아요 버튼 */}
       <PostButton
         icon={
-          likedPost?.isLiked ? (
+          filteredData && filteredData.length > 0 ? (
             <FavoriteRoundedIcon
               sx={{
                 fontSize: "28px",

@@ -16,7 +16,7 @@ function SelectLanguageButton() {
   };
 
   return (
-    <div className="fixed bottom-28 right-10">
+    <div className="fixed bottom-28 right-10 hover:cursor-pointer">
       <LanguageIcon
         onClick={() => setIsLanguageMenuOpen((prev) => !prev)}
         style={{

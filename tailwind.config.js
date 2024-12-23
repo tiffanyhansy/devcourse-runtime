@@ -87,6 +87,40 @@ export default {
           "0%": { filter: "blur(10px)", transform: "scale(0.8)", opacity: "0" },
           "100%": { filter: "blur(0px)", transform: "scale(1)", opacity: "1" },
         },
+        chatSwashIn: {
+          "0%": {
+            opacity: "0",
+            transformOrigin: "50% 50%",
+            transform: "translateX(-50%) translateY(-20px) scale(0, 0)",
+          },
+          "90%": {
+            opacity: "1",
+            transformOrigin: "50% 50%",
+            transform: "translateX(-50%) translateY(-20px) scale(0.9, 0.9)",
+          },
+          "100%": {
+            opacity: "1",
+            transformOrigin: "50% 50%",
+            transform: "translateX(-50%) translateY(-20px) scale(1, 1)",
+          },
+        },
+        friendSwashIn: {
+          "0%": {
+            opacity: "0",
+            transformOrigin: "50% 50%",
+            transform: "translateX(-50%) translateY(-50%) scale(0, 0)",
+          },
+          "90%": {
+            opacity: "1",
+            transformOrigin: "50% 50%",
+            transform: "translateX(-50%) translateY(-50%) scale(0.9, 0.9)",
+          },
+          "100%": {
+            opacity: "1",
+            transformOrigin: "50% 50%",
+            transform: "translateX(-50%) translateY(-50%) scale(1, 1)",
+          },
+        },
       },
       animation: {
         show: "show 1s ease-in-out forwards",
@@ -105,6 +139,8 @@ export default {
         flipIn: "flipIn 0.5s ease-in-out",
         flipOut: "flipOut 0.5s ease-in-out",
         glassBlur: "glassBlur 0.3s ease-out",
+        chatSwashIn: "chatSwashIn 0.3s ease-in-out",
+        friendSwashIn: "friendSwashIn 0.3s ease-in-out",
       },
     },
   },

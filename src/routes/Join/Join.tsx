@@ -7,7 +7,8 @@ import Input from "../../components/Form/Input";
 import SubmitButton from "../../components/Form/SubmitButton";
 import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 import { useTranslation } from "react-i18next";
-import LanguageIcon from "@mui/icons-material/Language";
+import ChatbotButton from "../../components/chatbot/ChatbotButton";
+import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
 
 export default function Join() {
   const [email, setEmail] = useState("");
@@ -253,38 +254,8 @@ export default function Join() {
         </div>
       </FormContainer>
 
-      <div className="fixed bottom-4 right-4">
-        <LanguageIcon
-          onClick={() => setIsLanguageMenuOpen((prev) => !prev)}
-          style={{
-            color: "#4f4f4f",
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-            backgroundColor: "#ebebeb",
-            padding: "8px",
-          }}
-        >
-          {selectedLanguage === "ko" ? "한국어" : "English"}
-        </LanguageIcon>
-
-        {isLanguageMenuOpen && (
-          <div className="absolute right-0 bg-white rounded-md shadow-lg bottom-[50px]">
-            <button
-              className="w-20 py-2 text-sm hover:bg-gray-100"
-              onClick={() => handleLanguageChange("ko")}
-            >
-              한국어
-            </button>
-            <button
-              className="w-20 py-2 text-sm hover:bg-gray-100"
-              onClick={() => handleLanguageChange("en")}
-            >
-              English
-            </button>
-          </div>
-        )}
-      </div>
+      <SelectLanguageButton />
+      <ChatbotButton />
     </main>
   );
 }

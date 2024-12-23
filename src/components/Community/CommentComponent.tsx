@@ -5,6 +5,7 @@ import { useLoginStore } from "../../store/API";
 import { Link } from "react-router";
 import default_profile from "../../asset/default_profile.png";
 import comment from "../../asset/images/comment.svg";
+import { useNotificationsStore } from "../../store/notificationsStore";
 import {
   Card,
   CardContent,
@@ -18,6 +19,7 @@ import {
   AlertColor,
 } from "@mui/material";
 import { axiosInstance } from "../../api/axios";
+import { t } from "i18next";
 
 type CommentComponentProps = {
   postId: string;
@@ -31,10 +33,12 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   postId,
   inputRef,
   comments,
+  author,
 }) => {
   //로그인 유저 정보 가져오기
   const { posts, addCommentToPost, deleteComment } = useCommentStore();
   const user = useLoginStore((state) => state.user);
+  const { createNotifications } = useNotificationsStore();
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false); // Snackbar 열림 상태
   const [snackbarMessage, setSnackbarMessage] = useState<string>(""); // Snackbar 메시지
   const [snackbarSeverity, setSnackbarSeverity] =
@@ -53,12 +57,12 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
 
   //로딩시 (모달은 거의 없음)
   if (!posts.length) {
-    return <Typography>로딩중...</Typography>;
+    return <Typography>{t("로딩중...")}</Typography>;
   }
 
   //오류 체크
   if (!currentPost) {
-    return <Typography>해당 게시물을 찾을 수 없습니다.</Typography>;
+    return <Typography>{t("해당 게시물을 찾을 수 없습니다.")}</Typography>;
   }
 
   const handleSnackbarClose = (
@@ -71,7 +75,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
 
   const handleAddComment = async () => {
     if (!user) {
-      setSnackbarMessage("로그인을 해주세요");
+      setSnackbarMessage(t("로그인을 해주세요"));
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
       return;
@@ -87,12 +91,17 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
       ).data;
 
       setNewComment(""); // 입력 필드 초기화
-
-      setSnackbarMessage("댓글이 성공적으로 작성되었습니다.");
+      createNotifications!({
+        notiType: "COMMENT",
+        notiTypeId: comment._id + "",
+        userId: author._id + "",
+        postId: postId + "",
+      });
+      setSnackbarMessage(t("댓글이 성공적으로 작성되었습니다."));
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
     } catch (error) {
-      setSnackbarMessage("댓글 작성에 실패했습니다.");
+      setSnackbarMessage(t("댓글 작성에 실패했습니다."));
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
@@ -101,11 +110,11 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   const handleDeleteComment = async (commentId: string) => {
     try {
       await deleteComment(commentId);
-      setSnackbarMessage("댓글이 성공적으로 삭제되었습니다.");
+      setSnackbarMessage(t("댓글이 성공적으로 삭제되었습니다."));
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
     } catch (error) {
-      setSnackbarMessage("댓글 삭제에 실패했습니다.");
+      setSnackbarMessage(t("댓글 삭제에 실패했습니다."));
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
@@ -118,13 +127,19 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
     const minutes = date.getMinutes();
     const isPM = hours >= 12;
     const formattedHours = isPM ? hours - 12 || 12 : hours; // 12시간제 표현
-    const period = isPM ? "오후" : "오전";
+    const period = isPM ? t("오후") : t("오전");
 
-    return `${date.getFullYear()}년 ${
-      date.getMonth() + 1
-    }월 ${date.getDate()}일 ${period} ${formattedHours}:${minutes
-      .toString()
-      .padStart(2, "0")}`;
+    return t(
+      "{{year}}년 {{month}}월 {{day}}일 {{period}} {{hours}}:{{minutes}}",
+      {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+        period,
+        hours: formattedHours,
+        minutes: minutes.toString().padStart(2, "0"),
+      }
+    );
   };
 
   return (
@@ -145,10 +160,8 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
             <img
               src={user?.image || default_profile}
               alt={user?.fullName || "알 수 없음"}
-              className="w-8 h-8 rounded-full mr-2 object-cover"
+              className="object-cover w-8 h-8 mr-2 rounded-full"
             />
-
-            {/* 프로필 이름 */}
           </div>
           <div className="flex w-full">
             <div className="bg-[#F3F3F3] rounded-[30px] flex-1">
@@ -179,7 +192,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                     borderBottom: "none",
                   },
                 }}
-                placeholder="댓글을 입력하세요..."
+                placeholder={t("댓글을 입력하세요...")}
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
               />
@@ -299,7 +312,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                   <img
                     src={comment.author.image || default_profile}
                     alt={comment.author.fullName || "알 수 없음"}
-                    className="w-14 h-14 rounded-full object-cover"
+                    className="object-cover rounded-full w-14 h-14"
                   />
                 </Link>
               </div>
@@ -313,7 +326,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                         ? `/mypage`
                         : `/userpage/${comment.author.fullName}`
                     }
-                    className="font-bold text-sm text-black hover:no-underline"
+                    className="text-sm font-bold text-black hover:no-underline"
                   >
                     {comment.author.fullName || "알 수 없음"}
                   </Link>
@@ -322,7 +335,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                   </span>
                 </div>
                 {/* 댓글 텍스트 */}
-                <p className="text-sm text-black mt-3 leading-relaxed">
+                <p className="mt-3 text-sm leading-relaxed text-black">
                   {comment.comment}
                 </p>
                 {/* 삭제 버튼 */}
@@ -331,7 +344,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
                     className="text-xs text-[#C96868] hover:underline"
                     onClick={() => handleDeleteComment(comment._id)}
                   >
-                    삭제
+                    {t("삭제")}
                   </button>
                 </div>
               </div>

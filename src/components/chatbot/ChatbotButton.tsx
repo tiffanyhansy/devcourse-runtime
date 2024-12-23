@@ -1,4 +1,3 @@
-import { useState } from "react";
 import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 
 declare global {

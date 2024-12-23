@@ -9,8 +9,7 @@ import default_profile from "../../asset/default_profile.png";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
-// import { useTranslation } from "react-i18next";
-// import PostButtonFieldCol from "../Post/PostButtonFieldCol";
+import { useTranslation } from "react-i18next";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteDialog from "./DeleteDialog";
@@ -31,7 +30,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
   const user = useLoginStore((state) => state.user);
   const { showSnackbar } = useSnackbarStore(); //스낵바
 
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   // zustand에서 상태 가져오기
   const { posts, deletePost } = useCommentStore();
@@ -119,16 +118,18 @@ export default function PostPreview({ preview, currentUser }: Props) {
     try {
       return JSON.parse(preview.title);
     } catch {
-      return { title: "제목 없음", content: "내용 없음" };
+      return { title: t("제목 없음"), content: t("내용 없음") };
     }
   })();
 
   // 날짜 포맷 함수
   const formatDateToKorean = (dateString: string): string => {
     const date = new Date(dateString);
-    return `${date.getFullYear()}년 ${
-      date.getMonth() + 1
-    }월 ${date.getDate()}일`;
+    return t("{{year}}년 {{month}}월 {{day}}일", {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    });
   };
 
   return (
@@ -186,7 +187,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
                     : preview.author.image
                 }
                 alt="글쓴이 프로필 이미지"
-                className="w-6 h-6 mr-2 rounded-full object-cover"
+                className="object-cover w-6 h-6 mr-2 rounded-full"
               />
               <span className="font-bold">{preview.author.fullName}</span>
             </Link>
@@ -267,7 +268,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
             </div>
 
             {/* 메인 */}
-            <div className="p-5 flex flex-col select-text items-center">
+            <div className="flex flex-col items-center p-5 select-text">
               <div className="relative aspect-video rounded-[10px] overflow-hidden mb-6 w-[80%] mx-auto">
                 <img
                   src={preview.image ? preview.image : default_thumbnail}
@@ -276,7 +277,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
                 />
               </div>
               <div className="flex flex-col items-center w-[80%] mx-auto">
-                <h2 className="text-3xl font-bold mt-12">
+                <h2 className="mt-12 text-3xl font-bold">
                   {parsedTitle.title}
                 </h2>
                 <p className="text-base break-words mt-12 w-[80%]">
@@ -296,6 +297,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
               onToTop={handleToTopButton}
               onComment={handleClickCommentButton}
               postId={preview._id}
+              author={preview.author}
               currentUserId={currentUser}
               closeModal={closeModal}
             />

@@ -103,7 +103,7 @@ type notificationsType = {
   seen: boolean;
   _id: string;
   author: {
-    coverImage?: string;
+    image?: string;
     fullName: string;
     _id: string;
   };
@@ -117,6 +117,10 @@ type notificationsType = {
     post: {
       title: string;
     };
+  };
+  comment?: {
+    comment: string;
+    post: { title: string };
   };
   user: {
     coverImage?: string;
@@ -133,9 +137,23 @@ type createNotiType = {
 };
 
 type notificationsStore = {
+  likeStates?: {
+    [id: string]: {
+      isLiked: boolean;
+      userId: string;
+      myId?: string;
+    };
+  };
+  updateLikeState?: (
+    userId: string,
+    id: string,
+    isLiked: boolean,
+    myId?: string
+  ) => void;
   imgState?: boolean;
   loading?: boolean;
   list?: {
+    post?: string;
     seen: boolean;
     _id: string;
     author: {

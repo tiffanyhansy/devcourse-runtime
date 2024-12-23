@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { useLoginStore } from "../store/API";
 import { v4 as uuidv4 } from "uuid";
 import dayjs, { Dayjs } from "dayjs";
-import { conversationsType, userType } from "../api/api";
+import { conversationsType } from "../api/api";
 
 //editor 타입 & 상태관리 총 정리
 interface EditorState {
@@ -351,6 +351,9 @@ export const useTimerStore = create<TimerStorage>((set) => ({
 
 // 메인페이지 TimeSetter 저장소(static 시간 관리)
 interface TimeSetterStorage {
+  isTimerSnackbarOpen: boolean;
+  setIsTimerSnackbarOpenTrue: () => void;
+  setIsTimerSnackbarOpenFalse: () => void;
   isTimeSetterOpen: boolean;
   setIsTimeSetterOpen: () => void;
   selectDate: Dayjs | null;
@@ -360,6 +363,10 @@ interface TimeSetterStorage {
   DateSet: (day: dayjs.Dayjs | null, date: Date | null) => void; // Mui timePicker 결과값은 Dayjs라는 MUI에서 만든 커스텀 타입을 가지고 있음
 }
 export const useTimeSetterStore = create<TimeSetterStorage>((set) => ({
+  isTimerSnackbarOpen: false,
+  setIsTimerSnackbarOpenTrue: () => set(() => ({ isTimerSnackbarOpen: true })),
+  setIsTimerSnackbarOpenFalse: () =>
+    set(() => ({ isTimerSnackbarOpen: false })),
   isTimeSetterOpen: false,
   setIsTimeSetterOpen: () =>
     set((state) => ({

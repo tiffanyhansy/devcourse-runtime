@@ -3,10 +3,6 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
-import EditIcon from "@mui/icons-material/Edit";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import NavigationIcon from "@mui/icons-material/Navigation";
-import { createTheme, styled } from "@mui/material";
 import { useTimerPlayStore, useTimerStore } from "../../store/store";
 
 // active에 값이 있으면 실행을 정지

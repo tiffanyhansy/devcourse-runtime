@@ -6,10 +6,15 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
-import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
+import { useNotificationsStore } from "../../store/notificationsStore";
+import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
+import ChatbotButton from "../../components/chatbot/ChatbotButton";
+import { useTranslation } from "react-i18next";
 
 const UserPage = () => {
+  const { t } = useTranslation();
+
   const fieldLabels = ["SW", "SI", "DA", "GE"];
   const fieldDescriptions = [
     "소프트웨어 개발",
@@ -43,12 +48,21 @@ const UserPage = () => {
     }
   };
 
+  const { createNotifications } = useNotificationsStore();
   const postFollow = async (id: string) => {
     // 팔로우 요청을 보내는 코드 안에 유저정보 업데이트 함수까지 실행시켜야 즉각적인 업데이트가 가능하다.
     try {
       const followed = (
         await axiosInstance.post(`follow/create`, { userId: id })
       ).data;
+
+      createNotifications!({
+        notiType: "FOLLOW",
+        notiTypeId: followed._id + "",
+        userId: followed.user + "",
+        postId: null,
+      });
+
       const updateUser = { ...user! };
       updateUser.following.push(followed);
       setUser(updateUser);
@@ -248,6 +262,9 @@ const UserPage = () => {
           </Stack>
         </div>
       </div>
+
+      <SelectLanguageButton />
+      <ChatbotButton />
     </section>
   );
 };
