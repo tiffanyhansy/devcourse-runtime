@@ -56,7 +56,8 @@ export default function Timer({
     } else if (
       Number(staticHours) === hours &&
       Number(staticMinuites) === minutes &&
-      Number(staticSeconds) <= seconds
+      Number(staticSeconds) <= seconds &&
+      0 !== seconds
     ) {
       !isAchieve && setIsAchieve();
       return;

@@ -88,14 +88,15 @@ export default function ButtonListComponent() {
   };
 
   useEffect(() => {
-    getConversations();
-    const conversationsInterval = setInterval(() => {
+    if (token && user) {
       getConversations();
-    }, 3000);
-
-    return () => {
-      clearInterval(conversationsInterval);
-    };
+      const conversationsInterval = setInterval(() => {
+        getConversations();
+      }, 3000);
+      return () => {
+        clearInterval(conversationsInterval);
+      };
+    }
   }, []);
 
   return (
