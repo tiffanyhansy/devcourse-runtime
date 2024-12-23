@@ -17,7 +17,6 @@ import {
   Alert,
   AlertColor,
 } from "@mui/material";
-import { useNotificationsStore } from "../../store/notificationsStore";
 import { axiosInstance } from "../../api/axios";
 
 type CommentComponentProps = {
@@ -32,7 +31,6 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   postId,
   inputRef,
   comments,
-  author,
 }) => {
   //로그인 유저 정보 가져오기
   const { posts, addCommentToPost, deleteComment } = useCommentStore();
@@ -151,7 +149,6 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
             />
 
             {/* 프로필 이름 */}
-            <span className="font-bold">{user?.fullName || "알 수 없음"}</span>
           </div>
           <div className="flex w-full">
             <div className="bg-[#F3F3F3] rounded-[30px] flex-1">
@@ -214,12 +211,12 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
               {/* Snackbar */}
               <Snackbar
                 open={snackbarOpen}
-                autoHideDuration={1000} // 2초 후 자동 닫힘
-                onClose={handleSnackbarClose}
+                autoHideDuration={1000} // 1초 후 자동 닫힘
+                onClose={() => handleSnackbarClose()}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
               >
                 <Alert
-                  onClose={handleSnackbarClose}
+                  onClose={() => handleSnackbarClose()}
                   severity={snackbarSeverity}
                   sx={{
                     color:

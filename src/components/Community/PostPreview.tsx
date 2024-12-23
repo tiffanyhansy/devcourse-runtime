@@ -1,36 +1,62 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router";
 import { Post_T, Title_T, PostComment } from "../../api/api";
 import { useCommentStore } from "../../store/comment";
+import { useLoginStore } from "../../store/API";
 import ControlBtn from "./ControlBtn";
 import CommentComponent from "./CommentComponent";
 import default_profile from "../../asset/default_profile.png";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import default_thumbnail from "/src/asset/images/mascot_nobg.svg";
-import { useTranslation } from "react-i18next";
-import PostButtonFieldCol from "../Post/PostButtonFieldCol";
+// import { useTranslation } from "react-i18next";
+// import PostButtonFieldCol from "../Post/PostButtonFieldCol";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteDialog from "./DeleteDialog";
+import useSnackbarStore from "../../store/store";
+import SnackbarComponent from "../editor/SnackBar";
 
 type Props = {
   preview: Post_T;
   currentUser: string | null;
+  postId?: string;
 };
 
 export default function PostPreview({ preview, currentUser }: Props) {
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false); //삭제 모달
   const [isOpen, setIsOpen] = useState(false); // 모달 열림 상태
   const [isAnimating, setIsAnimating] = useState(false); // 닫히는 중 상태
   const modalRef = useRef<HTMLDivElement>(null);
+  const user = useLoginStore((state) => state.user);
+  const { showSnackbar } = useSnackbarStore(); //스낵바
 
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
+
   // zustand에서 상태 가져오기
-  const { posts, fetchPosts } = useCommentStore();
+  const { posts, deletePost } = useCommentStore();
 
   const updatedPost = posts.find((post) => post._id === preview._id) || preview;
 
-  // 게시물 업데이트를 위해 상태 갱신
-  useEffect(() => {
-    fetchPosts(); // 상태 초기화
-  }, [fetchPosts]);
+  //게시물 삭제
+  const handleDeletePost = async () => {
+    if (!preview._id) {
+      showSnackbar("삭제하려는 게시물의 ID를 찾을 수 없습니다.", "error");
+      return;
+    }
+    if (!user) {
+      showSnackbar("로그인을 하셔야 합니다.", "error");
+      return;
+    }
+    const isDeleted = await deletePost(preview._id);
+
+    if (isDeleted) {
+      setIsOpen(false); // 모달 닫기
+      showSnackbar("게시물이 성공적으로 삭제되었습니다!", "success");
+    } else {
+      showSnackbar("게시물 삭제에 실패했습니다.", "error");
+    }
+  };
 
   //최상단 스크롤 버튼
   const handleToTopButton = () => {
@@ -71,7 +97,6 @@ export default function PostPreview({ preview, currentUser }: Props) {
       setIsAnimating(true);
     }
   };
-
   // 애니메이션 종료 처리
   const handleAnimationEnd = () => {
     if (isAnimating) {
@@ -89,7 +114,6 @@ export default function PostPreview({ preview, currentUser }: Props) {
       window.scrollTo(0, scrollY);
     }
   };
-
   // 제목과 내용을 JSON 파싱
   const parsedTitle: Title_T = (() => {
     try {
@@ -109,6 +133,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
 
   return (
     <>
+      <SnackbarComponent />
       <article
         className="bg-white scrollbar-gutter-stable shadow-md hover:shadow-lg transition-transform duration-500 ease-in-out hover:-translate-y-1 rounded-[10px] cursor-pointer"
         onClick={openModal}
@@ -168,6 +193,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
           </div>
         </div>
       </article>
+
       {/*상세페이지 모달 */}
       {(isOpen || isAnimating) && (
         <div
@@ -184,6 +210,33 @@ export default function PostPreview({ preview, currentUser }: Props) {
             onAnimationEnd={handleAnimationEnd}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* 삭제 다이얼로그 */}
+            {isDeleteOpen && (
+              <DeleteDialog
+                onClose={() => setIsDeleteOpen(false)}
+                onDelete={handleDeletePost}
+              />
+            )}
+
+            {/* 삭제 버튼 */}
+            <IconButton
+              onClick={() => setIsDeleteOpen(true)}
+              sx={{
+                position: "absolute",
+                top: { xs: 42, sm: 42 },
+                right: { xs: 136, sm: 104 },
+                color: "#C96868",
+                "&:hover": {
+                  color: "#FFFFFF",
+                  backgroundColor: "#C96868",
+                },
+                width: 40,
+                height: 40,
+              }}
+            >
+              <DeleteIcon sx={{ fontSize: 28 }} /> {/* 휴지통 아이콘 크기 */}
+            </IconButton>
+
             {/* 프로필 섹션 */}
             <div className="w-[77%] mx-auto flex items-center space-x-4 py-4 mt-4">
               <Link
