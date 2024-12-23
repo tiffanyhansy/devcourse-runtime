@@ -1,6 +1,6 @@
 import { Alert } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { axiosInstance } from "../../api/axios";
 import { useLoginStore } from "../../store/API";
 import FormContainer from "../../components/Form/FormContainer";
@@ -136,7 +136,7 @@ export default function Login() {
         </footer>
 
         <div className="flex justify-center items-center text-[#7EACB5] mt-5 mb-10 ">
-          <button onClick={() => navigate("/join")}>{t("회원가입")}</button>
+          <Link to={"/join"}>{t("회원가입")}</Link>
         </div>
       </FormContainer>
       <SelectLanguageButton />

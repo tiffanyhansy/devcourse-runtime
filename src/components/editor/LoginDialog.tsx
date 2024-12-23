@@ -3,6 +3,7 @@ import { useEditorStore } from "../../store/store";
 import Button from "../common/SquareButton";
 import { Dialog, DialogTitle, DialogActions } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { Link } from "react-router";
 
 export default function LoginDialog() {
   const { isAlertOpen, closeLoginDialog } = useEditorStore(); // zustand에서 가져옴
@@ -57,18 +58,16 @@ export default function LoginDialog() {
           {t("닫기")}
         </Button>
         {/* 로그인 버튼 */}
-        <Button
-          size="md"
-          textSize="sm"
-          variant="custom"
-          className="bg-[#7EACB5] hover:bg-[#90bdc7]"
-          onClick={() => {
-            closeLoginDialog();
-            window.location.href = "/login"; // 로그인 페이지로 이동
-          }}
-        >
-          {t("로그인")}
-        </Button>
+        <Link to={"/login"} onClick={closeLoginDialog}>
+          <Button
+            size="md"
+            textSize="sm"
+            variant="custom"
+            className="bg-[#7EACB5] hover:bg-[#90bdc7]"
+          >
+            {t("로그인")}
+          </Button>
+        </Link>
       </DialogActions>
     </Dialog>
   );

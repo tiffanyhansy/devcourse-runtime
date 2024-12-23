@@ -80,7 +80,7 @@ export default function NotiMainList(list: notificationsType) {
       <div className="flex items-center gap-2.5 justify-between">
         {/* 프로필 사진 */}
         <img
-          className="w-[50px] h-[50px] rounded-[100px]"
+          className="w-[50px] h-[50px] rounded-[100px] object-cover"
           src={`${list.author.image ? list.author.image : default_profile}`}
         />
         <div className=" leading-[19px]">

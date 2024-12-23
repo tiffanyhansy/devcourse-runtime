@@ -9,7 +9,6 @@ export default function ChatInput() {
   const emojiPicker = useRef<EmojiButton | null>(null);
   const chatRef = useRef<HTMLInputElement>(null);
   const sendBtnRef = useRef<HTMLButtonElement>(null);
-  const chatBoxRef = useRef<HTMLDivElement>(null);
 
   const nowChatId = useChatingModalStore((state) => state.nowChatId);
   const isChatingOpen = useChatingModalStore((state) => state.isChatingOpen);
@@ -62,7 +61,6 @@ export default function ChatInput() {
             ) {
               sendMessage(chatRef.current.value.trim(), nowChatId);
               chatRef.current.value = "";
-              chatBoxRef.current!.scrollTop = chatBoxRef.current!.scrollHeight;
             }
           } else {
             console.log("ㄴㄴ");

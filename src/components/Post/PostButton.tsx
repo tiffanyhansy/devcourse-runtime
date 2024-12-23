@@ -13,9 +13,9 @@ export default function PostButton({
   icon,
   className,
   disabled,
-  children,
-  ...otherProps
-}: PostButtonProps) {
+}: // children,
+// ...otherProps
+PostButtonProps) {
   return (
     <button
       className={`w-[52px] h-[52px] rounded-full bg-white ${className}`}
