@@ -112,6 +112,34 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   setIsAlertOpen: () => set(() => ({ isAlertOpen: true })),
 }));
 
+//MUI 스낵바
+
+interface SnackbarState {
+  snackbarOpen: boolean;
+  snackbarMessage: string;
+  snackbarSeverity: "success" | "error" | "info" | "warning";
+  showSnackbar: (
+    message: string,
+    severity: "success" | "error" | "info" | "warning"
+  ) => void;
+  closeSnackbar: () => void;
+}
+
+const useSnackbarStore = create<SnackbarState>((set) => ({
+  snackbarOpen: false,
+  snackbarMessage: "",
+  snackbarSeverity: "success",
+  showSnackbar: (message, severity) =>
+    set({
+      snackbarOpen: true,
+      snackbarMessage: message,
+      snackbarSeverity: severity,
+    }),
+  closeSnackbar: () => set({ snackbarOpen: false }),
+}));
+
+export default useSnackbarStore;
+
 // 메인페이지 몇 시간? 클릭시 상호작용 기능
 interface HowTimeState {
   isHowTimeOpen: boolean;

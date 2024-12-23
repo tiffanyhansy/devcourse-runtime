@@ -5,6 +5,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import ChannelDialog from "./ChannelDialog";
 import { useEditorStore } from "../../store/store";
 import { usePostStore } from "../../store/postStore";
+import SnackbarComponent from "./SnackBar";
 import { t } from "i18next";
 
 interface ModalProps {
@@ -25,6 +26,7 @@ export default function EditorModal({ children }: ModalProps) {
 
   const { setImage } = usePostStore();
   const location = useLocation();
+
   useEffect(() => {
     closeChannelDialog(); // 라우트 변경 시 ChannelDialog 닫기
   }, [location.pathname, closeChannelDialog]);
@@ -63,6 +65,7 @@ export default function EditorModal({ children }: ModalProps) {
           }}
         />
       )}
+      <SnackbarComponent />
     </>
   );
 }
