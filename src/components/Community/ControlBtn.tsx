@@ -113,7 +113,7 @@ export default function ControlBtn({
       {/* 좋아요 버튼 */}
       <PostButton
         icon={
-          filteredData!.length > 0 ? (
+          filteredData && filteredData.length > 0 ? (
             <FavoriteRoundedIcon
               sx={{
                 fontSize: "28px",
