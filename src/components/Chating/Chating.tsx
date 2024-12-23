@@ -5,6 +5,7 @@ import { conversationsType } from "../../api/api";
 import { v4 as uuidv4 } from "uuid";
 import { useLoginStore } from "../../store/API";
 import chating_send_icon from "../../asset/images/chating_send_icon.svg";
+import { EmojiButton } from "@joeattardi/emoji-button";
 
 export default function Chating() {
   const nowChatId = useChatingModalStore((state) => state.nowChatId);
@@ -85,6 +86,22 @@ export default function Chating() {
     }
   }, [getMessage]);
 
+  // 이모지 선택
+  const emojiPicker = useRef<EmojiButton | null>(null);
+
+  useEffect(() => {
+    emojiPicker.current = new EmojiButton({
+      recentsCount: 20,
+      zIndex: 50,
+      rows: 6,
+    });
+    emojiPicker.current.on("emoji", (emoji: any) => {
+      if (chatRef.current) {
+        chatRef.current.value += emoji.emoji;
+      }
+    });
+  }, []);
+
   return (
     <>
       <article className="p-5">
@@ -104,9 +121,9 @@ export default function Chating() {
           {userChat.map((e) => {
             if (user?._id === e.receiver._id) {
               return (
-                <article key={uuidv4()} className="w-full flex justify-start">
+                <article key={uuidv4()} className="flex justify-start w-full">
                   <article className="flex flex-col items-start">
-                    <article className="flex gap-1 items-end">
+                    <article className="flex items-end gap-1">
                       <span className="shadow-md mb-[2px] max-w-[200px] px-2 py-1 rounded-r-lg rounded-tl-lg bg-[#E8F0FE] relative after:contents-[*] after:absolute after:bottom-0 after:left-[-10px] after:w-0 after:h-0 after:border-l-[10px] after:border-l-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
                         {e.message}
                       </span>
@@ -120,9 +137,9 @@ export default function Chating() {
               );
             } else {
               return (
-                <article key={uuidv4()} className="w-full flex justify-end">
+                <article key={uuidv4()} className="flex justify-end w-full">
                   <article className="flex flex-col items-end">
-                    <article className="flex gap-1 items-end">
+                    <article className="flex items-end gap-1">
                       {!e.seen && (
                         <span className="text-[10px] text-yellow-500">1</span>
                       )}
@@ -138,6 +155,12 @@ export default function Chating() {
           })}
         </article>
         <article className="flex gap-[10px]">
+          <button
+            className="text-2xl cursor-pointer emoji-button"
+            onClick={(e) => emojiPicker.current?.togglePicker(e.currentTarget)}
+          >
+            😊
+          </button>
           <input
             type="text"
             className="w-full px-2 py-2 rounded-lg bg-[#F0F0F0] focus:outline-none"
