@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import Button from "../common/SquareButton";
-import { useHowTimeStore, useTimerStore } from "../../store/store";
+import {
+  useHowTimeStore,
+  useTimerStore,
+  useTimeSetterStore,
+} from "../../store/store";
 import HowTimeHeader from "./howTimeHeader/HowTimeHeader";
 import HowTimeContents from "./HowTimeContents/HowTimeContents";
 import { t } from "i18next";
@@ -17,6 +21,11 @@ export default function HowTimeModal() {
   const setStaticHours = useTimerStore((state) => state.setStaticHours);
   const setStaticMinuites = useTimerStore((state) => state.setStaticMinuites);
   const setStaticSeconds = useTimerStore((state) => state.setStaticSeconds);
+
+  // 목표시간 설정 스낵바 트리거
+  const setIsTimerSnackbarOpenTrue = useTimeSetterStore(
+    (state) => state.setIsTimerSnackbarOpenTrue
+  );
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -60,6 +69,7 @@ export default function HowTimeModal() {
                   JSON.stringify([changingHours, "00", "00"])
                 );
                 toggleHowTime();
+                setIsTimerSnackbarOpenTrue();
               }}
             >
               {t("좋아요")}
