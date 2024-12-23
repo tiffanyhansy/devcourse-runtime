@@ -88,6 +88,7 @@ export default function ButtonListComponent() {
   };
 
   useEffect(() => {
+    getConversations();
     const conversationsInterval = setInterval(() => {
       getConversations();
     }, 3000);
