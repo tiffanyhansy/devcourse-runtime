@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useChatingModalStore } from "../../store/store";
 import Chating from "./Chating";
 import UserSearchModal from "./UserSearchModal";

@@ -8,7 +8,6 @@ import {
   useFriendModalStore,
   useEditorStore,
   useChatingModalStore,
-  useTimeSetterStore,
 } from "../../store/store";
 import HowTimeModal from "../../components/howTime/HowTimeModal";
 import TopContents from "./TopContents/TopContents";
@@ -24,7 +23,7 @@ import ChatingModal from "../../components/Chating/ChatingModal";
 import { useTranslation } from "react-i18next";
 import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
 import ChatbotButton from "../../components/chatbot/ChatbotButton";
-import { SetTimeSnackbarComponent } from "../../components/setTimeSnackbar/setTimeSnackbar";
+import { SetTimeSnackbarComponent } from "../../components/setTimeSnackbar/SetTimeSnackbar";
 
 const HeartStyle = styled("div")`
   @keyframes float {
@@ -56,11 +55,6 @@ export default function Main() {
 
   const isChatModalOpen = useChatingModalStore(
     (state) => state.isChatModalOpen
-  );
-
-  // 목표시간 설정 스낵바 트리거거
-  const setIsTimerSnackbarOpenTrue = useTimeSetterStore(
-    (state) => state.setIsTimerSnackbarOpenTrue
   );
 
   // 메인페이지 들어올 떄 마다 유저정보 업데이트
