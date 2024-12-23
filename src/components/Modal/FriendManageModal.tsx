@@ -100,7 +100,7 @@ export default function FriendManageModal() {
   // API들(추후에 옮겨야함)
 
   const renderUsers = (userAll: userType[]) => (
-    <div className="overflow-auto h-[415px] mt-3 scrollbar-hidden">
+    <div className="overflow-y-scroll h-[415px] mt-3 scrollbar-hidden">
       {userAll.map((userOne) => {
         if (userOne.username && typeof userOne.username === "string")
           userOne.username = JSON.parse(userOne.username);
