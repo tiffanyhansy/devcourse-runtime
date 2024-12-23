@@ -176,13 +176,13 @@ export default function FriendManageModal() {
   );
 
   return (
-    <div className="fixed inset-0 z-40">
+    <div className="absolute inset-0 z-40">
       <div
         className="absolute inset-0 bg-black bg-opacity-70"
         onClick={close}
       ></div>
       {token ? (
-        <section className="absolute inset-1/2 w-[502px] h-[619px] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow py-4 pl-2">
+        <section className="animate-friendSwashIn absolute inset-1/2 w-[502px] h-[619px] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow py-4 pl-2">
           <header className="flex justify-between p-4">
             <h1 className="text-3xl font-bold text-gray-800">
               {activeToggle === "all" ? t("유저 목록") : t("친구 목록")}

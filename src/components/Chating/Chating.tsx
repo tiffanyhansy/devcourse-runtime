@@ -11,6 +11,8 @@ export default function Chating() {
   const nowChatId = useChatingModalStore((state) => state.nowChatId);
   const [userChat, setUserChat] = useState<conversationsType[]>([]);
 
+  const isContentClose = useChatingModalStore((state) => state.isContentClose);
+
   const setUser = useLoginStore((state) => state.setUser);
   const user = useLoginStore((state) => state.user);
 

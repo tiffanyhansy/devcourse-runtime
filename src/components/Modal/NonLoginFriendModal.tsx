@@ -83,7 +83,7 @@ export default function NonLoginFriendModal() {
   );
 
   return (
-    <section className="absolute inset-1/2 w-[502px] h-[619px] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow py-4 pl-2">
+    <section className="animate-friendSwashIn absolute inset-1/2 w-[502px] h-[619px] transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow py-4 pl-2">
       <header className="flex justify-between p-4">
         <h1 className="text-3xl font-bold text-gray-800">{t("전체 목록")}</h1>
       </header>
