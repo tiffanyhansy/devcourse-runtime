@@ -9,6 +9,7 @@ import { useLoginStore } from "../../store/API";
 import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
 import { useNotificationsStore } from "../../store/notificationsStore";
+import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
 
 const UserPage = () => {
   const fieldLabels = ["SW", "SI", "DA", "GE"];
@@ -258,6 +259,8 @@ const UserPage = () => {
           </Stack>
         </div>
       </div>
+
+      <SelectLanguageButton />
     </section>
   );
 };
