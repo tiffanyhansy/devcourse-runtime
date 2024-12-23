@@ -150,8 +150,8 @@ export default function ChatUserList() {
                         backgroundOrigin: "border-box",
                         backgroundClip: "padding-box, border-box",
                         padding: "3px",
-                        width: "53px",
-                        height: "53px",
+                        width: "50px",
+                        height: "50px",
                       }
                     : {}
                 }
