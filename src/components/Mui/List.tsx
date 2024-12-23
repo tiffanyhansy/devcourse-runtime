@@ -4,28 +4,16 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { useprofileModalStore } from "../../store/store";
-import Modal from "../Modal/ProfileModal";
-import { axiosInstance } from "../../api/axios";
 import { useEffect, useState } from "react";
+import { useprofileModalStore } from "../../store/store";
+import { axiosInstance } from "../../api/axios";
 import { userType } from "../../api/api";
+import Modal from "../Modal/ProfileModal";
+import default_profile from "../../asset/default_profile.png";
+import { useEffect, useState } from "react";
 
 // 친구목록에 사용하는 리스트 MUI
 export default function CheckboxListSecondary() {
-  // const [checked, setChecked] = useState([1]);
-
-  // const handleToggle = (value: number) => () => {
-  //   const currentIndex = checked.indexOf(value);
-  //   const newChecked = [...checked];
-
-  //   if (currentIndex === -1) {
-  //     newChecked.push(value);
-  //   } else {
-  //     newChecked.splice(currentIndex, 1);
-  //   }
-
-  //   setChecked(newChecked);
-  // };
   // 모달 창 store
   const { type, open, modal, close } = useprofileModalStore();
   const [x, setX] = useState(0);
@@ -111,18 +99,7 @@ export default function CheckboxListSecondary() {
             value.username = JSON.parse(value.username);
 
           return (
-            <ListItem
-              key={value._id}
-              // secondaryAction={
-              //   <Checkbox
-              //     edge="end"
-              //     onChange={handleToggle(value)}
-              //     checked={checked.includes(value)}
-              //     inputProps={{ "aria-labelledby": labelId }}
-              //   />
-              // }
-              disablePadding
-            >
+            <ListItem key={value._id} disablePadding>
               <ListItemButton
                 key={value._id}
                 onClick={(e) => {
@@ -130,9 +107,7 @@ export default function CheckboxListSecondary() {
                   handleItemClick(
                     e,
                     value.fullName,
-                    value.image
-                      ? value.image
-                      : `/src/asset/default_profile.png`,
+                    value.image ? value.image : default_profile,
                     value._id
                   );
                 }}

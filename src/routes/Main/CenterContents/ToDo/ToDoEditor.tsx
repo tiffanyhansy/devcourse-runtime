@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useToDoStore } from "../../../../store/store";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../../../../components/common/SquareButton";
+import plus from "../../../../asset/images/small_icon.svg";
 
 export default function ToDoEditor() {
   const editorInputRef = useRef<HTMLInputElement>(null);
@@ -61,7 +62,7 @@ export default function ToDoEditor() {
           );
         }}
       >
-        <img src={"/src/asset/images/small_icon.svg"} alt={"추가 아이콘"} />
+        <img src={plus} alt={"추가 아이콘"} />
       </Button>
     </li>
   );

@@ -8,6 +8,7 @@ import { followType, userType } from "../../api/api";
 import { useLoginStore } from "../../store/API";
 import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
+import { useNotificationsStore } from "../../store/notificationsStore";
 
 const UserPage = () => {
   const fieldLabels = ["SW", "SI", "DA", "GE"];
@@ -43,12 +44,21 @@ const UserPage = () => {
     }
   };
 
+  const { createNotifications } = useNotificationsStore();
   const postFollow = async (id: string) => {
     // 팔로우 요청을 보내는 코드 안에 유저정보 업데이트 함수까지 실행시켜야 즉각적인 업데이트가 가능하다.
     try {
       const followed = (
         await axiosInstance.post(`follow/create`, { userId: id })
       ).data;
+
+      createNotifications!({
+        notiType: "FOLLOW",
+        notiTypeId: followed._id + "",
+        userId: followed.user + "",
+        postId: null,
+      });
+
       const updateUser = { ...user! };
       updateUser.following.push(followed);
       setUser(updateUser);
