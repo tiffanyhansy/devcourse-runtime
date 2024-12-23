@@ -74,10 +74,10 @@ export default function BlogEditor() {
       toggleEditor();
       setTimeout(() => {
         openChannelDialog(); // 에디터 닫힌 뒤 ChannelDialog 표시
-        showSnackbar("댓글이 성공적으로 작성되었습니다.", "success"); //MUI Snackbar
+        showSnackbar(t("댓글이 성공적으로 작성되었습니다."), "success"); //MUI Snackbar
       }, 0);
     } catch (error) {
-      handleError("저장에 실패했습니다.");
+      handleError(t("저장에 실패했습니다."));
     }
   };
 
@@ -182,7 +182,7 @@ export default function BlogEditor() {
       <div className="flex flex-col flex-grow pb-10 space-y-3">
         <form onSubmit={(e) => e.preventDefault()} className="w-full">
           <label htmlFor="title" className="sr-only">
-            제목
+            {t("제목")}
           </label>
           <input
             id="title"

@@ -42,20 +42,20 @@ export default function PostPreview({ preview, currentUser }: Props) {
   //게시물 삭제
   const handleDeletePost = async () => {
     if (!preview._id) {
-      showSnackbar("삭제하려는 게시물의 ID를 찾을 수 없습니다.", "error");
+      showSnackbar(t("삭제하려는 게시물의 ID를 찾을 수 없습니다."), "error");
       return;
     }
     if (!user) {
-      showSnackbar("로그인을 하셔야 합니다.", "error");
+      showSnackbar(t("로그인을 하셔야 합니다."), "error");
       return;
     }
     const isDeleted = await deletePost(preview._id);
 
     if (isDeleted) {
       setIsOpen(false); // 모달 닫기
-      showSnackbar("게시물이 성공적으로 삭제되었습니다!", "success");
+      showSnackbar(t("게시물이 성공적으로 삭제되었습니다!"), "success");
     } else {
-      showSnackbar("게시물 삭제에 실패했습니다.", "error");
+      showSnackbar(t("게시물 삭제에 실패했습니다."), "error");
     }
   };
 
@@ -219,7 +219,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
               <img
                 src={URL.createObjectURL(image)} // image가 File 타입일 때만 호출
                 alt="Uploaded Image"
-                className="w-full h-full object-contain"
+                className="object-contain w-full h-full"
               />
             )}
 
