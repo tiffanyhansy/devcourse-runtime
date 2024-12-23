@@ -7,6 +7,7 @@ import { useLoginStore } from "../../store/API";
 import chating_send_icon from "../../asset/images/chating_send_icon.svg";
 import { EmojiButton } from "@joeattardi/emoji-button";
 import { t } from "i18next";
+import ChatInput from "./ChatInput";
 
 export default function Chating() {
   const nowChatId = useChatingModalStore((state) => state.nowChatId);
@@ -68,7 +69,6 @@ export default function Chating() {
       }, 0);
     });
     const messageInterval = setInterval(() => {
-      console.log("작동중");
       getMessage();
       updateSeen();
     }, 3000);
@@ -105,92 +105,55 @@ export default function Chating() {
 
   return (
     <>
-      <article className="p-5">
-        <p className="text-[13px] text-gray-500 text-center bg-white mb-2">
-          {userChat.length !== 0
-            ? t("<{{userName}} 님과 대화 >", {
-                userName:
-                  user?._id === userChat[0].receiver._id
-                    ? userChat[0].sender.fullName
-                    : userChat[0].receiver.fullName,
-              })
-            : t("<채팅을 입력해 대화를 시작해주세요!>")}
-        </p>
-        <article
-          ref={chatBoxRef}
-          className="w-full h-[400px] border pt-5 px-[20px] flex flex-col gap-[10px] mb-[10px] overflow-y-scroll custom-scroll"
-        >
-          {userChat.map((e) => {
-            if (user?._id === e.receiver._id) {
-              return (
-                <article key={uuidv4()} className="flex justify-start w-full">
-                  <article className="flex flex-col items-start">
-                    <article className="flex items-end gap-1">
-                      <span className="shadow-md mb-[2px] max-w-[200px] px-2 py-1 rounded-r-lg rounded-tl-lg bg-[#E8F0FE] relative after:contents-[*] after:absolute after:bottom-0 after:left-[-10px] after:w-0 after:h-0 after:border-l-[10px] after:border-l-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
-                        {e.message}
-                      </span>
-                      {!e.seen && (
-                        <span className="text-[10px] text-yellow-500">1</span>
-                      )}
-                    </article>
-                    <span className="text-[10px]">{e.createdAt}</span>
+      <p className="text-[13px] text-gray-500 text-center bg-white mb-2">
+        {userChat.length !== 0
+          ? t("<{{userName}} 님과 대화 >", {
+              userName:
+                user?._id === userChat[0].receiver._id
+                  ? userChat[0].sender.fullName
+                  : userChat[0].receiver.fullName,
+            })
+          : t("<채팅을 입력해 대화를 시작해주세요!>")}
+      </p>
+      <article
+        ref={chatBoxRef}
+        className="w-full h-[400px] border pt-5 px-[20px] flex flex-col gap-[10px] mb-[10px] overflow-y-scroll custom-scroll"
+      >
+        {userChat.map((e) => {
+          if (user?._id === e.receiver._id) {
+            return (
+              <article key={uuidv4()} className="flex justify-start w-full">
+                <article className="flex flex-col items-start">
+                  <article className="flex items-end gap-1">
+                    <span className="shadow-md mb-[2px] max-w-[200px] px-2 py-1 rounded-r-lg rounded-tl-lg bg-[#E8F0FE] relative after:contents-[*] after:absolute after:bottom-0 after:left-[-10px] after:w-0 after:h-0 after:border-l-[10px] after:border-l-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
+                      {e.message}
+                    </span>
+                    {!e.seen && (
+                      <span className="text-[10px] text-yellow-500">1</span>
+                    )}
                   </article>
+                  <span className="text-[10px]">{e.createdAt}</span>
                 </article>
-              );
-            } else {
-              return (
-                <article key={uuidv4()} className="flex justify-end w-full">
-                  <article className="flex flex-col items-end">
-                    <article className="flex items-end gap-1">
-                      {!e.seen && (
-                        <span className="text-[10px] text-yellow-500">1</span>
-                      )}
-                      <span className="shadow-md mb-[2px] max-w-[200px] px-2 py-1 rounded-l-lg rounded-tr-lg relative bg-[#E8F0FE] after:contents-[*] after:absolute after:bottom-0 after:right-[-10px] after:w-0 after:h-0 after:border-r-[10px] after:border-r-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
-                        {e.message}
-                      </span>
-                    </article>
-                    <span className="text-[10px]">{e.createdAt}</span>
+              </article>
+            );
+          } else {
+            return (
+              <article key={uuidv4()} className="flex justify-end w-full">
+                <article className="flex flex-col items-end">
+                  <article className="flex items-end gap-1">
+                    {!e.seen && (
+                      <span className="text-[10px] text-yellow-500">1</span>
+                    )}
+                    <span className="shadow-md mb-[2px] max-w-[200px] px-2 py-1 rounded-l-lg rounded-tr-lg relative bg-[#E8F0FE] after:contents-[*] after:absolute after:bottom-0 after:right-[-10px] after:w-0 after:h-0 after:border-r-[10px] after:border-r-transparent after:border-b-[10px] after:border-b-[#E8F0FE]">
+                      {e.message}
+                    </span>
                   </article>
+                  <span className="text-[10px]">{e.createdAt}</span>
                 </article>
-              );
-            }
-          })}
-        </article>
-        <article className="flex gap-[10px]">
-          <button
-            className="text-2xl cursor-pointer emoji-button"
-            onClick={(e) => emojiPicker.current?.togglePicker(e.currentTarget)}
-          >
-            😊
-          </button>
-          <input
-            type="text"
-            className="w-full px-2 py-2 rounded-lg bg-[#F0F0F0] focus:outline-none"
-            ref={chatRef}
-            onKeyDown={(e) => e.key === "Enter" && sendBtnRef.current?.click()}
-          />
-          <button
-            className="w-[35px] rounded-[10px]"
-            ref={sendBtnRef}
-            onClick={() => {
-              if (
-                chatRef.current?.value &&
-                chatRef.current?.value.trim() !== ""
-              ) {
-                sendMessage(chatRef.current.value.trim(), nowChatId);
-                chatRef.current.value = "";
-                chatBoxRef.current!.scrollTop =
-                  chatBoxRef.current!.scrollHeight;
-              }
-            }}
-          >
-            <img
-              src={chating_send_icon}
-              alt="채팅 전송 아이콘"
-              className="w-full"
-            />
-          </button>
-        </article>
+              </article>
+            );
+          }
+        })}
       </article>
     </>
   );

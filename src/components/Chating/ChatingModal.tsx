@@ -6,6 +6,7 @@ import ChatUserList from "./ChatUserList";
 import close_to_bar from "../../asset/images/close_to_bar.svg";
 import open_in_full from "../../asset/images/open_in_full.svg";
 import close from "../../asset/images/close.svg";
+import ChatInput from "./ChatInput";
 
 export default function ChatingModal() {
   const setIsChatModalOpenFalse = useChatingModalStore(
@@ -106,14 +107,15 @@ export default function ChatingModal() {
         className={`${isContentClose ? "hidden" : "block"}`}
       >
         <ChatUserList />
+        <article className="p-5 h-[510px]">
+          {isChatingOpen && (
+            <>
+              <Chating />
+              <ChatInput />
+            </>
+          )}
+        </article>
 
-        {isChatingOpen ? (
-          <Chating />
-        ) : (
-          <article className="p-5">
-            <article className="w-full h-[440px] border p-3 mb-[10px] flex items-center justify-center"></article>
-          </article>
-        )}
         {isSearchModalOpen && <UserSearchModal />}
       </section>
     </article>
