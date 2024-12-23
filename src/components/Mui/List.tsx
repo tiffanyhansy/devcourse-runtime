@@ -62,7 +62,7 @@ export default function CheckboxListSecondary() {
       maxWidth: 400,
       position: "relative",
       overflow: "auto",
-      maxHeight: 205,
+      maxHeight: 180,
       borderBottomLeftRadius: 10,
       borderBottomRightRadius: 10,
       "& ul": { padding: 0 },
