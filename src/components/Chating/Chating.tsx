@@ -4,10 +4,8 @@ import { axiosInstance } from "../../api/axios";
 import { conversationsType } from "../../api/api";
 import { v4 as uuidv4 } from "uuid";
 import { useLoginStore } from "../../store/API";
-import chating_send_icon from "../../asset/images/chating_send_icon.svg";
 import { EmojiButton } from "@joeattardi/emoji-button";
 import { t } from "i18next";
-import ChatInput from "./ChatInput";
 
 export default function Chating() {
   const nowChatId = useChatingModalStore((state) => state.nowChatId);
@@ -37,18 +35,6 @@ export default function Chating() {
   };
 
   const chatRef = useRef<HTMLInputElement>(null);
-  const sendBtnRef = useRef<HTMLButtonElement>(null);
-
-  const sendMessage = async (message: string, receiverId: string) => {
-    try {
-      await axiosInstance.post(`/messages/create`, {
-        message: message,
-        receiver: receiverId,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const updateSeen = () => {
     try {
@@ -65,7 +51,7 @@ export default function Chating() {
     updateSeen();
     getMessage().then(() => {
       setTimeout(() => {
-        if (chatBoxRef.current?.scrollTop) {
+        if (chatBoxRef.current !== null) {
           chatBoxRef.current!.scrollTop = chatBoxRef.current!.scrollHeight;
         }
       }, 0);

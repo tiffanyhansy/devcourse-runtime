@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { axiosInstance } from "../../api/axios";
 import { Alert } from "@mui/material";
 import FormContainer from "../../components/Form/FormContainer";
@@ -158,17 +158,17 @@ export default function Join() {
 
   const { t } = useTranslation();
 
-  const { i18n } = useTranslation(); // i18n을 사용하여 언어 변경
-  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false); // 언어 선택 메뉴 상태
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    i18n.language || "ko"
-  ); // 기본 언어 상태
+  // const { i18n } = useTranslation(); // i18n을 사용하여 언어 변경
+  // const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false); // 언어 선택 메뉴 상태
+  // const [selectedLanguage, setSelectedLanguage] = useState(
+  //   i18n.language || "ko"
+  // ); // 기본 언어 상태
 
-  const handleLanguageChange = (lang: string) => {
-    i18n.changeLanguage(lang); // 언어 변경
-    setSelectedLanguage(lang);
-    setIsLanguageMenuOpen(false); // 새로고침 없이 언어 변경이 되도록 처리 (URL에 쿼리 추가 등 필요 시)
-  };
+  // const handleLanguageChange = (lang: string) => {
+  //   i18n.changeLanguage(lang); // 언어 변경
+  //   setSelectedLanguage(lang);
+  //   setIsLanguageMenuOpen(false); // 새로고침 없이 언어 변경이 되도록 처리 (URL에 쿼리 추가 등 필요 시)
+  // };
 
   useEffect(() => {
     if (!joinError) return;
@@ -250,7 +250,7 @@ export default function Join() {
         </footer>
 
         <div className="flex justify-center items-center text-[#7EACB5] mt-5 mb-10 ">
-          <button onClick={() => navigate("/login")}>{t("로그인")}</button>
+          <Link to={"/login"}>{t("로그인")}</Link>
         </div>
       </FormContainer>
 

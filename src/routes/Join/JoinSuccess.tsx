@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import FormContainer from "../../components/Form/FormContainer";
 import SubmitButton from "../../components/Form/SubmitButton";
 import mascot_nobg from "../../asset/images/mascot_nobg.svg";
 import { t } from "i18next";
 
 export default function JoinSuccess() {
-  const navigate = useNavigate();
   return (
     <>
       <main className="flex items-center justify-center">
@@ -26,11 +25,9 @@ export default function JoinSuccess() {
             </p>
           </section>
           <footer className="mt-16 mb-16">
-            <SubmitButton
-              value="로그인 하기"
-              onClick={() => navigate("/login")}
-              size="xxl"
-            />
+            <Link to={"/login"}>
+              <SubmitButton value="로그인 하기" size="xxl" />
+            </Link>
           </footer>
         </FormContainer>
       </main>
