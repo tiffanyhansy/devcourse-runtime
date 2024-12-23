@@ -10,6 +10,7 @@ import { t } from "i18next";
 import default_profile from "../../asset/default_profile.png";
 import { useNotificationsStore } from "../../store/notificationsStore";
 import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
+import ChatbotButton from "../../components/chatbot/ChatbotButton";
 
 const UserPage = () => {
   const fieldLabels = ["SW", "SI", "DA", "GE"];
@@ -261,6 +262,7 @@ const UserPage = () => {
       </div>
 
       <SelectLanguageButton />
+      <ChatbotButton />
     </section>
   );
 };

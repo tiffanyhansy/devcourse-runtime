@@ -9,6 +9,7 @@ import SubmitButton from "../../components/Form/SubmitButton";
 import mascot_nobg from "/src/asset/images/mascot_nobg.svg";
 import { useTranslation } from "react-i18next";
 import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
+import ChatbotButton from "../../components/chatbot/ChatbotButton";
 
 export default function Login() {
   const { t } = useTranslation();
@@ -139,6 +140,7 @@ export default function Login() {
         </div>
       </FormContainer>
       <SelectLanguageButton />
+      <ChatbotButton />
     </main>
   );
 }
