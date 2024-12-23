@@ -62,7 +62,7 @@ export default function HowTimeModal() {
                 toggleHowTime();
               }}
             >
-              {t("좋아요!")}
+              {t("좋아요")}
             </Button>
             <Button
               size="md"
