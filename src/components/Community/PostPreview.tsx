@@ -216,7 +216,7 @@ export default function PostPreview({ preview, currentUser }: Props) {
             </div>
 
             {/* 메인 */}
-            <div className="p-5 flex flex-col select-text">
+            <div className="p-5 flex flex-col select-text items-center">
               <div className="relative aspect-video rounded-[10px] overflow-hidden mb-6 w-[80%] mx-auto">
                 <img
                   src={preview.image ? preview.image : default_thumbnail}
@@ -224,11 +224,11 @@ export default function PostPreview({ preview, currentUser }: Props) {
                   className="object-cover w-full"
                 />
               </div>
-              <div className="w-[80%] mx-auto">
+              <div className="flex flex-col items-center w-[80%] mx-auto">
                 <h2 className="text-3xl font-bold mt-12">
                   {parsedTitle.title}
                 </h2>
-                <p className="text-base break-words mt-12">
+                <p className="text-base break-words mt-12 w-[80%]">
                   {parsedTitle.content}
                 </p>
                 <CommentComponent
