@@ -121,7 +121,12 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         const response = await axiosInstance.get(
           `${import.meta.env.VITE_API_URL}/posts/channel/${currentChannel._id}`
         );
-        set({ posts: response.data });
+        set({
+          posts: response.data.map((post: any) => ({
+            ...post,
+            isLiked: post.isLiked || false, // 서버 데이터 기반 설정
+          })),
+        });
       } catch (error) {
         console.error("채널 게시물 데이터를 가져오는 중 오류 발생:", error);
         set({ posts: [] });
