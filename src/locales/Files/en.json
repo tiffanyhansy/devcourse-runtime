@@ -129,5 +129,6 @@
   "{{year}}년 {{month}}월 {{day}}일": "{{year}}/{{month}}/{{day}}",
   "제목 없음": "Untitled",
   "내용 없음": "No content",
-  "삭제": "Delete"
+  "삭제": "Delete",
+  "채팅하기": "Chat"
 }
