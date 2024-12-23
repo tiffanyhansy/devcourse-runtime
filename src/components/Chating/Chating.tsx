@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useLoginStore } from "../../store/API";
 import chating_send_icon from "../../asset/images/chating_send_icon.svg";
 import { EmojiButton } from "@joeattardi/emoji-button";
+import { t } from "i18next";
 
 export default function Chating() {
   const nowChatId = useChatingModalStore((state) => state.nowChatId);
@@ -107,12 +108,13 @@ export default function Chating() {
       <article className="p-5">
         <p className="text-[13px] text-gray-500 text-center bg-white mb-2">
           {userChat.length !== 0
-            ? `<${
-                user?._id === userChat[0].receiver._id
-                  ? userChat[0].sender.fullName
-                  : userChat[0].receiver.fullName
-              } 님과 대화 >`
-            : "<채팅을 입력해 대화를 시작해주세요!>"}
+            ? t("<{{userName}} 님과 대화 >", {
+                userName:
+                  user?._id === userChat[0].receiver._id
+                    ? userChat[0].sender.fullName
+                    : userChat[0].receiver.fullName,
+              })
+            : t("<채팅을 입력해 대화를 시작해주세요!>")}
         </p>
         <article
           ref={chatBoxRef}

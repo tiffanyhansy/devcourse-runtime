@@ -6,6 +6,7 @@ import { useLoginStore } from "../../store/API";
 import { axiosInstance } from "../../api/axios";
 import { conversationsType } from "../../api/api";
 import new_chat_add_icon from "../../asset/images/new_chat_add_icon.svg";
+import { t } from "i18next";
 
 export default function ChatUserList() {
   const conversationUsers = useChatingModalStore(
@@ -98,10 +99,10 @@ export default function ChatUserList() {
 
   return (
     <article className="w-full overflow-x-scroll custom-scroll-x">
-      <article className="flex flex-nowrap gap-3 pl-3 py-2">
+      <article className="flex gap-3 py-2 pl-3 flex-nowrap">
         <button
           key={uuidv4()}
-          className="flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
+          className="flex flex-col items-center justify-center flex-shrink-0 cursor-pointer"
           onClick={() =>
             isSearchModalOpen
               ? setIsSearchModalOpenFalse()
@@ -113,13 +114,13 @@ export default function ChatUserList() {
             alt={"새 채팅 아이콘"}
             className="w-[50px] h-[50px] object-cover rounded-full border mb-1"
           />
-          <span className="text-[13px] font-bold">{"새 채팅"}</span>
+          <span className="text-[13px] font-bold">{t("새 채팅")}</span>
         </button>
         {conversationUsers.map((divide, idx) => {
           return (
             <button
               key={uuidv4()}
-              className="relative flex flex-col flex-shrink-0 justify-center items-center cursor-pointer"
+              className="relative flex flex-col items-center justify-center flex-shrink-0 cursor-pointer"
               onClick={() => {
                 setNowChatId(
                   divide.sender._id !== user?._id

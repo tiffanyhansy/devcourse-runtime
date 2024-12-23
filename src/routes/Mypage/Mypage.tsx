@@ -20,7 +20,6 @@ import { axiosInstance } from "../../api/axios";
 
 //이미지
 import default_profile from "../../asset/default_profile.png";
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import ChatbotButton from "../../components/chatbot/ChatbotButton";
 
