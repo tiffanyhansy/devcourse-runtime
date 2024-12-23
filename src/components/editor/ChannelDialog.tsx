@@ -1,7 +1,6 @@
 import { Stack } from "@mui/material";
 import Button from "../common/SquareButton";
 import { useNavigate } from "react-router";
-import { useEditorStore } from "../../store/store";
 import { t } from "i18next";
 
 interface ChannelDialogProps {

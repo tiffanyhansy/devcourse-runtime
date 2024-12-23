@@ -6,7 +6,6 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "../common/SquareButton";
 import { t } from "i18next";
-import { DeleteForever } from "@mui/icons-material";
 
 interface ConfirmDialogProps {
   open: boolean;
