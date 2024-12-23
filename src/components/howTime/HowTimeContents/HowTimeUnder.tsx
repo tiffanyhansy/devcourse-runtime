@@ -1,6 +1,5 @@
 // 일단 이 컴포넌트 페이지 보류입니다.(다시할래요 버튼으로 모달창 애니메이션을 조작할 수 없어서 모달창에 통째로 꺼냈습니다.)
 import { t } from "i18next";
-import { useHowTimeStore } from "../../../store/store";
 import Button from "../../common/SquareButton";
 
 export default function HowTimeUnder({

@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { useLoginStore } from "../store/API";
 import { v4 as uuidv4 } from "uuid";
 import dayjs, { Dayjs } from "dayjs";
-import { conversationsType, userType } from "../api/api";
+import { conversationsType } from "../api/api";
 
 //editor 타입 & 상태관리 총 정리
 interface EditorState {
