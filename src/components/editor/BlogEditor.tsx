@@ -146,7 +146,7 @@ export default function BlogEditor() {
   return (
     <div className={`relative flex flex-col text-white`}>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="pl-3 text-xl font-bold text-black">(optional)</h1>
+        <h1 className="pl-3 text-xl font-bold text-black"></h1>
         <div className="flex gap-2 pt-1">
           <div className="pt-2">
             {currentErrorMessage && (
