@@ -119,9 +119,23 @@ type createNotiType = {
 };
 
 type notificationsStore = {
+  likeStates?: {
+    [id: string]: {
+      isLiked: boolean;
+      userId: string;
+      myId?: string;
+    };
+  };
+  updateLikeState?: (
+    userId: string,
+    id: string,
+    isLiked: boolean,
+    myId?: string
+  ) => void;
   imgState?: boolean;
   loading?: boolean;
   list?: {
+    post?: string;
     seen: boolean;
     _id: string;
     author: {

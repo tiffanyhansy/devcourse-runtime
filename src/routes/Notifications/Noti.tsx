@@ -1,11 +1,11 @@
 import NotiMain from "./NotiMain/NotiMain";
 import NotiNav from "./NotiNav";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import SelectLanguageButton from "../../components/locales/SelectLanguageButton";
 import ChatbotButton from "../../components/chatbot/ChatbotButton";
 
 export default function Noti() {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   return (
     <>
