@@ -1,7 +1,7 @@
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import "../../css/QuillCustom.css";
-import { useEditorStore } from "../../store/store";
+import { useEditorStore, useImageStore } from "../../store/store";
 import { usePostStore } from "../../store/postStore"; // postStore 임포트
 import { useEffect, useRef } from "react";
 import useSnackbarStore from "../../store/store";
@@ -16,7 +16,6 @@ export default function BlogEditor() {
     title,
     toggleEditor,
     setContent,
-    setTitle,
     resetEditor,
     setShake,
     errorMessage,
@@ -24,6 +23,7 @@ export default function BlogEditor() {
     resetShakeAndError,
     handleCancel,
     openChannelDialog,
+    setTitle,
   } = useEditorStore();
 
   const {
@@ -38,6 +38,7 @@ export default function BlogEditor() {
     image,
   } = usePostStore();
 
+  const setUploadedImage = useImageStore((state) => state.setUploadedImage);
   const { showSnackbar } = useSnackbarStore();
 
   // 컴포넌트가 마운트될 때 채널 리스트 가져오기
@@ -188,7 +189,9 @@ export default function BlogEditor() {
             id="title"
             type="text"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              setTitle(e.target.value); // 제목 상태 업데이트
+            }}
             placeholder={t("제목을 입력하세요...")}
             className="w-full pb-2 pl-3 text-3xl font-semibold leading-relaxed text-black placeholder-gray-600 bg-transparent border-b border-white/30 focus:outline-none"
           />
@@ -212,7 +215,7 @@ export default function BlogEditor() {
               onChange={(e) => {
                 e.preventDefault();
                 const file = e.target.files?.[0] || null;
-                setImage(file);
+                setUploadedImage(file);
               }}
             />
             {/* 파일 이름 표시*/}

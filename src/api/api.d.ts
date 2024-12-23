@@ -53,27 +53,45 @@ interface followType {
 
 export interface Post_T {
   _id: string;
-  author: Author_T;
-  comments: PostComment[];
-  createdAt: string;
-  updatedAt: string;
-  likes: string[];
-  title: string; //Title_T가 string으로 들어옴
-  image: string;
-  imageUrl?: string;
+  author: Author_T; // 작성자 정보
+  comments: PostComment[]; // 댓글 목록
+  createdAt: string; // 생성 날짜
+  updatedAt: string; // 수정 날짜
+  likes: string[]; // 좋아요를 누른 사용자 ID 배열
+  title: string; // 제목 (JSON 형태로 문자열)
+  image: string; // 게시물 이미지
+  imageUrl?: string; // 선택적으로 제공되는 이미지 URL
+  channel: Channel; // 게시물이 속한 채널 정보
+}
+interface Title {
+  title: string;
+  content: string;
 }
 
-type Author_T = {
-  fullName: string;
-  image: string;
+export interface Channel {
   _id: string;
+  name: string;
+  authRequired: boolean;
+  posts: Post_T[];
+  description?: string;
+}
+
+export type Author_T = {
+  fullName?: string;
+  image?: string;
+  name?: string;
+  _id: string;
+  role?: string;
+  emailVerified?: boolean;
+  banned?: boolean;
+  isOnline?: boolean;
 };
 
 export interface PostComment {
   _id: string; // 댓글 ID
   author: Author_T; // 댓글 작성자 정보
   comment: string; // 댓글 내용
-  createdAt: string; // 작성 시간
+  createdAt: string; // 댓글 작성 시간
 }
 
 export type Title_T = {

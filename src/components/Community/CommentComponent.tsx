@@ -5,6 +5,7 @@ import { useLoginStore } from "../../store/API";
 import { Link } from "react-router";
 import default_profile from "../../asset/default_profile.png";
 import comment from "../../asset/images/comment.svg";
+import { useNotificationsStore } from "../../store/notificationsStore";
 import {
   Card,
   CardContent,
@@ -17,7 +18,6 @@ import {
   Alert,
   AlertColor,
 } from "@mui/material";
-import { useNotificationsStore } from "../../store/notificationsStore";
 import { axiosInstance } from "../../api/axios";
 import { t } from "i18next";
 
@@ -66,7 +66,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   }
 
   const handleSnackbarClose = (
-    event?: React.SyntheticEvent | Event,
+    // event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === "clickAway") return; // 클릭 이외의 이벤트 무시
@@ -224,12 +224,12 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
               {/* Snackbar */}
               <Snackbar
                 open={snackbarOpen}
-                autoHideDuration={1000} // 2초 후 자동 닫힘
-                onClose={handleSnackbarClose}
+                autoHideDuration={1000} // 1초 후 자동 닫힘
+                onClose={() => handleSnackbarClose()}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
               >
                 <Alert
-                  onClose={handleSnackbarClose}
+                  onClose={() => handleSnackbarClose()}
                   severity={snackbarSeverity}
                   sx={{
                     color:
