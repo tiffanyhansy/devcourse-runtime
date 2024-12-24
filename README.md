@@ -59,7 +59,6 @@
 
 ![image](https://github.com/user-attachments/assets/e053ff19-48fa-4a25-b404-c5f60419d179)
 
-![image](https://github.com/user-attachments/assets/fef1c4ca-15c1-440f-a00c-8db092bbc693)
 
 
 
